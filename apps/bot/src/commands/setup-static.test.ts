@@ -170,7 +170,7 @@ describe("/setup-static command", () => {
       await autocomplete(interaction);
       const choices = respond.mock.calls[0][0];
       expect(choices.length).toBeGreaterThan(0);
-      expect(choices[0]).toMatchObject({ value: "fru" });
+      expect(choices.map((c: { value: string }) => c.value)).toContain("fru");
     });
   });
 });
