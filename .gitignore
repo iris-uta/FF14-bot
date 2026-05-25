@@ -18,3 +18,9 @@ coverage/
 
 # 各agentのworktree (root直下のworktreeは無視)
 .worktrees/
+
+# Local SQLite DB
+data/*.db
+data/*.db-journal
+data/*.db-wal
+data/*.db-shm
