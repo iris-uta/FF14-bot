@@ -47,6 +47,12 @@ export const data = new SlashCommandBuilder()
   )
   .addStringOption((opt) =>
     opt.setName("goal").setDescription("固定の目標 (例: クリア)").setMaxLength(200)
+  )
+  .addStringOption((opt) =>
+    opt
+      .setName("chouseisan_url")
+      .setDescription("調整さん等のURL (任意)")
+      .setMaxLength(500)
   );
 
 export async function autocomplete(interaction: AutocompleteInteraction): Promise<void> {
@@ -75,6 +81,7 @@ const VARIABLE_OPTIONS = [
   "datacenter",
   "language",
   "goal",
+  "chouseisanUrl",
 ] as const;
 
 export async function execute(interaction: ChatInputCommandInteraction): Promise<void> {
@@ -107,6 +114,7 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
     datacenter: interaction.options.getString("datacenter") ?? undefined,
     language: interaction.options.getString("language") ?? undefined,
     goal: interaction.options.getString("goal") ?? undefined,
+    chouseisanUrl: interaction.options.getString("chouseisan_url") ?? undefined,
   };
 
   const { text, unfilledVariables } = renderTemplate(template, values);
