@@ -1,7 +1,13 @@
 import "dotenv/config";
-import { Client, GatewayIntentBits } from "discord.js";
-import { loadAllContents } from "@ff14kotei/schema";
-import { resolve } from "node:path";
+import {
+  Client,
+  Events,
+  GatewayIntentBits,
+  MessageFlags,
+  type InteractionReplyOptions,
+} from "discord.js";
+import { getCommand } from "./commands";
+import { getAllContents } from "./lib/contents";
 
 const token = process.env.DISCORD_TOKEN;
 if (!token) {
@@ -9,16 +15,47 @@ if (!token) {
   process.exit(1);
 }
 
-const contentsDir = resolve(process.cwd(), "../../data/contents");
-const contents = loadAllContents(contentsDir);
-console.log(`Loaded ${contents.length} content(s):`, contents.map((c) => c.id).join(", "));
+const contents = getAllContents();
+console.log(`Loaded ${contents.length} content(s): ${contents.map((c) => c.id).join(", ")}`);
 
 const client = new Client({
   intents: [GatewayIntentBits.Guilds],
 });
 
-client.once("ready", (c) => {
+client.once(Events.ClientReady, (c) => {
   console.log(`Logged in as ${c.user.tag}`);
+});
+
+client.on(Events.InteractionCreate, async (interaction) => {
+  if (interaction.isChatInputCommand()) {
+    const command = getCommand(interaction.commandName);
+    if (!command) return;
+    try {
+      await command.execute(interaction);
+    } catch (err) {
+      console.error(`Error executing /${interaction.commandName}:`, err);
+      const errorReply: InteractionReplyOptions = {
+        content: "コマンド実行中にエラーが発生しました。",
+        flags: MessageFlags.Ephemeral,
+      };
+      if (interaction.replied || interaction.deferred) {
+        await interaction.followUp(errorReply);
+      } else {
+        await interaction.reply(errorReply);
+      }
+    }
+    return;
+  }
+
+  if (interaction.isAutocomplete()) {
+    const command = getCommand(interaction.commandName);
+    if (!command?.autocomplete) return;
+    try {
+      await command.autocomplete(interaction);
+    } catch (err) {
+      console.error(`Error in autocomplete /${interaction.commandName}:`, err);
+    }
+  }
 });
 
 client.login(token);
