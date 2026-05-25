@@ -9,10 +9,11 @@ import {
 import { getAllContents, getContentById } from "../lib/contents";
 import { findStaticByName, initStatic } from "../services/static-manager";
 import { parseMembers, checkRoleUniqueness, MemberSpecParseError } from "../services/members-parser";
+import { SETUP_MODE_DESCRIPTIONS, type SetupMode } from "../services/static-channel-template";
 
 export const data = new SlashCommandBuilder()
   .setName("static-init")
-  .setDescription("固定を作成 (role + カテゴリ + Phase channels + メンバー登録)")
+  .setDescription("固定を作成 (role + カテゴリ + 全 channels + 各 phase に情報自動投稿)")
   .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels)
   .addStringOption((opt) =>
     opt
@@ -27,6 +28,16 @@ export const data = new SlashCommandBuilder()
       .setDescription("固定の名前 (Discord role 名にもなる)")
       .setRequired(true)
       .setMaxLength(80)
+  )
+  .addStringOption((opt) =>
+    opt
+      .setName("mode")
+      .setDescription("セットアップテンプレ (default: standard)")
+      .setChoices(
+        { name: `standard — ${SETUP_MODE_DESCRIPTIONS.standard}`, value: "standard" },
+        { name: `race — ${SETUP_MODE_DESCRIPTIONS.race}`, value: "race" },
+        { name: `minimal — ${SETUP_MODE_DESCRIPTIONS.minimal}`, value: "minimal" }
+      )
   )
   .addStringOption((opt) =>
     opt
@@ -61,6 +72,7 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
 
   const contentId = interaction.options.getString("content", true);
   const name = interaction.options.getString("name", true).trim();
+  const mode = (interaction.options.getString("mode") ?? "standard") as SetupMode;
   const membersInput = interaction.options.getString("members");
 
   const content = getContentById(contentId);
@@ -123,8 +135,11 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
       leaderId: interaction.user.id,
       name,
       content,
+      mode,
       members: parsedMembers,
     });
+
+    const lobby = result.utilityChannels.find((u) => u.role === "lobby");
 
     const embed = new EmbedBuilder()
       .setTitle(`⭐ 固定「${name}」を作成しました`)
@@ -133,39 +148,39 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
         [
           `**コンテンツ**: ${content.displayName} (${content.shortName})`,
           `**Role**: <@&${result.role.id}>`,
+          `**モード**: ${result.mode} (${SETUP_MODE_DESCRIPTIONS[result.mode]})`,
           `**カテゴリ**: ${result.category.name}`,
-          result.lobbyChannel ? `**ロビー**: <#${result.lobbyChannel.id}>` : null,
+          lobby ? `**ロビー**: <#${lobby.channelId}>` : null,
           `**スロット**: ${result.filledSlots}/8 確定 (残り ${result.openSlots} 枠)`,
+          `**Phase 自動投稿**: ${result.postedPhaseCount}/${result.phaseChannels.length} 成功 (Pin ${result.pinnedCount})`,
         ]
           .filter(Boolean)
           .join("\n")
       )
-      .addFields({
-        name: "Phaseチャネル",
-        value: result.phaseChannels
-          .map((c) => `<#${c.channelId}>`)
-          .join(" / "),
-      });
+      .addFields(
+        {
+          name: `汎用チャネル (${result.utilityChannels.length})`,
+          value:
+            result.utilityChannels.length > 0
+              ? result.utilityChannels.map((u) => `<#${u.channelId}>`).join(" / ")
+              : "なし",
+        },
+        {
+          name: `Phaseチャネル (${result.phaseChannels.length})`,
+          value: result.phaseChannels.map((c) => `<#${c.channelId}>`).join(" / "),
+        }
+      );
 
+    const nextSteps: string[] = [];
     if (result.openSlots > 0) {
-      embed.addFields({
-        name: "次の手順",
-        value: [
-          `• \`/static-fill slot:<role> user:@xxx\` で残り枠を埋める`,
-          `• \`/post-phase content:${content.id} phase:p1\` で各 Phase チャネルに情報を投稿`,
-          `• \`/schedule when:\"...\"\` で次回固定を予約`,
-        ].join("\n"),
-      });
+      nextSteps.push(`• \`/static-fill slot:<role> user:@xxx\` で残り枠を埋める`);
     } else {
-      embed.addFields({
-        name: "次の手順",
-        value: [
-          `🎉 全枠確定済み！`,
-          `• \`/post-phase content:${content.id} phase:p1\` で各 Phase チャネルに情報を投稿`,
-          `• \`/schedule when:\"...\"\` で次回固定を予約`,
-        ].join("\n"),
-      });
+      nextSteps.push(`🎉 全枠確定済み！`);
     }
+    nextSteps.push(`• \`/schedule when:\"YYYY-MM-DD HH:MM\"\` で次回固定を予約`);
+    nextSteps.push(`• \`/macro content:${content.id} phase:p1\` で マクロを取り出す (自分のみ)`);
+
+    embed.addFields({ name: "次の手順", value: nextSteps.join("\n") });
 
     await interaction.editReply({ embeds: [embed] });
   } catch (err) {
@@ -174,7 +189,7 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
     await interaction.editReply({
       content: [
         "❌ 固定作成に失敗しました。",
-        "Bot に **Manage Channels** + **Manage Roles** 権限があるか確認してください。",
+        "Bot に **Manage Channels** + **Manage Roles** + **Manage Messages** (pin用) 権限があるか確認してください。",
         `エラー: \`${message}\``,
       ].join("\n"),
     });

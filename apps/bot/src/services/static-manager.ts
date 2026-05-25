@@ -17,8 +17,14 @@ import {
 } from "@ff14kotei/db";
 import type { Content } from "@ff14kotei/schema";
 import { getDb } from "../lib/db";
-import { buildChannelPlan } from "./channel-setup";
-import { VALID_ROLES, type GameRole, type MemberSpec } from "./members-parser";
+import { VALID_ROLES, type MemberSpec } from "./members-parser";
+import {
+  buildChannelTemplate,
+  sanitizeUtilityName,
+  type SetupMode,
+  type UtilityChannel,
+} from "./static-channel-template";
+import { postPhaseToChannel, postUtilityIntro } from "./phase-channel-poster";
 
 /**
  * Role colors per content type. Discord uses integer RGB.
@@ -39,6 +45,7 @@ export interface InitStaticInput {
   leaderId: string;
   name: string;
   content: Content;
+  mode?: SetupMode;
   strategyId?: string;
   members?: MemberSpec[];
   // TODO Phase B: planId / plan slots
@@ -48,15 +55,17 @@ export interface InitStaticResult {
   static: Static;
   category: CategoryChannel;
   role: Role;
-  lobbyChannel: TextChannel | null;
+  utilityChannels: { name: string; channelId: string; role?: string }[];
   phaseChannels: { phaseId: string; channelId: string }[];
+  postedPhaseCount: number;
+  pinnedCount: number;
   filledSlots: number;
   openSlots: number;
+  mode: SetupMode;
 }
 
 /**
  * Check if a static with this name already exists in the guild.
- * Used to prevent duplicate / collision before doing irreversible work.
  */
 export function findStaticByName(guildId: string, name: string): Static | null {
   const db = getDb();
@@ -69,14 +78,12 @@ export function findStaticByName(guildId: string, name: string): Static | null {
 }
 
 /**
- * Create role + category + channels + DB records + (optional) member assignments.
- * Throws on Discord API failure; caller should report to user.
- *
- * Channel naming follows existing `buildChannelPlan` (already used by /setup-static).
- * In addition, prepends a lobby channel for general chat.
+ * Create role + category + channels + DB records + (optional) member assignments
+ * + auto-post phase info to each Phase channel + intro messages to utility channels.
  */
 export async function initStatic(input: InitStaticInput): Promise<InitStaticResult> {
   const { guild, leaderId, name, content, strategyId, members } = input;
+  const mode: SetupMode = input.mode ?? "standard";
 
   // 1. Create role
   const role = await guild.roles.create({
@@ -86,49 +93,50 @@ export async function initStatic(input: InitStaticInput): Promise<InitStaticResu
     reason: `Created by /static-init for content ${content.id}`,
   });
 
-  // 2. Create category
+  // 2. Create category (role-visible)
   const categoryName = `${name} 固定`.slice(0, 100);
   const category = (await guild.channels.create({
     name: categoryName,
     type: ChannelType.GuildCategory,
     permissionOverwrites: [
-      // Make category role-visible. Public access stays as guild default.
-      {
-        id: role.id,
-        allow: [PermissionFlagsBits.ViewChannel],
-      },
+      { id: role.id, allow: [PermissionFlagsBits.ViewChannel] },
     ],
   })) as CategoryChannel;
 
-  // 3. Lobby + Phase channels
-  const plan = buildChannelPlan(content, { partyName: name });
-  let lobby: TextChannel | null = null;
-  try {
-    lobby = (await guild.channels.create({
-      name: "ロビー",
-      type: ChannelType.GuildText,
-      parent: category.id,
-      topic: `${content.displayName} 固定の総合チャネル`,
-    })) as TextChannel;
-  } catch {
-    // ignore — lobby is optional
+  // 3. Build channel template + create channels
+  const template = buildChannelTemplate(content, { mode, partyName: name });
+
+  const utilityChannels: { name: string; channelId: string; role?: string; channel: TextChannel }[] = [];
+  for (const spec of template.utility) {
+    try {
+      const ch = (await guild.channels.create({
+        name: sanitizeUtilityName(spec.name),
+        type: ChannelType.GuildText,
+        parent: category.id,
+        topic: spec.topic,
+      })) as TextChannel;
+      utilityChannels.push({ name: spec.name, channelId: ch.id, role: spec.role, channel: ch });
+    } catch (err) {
+      console.warn(`Failed to create utility channel ${spec.name}:`, err);
+    }
   }
 
-  const phaseChannels: { phaseId: string; channelId: string }[] = [];
-  for (const spec of plan.channels) {
-    const ch = await guild.channels.create({
+  const phaseChannels: { phaseId: string; channelId: string; channel: TextChannel }[] = [];
+  for (const spec of template.phases) {
+    const ch = (await guild.channels.create({
       name: spec.name,
       type: ChannelType.GuildText,
       parent: category.id,
       topic: spec.topic || undefined,
-    });
-    phaseChannels.push({ phaseId: spec.phaseId, channelId: ch.id });
+    })) as TextChannel;
+    phaseChannels.push({ phaseId: spec.phaseId, channelId: ch.id, channel: ch });
   }
 
   // 4. DB: statics + 8 slots + members
   const db = getDb();
   const id = randomUUID();
   const now = Date.now();
+  const lobby = utilityChannels.find((c) => c.role === "lobby");
   const newStatic: NewStatic = {
     id,
     guildId: guild.id,
@@ -138,7 +146,7 @@ export async function initStatic(input: InitStaticInput): Promise<InitStaticResu
     strategyId: strategyId ?? null,
     roleId: role.id,
     categoryId: category.id,
-    lobbyChannelId: lobby?.id ?? null,
+    lobbyChannelId: lobby?.channelId ?? null,
     recruitmentChannelId: null,
     currentPhaseId: null,
     pausedUntil: null,
@@ -147,12 +155,11 @@ export async function initStatic(input: InitStaticInput): Promise<InitStaticResu
   };
   db.insert(statics).values(newStatic).run();
 
-  // Initialize 8 slots all as "open"
-  for (const role of VALID_ROLES) {
+  for (const r of VALID_ROLES) {
     db.insert(staticSlots)
       .values({
         staticId: id,
-        role,
+        role: r,
         status: "open",
         jobs: null,
         assigneeUserId: null,
@@ -162,11 +169,10 @@ export async function initStatic(input: InitStaticInput): Promise<InitStaticResu
       .run();
   }
 
-  // Apply member assignments (fill matching slots + add to members + grant Discord role)
+  // Apply member assignments
   let filledSlotCount = 0;
   if (members && members.length > 0) {
     for (const m of members) {
-      // Update slot to filled
       db.update(staticSlots)
         .set({
           status: "filled",
@@ -178,7 +184,6 @@ export async function initStatic(input: InitStaticInput): Promise<InitStaticResu
         .run();
       filledSlotCount++;
 
-      // Add to staticMembers
       db.insert(staticMembers)
         .values({
           staticId: id,
@@ -190,7 +195,6 @@ export async function initStatic(input: InitStaticInput): Promise<InitStaticResu
         })
         .run();
 
-      // Grant Discord role (best-effort, ignore individual failures)
       try {
         const guildMember = await guild.members.fetch(m.userId);
         await guildMember.roles.add(role.id);
@@ -200,13 +204,39 @@ export async function initStatic(input: InitStaticInput): Promise<InitStaticResu
     }
   }
 
+  // 5. Auto-post intros + phase content (best-effort, errors logged but don't fail setup)
+  let postedPhaseCount = 0;
+  let pinnedCount = 0;
+
+  // Utility intros
+  for (const u of utilityChannels) {
+    if (u.role) {
+      await postUtilityIntro(u.channel, content, u.role);
+    }
+  }
+
+  // Phase channels: embed + macros + pin
+  for (const pc of phaseChannels) {
+    const phase = content.phases.find((p) => p.id === pc.phaseId);
+    if (!phase) continue;
+    const result = await postPhaseToChannel(pc.channel, content, phase, {
+      includeMacros: true,
+      pin: true,
+    });
+    if (result.ok) postedPhaseCount++;
+    if (result.pinned) pinnedCount++;
+  }
+
   return {
-    static: { ...newStatic, strategyId: newStatic.strategyId ?? null } as Static,
+    static: newStatic as Static,
     category,
     role,
-    lobbyChannel: lobby,
-    phaseChannels,
+    utilityChannels: utilityChannels.map(({ channel: _, ...rest }) => rest),
+    phaseChannels: phaseChannels.map(({ channel: _, ...rest }) => rest),
+    postedPhaseCount,
+    pinnedCount,
     filledSlots: filledSlotCount,
     openSlots: VALID_ROLES.length - filledSlotCount,
+    mode,
   };
 }
