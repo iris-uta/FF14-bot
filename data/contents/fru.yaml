@@ -1,4 +1,5 @@
-# 絶エデン (Futures Rewritten Ultimate / FRU)
+# 絶もうひとつの未来 (Futures Rewritten Ultimate / FRU)
+# 俗称: 絶エデン
 # データ収集日: 2026-05-24
 # 第一参照: りりーどーる (Lily Doll) - Lodestone 日記、ぬけまるG (YouTube)
 #
@@ -9,11 +10,13 @@
 #   Lodestone 原文 (blog/5500375) から抽出したマクロ抜粋を記載しています。
 
 id: fru
-displayName: 絶エデン
+displayName: 絶もうひとつの未来
 shortName: FRU
 type: ultimate
 patch: "7.11"                # 実装パッチ
 # 実装日 2024-11-26 / 世界最速クリア Kindred (NA) 2024-11-28
+# 俗称「絶エデン」(Eden 由来) のほうがコミュニティで通りやすいので、
+# autocomplete で「エデン」検索もヒットするよう将来 alias 対応検討。
 # Source: https://asellog.com/fru-raidrace/
 # Source: https://ffxiv.consolegameswiki.com/wiki/Futures_Rewritten_(Ultimate)
 

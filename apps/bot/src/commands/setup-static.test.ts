@@ -113,7 +113,7 @@ describe("/setup-static command", () => {
     it("rejects when category with same name already exists", async () => {
       const { interaction, reply } = makeInteraction({
         contentId: "fru",
-        existingCategories: ["絶エデン 固定"],
+        existingCategories: ["絶もうひとつの未来 固定"],
       });
       await execute(interaction);
       expect(reply).toHaveBeenCalledWith(
@@ -127,12 +127,12 @@ describe("/setup-static command", () => {
       const categoryCalls = createCalls.filter((c) => c.type === ChannelType.GuildCategory);
       const textCalls = createCalls.filter((c) => c.type === ChannelType.GuildText);
       expect(categoryCalls).toHaveLength(1);
-      expect(categoryCalls[0].name).toBe("絶エデン 固定");
+      expect(categoryCalls[0].name).toBe("絶もうひとつの未来 固定");
       expect(textCalls.length).toBeGreaterThan(0);
       expect(editReply).toHaveBeenCalledOnce();
       const replyArg = (editReply.mock.calls[0][0] as { content: string }).content;
       expect(replyArg).toContain("✅");
-      expect(replyArg).toContain("絶エデン");
+      expect(replyArg).toContain("絶もうひとつの未来");
     });
 
     it("uses 'name' option for category when provided", async () => {

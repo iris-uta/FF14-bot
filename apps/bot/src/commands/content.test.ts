@@ -32,7 +32,7 @@ describe("/content command", () => {
       const arg = reply.mock.calls[0][0];
       expect(arg.embeds).toHaveLength(1);
       const embed = arg.embeds[0].toJSON();
-      expect(embed.title).toContain("絶エデン");
+      expect(embed.title).toContain("絶もうひとつの未来");
       expect(embed.title).toContain("FRU");
       expect(embed.fields?.find((f: { name: string }) => f.name === "Phase一覧")).toBeDefined();
     });
