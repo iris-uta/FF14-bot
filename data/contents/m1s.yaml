@@ -1,0 +1,170 @@
+# 至天の座アルカディア：ライトヘビー級零式 1層 - ブラックキャット (M1S)
+# データ収集日: 2026-05-25
+# 第一参照: Game8 (ゲームエイト)
+#
+# 注意:
+# - 本ファイルの情報源は2026年5月時点で Game8 / Lodestone / X / YouTube 上で
+#   確認できた野良主流の処理法・マクロです。流派は時期により変化しています。
+# - 通称: 国際/FFLogs では M1S (Arcadion 通し番号)、Game8 等の日本コミュニティでは
+#   「ライトヘビー級零式1層」「LH1」が一般的。本ファイルは shortName を M1S とする。
+# - 公式肩書: 「爪研ぐ猫魂」 (Famitsu 設定画特集より)
+# - Source: https://www.famitsu.com/article/202505/42743
+# - Game8 のマクロ抽出は WebFetch 経由で実施 (2026-03-12 最終更新版)。
+
+id: m1s
+displayName: 至天の座アルカディア：ライトヘビー級零式 1層 (ブラックキャット)
+shortName: M1S
+type: savage
+patch: "7.05"               # 実装パッチ (Savage)
+# ノーマル実装日: 2024-07-16 (Patch 7.01, 黄金のレガシー ローンチ後最初の零式)
+# 零式実装日:   2024-07-30 (Patch 7.05, ノーマル 2 週間後)
+# AAC = AAC Light-heavyweight Tier の 1 戦目。Dawntrail (黄金のレガシー) ローンチ tier。
+# Source: https://ffxiv.consolegameswiki.com/wiki/The_Arcadion
+# Source: https://ffxiv.consolegameswiki.com/wiki/AAC_Light-heavyweight_M1_(Savage)
+# Source: https://next-innovation-fuk.com/2024/07/16/ff14-7-01-至天の座アルカディア：ライトヘビー級-開放/
+
+phases:
+  - id: p1
+    name: P1 ブラックキャット (Black Cat) 通し
+    order: 1
+    description: |
+      黒猫モチーフの「爪研ぐ猫魂」ブラックキャット戦。1ボス完結型。
+      主要ギミック:
+        - クアドラプルネイル (十字固定処理、先:TH/後:DPS、ペア割は扇誘導位置から反時計)
+        - ナインライヴス (近接 8 連撃、タンク強)
+        - リーピングクアドラプルネイル (高速版クアドラプルネイル)
+        - マウサーラッシュ (突進)
+        - 衝撃波 (東西散開)
+        - 4:4 頭割り (北/西: MTH1D1D3、南/東: STH2D2D4)
+        - スプレッドネイル (3 方向散開: T - D - H)
+        - テンペストテアー
+        - ネイルチッパー
+        - レイニングキャッツ (タンク無敵、本ボスのソフト時間切れ)
+        - コピーキャット (分身)
+      野良主流: 犬丸式 (Game8 採用、十字固定 + タンク無敵)。
+    # Source: https://game8.jp/ff14/630292
+    # Source: https://ffxiv.consolegameswiki.com/wiki/AAC_Light-heavyweight_M1_(Savage)
+    mitigation:
+      name: Last Agous / らすと 軽減表 (アルカディア ライトヘビー級:零式, Patch 7.05 対応)
+      # 軽減表 (Last Agous) は note.com 有料記事内で配布。
+      # 1 シートで M1S-M4S 全層をカバーするセットになっている。
+      # Source: https://note.com/lastagous/n/ncfcb027117fd
+      url: https://note.com/lastagous/n/ncfcb027117fd
+      copyable: true
+    videos:
+      - title: 【FF14】アルカディア零式：ライトヘビー級1層 攻略解説【犬丸】
+        url: https://www.youtube.com/watch?v=S1SBXo9tLfo
+        author: 犬丸
+        # Source: Game8 (https://game8.jp/ff14/630292) で参照されている第一動画
+      - title: 【FF14】アルカディア零式：ライトヘビー級1層 攻略解説【ゴールデンたけし】
+        url: https://www.youtube.com/watch?v=9dCWOvx9Mqw
+        author: ゴールデンたけし
+        # Source: Game8 (https://game8.jp/ff14/630292) で参照
+      - title: 【FF14】アルカディア零式ライトヘビー級１層【解説】
+        url: https://www.youtube.com/watch?v=zNQCr7QBUEw
+        # Source: 検索結果 (投稿者未確認)
+      - title: 【 FF14 / 解説 】アルカディア零式：ライトヘビー級零式1 マクロ
+        url: https://nukemarugames.com/2024/07/31/%E3%80%90-ff14-%E8%A7%A3%E8%AA%AC-%E3%80%91%E3%82%A2%E3%83%AB%E3%82%AB%E3%83%87%E3%82%A3%E3%82%A2%E9%9B%B6%E5%BC%8F%EF%BC%9A%E3%83%A9%E3%82%A4%E3%83%88%E3%83%98%E3%83%93%E3%83%BC%E7%B4%9A%E9%9B%B6-2/
+        author: ぬけまるG
+    strategies:
+      - id: inumaru-game8
+        name: 犬丸式 (Game8 採用版)
+        description: |
+          Game8 が公式採用している犬丸氏解説に準拠した処理法。
+          - クアドラプルネイル: 十字固定 (先 TH / 後 DPS)
+          - レイニングキャッツ: タンク無敵で 2 連処理
+          - 4:4 頭割り: 北/西 MTH1D1D3 / 南/東 STH2D2D4
+          - フィールドマーカー: ABCD で東西南北、1234 で分身移動先を指定
+    tips:
+      - "クアドラプルネイルのペア割は扇誘導位置から反時計回りに動く。"
+      - "レイニングキャッツは MT 無敵 → MT 無敵 → D1 (南側タゲサ: H1D1D2) の順。ST 側も対称。"
+      - "野良では『game8』『線とりたけし』の表記でマクロ流派が示されることが多い。"
+      - "スプレッドネイルは T - D - H の 3 方向散開、ボス位置基準。"
+
+# ────────────────────────────────────────────────────────
+# マクロ（コピペ用）
+# ────────────────────────────────────────────────────────
+macros:
+  - source: Game8 (ゲームエイト) - アルカディア零式ライトヘビー級1層 犬丸式
+    url: https://game8.jp/ff14/630292
+    # 最終更新: 2026-03-12 (Game8 ページの最終更新日)
+    text: |
+      /p 　【基本散開】 　 　｜【扇範囲誘導】(全てボス基準)
+      /p 　D3 　MT 　D4 　 ｜ 　 　 　 MTD3
+      /p 　H1　ボス　H2 　｜　H1D1 　ボス 　H2D4
+      /p 　D1 　ST 　D2 　 ｜　 　 　 　STD2
+      /p 【クアドラプルネイル】（十字固定処理）
+      /p 　先:TH　後:DPS　※ペア割は扇誘導位置から反時計に動く
+      /p 【4:4頭割り・衝撃波】（衝撃波は東西散開）
+      /p 　北/西:MTH1D1D3　南/東:STH2D2D4
+      /p 【スプレッドネイル】
+      /p 　 　 　ボス
+      /p 　T 　 　D　 　H
+      /p 【レイニングキャッツ】(タンク無敵)
+      /p 　北西:MT→MT(無敵)→MT(無敵)→D1　南側タゲサ：H1D1D2
+      /p 　北東:ST →ST(無敵) →ST(無敵) →D2 　 南側外周：H2D3D4
+
+# ────────────────────────────────────────────────────────
+# 募集テンプレ
+# ────────────────────────────────────────────────────────
+recruitmentTemplates:
+  - source: 零式野良募集 汎用テンプレ (Light-heavyweight 用)
+    template: |
+      【FF14 零式募集】{{contentShort}}
+      ● 進行度: {{progress}}                  # 例: P1 通し練 / 消化
+      ● 流派: {{strategy}}                    # 例: Game8 / 犬丸式
+      ● 募集ロール: {{recruitingRoles}}
+      ● 開始時間: {{startTime}}
+      ● VC: {{voiceChannel}}                  # 例: Discord 聞き専可
+      ● マクロ: {{macroSource}}               # 例: Game8 ライトヘビー1層
+      ● 必須: {{requirements}}                # 例: タイムライン履修
+      ● 備考: {{notes}}
+    variables:
+      - contentShort
+      - progress
+      - strategy
+      - recruitingRoles
+      - startTime
+      - voiceChannel
+      - macroSource
+      - requirements
+      - notes
+
+# ────────────────────────────────────────────────────────
+# 参考リンク
+# ────────────────────────────────────────────────────────
+references:
+  primary: Game8 (ゲームエイト) - アルカディア零式1層 攻略丨マクロ
+  urls:
+    # Game8 攻略・マクロページ (第一参照)
+    - https://game8.jp/ff14/630292
+    # Lodestone 1 画面マクロまとめ (Tam Atto, 1-4 層)
+    - https://na.finalfantasyxiv.com/lodestone/character/26820312/blog/5431856/
+    # Lodestone 軽減表まとめ (Last Agous note)
+    - https://note.com/lastagous/n/ncfcb027117fd
+    # Famitsu 公式設定画特集 (キャラクター肩書)
+    - https://www.famitsu.com/article/202505/42743
+    # Consolegameswiki - AAC Light-heavyweight M1 (Savage)
+    - https://ffxiv.consolegameswiki.com/wiki/AAC_Light-heavyweight_M1_(Savage)
+    # Consolegameswiki - The Arcadion (シリーズ全体)
+    - https://ffxiv.consolegameswiki.com/wiki/The_Arcadion
+    # ぬけまるG 解説ページ (1層)
+    - https://nukemarugames.com/2024/07/31/%E3%80%90-ff14-%E8%A7%A3%E8%AA%AC-%E3%80%91%E3%82%A2%E3%83%AB%E3%82%AB%E3%83%87%E3%82%A3%E3%82%A2%E9%9B%B6%E5%BC%8F%EF%BC%9A%E3%83%A9%E3%82%A4%E3%83%88%E3%83%98%E3%83%93%E3%83%BC%E7%B4%9A%E9%9B%B6-2/
+    # ぬけまるG YouTube チャンネル
+    - https://www.youtube.com/@nukemarugames/videos
+    # うさねこ散歩 - パッチ7.01 ライトヘビー級開放
+    - https://next-innovation-fuk.com/2024/07/16/ff14-7-01-%E8%87%B3%E5%A4%A9%E3%81%AE%E5%BA%A7%E3%82%A2%E3%83%AB%E3%82%AB%E3%83%87%E3%82%A3%E3%82%A2%EF%BC%9A%E3%83%A9%E3%82%A4%E3%83%88%E3%83%98%E3%83%93%E3%83%BC%E7%B4%9A-%E9%96%8B%E6%94%BE/
+    # ガッツの夜明け - ライトヘビー級1層攻略
+    - https://gutsdawn.com/2024/08/13/%E3%82%A2%E3%83%AB%E3%82%AB%E3%83%87%E3%82%A3%E3%82%A2%E9%9B%B6%E5%BC%8Flh%E7%B4%9A%EF%BC%91%E5%B1%A4/ff14/
+
+# ────────────────────────────────────────────────────────
+# 要手動補完メモ
+# ────────────────────────────────────────────────────────
+# - ブラックキャットの公式声優は 2026-05 時点で公式発表なし (Famitsu 設定画特集にも記載なし)。
+#   ヘビー級 (M9S-M12S) と異なり、ライトヘビー級ボスの声優情報は順次公開予定の可能性。
+# - 公式肩書: 「爪研ぐ猫魂」 (Famitsu 設定画特集)
+# - 軽減表 (Last Agous) はライトヘビー級用が note.com 有料記事内に存在する可能性大。
+#   無料公開 URL が見つからなかったため、note トップを参照リンクとした。
+# - Game8 ページ上の野良マクロは「犬丸式」が単独掲載 (2026-03-12 時点)。
+#   別流派 (ゴールデンたけし式等) があれば strategies[] に追加すること。
+# - フィールドマーカー: A/B/C/D は東西南北、1/2/3/4 は分身移動先 (要動画確認)。

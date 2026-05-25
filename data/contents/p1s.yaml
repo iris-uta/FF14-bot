@@ -1,0 +1,147 @@
+# 万魔殿パンデモニウム零式：辺獄編1層 - エリクトニオス (P1S)
+# データ収集日: 2026-05-25
+# 第一参照: Game8 (ゲームエイト)
+#
+# 注意:
+# - シリーズ呼称について:
+#   * 辺獄編 (Henkokuhen) = Asphodelos (英)  6.0/6.05  P1-P4    ← 本ファイル対象
+#   * 煉獄編 (Renkokuhen) = Abyssos    (英)  6.2       P5-P8
+#   * 天獄編 (Tengokuhen) = Anabaseios (英)  6.4       P9-P12
+#   ユーザ依頼時の「煉獄編 (Asphodelos)」は字面が混在していたが、
+#   英名 Asphodelos + P1S-P4S を真とし、JP 表記は「辺獄編」を採用。
+# - 通称: 国際/FFLogs では P1S、Game8/JP では「辺獄編零式1層」「パンデ零1層」。
+# - 公式ボス名: 「煉獄の魔王エリクトニオス」(英: Warder of the Condemned: Erichthonios)。
+# - 旧 tier (2021-12 / 2022-01 実装) のため攻略情報の散逸あり。Game8 + ARUTORA 主体で収集。
+
+id: p1s
+displayName: 万魔殿パンデモニウム零式：辺獄編1層 (煉獄の魔王エリクトニオス)
+shortName: P1S
+type: savage
+patch: "6.05"
+# ノーマル実装日: 2021-12-21 (Patch 6.01, 暁月のフィナーレ パッチ初配信)
+# 零式実装日:   2022-01-04 (Patch 6.05)
+# 拡張: 暁月のフィナーレ (Endwalker)
+# Source: https://ffxiv.consolegameswiki.com/wiki/Asphodelos:_The_First_Circle_(Savage)
+# Source: https://www.dexerto.com/final-fantasy/ffxiv-6-05-patch-notes-pandaemonium-asphodelos-savage-excitatron-6000-more-1732786/
+
+phases:
+  - id: p1
+    name: P1 エリクトニオス (Erichthonios) 通し
+    order: 1
+    description: |
+      1 ボス完結型。鎖と監獄の魔王によるギミック。
+      主要ギミック:
+        - 氷火の侵食 (Shining Cells)         属性ヒット数管理、調整役 MT/D3
+        - 結呪の魔鎖 (Aetherchain)           ペア結呪。MTD4 / H2D2 / STD1 / H1D3 が標準
+        - 結呪の魔鎖四連 (Aetherflail)       4 連の魔鎖。秒数順 ABCD / 1234 マーカー
+        - 時限の魔鎖 (Heavy Hand)            対象者デバフ → 光/火振分け
+        - 罪のフレイル (Pitiless Flail)      鎖の振り回し AoE
+        - シャックル・オブ・タイム            時間停止デバフ
+      野良主流: ペア調整 / 氷火 MT・D3 交代式 (Game8 採用)。
+    # Source: https://game8.jp/ff14/421207
+    # Source: https://arutora.com/23752
+    mitigation:
+      name: 軽減表テンプレ (P1S - パッチ 6.0x 攻略時の野良標準)
+      # 2022-01〜02 当時の Patch 6.05/6.08 軽減シートは多数あるが
+      # 一般公開・現存する代表版を確認できず。要手動補完。
+      # 暫定的に Lodestone 公開の汎用 4 層構造軽減シート例を保留枠で記載。
+      url: https://docs.google.com/spreadsheets/d/1pOQ3sMSUQx-E-zFJSFv5BbHIq27tASgH14WhM02k4NI/edit?usp=sharing
+      copyable: true
+    videos:
+      - title: ゆっくりと振り返るパンデモニウム辺獄編零式1層 #FF14
+        url: https://www.youtube.com/watch?v=eGJ5eRvRzK8
+        # Source: 検索結果より (作者未確定)
+    strategies:
+      - id: pair-adjust-game8
+        name: ペア調整 / 氷火 MT・D3 交代式 (Game8 採用)
+        description: |
+          Game8 が公式採用している野良主流処理法。
+          - 結呪調整ペア: MTD4 / H2D2 / STD1 / H1D3 (マーカー色基準)
+          - 紫色マーカー: 秒数の短い順に ABCD
+          - 赤色マーカー: 秒数の短い順に 1234
+          - 氷火の侵食: MT/D3 が調整役 (2 回目で属性を必ず変更し、3 回目で調整)
+          - 時限の魔鎖: 対象者は光、他は火を取る
+    tips:
+      - "結呪調整ペアの位置はマーカー色基準。マクロ図の左右を要確認。"
+      - "氷火の侵食 3 回目は調整役 (MT/D3) が前 2 回の属性を見て決定する。"
+      - "時限の魔鎖は対象者デバフを見て光/火を分担。"
+
+# ────────────────────────────────────────────────────────
+# マクロ (コピペ用)
+# ────────────────────────────────────────────────────────
+macros:
+  - source: Game8 (ゲームエイト) - 辺獄編零式1層 ペア調整版
+    url: https://game8.jp/ff14/421207
+    # 最終更新: 2025-11-20 (Game8 ページの最終更新日)
+    text: |
+      /p 【基本散開/氷火の侵食】
+      /p 　　D3　 MT　 D4
+      /p 　　H1 　 ■ 　 H2
+      /p 　　D1 　 ST 　D2
+      /p ※MT/D3が調整役 → 2回目で属性を必ず変更し3回目で調整
+      /p 　【結呪の魔鎖】　 ｜　　【結呪の魔鎖四連】
+      /p 　　D3　 　 　D4　｜　　遠18　　　　遠3
+      /p 　　 　 　MT 　 　 ｜　　　 　 　 近3
+      /p 　　 　 H1■H2　　｜　　　 近18■近8
+      /p 　　　 　 ST　　　 ｜　　　　 　 近13
+      /p 　　D1　 　　 D2　｜　　遠13　　　　遠8
+      /p 結呪調整ペア MTD4 / H2D2 / STD1 / H1D3 マーカー色基準
+      /p ※紫色：秒数短い順にABCDマーカー
+      /p ※赤色：秒数短い順に1234マーカー
+      /p 【時限の魔鎖】対象者は光、他は火
+
+# ────────────────────────────────────────────────────────
+# 募集テンプレ
+# ────────────────────────────────────────────────────────
+recruitmentTemplates:
+  - source: 零式野良募集 汎用テンプレ (Asphodelos 用)
+    template: |
+      【FF14 零式募集】{{contentShort}}
+      ● 進行度: {{progress}}                  # 例: 結呪練 / 通し / 消化
+      ● 流派: {{strategy}}                    # 例: Game8 (ペア調整 / 氷火 MT・D3 交代式)
+      ● 募集ロール: {{recruitingRoles}}
+      ● 開始時間: {{startTime}}
+      ● VC: {{voiceChannel}}                  # 例: Discord 聞き専可
+      ● マクロ: {{macroSource}}               # 例: Game8 辺獄1層
+      ● 必須: {{requirements}}                # 例: タイムライン履修
+      ● 備考: {{notes}}
+    variables:
+      - contentShort
+      - progress
+      - strategy
+      - recruitingRoles
+      - startTime
+      - voiceChannel
+      - macroSource
+      - requirements
+      - notes
+
+# ────────────────────────────────────────────────────────
+# 参考リンク
+# ────────────────────────────────────────────────────────
+references:
+  primary: Game8 (ゲームエイト) - 辺獄編零式1層 攻略丨マクロ
+  urls:
+    # Game8 攻略・マクロページ (第一参照)
+    - https://game8.jp/ff14/421207
+    # ARUTORA - P1S ギミック解説 (副参照)
+    - https://arutora.com/23752
+    # FF14 攻略の虎 - 辺獄編1層 (エリクトニオス)
+    - https://final-fantasy.cc/14/id/8/pan_hen_r1.php
+    # Consolegameswiki - Asphodelos: The First Circle (Savage)
+    - https://ffxiv.consolegameswiki.com/wiki/Asphodelos:_The_First_Circle_(Savage)
+    # AkhMorning P1S 英語ガイド
+    - https://www.akhmorning.com/raids/p1s/
+    # YouTube 攻略動画 - ゆっくり辺獄編零式1層
+    - https://www.youtube.com/watch?v=eGJ5eRvRzK8
+
+# ────────────────────────────────────────────────────────
+# 要手動補完メモ
+# ────────────────────────────────────────────────────────
+# - 軽減表 URL は 2026 時点で公開状態の P1S 専用 Last Agous 風シートを確認できず。
+#   暫定で絶バハ用 Last Agous URL を保持枠として記載しているが、本来は P1S 用シートに差替必要。
+# - ぬけまる氏の P1S 単独動画 URL は YouTube 検索では 2026-05 時点で直接ヒットせず、
+#   「ゆっくりと振り返る」シリーズ (eGJ5eRvRzK8) を代表として記載。
+# - Game8 ページに動画リンクの直接埋め込みなし。マクロ本文のみ転載。
+# - 旧 tier のため、現在野良で踏破する場合はパッチ 7.x の装備 + マウントスキップで
+#   ギミック簡略化される (実質的にはマクロ不要で殴り殺せる) ことも多い。

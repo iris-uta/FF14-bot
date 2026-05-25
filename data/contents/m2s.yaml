@@ -1,0 +1,156 @@
+# 至天の座アルカディア：ライトヘビー級零式 2層 - ハニーB・ラブリー (M2S)
+# データ収集日: 2026-05-25
+# 第一参照: Game8 (ゲームエイト)
+#
+# 注意:
+# - 通称: 国際 M2S、Game8/JP では「ライトヘビー級零式2層」「LH2」。
+# - 公式肩書: 「劇毒の愛」 (Famitsu 設定画特集)
+# - Source: https://www.famitsu.com/article/202505/42743
+# - 「ハニー・B・ライヴ」を軸にした音楽×蜂モチーフのアイドル戦。
+# - Game8 のマクロは「ぬけまる版」が掲載 (2026-03-12 時点)。
+
+id: m2s
+displayName: 至天の座アルカディア：ライトヘビー級零式 2層 (ハニーB・ラブリー)
+shortName: M2S
+type: savage
+patch: "7.05"
+# ノーマル実装日: 2024-07-16 (Patch 7.01)
+# 零式実装日:   2024-07-30 (Patch 7.05)
+# Source: https://ffxiv.consolegameswiki.com/wiki/The_Arcadion
+
+phases:
+  - id: p1
+    name: P1 ハニーB・ラブリー (Honey B. Lovely) 通し
+    order: 1
+    description: |
+      「劇毒の愛」ハニーB・ラブリー戦。1ボス完結型。
+      主要ギミック:
+        - ハニーツイスター / ハニーブラスト (全体ダメージ)
+        - ハニー・B・ライヴ (1st / 2nd / 3rd の 3 回構成)
+          * 1st ライヴ: 近接 ♡2 / 遠隔 ♡3 (頭割り処理)
+          * 2nd ライヴ: ♡0 中央→北→TH西 / DPS東で頭割り、
+                       ♡1 南待機 → AOE 対象者は捨てる、塔は TH 北/西 DPS 南/東
+          * 3rd ライヴ: デバフ捨て、塔踏みはペア割基準
+        - アラームフェロモン (1回目: 外周蜂直線範囲 / 2回目)
+        - リング / ラウンド・ラブコンビネーション (♡ハート機構: TH 2 + DPS 2 に ♡1、残り 4 人に ♡0)
+        - ブラックハート (8 方向散開 → HP 回復後早いペア順に中央集合)
+        - キラースラッシュ / キラースティング (タンク強)
+        - 毒捨て: TH 北西 / DPS 南東
+      野良主流: ぬけまる版 (Game8 採用)。
+    # Source: https://game8.jp/ff14/630353
+    mitigation:
+      name: Last Agous / らすと 軽減表 (アルカディア ライトヘビー級:零式, Patch 7.05 対応)
+      # M1S-M4S 全層を 1 ブックで管理。詳細は M1S を参照。
+      # Source: https://note.com/lastagous/n/ncfcb027117fd
+      url: https://note.com/lastagous/n/ncfcb027117fd
+      copyable: true
+    videos:
+      - title: 【FF14】アルカディア零式：ライトヘビー級2層 攻略解説【ぬけまる】
+        url: https://www.youtube.com/watch?v=p9tE-x0XEC4
+        author: ぬけまるG
+        # Source: Game8 (https://game8.jp/ff14/630353) で参照されている動画
+      - title: 【 FF14 / 解説 】アルカディア零式：ライトヘビー級零式2 マクロ
+        url: https://nukemarugames.com/2024/07/31/%E3%80%90-ff14-%E8%A7%A3%E8%AA%AC-%E3%80%91%E3%82%A2%E3%83%AB%E3%82%AB%E3%83%87%E3%82%A3%E3%82%A2%E9%9B%B6%E5%BC%8F%EF%BC%9A%E3%83%A9%E3%82%A4%E3%83%88%E3%83%98%E3%83%93%E3%83%BC%E7%B4%9A%E9%9B%B6/
+        author: ぬけまるG
+    strategies:
+      - id: nukemaru-game8
+        name: ぬけまる版 (Game8 採用版)
+        description: |
+          Game8 が公式採用しているぬけまる氏解説に準拠した処理法。
+          - 基本散開: D3 MT D4 / H1 ☆ H2 / D1 ST D2
+          - 1st ライヴ: 近接 ♡2 / 遠隔 ♡3
+          - 2nd ライヴ ♡0: 中央→北→TH 西、DPS 東で頭割り
+          - 2nd ライヴ ♡1: 南待機 → AOE 対象者は捨てる、塔は TH 北/西 DPS 南/東
+          - 毒捨て: TH 北西 / DPS 南東
+          - ブラックハート: 8 方向散開 → HP 戻り次第早いペア順に中央集合
+    tips:
+      - "ハニー・B・ライヴ各回で「♡ハート数」によって塔位置と頭割り位置が分岐する。"
+      - "アラームフェロモン 1 回目は外周蜂からの直線範囲、各人が個別にケアする。"
+      - "ブラックハート後の中央集合は『早い人ペア順』。HP回復タイミングを意識する必要がある。"
+      - "野良では『お知らせマクロ』(◯◯ Rain or Drop で次に来るギミックを宣言する) も併用される。"
+
+# ────────────────────────────────────────────────────────
+# マクロ (コピペ用)
+# ────────────────────────────────────────────────────────
+macros:
+  - source: Game8 (ゲームエイト) - アルカディア零式ライトヘビー級2層 ぬけまる版
+    url: https://game8.jp/ff14/630353
+    # 最終更新: 2026-03-12 (Game8 ページの最終更新日)
+    text: |
+      /p ■基本散開
+      /p D3 MT D4　 　D3 D4 　 　MT/D3 　ST/D4
+      /p H1 ☆ H2 　 　 MT ST 　 　 H1/D1 　 D2/H2
+      /p D1 ST D2 　 　 D1 D2
+      /p 　 　 　 　 　 　H1 H2
+      /p ■1stライヴ
+      /p 近接：♡2（頭割り処理）　遠隔：♡3
+      /p ■2ndライヴ
+      /p ♡0：中心→北→TH西、DPS東で頭割り
+      /p ♡1：南待機→AOE対象者は捨てる 塔:TH 北/西 DPS南/東
+      /p ■毒捨て　TH：北西、DPS：南東
+      /p ■3rdライヴ
+      /p デバフ捨て、塔踏みはペア割基準
+      /p ■ブラックハート
+      /p 8方向散開　HPが戻り次第、早いペア順に中央集合
+
+# ────────────────────────────────────────────────────────
+# 募集テンプレ
+# ────────────────────────────────────────────────────────
+recruitmentTemplates:
+  - source: 零式野良募集 汎用テンプレ (Light-heavyweight 用)
+    template: |
+      【FF14 零式募集】{{contentShort}}
+      ● 進行度: {{progress}}                  # 例: P1 / 2nd ライヴ練 / 通し / 消化
+      ● 流派: {{strategy}}                    # 例: Game8 (ぬけまる版)
+      ● 募集ロール: {{recruitingRoles}}
+      ● 開始時間: {{startTime}}
+      ● VC: {{voiceChannel}}                  # 例: Discord 聞き専可
+      ● マクロ: {{macroSource}}               # 例: Game8 ライトヘビー2層
+      ● 必須: {{requirements}}                # 例: タイムライン履修
+      ● 備考: {{notes}}
+    variables:
+      - contentShort
+      - progress
+      - strategy
+      - recruitingRoles
+      - startTime
+      - voiceChannel
+      - macroSource
+      - requirements
+      - notes
+
+# ────────────────────────────────────────────────────────
+# 参考リンク
+# ────────────────────────────────────────────────────────
+references:
+  primary: Game8 (ゲームエイト) - アルカディア零式2層 攻略丨マクロ
+  urls:
+    # Game8 攻略・マクロページ (第一参照)
+    - https://game8.jp/ff14/630353
+    # Lodestone 1 画面マクロまとめ (Tam Atto, 1-4 層)
+    - https://na.finalfantasyxiv.com/lodestone/character/26820312/blog/5431856/
+    # Lodestone 軽減表まとめ (Last Agous note)
+    - https://note.com/lastagous/n/ncfcb027117fd
+    # Famitsu 公式設定画特集 (キャラクター肩書)
+    - https://www.famitsu.com/article/202505/42743
+    # Consolegameswiki - The Arcadion
+    - https://ffxiv.consolegameswiki.com/wiki/The_Arcadion
+    # ぬけまるG 解説ページ (2層)
+    - https://nukemarugames.com/2024/07/31/%E3%80%90-ff14-%E8%A7%A3%E8%AA%AC-%E3%80%91%E3%82%A2%E3%83%AB%E3%82%AB%E3%83%87%E3%82%A3%E3%82%A2%E9%9B%B6%E5%BC%8F%EF%BC%9A%E3%83%A9%E3%82%A4%E3%83%88%E3%83%98%E3%83%93%E3%83%BC%E7%B4%9A%E9%9B%B6/
+    # ぬけまるG YouTube チャンネル
+    - https://www.youtube.com/@nukemarugames/videos
+    # ガッツの夜明け - ライトヘビー級2層攻略
+    - https://gutsdawn.com/2024/08/18/%E3%82%A2%E3%83%AB%E3%82%AB%E3%83%87%E3%82%A3%E3%82%A2%E9%9B%B6%E5%BC%8Flh%E7%B4%9A%EF%BC%92%E5%B1%A4/ff14/
+    # neko14 - ライトヘビー級2層攻略めも
+    - https://neko14.com/2024/08/04/post-8662/
+
+# ────────────────────────────────────────────────────────
+# 要手動補完メモ
+# ────────────────────────────────────────────────────────
+# - ハニーB・ラブリーの公式声優は 2026-05 時点で公式発表なし。
+# - 公式肩書: 「劇毒の愛」 (Famitsu 設定画特集)
+# - 軽減表 (Last Agous) はライトヘビー級用が note.com 有料記事内に存在する可能性大。
+#   無料公開 URL が見つからなかったため、note トップを参照リンクとした。
+# - 流派バリアント: Game8 は 2026-03-12 時点で「ぬけまる版」を単独掲載。
+#   実装初期 (2024-08) は流派が乱立 (お知らせマクロ vs 純粋ぬけまる等)。
+#   別流派があれば strategies[] に追加すること。
