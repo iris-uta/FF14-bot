@@ -1,0 +1,153 @@
+# パンデモニウム零式：天獄編 1層 - コキュートス (P9S)
+# データ収集日: 2026-05-25
+# 第一参照: Game8 (ゲームエイト)
+#
+# 注意:
+# - 通称: 国際 P9S (Pandæmonium Anabaseios Ninth Circle Savage)、
+#   Game8 / JP コミュニティでは「天獄編1層」「天獄1」が一般的。
+# - ボス正式名称: 「コキュートス」(Kokytos / 希: Κωκυτός)
+#   暁月のフィナーレ・万魔殿パンデモニウム最終 tier (天獄編) の第1戦。
+# - 実装パッチ: 6.41 (零式)、6.4 (ノーマル)
+#   ノーマル実装日: 2023-05-23 (Patch 6.4 「玉座の咎人」)
+#   零式実装日:   2023-05-30 (1週間後)
+# - Game8 マクロ Ver1.1 (2023年中盤改訂版) を基準とする。
+#   流派: 「無職マラソン式」(ぬけまる様の動画ベース)
+# - 本ファイルは Game8 (https://game8.jp/ff14/532345) から WebFetch (2026-05-25) で取得。
+
+id: p9s
+displayName: パンデモニウム零式：天獄編 1層 (コキュートス)
+shortName: P9S
+type: savage
+patch: "6.41"
+# Source: https://ffxiv.consolegameswiki.com/wiki/Anabaseios:_The_Ninth_Circle_(Savage)
+# Source: https://finalfantasy.fandom.com/wiki/Anabaseios:_The_Ninth_Circle
+# Source: https://next-innovation-fuk.com/2023/05/29/ff14-%E3%83%91%E3%83%83%E3%83%816-4x-%E3%80%8C%E9%9B%B6%E5%BC%8F%E3%80%8D%E4%B8%87%E9%AD%94%E6%AE%BF%E3%83%91%E3%83%B3%E3%83%87%E3%83%A2%E3%83%8B%E3%82%A6%E3%83%A0%E9%9B%B6%E5%BC%8F%EF%BC%9A%E5%A4%A9/
+
+phases:
+  - id: p1
+    name: "P1 コキュートス 通し (Mythic Creation: Kokytos)"
+    order: 1
+    description: |
+      コキュートス戦。1ボス完結型 (フェーズ分けはしないが、内部的に「メイジ」「マーシャリスト」
+      「キメラ」「ビースト」の魂を取り込んで姿を変える展開)。
+      主要ギミック:
+        - グラトニーズアーガー (全体)
+        - デストゥワイス (タンク連続強攻撃)
+        - ダブルスペル (魔法×2)
+        - 古式地烈斬 (地面範囲)
+        - 古式破砕拳 (4:4 頭割り)
+        - ジャンブルコンボ (サイコロ1回目、無職マラソン式の山場)
+        - ミールストーム (中央吸引)
+        - ビーストフェーズ (毒・扇誘導)
+        - キメリックコンボ (サイコロ2回目)
+        - 憑魔双撃 (フィニッシュ系)
+      野良主流: 無職マラソン式 (Game8 採用、ぬけまる動画ベース)。
+    # Source: https://game8.jp/ff14/532345
+    videos:
+      - title: 【FF14】解説 天獄編零式1層 無職マラソン式【ぬけまる】
+        url: https://www.youtube.com/watch?v=rnKHQtYCuAk
+        author: ぬけまるG
+        # Source: Game8 (https://game8.jp/ff14/532345) で参照されている主流動画
+    strategies:
+      - id: musyoku-marathon
+        name: 無職マラソン式 (Game8 採用版 / ぬけまる動画ベース)
+        description: |
+          Game8 が採用しているぬけまる動画ベースの処理法。「無職マラソン式」
+          (jobless marathon) と呼ばれる。
+          - 基本散開: D3/MT/D4 // H1/★/H2 // D1/ST/D2
+          - ペア十字 (X字反時計回り): MT/D3, ST/D2, H1/D1, H2/D4
+          - 古式破砕拳: 4:4 頭割り、西 MTH1D1D3 / 東 STH2D2D4
+          - ジャンブルコンボ (サイコロ1回目):
+            * 無職 (デバフ無し) は 1壁 (西) から進行方向に走り、青AoE が
+              ついたら止まる (= マラソン式の語源)
+            * 塔は 6→8→2→4 の順で処理
+            * 炎は 2→4→6→8 (塔から進行方向に45度ずれる)
+          - ビーストフェーズ: 毒は 12時から時計回り、優先順 DPS > TH
+            扇誘導は TH→D の順
+          - キメリックコンボ (サイコロ2回目): 1→東 / 2→西 / 3,4→北 / 無職→南
+    tips:
+      - "ジャンブルコンボ (無職マラソン) はフィールド全体を活用するため、開幕の散開位置・デバフ確認が最重要。"
+      - "古式破砕拳の 4:4 頭割りは西/東に分かれる。クロスしないよう先に立ち位置を決める。"
+      - "ビーストフェーズの扇誘導は TH→D 順、毒は DPS が先。両者の優先度が逆なので要意識。"
+
+# ────────────────────────────────────────────────────────
+# マクロ (コピペ用)
+# ────────────────────────────────────────────────────────
+macros:
+  - source: Game8 (ゲームエイト) - 天獄編零式1層 マクロ Ver1.1 (無職マラソン式)
+    url: https://game8.jp/ff14/532345
+    # Source: WebFetch 2026-05-25 (Game8 P9S 攻略ページ Ver1.1)
+    # 注: Game8 にはマクロ前半のみ抽出されており、後半 (ビースト以降) は要動画確認の場合あり。
+    text: |
+      /p ■基本散開　　　　■ペア十字(X字反時計回り)
+      /p D3 MT D4　　 　　　　 　MT/D3
+      /p H1 ★ H2 　　 　 　H1/D1　★　H2/D4
+      /p D1 ST D2　 　　　　 　　 ST/D2
+      /p ■古式破砕拳(4:4頭割り)
+      /p 西：MTH1D1D3 / STH2D2D4 ：東
+      /p ■ジャンブルコンボ(サイコロ1回目)※無職マラソン式
+      /p 無職：1壁から進行方向に走り青ついたら止まる
+      /p 塔：6→8→2→4の順に処理
+      /p 炎：2→4→6→8の順に処理(塔から進行方向に45度ずれる)
+      /p ■ビーストフェーズ
+      /p 毒:12時から時計回り DPS＞TH　扇誘導:TH→D
+      /p ■キメリック(サイコロ２回目)
+      /p 1→東　2→西　3,4→北　無職→南
+
+# ────────────────────────────────────────────────────────
+# 募集テンプレ
+# ────────────────────────────────────────────────────────
+recruitmentTemplates:
+  - source: 零式野良募集 汎用テンプレ (天獄編用)
+    template: |
+      【FF14 零式募集】{{contentShort}}
+      ● 進行度: {{progress}}                  # 例: P1 通し練 / 消化
+      ● 流派: {{strategy}}                    # 例: Game8 / 無職マラソン式
+      ● 募集ロール: {{recruitingRoles}}
+      ● 開始時間: {{startTime}}
+      ● VC: {{voiceChannel}}                  # 例: Discord 聞き専可
+      ● マクロ: {{macroSource}}               # 例: Game8 天獄編1層
+      ● 必須: {{requirements}}                # 例: タイムライン履修
+      ● 備考: {{notes}}
+    variables:
+      - contentShort
+      - progress
+      - strategy
+      - recruitingRoles
+      - startTime
+      - voiceChannel
+      - macroSource
+      - requirements
+      - notes
+
+# ────────────────────────────────────────────────────────
+# 参考リンク
+# ────────────────────────────────────────────────────────
+references:
+  primary: Game8 (ゲームエイト) - 天獄編零式1層 攻略丨マクロ Ver1.1
+  urls:
+    # Game8 攻略・マクロページ (第一参照)
+    - https://game8.jp/ff14/532345
+    # Consolegameswiki - Anabaseios: The Ninth Circle (Savage) (英語)
+    - https://ffxiv.consolegameswiki.com/wiki/Anabaseios:_The_Ninth_Circle_(Savage)
+    # Fandom Wiki - Anabaseios: The Ninth Circle
+    - https://finalfantasy.fandom.com/wiki/Anabaseios:_The_Ninth_Circle
+    # Lodestone Manjyu Mazui - 天獄編の語句の元ネタまとめ (ボス名出典)
+    - https://na.finalfantasyxiv.com/lodestone/character/29231383/blog/5231433
+    # ぬけまるG YouTube - 天獄編1層 解説
+    - https://www.youtube.com/watch?v=rnKHQtYCuAk
+    # ぬけまるG YouTube チャンネル
+    - https://www.youtube.com/@nukemarugames/videos
+    # うさねこ散歩 - パッチ6.4x 天獄編零式まとめ
+    - https://next-innovation-fuk.com/2023/05/29/ff14-%E3%83%91%E3%83%83%E3%83%816-4x-%E3%80%8C%E9%9B%B6%E5%BC%8F%E3%80%8D%E4%B8%87%E9%AD%94%E6%AE%BF%E3%83%91%E3%83%B3%E3%83%87%E3%83%A2%E3%83%8B%E3%82%A6%E3%83%A0%E9%9B%B6%E5%BC%8F%EF%BC%9A%E5%A4%A9/
+    # Icy Veins - P9S Kokytos Raid Guide (英語)
+    - https://www.icy-veins.com/ffxiv/the-ninth-circle-savage-raid-guide
+
+# ────────────────────────────────────────────────────────
+# 要手動補完メモ
+# ────────────────────────────────────────────────────────
+# - ボスフェーズの細分化 (Mage's Lament / Martialist's Lament / Chimera's Lament /
+#   Beast's Lament) を別 phase として切り出すかは要検討。本ファイルでは 1 phase に統合。
+# - Game8 マクロは Ver1.1 (改訂後) を採用。改訂前 (Ver1.0) との差分は要確認。
+# - 軽減表 (パンデモニウム天獄編 全層対応) は要追加。Last Agous 相当の Lodestone Sheet を探索すること。
+# - Game8 サイトは 2023年実装時の情報がベース。2026 年現在の野良流派と差異がある場合は要更新。

@@ -1,0 +1,191 @@
+# 至天の座アルカディア：クルーザー級零式 2層 - シュガーライオット (M6S)
+# データ収集日: 2026-05-25
+# 第一参照: Game8 (ゲームエイト)
+#
+# 注意:
+# - 通称: 国際/FFLogs では M6S、Game8/JP では「クルーザー級零式2層」「クルーザー2層」。
+# - 公式肩書: 「リングはアトリエ」(Source: ファミ通 https://www.famitsu.com/article/202505/42745)
+# - 元グラフィティ・アーティスト。魂の源: プリン。
+# - 特徴: スプレーガンで描いたアートを具現化させて闘う。独特な口調。
+# - BGM: 『Back to the Drawing Board』(EDM風、ラップ付き)。
+# - Game8 採用流派: 「新FFO」式 (Ver.3.1)。雑魚フェーズで難度が高く、後半は Lucrezia 様動画準拠。
+# - Game8 のマクロは新FFO式 (Lodestone Yuna'' Kanon' 氏 提供) を採用。
+
+id: m6s
+displayName: 至天の座アルカディア：クルーザー級零式 2層 (シュガーライオット)
+shortName: M6S
+type: savage
+patch: "7.2"
+# パッチ実装日: 2025-03-25 (Patch 7.2)
+# 零式実装日: 2025-04-01
+# Source: https://www.famitsu.com/article/202503/36584
+# Source: https://ffxiv.consolegameswiki.com/wiki/The_Arcadion
+
+phases:
+  - id: p1-front
+    name: P1 シュガーライオット 前半 (ボス〜砂漠フェーズ)
+    order: 1
+    description: |
+      シュガーライオット 前半。スプレーガンで描いたアートを具現化させる戦闘。
+      主要技:
+        - カラーライオット
+        - ウイングマーク
+        - ダブルグラフィティ
+        - ねばねばムース (基本散開: 北基準、Tボス下)
+        - ランドスケープ
+        - カラークラッシュ (2:2:2:2 配置)
+        - 砂漠フェーズ: サボテン避け、サボテン+流砂、爆弾捨て (流砂北基準)
+      野良主流: Game8 採用版 (新FFO式 Ver.3.1)。
+    # Source: https://game8.jp/ff14/681086
+    # Source: https://jp.finalfantasyxiv.com/lodestone/character/11516239/blog/5542931/
+    mitigation:
+      name: Last Agous / らすと 軽減表 (アルカディア クルーザー級:零式 [1-4層対応])
+      # M5S-M8S 全層を 1 ブックで管理。詳細は M5S を参照。
+      # Source: https://na.finalfantasyxiv.com/lodestone/character/12440293/blog/5540581/
+      url: https://na.finalfantasyxiv.com/lodestone/character/12440293/blog/5540581/
+      copyable: true
+    videos:
+      - title: 世界一わかりやすいアルカディア零式クルーザー級2層解説【game8準拠】【FF14黄金】
+        url: https://www.youtube.com/watch?v=RWt1GQzv-fU
+        # Source: Game8 (https://game8.jp/ff14/681086) で参照されている動画 (Lucrezia 解説の派生)
+    strategies:
+      - id: shin-ffo
+        name: 新FFO式 (Game8 採用版 Ver.3.1)
+        description: |
+          Yuna'' Kanon' (FFO) 氏が公開した新FFO式マクロを Game8 が採用。
+          - 基本散開: ねばねば北基準、Tボス下。
+          - カラークラッシュ: 2:2:2:2 配置 (H1D3 / MTD1 / STD2 / H2D4)。4:4 はMT組ST組 (左/右)。
+          - 砂漠フェーズのサボテン: 北で避ける。流砂は北基準。
+          - 爆弾捨て: H1/D3 → MT/D1 → ST/D2 → H2/D4 順。
+          - 雑魚処理順: ジャバ ＞ キャット ＞ フェザー ＞ ムー ＞ ヤーン (リキャバースト)。
+          - Wave1: MT がムー、ST+近接がヤーン、遠隔がキャット。
+          - Wave2: D側フェザーD3、B側フェザーH2 (北から捨て)。
+          - Wave3: ジャバ+ムー行進、スタンは MT→D1→D2、STヤーン北東、バインドヒラ南東。
+          - Wave4: MTムーC、STヤーンA (スタン: ST→D1→D2)、D側フェザーD3、B側フェザーD4 (南から捨て)。
+    tips:
+      - "雑魚フェーズが本層最大の難所。情報不足だと野良では事故りやすい (さり氏談)。"
+      - "ねばねば配置は北基準。Tがボス下なので、誤って T も外周に行くと事故。"
+      - "PT構成: 赤魔→賢者、ヴァイパー導入で雑魚フェーズ対応が安定 (さり氏 活動録より)。"
+
+  - id: p2-back
+    name: P2 シュガーライオット 後半 (山川 〜 時間切れ)
+    order: 2
+    description: |
+      雑魚フェーズ後の後半。山川 (山と川のフィールド) ギミック。
+      主要技:
+        - 山川 (火・雷)
+        - 雷雲 (TH←左 / 他DPS→右)
+        - 雷 (基本散会)
+        - マグマ (北 H1H2 / 南 D3D4 → MT/ST/D1/D2)
+        - 塔処理 2回目: 4・2・2 or 南8塔 (構成によって配置変動)
+      野良主流: Game8 後半マクロ (Lucrezia 様動画準拠)。
+    # Source: https://game8.jp/ff14/681086
+    tips:
+      - "山川火: 内側 MTH1D1D2 / 外側 STH2D3D4。"
+      - "雷雲: 雷雲を見て、TH 左 / 他DPS 右に散開。"
+      - "塔2回目は 4・2・2 配置 (近接4人基準で時計/反時計) or 南8塔。マクロ図参照。"
+
+# ────────────────────────────────────────────────────────
+# マクロ (コピペ用)
+# ────────────────────────────────────────────────────────
+macros:
+  - source: "Game8 (ゲームエイト) - クルーザー級零式2層 新FFO式 Ver.3.1 (前半 + 雑魚)"
+    url: https://game8.jp/ff14/681086
+    # 最終更新: 2026-03-12 (Game8 ページの最終更新日)
+    # オリジナル: Yuna'' Kanon' (Lodestone https://jp.finalfantasyxiv.com/lodestone/character/11516239/blog/5542931/)
+    text: |
+      /p ■基本散開:ねばねば(北基準、Tボス下)■カラークラッシュ（2:2:2:2）
+      /p 　 D3 D4　 　 | 　 　 　　 ボス
+      /p H1　☆　H2　| 　H1D3　MTD1　　STD2
+      /p 　 D1 D2 　 　|　　　　　 H2D4　4:4は←MT組ST組→
+      /p ■砂漠フェーズ
+      /p 　〇サボテン避け（北で避ける）〇サボテン+流砂（北基準）
+      /p 　　　 6人 　　 　｜　　北西H1　北東6人
+      /p 　T 　　　　D 　　｜　　予備　　 南東H2
+      /p 　〇爆弾捨て（流砂北）
+      /p H1/D3 MT/D1 ST/D2 H2/D4
+      /p ■雑魚フェーズ（倒す順：ジャバ＞キャット＞フェザー＞ムー＞ヤーン）※リキャバースト
+      /p wave1：MTムー　ST＋近接ヤーン（リキャバーストで処理）　遠隔キャット　ヤーンの場所に遠隔ヒラ集合
+      /p wave2：D側フェザーD3　B側フェザーH2　北から捨てる　MTムーを東→西フェザーへ誘導　他全員で範囲焼き
+      /p wave3：ジャバ＋ムー行進(スタン：MT→D1→D2)　STヤーン北東待機　バインドヒラ南東
+      /p wave4：MTムーC　STヤーンA(スタン：ST→D1→D2)　D側フェザーD3　B側フェザーD4　南から捨てる
+
+  - source: "Game8 (ゲームエイト) - クルーザー級零式2層 新FFO式 Ver.3.1 (後半: 山川〜)"
+    url: https://game8.jp/ff14/681086
+    text: |
+      /p 【山川】火：内側MTH1D1D2　【雷雲】雷雲見て
+      /p 　　　　　　 外側STH2D3D4　　TH←左　他　右→DPS
+      /p 雷：基本散会
+      /p 【マグマ】ーーーーーー【塔2回目】ーーーーーー
+      /p D3D4　北　H1H2　 ◎4・2・2の場合：近接4人基準時計or反時計
+      /p ※※※※※※※※※※ 　中央見て左←【D1MTSTD2】【H1H2】【D3D4】→右
+      /p 　　 MT　　ST　　　　◎南８塔の場合：H1　H2　D3　D4
+      /p 　　 D1　 　D2　　　　　　　　　　　 D1　 MT　 ST 　D2
+
+# ────────────────────────────────────────────────────────
+# 募集テンプレ
+# ────────────────────────────────────────────────────────
+recruitmentTemplates:
+  - source: 零式野良募集 汎用テンプレ (Cruiserweight 用)
+    template: |
+      【FF14 零式募集】{{contentShort}}
+      ● 進行度: {{progress}}                  # 例: P1 雑魚練 / 山川練 / 通し / 消化
+      ● 流派: {{strategy}}                    # 例: Game8 (新FFO式 Ver.3.1)
+      ● 募集ロール: {{recruitingRoles}}
+      ● 開始時間: {{startTime}}
+      ● VC: {{voiceChannel}}                  # 例: Discord 聞き専可
+      ● マクロ: {{macroSource}}               # 例: Game8 クルーザー級2層
+      ● 必須: {{requirements}}                # 例: タイムライン履修 / 雑魚動画予習
+      ● 備考: {{notes}}
+    variables:
+      - contentShort
+      - progress
+      - strategy
+      - recruitingRoles
+      - startTime
+      - voiceChannel
+      - macroSource
+      - requirements
+      - notes
+
+# ────────────────────────────────────────────────────────
+# 参考リンク
+# ────────────────────────────────────────────────────────
+references:
+  primary: Game8 (ゲームエイト) - クルーザー級零式2層 攻略丨マクロ
+  urls:
+    # Game8 攻略・マクロページ (第一参照)
+    - https://game8.jp/ff14/681086
+    # Lodestone 軽減表 (Last Agous, 全層対応)
+    - https://na.finalfantasyxiv.com/lodestone/character/12440293/blog/5540581/
+    # Lodestone マクロ提供元 (Yuna'' Kanon' - 新FFO式)
+    - https://jp.finalfantasyxiv.com/lodestone/character/11516239/blog/5542931/
+    # ファミ通 - キャラクター設定・声優紹介
+    - https://www.famitsu.com/article/202505/42745
+    # Consolegameswiki - The Arcadion
+    - https://ffxiv.consolegameswiki.com/wiki/The_Arcadion
+    # とらめもブログ - 雑魚フェーズ ルクレ複合 woops 式
+    - https://toramemoblog.com/cr2-woops
+    # FF14速報 - 雑魚 woops ルクレ複合 FFO式 解説
+    - https://ff14net.2chblog.jp/archives/62265631.html
+    # さり 活動録 (note)
+    - https://note.com/srm_br/n/n942f8c325c9a
+    # erSharifst - クルーザー1〜2層 所感
+    - https://www.ersharifst.com/2025/04/07/fsaasfgew/
+    # Aeson Magloire Lodestone - 雑魚戦感想
+    - https://na.finalfantasyxiv.com/lodestone/character/35880736/blog/5544069/
+    # ぬけまるG YouTube チャンネル
+    - https://www.youtube.com/@nukemarugames/videos
+
+# ────────────────────────────────────────────────────────
+# 要手動補完メモ
+# ────────────────────────────────────────────────────────
+# - シュガーライオットの公式声優: 2026-05 時点で未確認 (ファミ通記事に記載なし)。
+# - BGM: 『Back to the Drawing Board』(EDM風、ラップ付き)。Source: ファミ通記事。
+# - Game8 後半マクロのコピー部分は WebFetch で取得した概要を保持。完全版は Game8 参照。
+# - 流派バリアント:
+#   * 新FFO式 (Game8 採用)
+#   * Lucrezia ルクレ式 (後半)
+#   * ルクレ複合 woops 式 (雑魚)
+#   将来別流派で固定が立てば strategies[] を増やす。
+# - 雑魚フェーズが特に難しく、PT構成・スタン担当の事前合意が必須。
