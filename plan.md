@@ -35,19 +35,21 @@ MVP（**絶エデン / FRU** で全フロー完成）までのタスク。
 ### Bot (B) — 全て Schema 完成待ち
 | ID | タスク | 依存 | 担当 | 状態 |
 |---|---|---|---|---|
-| B-1 | /content slash command（コンテンツ選択UI） | S-1, S-3 | | |
-| B-2 | Phaseチャネル自動作成 | B-1, S-1 | | |
-| B-3 | 攻略動画・マクロ・軽減表テンプレ投稿 | B-2, S-1 | | |
-| B-4 | /recruit-template コマンド（募集テンプレ生成） | S-1 | | |
-| B-5 | 開始N分前アラート（cron + persistent store） | S-2 | | |
+| B-1 | /content slash command（コンテンツ選択UI） | S-1, S-3 | - | ✅ |
+| B-2 | /setup-static — Phaseチャネル自動作成 | B-1, S-1 | - | ✅ |
+| B-3 | /post-phase — 攻略動画・マクロ・軽減表テンプレ投稿 | B-2, S-1 | - | ✅ |
+| B-4 | /recruit-template コマンド（募集テンプレ生成） | S-1 | - | ✅ |
+| B-5 | /schedule + alert worker（開始N分前通知） | S-2, packages/db | - | ✅ |
+| B-bonus | /help slash command | - | - | ✅ |
 
 ### Data (D) — Schemaの形さえ決まれば独立に進む
 | ID | タスク | 依存 | 担当 | 状態 |
 |---|---|---|---|---|
-| D-1 | FRU P1 メカニクス・処理方・軽減 | S-1 | | |
-| D-2 | FRU P2 メカニクス・処理方・軽減 | S-1 | | |
-| D-3 | FRU 全Phase 動画リンク収集 | S-1 | | |
-| D-4 | 募集テンプレ参照（既存テンプレ収集） | S-1 | | |
+| D-1 | FRU P1 メカニクス・処理方・軽減 | S-1 | - | ✅ |
+| D-2 | FRU P2 メカニクス・処理方・軽減 | S-1 | - | ✅ |
+| D-3 | FRU 全Phase 動画リンク収集 | S-1 | - | ✅ |
+| D-4 | 募集テンプレ参照（既存テンプレ収集） | S-1 | - | ✅ |
+| D-* | FRU 全マクロ全文（りりーどーる原文） | S-1, D-4 | user | ✅ |
 
 ### Docs (F)
 | ID | タスク | 依存 | 担当 | 状態 |
@@ -81,10 +83,13 @@ MVP（**絶エデン / FRU** で全フロー完成）までのタスク。
 
 | ID | タスク | 依存 | 担当 | 状態 |
 |---|---|---|---|---|
-| I-1 | GitHub Actions（typecheck + validate-data） | B-0, S-3 | - | ✅ |
-| I-2 | Bot デプロイ（Fly.io / Railway / 自前VPS） | MVP完成 | | |
+| I-1 | GitHub Actions（typecheck + validate-data + test） | B-0, S-3 | - | ✅ |
+| I-2 | Bot デプロイ artifacts (Dockerfile + fly.toml) | MVP完成 | - | ✅ |
+| I-2.5 | **Fly.io アカウント作成 + 初回 `fly launch`** | I-2 | **user** | 未着手 |
 | I-3 | Web デプロイ（Vercel） | W-1 | | |
-| I-4 | DB セットアップ（PostgreSQL or SQLite + LiteFS） | S-2 | | |
+| I-4 | DB セットアップ — SQLite local 開発、production は Fly volume | S-2 | - | ✅ |
+| I-5 | Tech stack 決定ドキュメント | - | - | ✅ |
+| I-6 | Legal: Privacy Policy + ToS テンプレ | - | - | ✅ |
 
 ## タスクの取り方（agent向け）
 
