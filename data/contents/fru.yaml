@@ -1,0 +1,57 @@
+# 絶エデン (Futures Rewritten Ultimate)
+# データ収集状況: 骨格のみ。Phase詳細は plan.md D-1 〜 D-3 で順次埋める。
+
+id: fru
+displayName: 絶エデン
+shortName: FRU
+type: ultimate
+patch: "7.1"
+
+phases:
+  - id: p1
+    name: P1 - Fatebreaker
+    order: 1
+    description: TODO (D-1)
+    videos: []
+    strategies: []
+    tips: []
+
+  - id: p2
+    name: P2 - Usurper of Frost
+    order: 2
+    description: TODO (D-2)
+    videos: []
+    strategies: []
+    tips: []
+
+  - id: p3
+    name: P3 - Oracle of Darkness
+    order: 3
+    description: TODO
+    videos: []
+    strategies: []
+    tips: []
+
+  - id: p4
+    name: P4 - Pandora
+    order: 4
+    description: TODO
+    videos: []
+    strategies: []
+    tips: []
+
+  - id: p5
+    name: P5 - Fulgent Blade
+    order: 5
+    description: TODO
+    videos: []
+    strategies: []
+    tips: []
+
+macros: []                  # TODO (D-4): りりーどーる等から収集
+
+recruitmentTemplates: []    # TODO (D-4)
+
+references:
+  primary: りりーどーる
+  urls: []
