@@ -6,7 +6,8 @@ import {
 } from "discord.js";
 import { getAllContents, getContentById } from "../lib/contents";
 import { sortByPatch } from "../lib/content-sort";
-import { configureContentTypeOption, checkTypeMatch } from "../lib/content-type-choices";
+import { configureContentTypeOption } from "../lib/content-type-choices";
+import { resolveContentOrError } from "../services/resolve-content";
 import {
   findTemplate,
   renderTemplate,
@@ -15,13 +16,12 @@ import {
 
 export const data = new SlashCommandBuilder()
   .setName("recruit-template")
-  .setDescription("コンテンツの募集テンプレを生成")
-  .addStringOption((opt) => configureContentTypeOption(opt))
+  .setDescription("コンテンツの募集テンプレを生成 (固定 channel なら content 自動検出)")
+  .addStringOption((opt) => configureContentTypeOption(opt, { required: false }))
   .addStringOption((opt) =>
     opt
       .setName("content")
-      .setDescription("コンテンツID (type で絞り込まれた一覧)")
-      .setRequired(true)
+      .setDescription("コンテンツID (省略時は固定 channel から自動検出)")
       .setAutocomplete(true)
   )
   .addIntegerOption((opt) =>
@@ -95,24 +95,13 @@ const VARIABLE_OPTIONS = [
 ] as const;
 
 export async function execute(interaction: ChatInputCommandInteraction): Promise<void> {
-  const typeFilter = interaction.options.getString("type", true);
-  const contentId = interaction.options.getString("content", true);
+  const resolved = resolveContentOrError(interaction);
+  if (!resolved.ok) {
+    await interaction.reply({ content: resolved.message, flags: MessageFlags.Ephemeral });
+    return;
+  }
+  const { content, autoDetected } = resolved;
   const templateIndex = interaction.options.getInteger("template") ?? 0;
-
-  const content = getContentById(contentId);
-  if (!content) {
-    await interaction.reply({
-      content: `コンテンツが見つかりません: \`${contentId}\``,
-      flags: MessageFlags.Ephemeral,
-    });
-    return;
-  }
-
-  const mismatchMsg = checkTypeMatch(content.type, typeFilter, contentId);
-  if (mismatchMsg) {
-    await interaction.reply({ content: mismatchMsg, flags: MessageFlags.Ephemeral });
-    return;
-  }
 
   const template = findTemplate(content, templateIndex);
   if (!template) {
@@ -140,7 +129,11 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
   const unsupported = declaredVars.filter((v) => !supportedSet.has(v));
 
   const lines: string[] = [];
-  lines.push(`**${content.displayName}** 募集テンプレ (index: ${templateIndex})`);
+  lines.push(
+    `**${content.displayName}** 募集テンプレ (index: ${templateIndex})${
+      autoDetected ? " — 固定 channel から自動検出" : ""
+    }`
+  );
   if (unfilledVariables.length > 0) {
     const supportedUnfilled = unfilledVariables.filter((v) => supportedSet.has(v));
     if (supportedUnfilled.length > 0) {
