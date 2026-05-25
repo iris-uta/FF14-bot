@@ -13,6 +13,8 @@ import * as helpCommand from "./help";
 import * as scheduleCommand from "./schedule";
 import * as schedulesCommand from "./schedules";
 import * as unscheduleCommand from "./unschedule";
+import * as macroCommand from "./macro";
+import * as tipsCommand from "./tips";
 
 export interface Command {
   data:
@@ -32,6 +34,8 @@ export const commands: Record<string, Command> = {
   [scheduleCommand.data.name]: scheduleCommand,
   [schedulesCommand.data.name]: schedulesCommand,
   [unscheduleCommand.data.name]: unscheduleCommand,
+  [macroCommand.data.name]: macroCommand,
+  [tipsCommand.data.name]: tipsCommand,
 };
 
 export function getCommand(name: string): Command | undefined {
