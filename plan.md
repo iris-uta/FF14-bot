@@ -28,9 +28,9 @@ MVP（**絶エデン / FRU** で全フロー完成）までのタスク。
 ### Schema (S)
 | ID | タスク | 依存 | 担当 | 状態 |
 |---|---|---|---|---|
-| S-1 | コンテンツスキーマ完成（Phase, Strategy variant, Macro, Mitigation, Video, RecruitmentTemplate） | S-0 | | |
-| S-2 | 固定（Static）スキーマ（メンバー, 進行度, スケジュール） | S-1 | | |
-| S-3 | YAML → 型へのloader & validator | S-1 | | |
+| S-1 | コンテンツスキーマ完成（Phase, Strategy variant, Macro, Mitigation, Video, RecruitmentTemplate） | S-0 | - | ✅ |
+| S-2 | 固定（Static）スキーマ（メンバー, 進行度, スケジュール） | S-1 | - | ✅ |
+| S-3 | YAML → 型へのloader & validator | S-1 | - | ✅ |
 
 ### Bot (B) — 全て Schema 完成待ち
 | ID | タスク | 依存 | 担当 | 状態 |
@@ -52,8 +52,8 @@ MVP（**絶エデン / FRU** で全フロー完成）までのタスク。
 ### Docs (F)
 | ID | タスク | 依存 | 担当 | 状態 |
 |---|---|---|---|---|
-| F-1 | docs/architecture.md にmermaid構成図追加 | - | | |
-| F-2 | docs/data-collection.md にYAML編集ガイド | S-1 | | |
+| F-1 | docs/architecture.md にmermaid構成図追加 | - | - | ✅ |
+| F-2 | docs/data-collection.md にYAML編集ガイド | S-1 | - | ✅ |
 
 ## Phase 2: 拡張機能
 
@@ -81,7 +81,7 @@ MVP（**絶エデン / FRU** で全フロー完成）までのタスク。
 
 | ID | タスク | 依存 | 担当 | 状態 |
 |---|---|---|---|---|
-| I-1 | GitHub Actions（lint/typecheck/test） | B-0, W bootstrap | | |
+| I-1 | GitHub Actions（typecheck + validate-data） | B-0, S-3 | - | ✅ |
 | I-2 | Bot デプロイ（Fly.io / Railway / 自前VPS） | MVP完成 | | |
 | I-3 | Web デプロイ（Vercel） | W-1 | | |
 | I-4 | DB セットアップ（PostgreSQL or SQLite + LiteFS） | S-2 | | |
