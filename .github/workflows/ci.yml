@@ -29,3 +29,6 @@ jobs:
 
       - name: Validate content data (YAML against schema)
         run: pnpm --filter @ff14kotei/schema validate-data
+
+      - name: Run tests (packages with tests)
+        run: pnpm --filter @ff14kotei/bot test
