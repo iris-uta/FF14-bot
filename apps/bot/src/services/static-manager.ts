@@ -78,6 +78,46 @@ export function findStaticByName(guildId: string, name: string): Static | null {
 }
 
 /**
+ * Find the static that owns a given channel in a guild.
+ * Priority:
+ *   1. channel.parentId matches a static's categoryId (channel is in the static's category)
+ *   2. channelId matches a static's lobbyChannelId
+ *   3. channelId matches a static's categoryId (called inside the category description itself)
+ *
+ * Returns null if not part of any static.
+ */
+export function findStaticForChannel(
+  guildId: string,
+  channelId: string,
+  parentId: string | null | undefined
+): Static | null {
+  const db = getDb();
+
+  if (parentId) {
+    const byCategory = db
+      .select()
+      .from(statics)
+      .where(and(eq(statics.guildId, guildId), eq(statics.categoryId, parentId)))
+      .get();
+    if (byCategory) return byCategory;
+  }
+
+  const byLobby = db
+    .select()
+    .from(statics)
+    .where(and(eq(statics.guildId, guildId), eq(statics.lobbyChannelId, channelId)))
+    .get();
+  if (byLobby) return byLobby;
+
+  const byCategoryId = db
+    .select()
+    .from(statics)
+    .where(and(eq(statics.guildId, guildId), eq(statics.categoryId, channelId)))
+    .get();
+  return byCategoryId ?? null;
+}
+
+/**
  * Create role + category + channels + DB records + (optional) member assignments
  * + auto-post phase info to each Phase channel + intro messages to utility channels.
  */
