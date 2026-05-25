@@ -6,13 +6,19 @@ beforeEach(() => {
   reloadContents();
 });
 
-function makeInteraction(opts: { contentId: string | null; phaseId: string | null }) {
+function makeInteraction(opts: { contentId: string | null; phaseId: string | null; type?: string }) {
   const reply = vi.fn().mockResolvedValue(undefined);
   const followUp = vi.fn().mockResolvedValue(undefined);
+  const type = opts.type ?? "ultimate"; // default to ultimate for fru
   return {
     interaction: {
       options: {
-        getString: vi.fn((n: string) => (n === "content" ? opts.contentId : opts.phaseId)),
+        getString: vi.fn((n: string) => {
+          if (n === "type") return type;
+          if (n === "content") return opts.contentId;
+          if (n === "phase") return opts.phaseId;
+          return null;
+        }),
       },
       reply,
       followUp,

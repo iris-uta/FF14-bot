@@ -1,49 +1,68 @@
 import {
   SlashCommandBuilder,
   EmbedBuilder,
+  MessageFlags,
   type ChatInputCommandInteraction,
   type AutocompleteInteraction,
 } from "discord.js";
 import { getAllContents, getContentById } from "../lib/contents";
+import { sortByPatch } from "../lib/content-sort";
+import { configureContentTypeOption, checkTypeMatch } from "../lib/content-type-choices";
 
 export const data = new SlashCommandBuilder()
   .setName("content")
   .setDescription("固定で挑むコンテンツを表示する")
+  .addStringOption((opt) => configureContentTypeOption(opt))
   .addStringOption((opt) =>
     opt
       .setName("id")
-      .setDescription("コンテンツID（autocomplete対応）")
+      .setDescription("コンテンツID (type で絞り込まれた一覧)")
       .setRequired(true)
       .setAutocomplete(true)
   );
 
 export async function autocomplete(interaction: AutocompleteInteraction): Promise<void> {
-  const focused = interaction.options.getFocused().toLowerCase();
-  const contents = getAllContents();
-  const matches = contents
-    .filter(
-      (c) =>
-        c.id.toLowerCase().includes(focused) ||
-        c.displayName.toLowerCase().includes(focused) ||
-        c.shortName.toLowerCase().includes(focused)
-    )
-    .slice(0, 25)
-    .map((c) => ({
-      name: `${c.displayName} (${c.shortName})`,
-      value: c.id,
-    }));
-  await interaction.respond(matches);
+  const focused = interaction.options.getFocused(true);
+  if (focused.name !== "id") {
+    await interaction.respond([]);
+    return;
+  }
+  const typeFilter = interaction.options.getString("type");
+  const lower = focused.value.toLowerCase();
+  const matched = getAllContents().filter((c) => {
+    if (typeFilter && c.type !== typeFilter) return false;
+    return (
+      c.id.toLowerCase().includes(lower) ||
+      c.displayName.toLowerCase().includes(lower) ||
+      c.shortName.toLowerCase().includes(lower)
+    );
+  });
+  await interaction.respond(
+    sortByPatch(matched)
+      .slice(0, 25)
+      .map((c) => ({
+        name: `${c.patch ? `[${c.patch}] ` : ""}${c.displayName} (${c.shortName})`,
+        value: c.id,
+      }))
+  );
 }
 
 export async function execute(interaction: ChatInputCommandInteraction): Promise<void> {
+  const typeFilter = interaction.options.getString("type", true);
   const id = interaction.options.getString("id", true);
   const content = getContentById(id);
 
   if (!content) {
     await interaction.reply({
       content: `コンテンツが見つかりません: \`${id}\``,
-      ephemeral: true,
+      flags: MessageFlags.Ephemeral,
     });
+    return;
+  }
+
+  const mismatchMsg = checkTypeMatch(content.type, typeFilter, id);
+  if (mismatchMsg) {
+    await interaction.reply({ content: mismatchMsg, flags: MessageFlags.Ephemeral });
     return;
   }
 

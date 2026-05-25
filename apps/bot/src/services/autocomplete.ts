@@ -20,12 +20,15 @@ export async function respondContentOrPhase(
   const lower = focused.value.toLowerCase();
 
   if (focused.name === "content") {
-    const matched = getAllContents().filter(
-      (c) =>
+    const typeFilter = interaction.options.getString("type");
+    const matched = getAllContents().filter((c) => {
+      if (typeFilter && c.type !== typeFilter) return false;
+      return (
         c.id.toLowerCase().includes(lower) ||
         c.displayName.toLowerCase().includes(lower) ||
         c.shortName.toLowerCase().includes(lower)
-    );
+      );
+    });
     await interaction.respond(
       sortByPatch(matched)
         .slice(0, 25)
