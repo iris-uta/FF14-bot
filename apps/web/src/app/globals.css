@@ -1,0 +1,69 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #1a1a1a;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0f1115;
+    --foreground: #e8e8e8;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-feature-settings: "rlig" 1, "calt" 1;
+}
+
+/* Markdown prose container */
+.prose-md {
+  max-width: 65ch;
+}
+.prose-md h1 {
+  @apply text-3xl font-bold mt-8 mb-4;
+}
+.prose-md h2 {
+  @apply text-2xl font-semibold mt-8 mb-3;
+}
+.prose-md h3 {
+  @apply text-xl font-semibold mt-6 mb-2;
+}
+.prose-md p {
+  @apply my-4 leading-7;
+}
+.prose-md ul {
+  @apply list-disc list-inside my-4 space-y-1;
+}
+.prose-md ol {
+  @apply list-decimal list-inside my-4 space-y-1;
+}
+.prose-md a {
+  @apply text-blue-600 dark:text-blue-400 underline underline-offset-2 hover:opacity-80;
+}
+.prose-md code {
+  @apply bg-black/5 dark:bg-white/10 px-1.5 py-0.5 rounded text-sm;
+}
+.prose-md pre {
+  @apply bg-black/5 dark:bg-white/10 p-4 rounded my-4 overflow-x-auto;
+}
+.prose-md table {
+  @apply my-4 w-full border-collapse;
+}
+.prose-md th,
+.prose-md td {
+  @apply border border-black/10 dark:border-white/10 px-3 py-2 text-left;
+}
+.prose-md th {
+  @apply bg-black/5 dark:bg-white/5 font-semibold;
+}
+.prose-md blockquote {
+  @apply border-l-4 border-black/20 dark:border-white/20 pl-4 my-4 italic;
+}
+.prose-md hr {
+  @apply my-8 border-black/10 dark:border-white/10;
+}

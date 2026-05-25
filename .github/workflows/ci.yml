@@ -34,3 +34,6 @@ jobs:
         run: |
           pnpm --filter @ff14kotei/bot test
           pnpm --filter @ff14kotei/db test
+
+      - name: Build web app (next build, smoke check)
+        run: pnpm --filter @ff14kotei/web build
