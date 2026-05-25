@@ -1,6 +1,7 @@
 import {
   SlashCommandBuilder,
   MessageFlags,
+  PermissionFlagsBits,
   type ChatInputCommandInteraction,
   type AutocompleteInteraction,
 } from "discord.js";
@@ -11,6 +12,7 @@ import { getDb } from "../lib/db";
 export const data = new SlashCommandBuilder()
   .setName("unschedule")
   .setDescription("登録済みの予定を取り消す")
+  .setDefaultMemberPermissions(PermissionFlagsBits.ManageEvents)
   .addStringOption((opt) =>
     opt
       .setName("id")
