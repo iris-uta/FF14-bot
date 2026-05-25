@@ -6,6 +6,7 @@ import type {
   SlashCommandSubcommandsOnlyBuilder,
 } from "discord.js";
 import * as contentCommand from "./content";
+import * as setupStaticCommand from "./setup-static";
 
 export interface Command {
   data:
@@ -18,6 +19,7 @@ export interface Command {
 
 export const commands: Record<string, Command> = {
   [contentCommand.data.name]: contentCommand,
+  [setupStaticCommand.data.name]: setupStaticCommand,
 };
 
 export function getCommand(name: string): Command | undefined {
