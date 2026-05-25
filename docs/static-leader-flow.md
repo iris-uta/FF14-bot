@@ -22,16 +22,28 @@ FF14 で固定パーティを **立ち上げて運用する固定主** が最大
 
 ## 2. ペルソナ
 
-### 2.1 既存サーバー固定 (50%)
-- 友人/コミュニティ内で 7 人集めて固定
+### 2.1 ハイブリッド固定 (40-50% — 最頻パターン)
+- 知人/コミュニティ内で 3-6 人集まる
+- **足りない 2-5 枠は外部募集** (Lodestone/Twitter)
+- 既存の Discord サーバー or 新規サーバーを使う
+- 「H2 と D2 だけ募集」のような **スロット単位の募集**
+- **欲しいもの**:
+  - 既知メンバー指定で /static-init (Phase A 拡張)
+  - 空き枠のみ募集する Lodestone テンプレ生成 (Phase B)
+  - 応募者 confirmed したら Discord 招待 → role 付与 (Phase C+D)
+
+→ **Phase A + B + C + D 全部使う (順次)**
+
+### 2.2 完全身内固定 (30%)
+- 友人/コミュニティ内で 8 人集めて固定
 - 既存の Discord サーバーで運営
-- 募集は不要 (既に決まったメンバー)
+- 募集ゼロ (全員確定済み)
 - **欲しいもの**: Phase channels の自動セットアップ + 通知 + マクロ参照
 
 → **Phase A** で完結
 
-### 2.2 野良募集固定 (45%)
-- Lodestone / Twitter で募集
+### 2.3 完全野良募集固定 (20-30%)
+- Lodestone / Twitter で **全枠** 募集
 - 知らない人と固定組む
 - 応募者から選考
 - 募集要項を毎回イチから考えるのが大変
@@ -39,11 +51,9 @@ FF14 で固定パーティを **立ち上げて運用する固定主** が最大
 
 → **Phase A + B + C + D**
 
-### 2.3 ハイブリッド (5%)
-- 知人 3-4 人 + 募集で残り
-- 部分的に上記両方の機能を使う
-
-→ **Phase A + B (応募管理は任意)**
+### 2.4 まとめ
+最頻は **ハイブリッド** なので、設計は **「スロット単位で確定/募集を独立管理」** を中心に。
+完全身内・完全募集は「全スロットが filled / 全スロットが open」の特殊ケースとして自然に表現できる。
 
 ---
 
@@ -74,36 +84,68 @@ FF14 で固定パーティを **立ち上げて運用する固定主** が最大
 
 ## 4. 理想フロー (proposal)
 
+### 4.1 ハイブリッド固定 (最頻パターン)
+
 ```
-[理想の固定主体験]
+[ハイブリッドの理想体験]
 
 1. Web app で「固定計画書」を作成 (ログイン後)
-   ├─ コンテンツ選択      ← bot data から FRU/TOP/...
-   ├─ 進行スタイル選択    ← bot data の strategies[] から
-   ├─ 進行ペース          ← 週N回、X時間/セッション
-   ├─ 募集ロール          ← MT/H1/D2 等を MultiSelect
-   ├─ 募集ジョブ希望      ← (任意) D2 = MNK/SAM/RPR/VPR/NIN
-   ├─ 応募要件            ← 経験/ボイチャ/最低出席率
+   ├─ コンテンツ選択       ← bot data から FRU/TOP/...
+   ├─ 進行スタイル選択     ← bot data の strategies[] から
+   ├─ 進行ペース           ← 週N回、X時間/セッション
+   ├─ スロット 8 個を埋める ← 各スロット ごとに状態指定:
+   │   ├─ MT: 自分      (filled)
+   │   ├─ ST: @友人1    (filled)
+   │   ├─ H1: @友人2    (filled)
+   │   ├─ H2: 募集中    (open, jobs=[WHM,AST])
+   │   ├─ D1: @友人3    (filled)
+   │   ├─ D2: 募集中    (open, jobs=[SAM,RPR])
+   │   ├─ D3: 募集中    (open, jobs=[BRD,DNC])
+   │   └─ D4: 募集中    (open, jobs=[SMN,RDM])
+   ├─ 応募要件             ← 経験/ボイチャ/最低出席率
    └─ 説明文 (Markdown)
-2. 募集テンプレを自動生成 (媒体別)
+2. 募集テンプレを自動生成 (open スロットのみ列挙、媒体別)
    ├─ Lodestone BBCode
    ├─ Twitter 280字版
    └─ Discord Markdown
 3. 募集投稿 (固定主が各媒体に手動コピペ)
 4. 応募管理 (Web app)
    ├─ 応募者を手入力 or Discord reaction で集める
-   └─ ステータス: 応募/選考中/確定/落選
-5. メンバー確定 → bot 招待 + 固定主が Discord 操作
-6. Discord で /static-init plan:<id>
+   └─ ステータス: 応募/選考中/確定/落選 (open スロットごとに)
+5. (任意の早期セットアップ)
+   Discord で /static-init plan:<id>
    ├─ Phase channels 自動作成
-   ├─ Discord role 作成
-   ├─ メンバーに role 付与 (Web app の確定リストから)
+   ├─ Discord role 作成 + 既知 4 人に付与
    ├─ 各 Phase channel に動画/マクロ/軽減 投稿
-   └─ #ロビーに「固定スタート」アナウンス
-7. /schedule で初回日程 → 通知開始
+   └─ #ロビーに「現在 4/8 確定、残り 4 枠募集中」アナウンス
+   → 既知メンバーは早めに練習開始も可能 (人数足りる phase だけ)
+6. 募集スロット埋まる
+   ├─ Web app で leader が承認 → status = confirmed
+   ├─ 確定者を Discord 招待 → 入ってきたら
+   └─ /static-fill slot:h2 user:@hanako (or Web app から「Discord に追加」ボタン)
+7. 全枠 filled になったら #ロビーに「⭐ 全枠確定！」アナウンス
+8. /schedule で初回日程 → 通知開始
 ```
 
-**bot は「決まったことをセットアップする」役割**、Web app は「考える/募集する/管理する」役割。
+**bot は「決まったことを Discord に反映」、Web app は「考える/募集する/応募管理する」役割**。
+スロット単位でステータス管理 → 既知/募集 が混在しても自然に扱える。
+
+### 4.2 完全身内固定 (Phase A のみで完結)
+
+```
+1. 8 人決まってる
+2. /static-init content:fru name:"週末絶エデン" members:"<@taro> MT PLD, <@hanako> ST GNB, <@me> H1 SCH, <@a> H2 WHM, <@b> D1 MNK, <@c> D2 SAM, <@d> D3 BRD, <@e> D4 SMN"
+   → 全員 role 付与済、Phase channels 完成、すぐ /schedule
+```
+
+### 4.3 完全野良固定 (Web app から始まる)
+
+```
+1. Web app で計画書作成、全スロット open
+2. 募集テンプレ生成 → 投稿
+3. 全枠埋まるまで応募管理
+4. 全部 confirmed → /static-init plan:<id> で一気に Discord セットアップ
+```
 
 ---
 
@@ -114,12 +156,22 @@ FF14 で固定パーティを **立ち上げて運用する固定主** が最大
 ### 5.1 新コマンド
 
 #### `/static-init`
-固定の Discord 環境を一括セットアップ。
+固定の Discord 環境を一括セットアップ。3 つの起動モードに対応。
 
 **入力**:
 - `content:fru` (必須、autocomplete)
 - `name:"週末絶エデン"` (必須、Discord role 名)
-- `plan_id:<uuid>` (任意、Phase B+ で Web app の計画書 ID)
+- `plan_id:<uuid>` (任意、Phase B+ の計画書 ID、指定時はメンバー情報を計画書から取得)
+- `members:"<@taro> MT PLD, <@hanako> ST GNB, ..."` (任意、計画書なしで直接指定)
+
+**3 つの起動モード**:
+
+| モード | 入力例 | 動作 |
+|---|---|---|
+| 完全身内 | `members` 指定 | 指定メンバー全員 role 付与、全枠 filled |
+| ハイブリッド | `members` で既知のみ指定 | 既知に role 付与、残り枠は open (募集枠と認識) |
+| 野良 | `plan_id` 指定 | 計画書から status=filled/confirmed のみに role 付与 |
+| 空 | どちらも未指定 | role と channels だけ作る、メンバー後追加 |
 
 **動作**:
 1. Discord role 作成 (`@<name>`、color = content の type 別)
@@ -129,20 +181,36 @@ FF14 で固定パーティを **立ち上げて運用する固定主** が最大
    - `#日程` (テキスト)
    - `#p1-<boss>` 〜 `#p<N>-<boss>` (Phase毎)
 4. 各 Phase channel に自動投稿: 動画リンク・マクロリンク・軽減URL・Tips embed
-5. `statics` テーブルに record 作成 (leader = 実行者)
-6. `plan_id` 指定時: 計画書から確定メンバーを引き、role 付与 + `static_members` 追加
+5. `statics` + 8 つの **slot** (`static_slots`) を作成
+6. 指定メンバー (`members` or `plan_id`) を該当 slot に登録 + role 付与
 7. 実行者に ephemeral で「次の手順」案内
+   - 残り枠あれば「残り N 枠は /static-fill で埋めるか、Web app で募集してください」
 
-**権限**: ManageChannels (既存 /setup-static と同等)
+**権限**: ManageChannels
+
+#### `/static-fill slot:h2 user:@xxx [job:WHM]`
+スロット 1 つを埋める (新規メンバー追加 + role 付与)。
+
+- `slot` autocomplete: 現在 channel が属する static の open スロットだけ表示
+- `user` を `static_members` + slot の assignee に登録
+- Discord role 付与
+- #ロビーに「H2 (WHM) @user 確定！」自動通知
+- 全スロット filled になったら「⭐ 全枠確定！」追加通知
+
+**権限**: ManageEvents (leader相当)
 
 #### `/static-add user:@xxx [game_role:MT] [job:PLD]`
-- Discord role 付与
-- `static_members` に追加
-- #ロビーに「@user さんが加入」自動通知
+(`/static-fill` の簡略版、slot 指定なし) 任意ロールでメンバー追加。
+- スロットには紐付けないので、計画書の進捗 (8/8 達成等) には反映されない
+- 緊急メンバー差し替えや、副メンバー登録に使う
 
 #### `/static-remove user:@xxx`
-- role 剥奪、DB から削除
+- role 剥奪、DB から削除 (slot は open に戻る)
 - 確認 ephemeral
+
+#### `/static-slot slot:h2 status:open|closed`
+スロット状態を手動編集 (例: 「H2 はもう募集しない」)。
+- closed = 募集テンプレ生成時に「7 人固定 (1 枠欠員)」として出力
 
 #### `/static-info`
 - 現在 channel が属する static の情報を embed で表示
@@ -205,38 +273,64 @@ DB:
 | `/dashboard/plans/[id]/edit` | 編集 | leader のみ |
 | `/p/[id]` | 公開ページ (応募用、認証なしで閲覧可) | なし |
 
-### 6.2 計画書スキーマ
+### 6.2 計画書スキーマ (slot 分離版)
+
+スロットを別テーブルに切り出し、各スロット独立に確定/募集/応募状態を持たせる。
 
 ```ts
 plans = pgTable("plans", {
   id: uuid().primaryKey(),
-  leaderId: text("leader_id").notNull(),     // Discord user ID
-  status: text("status").notNull(),          // draft/recruiting/closed/archived
-  contentId: text("content_id").notNull(),   // fru/top/...
-  strategyId: text("strategy_id"),           // 進行スタイル (bot data から)
+  leaderId: text("leader_id").notNull(),
+  status: text("status").notNull(),          // draft/recruiting/running/closed/archived
+  contentId: text("content_id").notNull(),
+  strategyId: text("strategy_id"),
   name: text("name").notNull(),
-  description: text("description"),          // Markdown
-  pace: text("pace"),                        // 週N回 X時間
+  description: text("description"),
+  pace: text("pace"),
   startDate: date("start_date"),
-  endDate: date("end_date"),                 // 目標完走日
+  endDate: date("end_date"),
   requirements: jsonb("requirements"),       // { voiceChat, experience, attendance }
-  recruitingRoles: jsonb("recruiting_roles"),// [{ role: "MT", jobs: ["PLD","WAR"], filled: 0/1 }]
-  contactMethod: text("contact_method"),     // Lodestone/Twitter/Discord
+  contactMethod: text("contact_method"),
   contactUrl: text("contact_url"),
   createdAt, updatedAt,
 });
+
+planSlots = pgTable("plan_slots", {
+  id: uuid().primaryKey(),
+  planId: uuid().notNull().references(() => plans.id),
+  role: text("role").notNull(),              // MT/ST/H1/H2/D1/D2/D3/D4
+  jobs: jsonb("jobs").notNull(),             // ["PLD","WAR"]
+  assigneeUserId: text("assignee_user_id"),  // Discord user ID (filled/confirmed時)
+  status: text("status").notNull(),          // open/applied/confirmed/filled/closed
+  note: text("note"),                        // (任意) この枠への注釈
+  filledAt: timestamp("filled_at"),
+});
 ```
 
-### 6.3 テンプレ生成
+**status 遷移**:
+```
+open ──応募来た──> applied ──leader 承認──> confirmed ──Discord招待+role付与──> filled
+  ↑                  │                          │
+  └──leader 拒否─────┘                          └──取消───> open
+```
 
-入力フォームから 3 形式を自動生成:
+- `open` = 募集中、誰でも応募可能
+- `applied` = 応募者がいる、leader 選考中
+- `confirmed` = leader 承認済み、Discord 招待待ち
+- `filled` = Discord にも追加完了、role 付与済 (bot 側にも反映)
+- `closed` = 募集しない (7人固定など)
+
+### 6.3 テンプレ生成 (open スロットだけ列挙)
+
+入力フォームから 3 形式を自動生成。**status=open/applied のスロットだけ募集枠として記載**:
 
 **Lodestone BBCode**:
 ```
 [h]【絶エデン】{{name}}固定 募集[/h]
 ■目標: {{goal}}
 ■活動: {{pace}}
-■募集枠: {{recruitingRoles}}
+■現在の構成: {{filledCount}}/{{totalSlots}}人 (確定: {{filledRolesShort}})
+■募集枠: {{openSlotsList}}    ← H2 (WHM/AST), D2 (SAM/RPR), D4 (SMN/RDM)
 ■応募条件: {{requirements}}
 ■連絡: {{contactUrl}}
 ```
@@ -294,15 +388,17 @@ DM/応募 → {{contactUrl}}
 ```
 
 **応募 flow**:
-1. 訪問者が「応募」ボタンクリック
+1. 訪問者が「応募」ボタンクリック (open スロットだけクリック可能、filled スロットは「埋まりました」グレーアウト)
 2. Discord OAuth (まだログインしてなければ)
 3. 応募フォーム:
-   - 希望ジョブ
+   - 応募スロット (open のものから選択)
+   - 希望ジョブ (そのスロットの jobs[] から)
    - 経験 (テキスト)
    - 自己 PR
    - ボイチャ可否
-4. submit → 応募データを `applications` テーブルに保存
-5. leader に Discord DM 通知 (bot 経由)
+4. submit → 該当スロットの status が `open` → `applied` に
+   - 1 スロットに複数応募が来ることも (leader が選考)
+5. leader に Discord DM 通知 (bot 経由) — 「H2 スロットに新規応募」
 
 ### 7.2 leader 側管理
 
@@ -383,33 +479,57 @@ statics = sqliteTable("statics", {
   createdAt: integer().notNull(),
 });
 
+// 8 つのスロット (MT/ST/H1/H2/D1-D4) を per-static で持つ
+// 計画書とは別管理 — 計画書なしの hybrid 固定でも slot 概念を使う
+staticSlots = sqliteTable("static_slots", {
+  staticId: text().notNull(),
+  role: text().notNull(),             // MT/ST/H1/H2/D1/D2/D3/D4
+  jobs: text(),                       // JSON: ["PLD","WAR"] (募集時のみ)
+  assigneeUserId: text(),             // Discord user ID (filled の時)
+  status: text().notNull(),           // open / applied / confirmed / filled / closed
+  job: text(),                        // 確定時のジョブ
+  filledAt: integer(),
+}, (t) => ({ pk: primaryKey({ columns: [t.staticId, t.role] }) }));
+
+// 過去メンバー履歴用 (一般メンバー追跡)
 staticMembers = sqliteTable("static_members", {
   staticId: text().notNull(),
   userId: text().notNull(),
-  gameRole: text(),                   // MT/ST/H1/H2/D1-D4
-  job: text(),                        // PLD/WAR/...
+  gameRole: text(),
+  job: text(),
   joinedAt: integer().notNull(),
+  leftAt: integer(),                  // 退会時刻 (nullなら現役)
 }, (t) => ({ pk: primaryKey({ columns: [t.staticId, t.userId] }) }));
 
-// Phase B (Web app)
+// Phase B (Web app, Postgres 想定)
 plans = sqliteTable("plans", {
   id: text().primaryKey(),
   leaderId: text().notNull(),
-  status: text().notNull(),           // draft/recruiting/closed/running/archived
+  status: text().notNull(),           // draft/recruiting/running/closed/archived
   contentId: text().notNull(),
   strategyId: text(),
   name: text().notNull(),
   description: text(),
   pace: text(),
-  startDate: text(),                  // ISO date
+  startDate: text(),
   endDate: text(),
-  requirements: text(),               // JSON string
-  recruitingRoles: text().notNull(),  // JSON: [{role, jobs[], filled}]
+  requirements: text(),               // JSON
   contactMethod: text(),
   contactUrl: text(),
   createdAt: integer().notNull(),
   updatedAt: integer().notNull(),
 });
+
+// Phase B (plan_slots) — staticSlots と構造同じだが「計画段階」のスロット
+// /static-init で plan_id 指定すると plan_slots を static_slots にコピー
+planSlots = sqliteTable("plan_slots", {
+  planId: text().notNull(),
+  role: text().notNull(),
+  jobs: text(),                       // JSON
+  assigneeUserId: text(),
+  status: text().notNull(),
+  note: text(),
+}, (t) => ({ pk: primaryKey({ columns: [t.planId, t.role] }) }));
 
 // Phase C
 applications = sqliteTable("applications", {
