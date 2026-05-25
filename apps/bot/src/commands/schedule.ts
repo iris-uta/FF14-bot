@@ -12,6 +12,7 @@ import { schedules } from "@ff14kotei/db";
 import { getDb } from "../lib/db";
 import { parseJstDateTime, formatDiscordTime } from "../services/datetime";
 import { respondContentOrPhase } from "../services/autocomplete";
+import { findStaticForChannel } from "../services/static-manager";
 
 export const data = new SlashCommandBuilder()
   .setName("schedule")
@@ -100,10 +101,10 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
     return;
   }
 
-  const contentId = interaction.options.getString("content");
+  let contentId = interaction.options.getString("content");
   const phaseId = interaction.options.getString("phase");
   const notifyMinutesBefore = interaction.options.getInteger("notify_minutes_before") ?? 10;
-  const mention = interaction.options.getString("mention");
+  let mention = interaction.options.getString("mention");
   const note = interaction.options.getString("note");
   const chouseisanUrl = interaction.options.getString("chouseisan_url");
 
@@ -113,6 +114,29 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
       flags: MessageFlags.Ephemeral,
     });
     return;
+  }
+
+  // Auto-detect static from the channel where the command was invoked
+  // (NOT the target `channel` option — we want the *current* context to anchor the static).
+  const invokedChannel = interaction.channel;
+  const invokedParentId =
+    invokedChannel && "parentId" in invokedChannel ? invokedChannel.parentId : null;
+  const owningStatic = invokedChannel
+    ? findStaticForChannel(interaction.guildId, invokedChannel.id, invokedParentId)
+    : null;
+
+  let autoDetectedNotes: string[] = [];
+  if (owningStatic) {
+    // Auto-fill content from static (if not explicitly set)
+    if (!contentId) {
+      contentId = owningStatic.contentId;
+      autoDetectedNotes.push(`コンテンツ: ${contentId} (固定 channel から)`);
+    }
+    // Auto-fill mention with static role (if not explicitly set)
+    if (!mention) {
+      mention = `<@&${owningStatic.roleId}>`;
+      autoDetectedNotes.push(`メンション: 固定 role (${owningStatic.name})`);
+    }
   }
 
   const id = randomUUID();
@@ -129,6 +153,7 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
       mention,
       note,
       chouseisanUrl,
+      staticId: owningStatic?.id ?? null,
       createdAt: now,
       createdBy: interaction.user.id,
     })
@@ -155,6 +180,11 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
       name: isChouseisanUrl(chouseisanUrl) ? "調整さん" : "日程調整",
       value: chouseisanUrl,
       inline: false,
+    });
+  }
+  if (autoDetectedNotes.length > 0) {
+    embed.setFooter({
+      text: `🪄 自動検出: ${autoDetectedNotes.join(" / ")}`,
     });
   }
 
