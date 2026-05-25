@@ -50,6 +50,7 @@ const BASE = {
   mention: null,
   note: null,
   chouseisanUrl: null,
+  staticId: null,
   createdAt: NOW,
   createdBy: "u",
 };

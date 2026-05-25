@@ -15,6 +15,13 @@
       "when": 1779702187360,
       "tag": "0001_lying_caretaker",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1779704575742,
+      "tag": "0002_vengeful_purifiers",
+      "breakpoints": true
     }
   ]
 }
