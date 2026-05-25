@@ -10,8 +10,8 @@ import {
 import { randomUUID } from "node:crypto";
 import { schedules } from "@ff14kotei/db";
 import { getDb } from "../lib/db";
-import { getAllContents, getContentById } from "../lib/contents";
 import { parseJstDateTime, formatDiscordTime } from "../services/datetime";
+import { respondContentOrPhase } from "../services/autocomplete";
 
 export const data = new SlashCommandBuilder()
   .setName("schedule")
@@ -60,39 +60,7 @@ export const data = new SlashCommandBuilder()
   );
 
 export async function autocomplete(interaction: AutocompleteInteraction): Promise<void> {
-  const focused = interaction.options.getFocused(true);
-  const lower = focused.value.toLowerCase();
-
-  if (focused.name === "content") {
-    const matches = getAllContents()
-      .filter(
-        (c) =>
-          c.id.toLowerCase().includes(lower) ||
-          c.displayName.toLowerCase().includes(lower) ||
-          c.shortName.toLowerCase().includes(lower)
-      )
-      .slice(0, 25)
-      .map((c) => ({ name: `${c.displayName} (${c.shortName})`, value: c.id }));
-    await interaction.respond(matches);
-    return;
-  }
-
-  if (focused.name === "phase") {
-    const contentId = interaction.options.getString("content");
-    const content = contentId ? getContentById(contentId) : null;
-    if (!content) {
-      await interaction.respond([]);
-      return;
-    }
-    await interaction.respond(
-      content.phases
-        .filter(
-          (p) => p.id.toLowerCase().includes(lower) || p.name.toLowerCase().includes(lower)
-        )
-        .slice(0, 25)
-        .map((p) => ({ name: `${p.id} — ${p.name}`, value: p.id }))
-    );
-  }
+  await respondContentOrPhase(interaction);
 }
 
 export async function execute(interaction: ChatInputCommandInteraction): Promise<void> {

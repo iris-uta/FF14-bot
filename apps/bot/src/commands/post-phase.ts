@@ -5,8 +5,9 @@ import {
   type ChatInputCommandInteraction,
   type AutocompleteInteraction,
 } from "discord.js";
-import { getAllContents, getContentById } from "../lib/contents";
+import { getContentById } from "../lib/contents";
 import { findPhase, getMacrosForPhase, splitMacroForDiscord } from "../services/phase-content";
+import { respondContentOrPhase } from "../services/autocomplete";
 
 export const data = new SlashCommandBuilder()
   .setName("post-phase")
@@ -27,39 +28,7 @@ export const data = new SlashCommandBuilder()
   );
 
 export async function autocomplete(interaction: AutocompleteInteraction): Promise<void> {
-  const focused = interaction.options.getFocused(true);
-  const lower = focused.value.toLowerCase();
-
-  if (focused.name === "content") {
-    const matches = getAllContents()
-      .filter(
-        (c) =>
-          c.id.toLowerCase().includes(lower) ||
-          c.displayName.toLowerCase().includes(lower) ||
-          c.shortName.toLowerCase().includes(lower)
-      )
-      .slice(0, 25)
-      .map((c) => ({ name: `${c.displayName} (${c.shortName})`, value: c.id }));
-    await interaction.respond(matches);
-    return;
-  }
-
-  if (focused.name === "phase") {
-    const contentId = interaction.options.getString("content");
-    const content = contentId ? getContentById(contentId) : null;
-    if (!content) {
-      await interaction.respond([]);
-      return;
-    }
-    const matches = content.phases
-      .filter(
-        (p) =>
-          p.id.toLowerCase().includes(lower) || p.name.toLowerCase().includes(lower)
-      )
-      .slice(0, 25)
-      .map((p) => ({ name: `${p.id} — ${p.name}`, value: p.id }));
-    await interaction.respond(matches);
-  }
+  await respondContentOrPhase(interaction);
 }
 
 export async function execute(interaction: ChatInputCommandInteraction): Promise<void> {
