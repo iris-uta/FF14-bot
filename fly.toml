@@ -1,0 +1,43 @@
+# Fly.io configuration for ff14-kotei-bot
+# Run `fly launch --no-deploy` once to initialize, then `fly deploy` to ship.
+#
+# Required secrets (set via `fly secrets set KEY=value`):
+#   DISCORD_TOKEN       — bot token from Discord Developer Portal
+#   DISCORD_CLIENT_ID   — application ID
+#   DISCORD_GUILD_ID    — (optional) test guild for guild-scope commands
+#                         omit to register globally
+
+app = "ff14-kotei-bot"
+primary_region = "nrt"  # Tokyo
+
+[build]
+  dockerfile = "Dockerfile"
+
+# Re-register slash commands on every deploy.
+# This is a one-shot task that runs before the bot starts.
+[deploy]
+  release_command = "pnpm --filter @ff14kotei/bot register-commands"
+
+# Persistent SQLite storage. Auto-created on first deploy.
+[[mounts]]
+  source = "ff14_kotei_data"
+  destination = "/data"
+  initial_size = "1gb"
+
+[env]
+  NODE_ENV = "production"
+  DATABASE_URL = "/data/ff14kotei.db"
+
+# Discord bot needs constant WebSocket connection to Gateway.
+# Don't auto-stop, even when idle.
+[[services]]
+  protocol = ""
+  internal_port = 0
+  auto_stop_machines = false
+  auto_start_machines = false
+  min_machines_running = 1
+
+[[vm]]
+  cpu_kind = "shared"
+  cpus = 1
+  memory_mb = 256
