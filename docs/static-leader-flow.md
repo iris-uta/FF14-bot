@@ -243,6 +243,8 @@ FF14 で固定パーティを **立ち上げて運用する固定主** が最大
 
 新規ファイル想定 (apps/bot):
 - `src/commands/static-init.ts` (+ test)
+- `src/commands/static-fill.ts`
+- `src/commands/static-slot.ts`
 - `src/commands/static-add.ts`
 - `src/commands/static-remove.ts`
 - `src/commands/static-info.ts`
@@ -252,6 +254,102 @@ FF14 で固定パーティを **立ち上げて運用する固定主** が最大
 
 DB:
 - `statics` テーブル
+- `static_slots` テーブル
+- `static_members` テーブル
+
+---
+
+## 5+. Phase A+: bot 内 募集文ビルダー (Web app 不要派向け)
+
+「web を使うほどでもないが、毎回イチからテンプレ書くのは嫌」という需要に Discord 内完結で応える。
+
+### A+.1 `/recruit-builder content:fru`
+
+Modal + ボタン UI による カスタム募集文作成。**「鯖立て → /static-init → /recruit-builder → コピー or 投稿」で完結**。
+
+**起動フロー**:
+```
+/recruit-builder content:fru
+  ↓
+Bot が Modal (5 input) を開く:
+  - 目標 (Short, 例: "クリア", "P3 練習")
+  - 活動ペース (Short, 例: "週2回 土日21時")
+  - 募集枠 (Short, 例: "H2 WHM/AST, D2 SAM")
+  - 応募条件 (Paragraph, 例: "ボイチャ必須\n絶経験者歓迎")
+  - 自由メッセージ (Paragraph, 任意)
+  ↓
+Modal submit → DB に下書き保存 (recruit_drafts table)
+  ↓
+Bot が ephemeral でプレビュー Embed + ボタン 5 個:
+  [📋 BBCode コピー] [🐦 Twitter版]
+  [📤 この channel に投稿] [✏️ 編集] [🗑 キャンセル]
+  ↓
+ユーザー操作:
+  - 編集 → 同 Modal 再表示 (前回値プリフィル)
+  - コピー → ephemeral で text 出力 (Discord 仕様上「コピー」ボタン
+    そのものは bot 経由不可、テキストブロックで表示し手動コピー)
+  - 投稿 → 通常メッセージとして channel に送信、下書き削除
+  - キャンセル → 下書き削除
+```
+
+### A+.2 既存 `/recruit-template` との関係
+
+| | /recruit-template | /recruit-builder (A+) |
+|---|---|---|
+| 入力 | slash command の option (8個まで) | Modal (5 input、Paragraph 可) |
+| 編集 | コマンド再実行 (オプション全入力やり直し) | ボタン [編集] で前回値プリフィル |
+| プレビュー | reply に code block で出力 | ephemeral embed |
+| 投稿 | ユーザーが手動コピペ | ボタン1つで現 channel 投稿可 |
+| 下書き保存 | なし | DB に保持 (1 user × 1 guild = 1 下書き) |
+
+→ `/recruit-template` は「コマンド一発生成」向き、`/recruit-builder` は「ちゃんと作り込む」向き。**両方残す**。
+
+### A+.3 DB 追加
+
+```ts
+recruitDrafts = sqliteTable("recruit_drafts", {
+  guildId: text().notNull(),
+  userId: text().notNull(),
+  contentId: text(),
+  goal: text(),
+  pace: text(),
+  recruitingRoles: text(),
+  requirements: text(),
+  freeMessage: text(),
+  updatedAt: integer().notNull(),
+}, (t) => ({ pk: primaryKey({ columns: [t.guildId, t.userId] }) }));
+```
+
+1 ユーザー × 1 guild = 1 下書き (シンプル、複数下書き欲しいなら Web app へ誘導)。
+
+### A+.4 Discord の機能制限と対処
+
+| 制限 | 対処 |
+|---|---|
+| Modal は 1 ダイアログ = 最大 5 input | 必須項目を 5 つに絞る、他は自由メッセージ欄に |
+| Modal Text Input = 最大 4000 chars | 募集文には十分 |
+| Slash command の reply は通常メッセージ or ephemeral | プレビューは ephemeral、投稿時は通常メッセージ |
+| ボタンの interaction.update() | プレビュー → 編集 → 再プレビューの遷移可 |
+
+### A+.5 実装範囲
+
+新規ファイル:
+- `apps/bot/src/commands/recruit-builder.ts`
+- `apps/bot/src/services/recruit-builder.ts` (下書き CRUD、テンプレ生成 — Phase B のテンプレ生成ロジックを共通化)
+- `apps/bot/src/events/modal-submit.ts` (Modal handler)
+- `apps/bot/src/events/button-interaction.ts` (Button handler)
+- DB: `recruit_drafts` table
+
+工数概算: **1-2 PR / 4-6 時間** (Modal/Button UI が初導入なら少し増)
+
+### A+.6 Phase B との連携
+
+A+ で作った下書きは Web app の計画書 (Phase B) に **エクスポート可能** にする:
+- ephemeral embed に「💾 Web app に保存」ボタン追加
+- クリック → Web app 計画書として新規作成 (Discord OAuth 必須)
+- そのまま Phase B/C/D のフルフローに繋がる
+
+これで「最初は bot で軽く → 本格運用したくなったら Web app」のスムーズな移行が可能。
 - `static_members` テーブル
 - `schedules.staticId` カラム追加
 
@@ -520,6 +618,19 @@ plans = sqliteTable("plans", {
   updatedAt: integer().notNull(),
 });
 
+// Phase A+ — bot 内 募集文ビルダーの下書き保持 (1 user × 1 guild = 1)
+recruitDrafts = sqliteTable("recruit_drafts", {
+  guildId: text().notNull(),
+  userId: text().notNull(),
+  contentId: text(),
+  goal: text(),
+  pace: text(),
+  recruitingRoles: text(),
+  requirements: text(),
+  freeMessage: text(),
+  updatedAt: integer().notNull(),
+}, (t) => ({ pk: primaryKey({ columns: [t.guildId, t.userId] }) }));
+
 // Phase B (plan_slots) — staticSlots と構造同じだが「計画段階」のスロット
 // /static-init で plan_id 指定すると plan_slots を static_slots にコピー
 planSlots = sqliteTable("plan_slots", {
@@ -577,16 +688,22 @@ ALTER TABLE schedules ADD COLUMN static_id TEXT;
 
 ## 11. 実装順 (推奨)
 
-### Phase A 単独で「最小プロダクト」: 1-2 週間
+### Phase A 単独で「最小プロダクト (鯖立て + 運用)」: 1-2 週間
 - 既存サーバー固定の体験を改善
-- /static-init, /static-add, /static-info, /static-mention, /static-pause, /static-resume
-- DB: statics + static_members
-- これだけでも「友人で固定する人」は十分
+- /static-init (3 モード), /static-fill, /static-slot, /static-add, /static-remove,
+  /static-info, /static-mention, /static-pause, /static-resume
+- DB: statics + static_slots + static_members
+- これだけでも「身内 + 数枠募集する人」は十分
 
-### Phase B 追加で「野良募集対応」: +1 週間
+### Phase A+ 追加で「鯖内 募集文ビルダー」: +0.5 週間
+- /recruit-builder (Modal + Button UI、ephemeral プレビュー + 投稿/コピー)
+- DB: recruit_drafts
+- これで Discord 内完結派 (Web app 不要派) を取り込む
+
+### Phase B 追加で「Web 計画書 (詳細編集 + 履歴)」: +1 週間
 - 計画書フォーム + テンプレ生成
-- DB: plans
-- ここまでで Lodestone 募集が劇的に楽になる
+- DB: plans + plan_slots
+- Lodestone 募集が劇的に楽、複数固定持つ人にも対応
 
 ### Phase C 追加で「応募管理対応」: +1 週間
 - 公開ページ + 応募フォーム + 管理 UI
