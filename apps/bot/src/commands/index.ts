@@ -7,6 +7,7 @@ import type {
 } from "discord.js";
 import * as contentCommand from "./content";
 import * as setupStaticCommand from "./setup-static";
+import * as postPhaseCommand from "./post-phase";
 
 export interface Command {
   data:
@@ -20,6 +21,7 @@ export interface Command {
 export const commands: Record<string, Command> = {
   [contentCommand.data.name]: contentCommand,
   [setupStaticCommand.data.name]: setupStaticCommand,
+  [postPhaseCommand.data.name]: postPhaseCommand,
 };
 
 export function getCommand(name: string): Command | undefined {
