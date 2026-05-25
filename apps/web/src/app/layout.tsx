@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { AuthNav } from "@/components/AuthNav";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -13,27 +14,35 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="ja">
       <body className="min-h-screen flex flex-col">
         <header className="border-b border-black/10 dark:border-white/10">
-          <nav className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
-            <Link href="/" className="font-semibold text-lg">
+          <nav className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between gap-4">
+            <Link href="/" className="font-semibold text-lg shrink-0">
               FF14 固定支援 Bot
             </Link>
-            <ul className="flex gap-6 text-sm">
-              <li>
-                <Link href="/" className="hover:underline">
-                  ホーム
-                </Link>
-              </li>
-              <li>
-                <Link href="/privacy" className="hover:underline">
-                  プライバシー
-                </Link>
-              </li>
-              <li>
-                <Link href="/terms" className="hover:underline">
-                  利用規約
-                </Link>
-              </li>
-            </ul>
+            <div className="flex items-center gap-6">
+              <ul className="hidden sm:flex gap-6 text-sm">
+                <li>
+                  <Link href="/" className="hover:underline">
+                    ホーム
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/dashboard" className="hover:underline">
+                    ダッシュボード
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/privacy" className="hover:underline">
+                    プライバシー
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/terms" className="hover:underline">
+                    利用規約
+                  </Link>
+                </li>
+              </ul>
+              <AuthNav />
+            </div>
           </nav>
         </header>
         <main className="flex-1 max-w-5xl mx-auto px-6 py-10 w-full">{children}</main>
