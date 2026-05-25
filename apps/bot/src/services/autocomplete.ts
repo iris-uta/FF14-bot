@@ -1,6 +1,7 @@
 import type { AutocompleteInteraction } from "discord.js";
-import { getAllContents, getContentById } from "../lib/contents";
+import { getAllContents } from "../lib/contents";
 import { sortByPatch } from "../lib/content-sort";
+import { resolveContent } from "./resolve-content";
 
 /**
  * Shared autocomplete for content-then-phase command patterns
@@ -41,19 +42,22 @@ export async function respondContentOrPhase(
   }
 
   if (focused.name === "phase") {
-    const contentId = interaction.options.getString("content");
-    const content = contentId ? getContentById(contentId) : null;
-    if (!content) {
+    // First try explicit content. Fall back to auto-detection from the channel's static.
+    const resolved = resolveContent(interaction);
+    if (!resolved) {
       await interaction.respond([]);
       return;
     }
     await interaction.respond(
-      content.phases
+      resolved.content.phases
         .filter(
           (p) => p.id.toLowerCase().includes(lower) || p.name.toLowerCase().includes(lower)
         )
         .slice(0, 25)
-        .map((p) => ({ name: `${p.id} — ${p.name}`, value: p.id }))
+        .map((p) => ({
+          name: `${p.id} — ${p.name}${resolved.autoDetected ? " *" : ""}`,
+          value: p.id,
+        }))
     );
     return;
   }

@@ -29,12 +29,14 @@ function makeInteraction(opts: { contentId: string | null; phaseId: string | nul
 }
 
 describe("/macro command", () => {
-  it("has correct name and required options with autocomplete", () => {
+  it("has correct name and option shape (content optional for auto-detect, phase required)", () => {
     expect(data.name).toBe("macro");
     const json = data.toJSON();
     const content = json.options?.find((o: { name: string }) => o.name === "content");
     const phase = json.options?.find((o: { name: string }) => o.name === "phase");
-    expect(content).toMatchObject({ required: true, autocomplete: true });
+    expect(content).toMatchObject({ autocomplete: true });
+    // content is optional so it can be auto-detected from static channel
+    expect(content?.required).toBeFalsy();
     expect(phase).toMatchObject({ required: true, autocomplete: true });
   });
 

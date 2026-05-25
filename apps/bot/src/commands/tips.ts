@@ -5,27 +5,26 @@ import {
   type ChatInputCommandInteraction,
   type AutocompleteInteraction,
 } from "discord.js";
-import { getContentById } from "../lib/contents";
 import { findPhase } from "../services/phase-content";
 import { respondContentOrPhase } from "../services/autocomplete";
-import { configureContentTypeOption, checkTypeMatch } from "../lib/content-type-choices";
+import { configureContentTypeOption } from "../lib/content-type-choices";
+import { resolveContentOrError } from "../services/resolve-content";
 
 export const data = new SlashCommandBuilder()
   .setName("tips")
-  .setDescription("Phase の攻略 Tips を表示 (自分にだけ表示)")
-  .addStringOption((opt) => configureContentTypeOption(opt))
-  .addStringOption((opt) =>
-    opt
-      .setName("content")
-      .setDescription("コンテンツID (type で絞り込まれた一覧)")
-      .setRequired(true)
-      .setAutocomplete(true)
-  )
+  .setDescription("Phase の攻略 Tips を表示 (固定 channel なら content 自動検出)")
   .addStringOption((opt) =>
     opt
       .setName("phase")
       .setDescription("Phase ID (例: p1, p3)")
       .setRequired(true)
+      .setAutocomplete(true)
+  )
+  .addStringOption((opt) => configureContentTypeOption(opt, { required: false }))
+  .addStringOption((opt) =>
+    opt
+      .setName("content")
+      .setDescription("コンテンツID (省略時は固定 channel から自動検出)")
       .setAutocomplete(true)
   );
 
@@ -34,24 +33,13 @@ export async function autocomplete(interaction: AutocompleteInteraction): Promis
 }
 
 export async function execute(interaction: ChatInputCommandInteraction): Promise<void> {
-  const typeFilter = interaction.options.getString("type", true);
-  const contentId = interaction.options.getString("content", true);
+  const resolved = resolveContentOrError(interaction);
+  if (!resolved.ok) {
+    await interaction.reply({ content: resolved.message, flags: MessageFlags.Ephemeral });
+    return;
+  }
+  const { content, autoDetected } = resolved;
   const phaseId = interaction.options.getString("phase", true);
-
-  const content = getContentById(contentId);
-  if (!content) {
-    await interaction.reply({
-      content: `コンテンツが見つかりません: \`${contentId}\``,
-      flags: MessageFlags.Ephemeral,
-    });
-    return;
-  }
-
-  const mismatchMsg = checkTypeMatch(content.type, typeFilter, contentId);
-  if (mismatchMsg) {
-    await interaction.reply({ content: mismatchMsg, flags: MessageFlags.Ephemeral });
-    return;
-  }
 
   const lookup = findPhase(content, phaseId);
   if (!lookup) {
@@ -75,7 +63,9 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
     .setTitle(`💡 ${phase.name} — Tips`)
     .setDescription(phase.tips.map((t, i) => `${i + 1}. ${t}`).join("\n").slice(0, 4096))
     .setColor(0xf0c14b)
-    .setFooter({ text: content.displayName });
+    .setFooter({
+      text: `${content.displayName}${autoDetected ? " — 固定 channel から自動検出" : ""}`,
+    });
 
   await interaction.reply({ embeds: [embed], flags: MessageFlags.Ephemeral });
 }

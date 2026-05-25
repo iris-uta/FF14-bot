@@ -37,11 +37,12 @@ describe("/post-phase command", () => {
     expect(data.name).toBe("post-phase");
   });
 
-  it("has required content and phase options, both with autocomplete", () => {
+  it("has phase required (autocomplete) + content optional (auto-detect from static channel)", () => {
     const json = data.toJSON();
     const content = json.options?.find((o: { name: string }) => o.name === "content");
     const phase = json.options?.find((o: { name: string }) => o.name === "phase");
-    expect(content).toMatchObject({ required: true, autocomplete: true });
+    expect(content).toMatchObject({ autocomplete: true });
+    expect(content?.required).toBeFalsy();
     expect(phase).toMatchObject({ required: true, autocomplete: true });
   });
 
