@@ -1,0 +1,48 @@
+# コンテンツテンプレート
+# ファイル名は <id>.yaml （例: fru.yaml）
+# 先頭が _ のファイルはloaderから無視される
+
+id: example-id              # 半角英数 + ハイフン
+displayName: 例コンテンツ
+shortName: EX
+type: ultimate              # ultimate | savage | extreme | unreal | variant | criterion | alliance | other
+patch: "7.X"
+
+phases:
+  - id: p1
+    name: P1 例
+    order: 1
+    description: |
+      Phase概要
+    videos:
+      - title: 攻略動画 by ◯◯
+        url: https://www.youtube.com/watch?v=...
+        author: ◯◯
+    mitigation:
+      name: 標準軽減表
+      url: https://docs.google.com/spreadsheets/...
+      copyable: true
+    strategies: []           # 処理方が複数あるphaseのみ記載
+    tips:
+      - 開幕は◯◯に注意
+      - 散開位置は△△
+
+macros:
+  - source: りりーどーる
+    url: https://...
+    text: |
+      /macroicon ...
+
+recruitmentTemplates:
+  - source: ◯◯さんのnote
+    template: |
+      【FF14固定募集】
+      コンテンツ: {{contentName}}
+      日程: {{schedule}}
+      進行度: {{progress}}
+    variables: [contentName, schedule, progress]
+
+references:
+  primary: りりーどーる
+  urls:
+    - https://...
