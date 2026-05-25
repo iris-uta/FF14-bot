@@ -12,9 +12,11 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@ff14kotei/db": "workspace:*",
     "@ff14kotei/schema": "workspace:*",
     "discord.js": "^14.16.3",
-    "dotenv": "^16.4.7"
+    "dotenv": "^16.4.7",
+    "drizzle-orm": "^0.36.4"
   },
   "devDependencies": {
     "@types/node": "^22.10.1",

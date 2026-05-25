@@ -10,6 +10,9 @@ import * as setupStaticCommand from "./setup-static";
 import * as postPhaseCommand from "./post-phase";
 import * as recruitTemplateCommand from "./recruit-template";
 import * as helpCommand from "./help";
+import * as scheduleCommand from "./schedule";
+import * as schedulesCommand from "./schedules";
+import * as unscheduleCommand from "./unschedule";
 
 export interface Command {
   data:
@@ -26,6 +29,9 @@ export const commands: Record<string, Command> = {
   [postPhaseCommand.data.name]: postPhaseCommand,
   [recruitTemplateCommand.data.name]: recruitTemplateCommand,
   [helpCommand.data.name]: helpCommand,
+  [scheduleCommand.data.name]: scheduleCommand,
+  [schedulesCommand.data.name]: schedulesCommand,
+  [unscheduleCommand.data.name]: unscheduleCommand,
 };
 
 export function getCommand(name: string): Command | undefined {

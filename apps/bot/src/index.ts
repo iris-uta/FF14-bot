@@ -8,6 +8,8 @@ import {
 } from "discord.js";
 import { getCommand } from "./commands";
 import { getAllContents } from "./lib/contents";
+import { getDb } from "./lib/db";
+import { startAlertWorker, stopAlertWorker } from "./services/alert-worker";
 
 const token = process.env.DISCORD_TOKEN;
 if (!token) {
@@ -18,13 +20,26 @@ if (!token) {
 const contents = getAllContents();
 console.log(`Loaded ${contents.length} content(s): ${contents.map((c) => c.id).join(", ")}`);
 
+getDb();
+console.log("DB initialized (migrations applied)");
+
 const client = new Client({
   intents: [GatewayIntentBits.Guilds],
 });
 
 client.once(Events.ClientReady, (c) => {
   console.log(`Logged in as ${c.user.tag}`);
+  startAlertWorker(client);
+  console.log("Alert worker started (30s tick)");
 });
+
+for (const sig of ["SIGINT", "SIGTERM"] as const) {
+  process.on(sig, () => {
+    console.log(`Received ${sig}, shutting down`);
+    stopAlertWorker();
+    void client.destroy().finally(() => process.exit(0));
+  });
+}
 
 client.on(Events.InteractionCreate, async (interaction) => {
   if (interaction.isChatInputCommand()) {
