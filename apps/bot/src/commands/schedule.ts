@@ -51,6 +51,12 @@ export const data = new SlashCommandBuilder()
   )
   .addStringOption((opt) =>
     opt.setName("note").setDescription("自由文 (例: P3練習)").setMaxLength(500)
+  )
+  .addStringOption((opt) =>
+    opt
+      .setName("chouseisan_url")
+      .setDescription("調整さん等のURL (任意)。通知時に添付される。")
+      .setMaxLength(500)
   );
 
 export async function autocomplete(interaction: AutocompleteInteraction): Promise<void> {
@@ -131,6 +137,15 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
   const notifyMinutesBefore = interaction.options.getInteger("notify_minutes_before") ?? 10;
   const mention = interaction.options.getString("mention");
   const note = interaction.options.getString("note");
+  const chouseisanUrl = interaction.options.getString("chouseisan_url");
+
+  if (chouseisanUrl && !isHttpsUrl(chouseisanUrl)) {
+    await interaction.reply({
+      content: `chouseisan_url は \`https://\` で始まる URL を指定してください。`,
+      flags: MessageFlags.Ephemeral,
+    });
+    return;
+  }
 
   const id = randomUUID();
   const db = getDb();
@@ -145,6 +160,7 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
       notifyMinutesBefore,
       mention,
       note,
+      chouseisanUrl,
       createdAt: now,
       createdBy: interaction.user.id,
     })
@@ -166,6 +182,29 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
   if (phaseId) embed.addFields({ name: "Phase", value: phaseId, inline: true });
   if (note) embed.addFields({ name: "メモ", value: note, inline: false });
   if (mention) embed.addFields({ name: "メンション", value: mention, inline: false });
+  if (chouseisanUrl) {
+    embed.addFields({
+      name: isChouseisanUrl(chouseisanUrl) ? "調整さん" : "日程調整",
+      value: chouseisanUrl,
+      inline: false,
+    });
+  }
 
   await interaction.reply({ embeds: [embed] });
+}
+
+function isHttpsUrl(s: string): boolean {
+  try {
+    return new URL(s).protocol === "https:";
+  } catch {
+    return false;
+  }
+}
+
+export function isChouseisanUrl(s: string): boolean {
+  try {
+    return new URL(s).hostname.endsWith("chouseisan.com");
+  } catch {
+    return false;
+  }
 }

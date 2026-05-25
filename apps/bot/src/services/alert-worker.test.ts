@@ -49,6 +49,7 @@ const BASE = {
   notifiedAt: null,
   mention: null,
   note: null,
+  chouseisanUrl: null,
   createdAt: NOW,
   createdBy: "u",
 };
@@ -110,6 +111,12 @@ describe("buildAlertMessage", () => {
 
   it("includes note as quote", () => {
     expect(buildAlertMessage({ ...BASE, note: "P3練習" })).toContain("> P3練習");
+  });
+
+  it("includes chouseisanUrl when set", () => {
+    const msg = buildAlertMessage({ ...BASE, chouseisanUrl: "https://chouseisan.com/s?h=abc" });
+    expect(msg).toContain("📊");
+    expect(msg).toContain("https://chouseisan.com/s?h=abc");
   });
 });
 

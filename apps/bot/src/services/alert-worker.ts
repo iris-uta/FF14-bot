@@ -79,5 +79,6 @@ export function buildAlertMessage(schedule: Schedule): string {
     lines.push(contentLine);
   }
   if (schedule.note) lines.push(`> ${schedule.note}`);
+  if (schedule.chouseisanUrl) lines.push(`📊 日程調整: ${schedule.chouseisanUrl}`);
   return lines.join("\n");
 }

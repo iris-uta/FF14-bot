@@ -15,6 +15,7 @@ export const schedules = sqliteTable("schedules", {
   notifiedAt: integer("notified_at"),
   mention: text("mention"),
   note: text("note"),
+  chouseisanUrl: text("chouseisan_url"),
   createdAt: integer("created_at").notNull(),
   createdBy: text("created_by").notNull(),
 });

@@ -1,0 +1,1 @@
+ALTER TABLE `schedules` ADD `chouseisan_url` text;

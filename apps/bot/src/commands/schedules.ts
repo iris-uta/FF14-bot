@@ -49,6 +49,7 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
       parts.push(`↳ ${[r.contentId, r.phaseId].filter(Boolean).join(" / ")}`);
     }
     if (r.note) parts.push(`↳ ${r.note}`);
+    if (r.chouseisanUrl) parts.push(`↳ 📊 [日程調整](${r.chouseisanUrl})`);
     parts.push(`↳ id: \`${r.id}\``);
     return parts.join("\n");
   });
