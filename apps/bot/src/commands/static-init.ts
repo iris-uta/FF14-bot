@@ -17,8 +17,24 @@ export const data = new SlashCommandBuilder()
   .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels)
   .addStringOption((opt) =>
     opt
+      .setName("type")
+      .setDescription("コンテンツ種別 (これを選んでから content を選ぶと一覧が絞られる)")
+      .setRequired(true)
+      .setChoices(
+        { name: "絶 (Ultimate)", value: "ultimate" },
+        { name: "零式 (Savage)", value: "savage" },
+        { name: "極 (Extreme)", value: "extreme" },
+        { name: "幻想 (Unreal)", value: "unreal" },
+        { name: "異聞 (Variant)", value: "variant" },
+        { name: "詩想 (Criterion)", value: "criterion" },
+        { name: "アライアンス", value: "alliance" },
+        { name: "その他", value: "other" }
+      )
+  )
+  .addStringOption((opt) =>
+    opt
       .setName("content")
-      .setDescription("コンテンツID (例: fru)")
+      .setDescription("コンテンツID (type で絞り込まれた一覧)")
       .setRequired(true)
       .setAutocomplete(true)
   )
@@ -47,15 +63,23 @@ export const data = new SlashCommandBuilder()
   );
 
 export async function autocomplete(interaction: AutocompleteInteraction): Promise<void> {
-  const focused = interaction.options.getFocused().toLowerCase();
+  const focused = interaction.options.getFocused(true);
+  if (focused.name !== "content") {
+    await interaction.respond([]);
+    return;
+  }
+  const typeFilter = interaction.options.getString("type");
+  const lower = focused.value.toLowerCase();
   await interaction.respond(
     getAllContents()
-      .filter(
-        (c) =>
-          c.id.toLowerCase().includes(focused) ||
-          c.displayName.toLowerCase().includes(focused) ||
-          c.shortName.toLowerCase().includes(focused)
-      )
+      .filter((c) => {
+        if (typeFilter && c.type !== typeFilter) return false;
+        return (
+          c.id.toLowerCase().includes(lower) ||
+          c.displayName.toLowerCase().includes(lower) ||
+          c.shortName.toLowerCase().includes(lower)
+        );
+      })
       .slice(0, 25)
       .map((c) => ({ name: `${c.displayName} (${c.shortName})`, value: c.id }))
   );
@@ -70,6 +94,7 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
     return;
   }
 
+  const typeFilter = interaction.options.getString("type", true);
   const contentId = interaction.options.getString("content", true);
   const name = interaction.options.getString("name", true).trim();
   const mode = (interaction.options.getString("mode") ?? "standard") as SetupMode;
@@ -79,6 +104,14 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
   if (!content) {
     await interaction.reply({
       content: `コンテンツが見つかりません: \`${contentId}\``,
+      flags: MessageFlags.Ephemeral,
+    });
+    return;
+  }
+
+  if (content.type !== typeFilter) {
+    await interaction.reply({
+      content: `type と content が一致しません。\n選択した type: \`${typeFilter}\` / content (${contentId}) の type: \`${content.type}\``,
       flags: MessageFlags.Ephemeral,
     });
     return;
