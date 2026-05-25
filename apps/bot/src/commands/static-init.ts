@@ -7,6 +7,7 @@ import {
   type AutocompleteInteraction,
 } from "discord.js";
 import { getAllContents, getContentById } from "../lib/contents";
+import { sortByPatch } from "../lib/content-sort";
 import { findStaticByName, initStatic } from "../services/static-manager";
 import { parseMembers, checkRoleUniqueness, MemberSpecParseError } from "../services/members-parser";
 import { SETUP_MODE_DESCRIPTIONS, type SetupMode } from "../services/static-channel-template";
@@ -70,18 +71,21 @@ export async function autocomplete(interaction: AutocompleteInteraction): Promis
   }
   const typeFilter = interaction.options.getString("type");
   const lower = focused.value.toLowerCase();
+  const matched = getAllContents().filter((c) => {
+    if (typeFilter && c.type !== typeFilter) return false;
+    return (
+      c.id.toLowerCase().includes(lower) ||
+      c.displayName.toLowerCase().includes(lower) ||
+      c.shortName.toLowerCase().includes(lower)
+    );
+  });
   await interaction.respond(
-    getAllContents()
-      .filter((c) => {
-        if (typeFilter && c.type !== typeFilter) return false;
-        return (
-          c.id.toLowerCase().includes(lower) ||
-          c.displayName.toLowerCase().includes(lower) ||
-          c.shortName.toLowerCase().includes(lower)
-        );
-      })
+    sortByPatch(matched)
       .slice(0, 25)
-      .map((c) => ({ name: `${c.displayName} (${c.shortName})`, value: c.id }))
+      .map((c) => ({
+        name: `${c.patch ? `[${c.patch}] ` : ""}${c.displayName} (${c.shortName})`,
+        value: c.id,
+      }))
   );
 }
 

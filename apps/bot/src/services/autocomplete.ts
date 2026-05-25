@@ -1,5 +1,6 @@
 import type { AutocompleteInteraction } from "discord.js";
 import { getAllContents, getContentById } from "../lib/contents";
+import { sortByPatch } from "../lib/content-sort";
 
 /**
  * Shared autocomplete for content-then-phase command patterns
@@ -19,16 +20,20 @@ export async function respondContentOrPhase(
   const lower = focused.value.toLowerCase();
 
   if (focused.name === "content") {
-    const matches = getAllContents()
-      .filter(
-        (c) =>
-          c.id.toLowerCase().includes(lower) ||
-          c.displayName.toLowerCase().includes(lower) ||
-          c.shortName.toLowerCase().includes(lower)
-      )
-      .slice(0, 25)
-      .map((c) => ({ name: `${c.displayName} (${c.shortName})`, value: c.id }));
-    await interaction.respond(matches);
+    const matched = getAllContents().filter(
+      (c) =>
+        c.id.toLowerCase().includes(lower) ||
+        c.displayName.toLowerCase().includes(lower) ||
+        c.shortName.toLowerCase().includes(lower)
+    );
+    await interaction.respond(
+      sortByPatch(matched)
+        .slice(0, 25)
+        .map((c) => ({
+          name: `${c.patch ? `[${c.patch}] ` : ""}${c.displayName} (${c.shortName})`,
+          value: c.id,
+        }))
+    );
     return;
   }
 
