@@ -3,6 +3,7 @@ import {
   MessageFlags,
   ChannelType,
   EmbedBuilder,
+  PermissionFlagsBits,
   type ChatInputCommandInteraction,
   type AutocompleteInteraction,
 } from "discord.js";
@@ -15,6 +16,7 @@ import { parseJstDateTime, formatDiscordTime } from "../services/datetime";
 export const data = new SlashCommandBuilder()
   .setName("schedule")
   .setDescription("固定活動の予定を登録 (開始N分前に通知)")
+  .setDefaultMemberPermissions(PermissionFlagsBits.ManageEvents)
   .addStringOption((opt) =>
     opt
       .setName("when")
