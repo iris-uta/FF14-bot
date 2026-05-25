@@ -8,6 +8,7 @@ import type {
 import * as contentCommand from "./content";
 import * as setupStaticCommand from "./setup-static";
 import * as postPhaseCommand from "./post-phase";
+import * as recruitTemplateCommand from "./recruit-template";
 
 export interface Command {
   data:
@@ -22,6 +23,7 @@ export const commands: Record<string, Command> = {
   [contentCommand.data.name]: contentCommand,
   [setupStaticCommand.data.name]: setupStaticCommand,
   [postPhaseCommand.data.name]: postPhaseCommand,
+  [recruitTemplateCommand.data.name]: recruitTemplateCommand,
 };
 
 export function getCommand(name: string): Command | undefined {
