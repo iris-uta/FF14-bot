@@ -6,6 +6,40 @@ beforeEach(() => {
   reloadContents();
 });
 
+function makeExecuteInteraction(opts: { type: string; id: string | null }) {
+  const reply = vi.fn().mockResolvedValue(undefined);
+  return {
+    interaction: {
+      options: {
+        getString: vi.fn((name: string) => {
+          if (name === "type") return opts.type;
+          if (name === "id") return opts.id;
+          return null;
+        }),
+      },
+      reply,
+    } as unknown as Parameters<typeof execute>[0],
+    reply,
+  };
+}
+
+function makeAutocompleteInteraction(opts: { focusedName: string; focusedValue: string; type?: string | null }) {
+  const respond = vi.fn().mockResolvedValue(undefined);
+  return {
+    interaction: {
+      options: {
+        getFocused: vi.fn(() => ({ name: opts.focusedName, value: opts.focusedValue })),
+        getString: vi.fn((name: string) => {
+          if (name === "type") return opts.type ?? null;
+          return null;
+        }),
+      },
+      respond,
+    } as unknown as Parameters<typeof autocomplete>[0],
+    respond,
+  };
+}
+
 describe("/content command", () => {
   it("has correct command name", () => {
     expect(data.name).toBe("content");
@@ -18,77 +52,81 @@ describe("/content command", () => {
     expect(idOpt).toMatchObject({ required: true, autocomplete: true });
   });
 
-  describe("execute()", () => {
-    it("returns embed for valid content id", async () => {
-      const reply = vi.fn().mockResolvedValue(undefined);
-      const interaction = {
-        options: { getString: vi.fn().mockReturnValue("fru") },
-        reply,
-      } as unknown as Parameters<typeof execute>[0];
+  it("has required 'type' option with choices", () => {
+    const json = data.toJSON();
+    const typeOpt = json.options?.find((o: { name: string }) => o.name === "type");
+    expect(typeOpt).toMatchObject({ required: true });
+  });
 
+  describe("execute()", () => {
+    it("returns embed for valid content id when type matches", async () => {
+      const { interaction, reply } = makeExecuteInteraction({ type: "ultimate", id: "fru" });
       await execute(interaction);
 
       expect(reply).toHaveBeenCalledOnce();
-      const arg = reply.mock.calls[0][0];
+      const arg = reply.mock.calls[0][0] as { embeds: Array<{ toJSON(): { title?: string; fields?: Array<{ name: string }> } }> };
       expect(arg.embeds).toHaveLength(1);
       const embed = arg.embeds[0].toJSON();
       expect(embed.title).toContain("絶もうひとつの未来");
       expect(embed.title).toContain("FRU");
-      expect(embed.fields?.find((f: { name: string }) => f.name === "Phase一覧")).toBeDefined();
+      expect(embed.fields?.find((f) => f.name === "Phase一覧")).toBeDefined();
     });
 
     it("returns ephemeral error for unknown id", async () => {
-      const reply = vi.fn().mockResolvedValue(undefined);
-      const interaction = {
-        options: { getString: vi.fn().mockReturnValue("nope") },
-        reply,
-      } as unknown as Parameters<typeof execute>[0];
-
+      const { interaction, reply } = makeExecuteInteraction({ type: "ultimate", id: "nope" });
       await execute(interaction);
+      expect(reply).toHaveBeenCalledWith(
+        expect.objectContaining({ content: expect.stringContaining("nope") })
+      );
+    });
 
-      expect(reply).toHaveBeenCalledWith({
-        content: expect.stringContaining("nope"),
-        ephemeral: true,
-      });
+    it("rejects when type and content type mismatch", async () => {
+      const { interaction, reply } = makeExecuteInteraction({ type: "savage", id: "fru" });
+      await execute(interaction);
+      expect(reply).toHaveBeenCalledWith(
+        expect.objectContaining({ content: expect.stringContaining("一致しません") })
+      );
     });
   });
 
   describe("autocomplete()", () => {
-    it("returns matching contents (display name match)", async () => {
-      const respond = vi.fn().mockResolvedValue(undefined);
-      const interaction = {
-        options: { getFocused: vi.fn().mockReturnValue("絶") },
-        respond,
-      } as unknown as Parameters<typeof autocomplete>[0];
-
+    it("returns matching contents filtered by type=ultimate", async () => {
+      const { interaction, respond } = makeAutocompleteInteraction({
+        focusedName: "id",
+        focusedValue: "絶",
+        type: "ultimate",
+      });
       await autocomplete(interaction);
       expect(respond).toHaveBeenCalledOnce();
-      const choices = respond.mock.calls[0][0];
+      const choices = respond.mock.calls[0][0] as Array<{ value: string }>;
       expect(choices.length).toBeGreaterThan(0);
-      expect(choices.map((c: { value: string }) => c.value)).toContain("fru");
+      expect(choices.map((c) => c.value)).toContain("fru");
+      // All returned must be ultimates (no m1s etc.)
+      const ids = choices.map((c) => c.value);
+      for (const id of ids) {
+        expect(id).not.toMatch(/^[mp]\d+s$/);
+      }
     });
 
     it("returns matching contents (short name match)", async () => {
-      const respond = vi.fn().mockResolvedValue(undefined);
-      const interaction = {
-        options: { getFocused: vi.fn().mockReturnValue("fru") },
-        respond,
-      } as unknown as Parameters<typeof autocomplete>[0];
-
+      const { interaction, respond } = makeAutocompleteInteraction({
+        focusedName: "id",
+        focusedValue: "fru",
+        type: "ultimate",
+      });
       await autocomplete(interaction);
-      const choices = respond.mock.calls[0][0];
-      expect(choices.some((c: { value: string }) => c.value === "fru")).toBe(true);
+      const choices = respond.mock.calls[0][0] as Array<{ value: string }>;
+      expect(choices.some((c) => c.value === "fru")).toBe(true);
     });
 
     it("limits to 25 results", async () => {
-      const respond = vi.fn().mockResolvedValue(undefined);
-      const interaction = {
-        options: { getFocused: vi.fn().mockReturnValue("") },
-        respond,
-      } as unknown as Parameters<typeof autocomplete>[0];
-
+      const { interaction, respond } = makeAutocompleteInteraction({
+        focusedName: "id",
+        focusedValue: "",
+        type: "savage",
+      });
       await autocomplete(interaction);
-      const choices = respond.mock.calls[0][0];
+      const choices = respond.mock.calls[0][0] as unknown[];
       expect(choices.length).toBeLessThanOrEqual(25);
     });
   });

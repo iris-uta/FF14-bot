@@ -11,14 +11,16 @@ import {
   splitMacroForDiscord,
 } from "../services/phase-content";
 import { respondContentOrPhase } from "../services/autocomplete";
+import { configureContentTypeOption, checkTypeMatch } from "../lib/content-type-choices";
 
 export const data = new SlashCommandBuilder()
   .setName("macro")
   .setDescription("Phase のマクロをコピー用 code block で取得 (自分にだけ表示)")
+  .addStringOption((opt) => configureContentTypeOption(opt))
   .addStringOption((opt) =>
     opt
       .setName("content")
-      .setDescription("コンテンツID")
+      .setDescription("コンテンツID (type で絞り込まれた一覧)")
       .setRequired(true)
       .setAutocomplete(true)
   )
@@ -35,6 +37,7 @@ export async function autocomplete(interaction: AutocompleteInteraction): Promis
 }
 
 export async function execute(interaction: ChatInputCommandInteraction): Promise<void> {
+  const typeFilter = interaction.options.getString("type", true);
   const contentId = interaction.options.getString("content", true);
   const phaseId = interaction.options.getString("phase", true);
 
@@ -44,6 +47,12 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
       content: `コンテンツが見つかりません: \`${contentId}\``,
       flags: MessageFlags.Ephemeral,
     });
+    return;
+  }
+
+  const mismatchMsg = checkTypeMatch(content.type, typeFilter, contentId);
+  if (mismatchMsg) {
+    await interaction.reply({ content: mismatchMsg, flags: MessageFlags.Ephemeral });
     return;
   }
 

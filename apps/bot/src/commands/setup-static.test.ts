@@ -60,6 +60,7 @@ function makeInteraction(
       guild,
       options: {
         getString: vi.fn((n: string, _required?: boolean) => {
+          if (n === "type") return "ultimate";    // tests use "fru" → ultimate
           if (n === "content") return options.contentId;
           if (n === "name") return options.name ?? null;
           return null;
@@ -161,16 +162,19 @@ describe("/setup-static command", () => {
   });
 
   describe("autocomplete()", () => {
-    it("returns matches for partial query", async () => {
+    it("returns matches for partial query (filtered by type=ultimate)", async () => {
       const respond = vi.fn().mockResolvedValue(undefined);
       const interaction = {
-        options: { getFocused: () => "絶" },
+        options: {
+          getFocused: () => ({ name: "content", value: "絶" }),
+          getString: (n: string) => (n === "type" ? "ultimate" : null),
+        },
         respond,
       } as unknown as Parameters<typeof autocomplete>[0];
       await autocomplete(interaction);
-      const choices = respond.mock.calls[0][0];
+      const choices = respond.mock.calls[0][0] as Array<{ value: string }>;
       expect(choices.length).toBeGreaterThan(0);
-      expect(choices.map((c: { value: string }) => c.value)).toContain("fru");
+      expect(choices.map((c) => c.value)).toContain("fru");
     });
   });
 });

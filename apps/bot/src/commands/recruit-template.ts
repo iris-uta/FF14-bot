@@ -5,6 +5,8 @@ import {
   type AutocompleteInteraction,
 } from "discord.js";
 import { getAllContents, getContentById } from "../lib/contents";
+import { sortByPatch } from "../lib/content-sort";
+import { configureContentTypeOption, checkTypeMatch } from "../lib/content-type-choices";
 import {
   findTemplate,
   renderTemplate,
@@ -14,10 +16,11 @@ import {
 export const data = new SlashCommandBuilder()
   .setName("recruit-template")
   .setDescription("コンテンツの募集テンプレを生成")
+  .addStringOption((opt) => configureContentTypeOption(opt))
   .addStringOption((opt) =>
     opt
       .setName("content")
-      .setDescription("コンテンツID")
+      .setDescription("コンテンツID (type で絞り込まれた一覧)")
       .setRequired(true)
       .setAutocomplete(true)
   )
@@ -61,17 +64,24 @@ export async function autocomplete(interaction: AutocompleteInteraction): Promis
     await interaction.respond([]);
     return;
   }
+  const typeFilter = interaction.options.getString("type");
   const lower = focused.value.toLowerCase();
-  const matches = getAllContents()
-    .filter(
-      (c) =>
-        c.id.toLowerCase().includes(lower) ||
-        c.displayName.toLowerCase().includes(lower) ||
-        c.shortName.toLowerCase().includes(lower)
-    )
-    .slice(0, 25)
-    .map((c) => ({ name: `${c.displayName} (${c.shortName})`, value: c.id }));
-  await interaction.respond(matches);
+  const matched = getAllContents().filter((c) => {
+    if (typeFilter && c.type !== typeFilter) return false;
+    return (
+      c.id.toLowerCase().includes(lower) ||
+      c.displayName.toLowerCase().includes(lower) ||
+      c.shortName.toLowerCase().includes(lower)
+    );
+  });
+  await interaction.respond(
+    sortByPatch(matched)
+      .slice(0, 25)
+      .map((c) => ({
+        name: `${c.patch ? `[${c.patch}] ` : ""}${c.displayName} (${c.shortName})`,
+        value: c.id,
+      }))
+  );
 }
 
 const VARIABLE_OPTIONS = [
@@ -85,6 +95,7 @@ const VARIABLE_OPTIONS = [
 ] as const;
 
 export async function execute(interaction: ChatInputCommandInteraction): Promise<void> {
+  const typeFilter = interaction.options.getString("type", true);
   const contentId = interaction.options.getString("content", true);
   const templateIndex = interaction.options.getInteger("template") ?? 0;
 
@@ -94,6 +105,12 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
       content: `コンテンツが見つかりません: \`${contentId}\``,
       flags: MessageFlags.Ephemeral,
     });
+    return;
+  }
+
+  const mismatchMsg = checkTypeMatch(content.type, typeFilter, contentId);
+  if (mismatchMsg) {
+    await interaction.reply({ content: mismatchMsg, flags: MessageFlags.Ephemeral });
     return;
   }
 
