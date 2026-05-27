@@ -29,6 +29,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 </Link>
               </li>
               <li>
+                <Link href="/recruit-tool" className="hover:underline">
+                  募集生成
+                </Link>
+              </li>
+              <li>
                 <Link href="/invite" className="hover:underline">
                   サーバーに追加
                 </Link>
