@@ -19,7 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               FF14 固定支援 Bot
             </Link>
             <div className="flex items-center gap-6">
-              <ul className="hidden sm:flex gap-6 text-sm">
+              <ul className="hidden sm:flex gap-5 text-sm">
                 <li>
                   <Link href="/" className="hover:underline">
                     ホーム
@@ -30,16 +30,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     ダッシュボード
                   </Link>
                 </li>
-                <li>
-                  <Link href="/privacy" className="hover:underline">
-                    プライバシー
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/terms" className="hover:underline">
-                    利用規約
-                  </Link>
-                </li>
               </ul>
               <AuthNav />
             </div>
@@ -47,11 +37,39 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </header>
         <main className="flex-1 max-w-5xl mx-auto px-6 py-10 w-full">{children}</main>
         <footer className="border-t border-black/10 dark:border-white/10 mt-8">
-          <div className="max-w-5xl mx-auto px-6 py-6 text-sm text-black/60 dark:text-white/60 flex flex-col sm:flex-row gap-2 sm:justify-between">
-            <span>© 2026 FF14 固定支援 Bot</span>
-            <span>
-              FINAL FANTASY XIV ©2010 - SQUARE ENIX CO., LTD. このサイトは公式コンテンツとは無関係です。
-            </span>
+          <div className="max-w-5xl mx-auto px-6 py-6 text-sm text-black/60 dark:text-white/60 flex flex-col gap-3">
+            <div className="flex flex-wrap gap-x-4 gap-y-2">
+              <Link href="/privacy" className="hover:underline">
+                プライバシー
+              </Link>
+              <span className="opacity-40">·</span>
+              <Link href="/terms" className="hover:underline">
+                利用規約
+              </Link>
+              <span className="opacity-40">·</span>
+              <Link href="/disclaimer" className="hover:underline">
+                免責事項
+              </Link>
+              <span className="opacity-40">·</span>
+              <Link href="/takedown" className="hover:underline">
+                削除要請
+              </Link>
+              <span className="opacity-40">·</span>
+              <a
+                href="https://github.com/mitchkunn/FF14-bot"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:underline"
+              >
+                GitHub
+              </a>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-2 sm:justify-between">
+              <span>© 2026 FF14 固定支援 Bot</span>
+              <span>
+                FINAL FANTASY XIV ©2010 - SQUARE ENIX CO., LTD. このサイトは公式コンテンツとは無関係です。
+              </span>
+            </div>
           </div>
         </footer>
       </body>
