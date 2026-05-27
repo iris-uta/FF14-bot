@@ -204,3 +204,39 @@ export const progressLogs = sqliteTable(
 
 export type ProgressLog = typeof progressLogs.$inferSelect;
 export type NewProgressLog = typeof progressLogs.$inferInsert;
+
+/**
+ * Recurring schedule rule (定期予定). 例: 毎週金曜 21:00 JST。
+ * worker (recurring-scheduler) が定期的に次の occurrence を計算して
+ * schedules テーブルに insert する → 既存 alert-worker が通知する。
+ *
+ * Weekday: 0=日, 1=月, 2=火, 3=水, 4=木, 5=金, 6=土 (JST)
+ */
+export const recurringSchedules = sqliteTable(
+  "recurring_schedules",
+  {
+    id: text("id").primaryKey(),
+    guildId: text("guild_id").notNull(),
+    channelId: text("channel_id").notNull(),         // alert post 先
+    contentId: text("content_id"),                    // optional
+    phaseId: text("phase_id"),                        // optional
+    staticId: text("static_id"),                       // 固定 channel 自動検出
+    weekday: integer("weekday").notNull(),             // 0-6 (JST)
+    hourJst: integer("hour_jst").notNull(),            // 0-23
+    minuteJst: integer("minute_jst").notNull(),        // 0-59
+    notifyMinutesBefore: integer("notify_minutes_before").notNull().default(10),
+    mention: text("mention"),
+    note: text("note"),
+    active: integer("active", { mode: "boolean" }).notNull().default(true),
+    lastInsertedAt: integer("last_inserted_at"),       // 最後にこのルールで insert した occurrence (Unix ms)
+    createdAt: integer("created_at").notNull(),
+    createdBy: text("created_by").notNull(),
+  },
+  (t) => ({
+    guildActiveIdx: index("recurring_guild_active_idx").on(t.guildId, t.active),
+    createdByIdx: index("recurring_created_by_idx").on(t.createdBy),
+  })
+);
+
+export type RecurringSchedule = typeof recurringSchedules.$inferSelect;
+export type NewRecurringSchedule = typeof recurringSchedules.$inferInsert;
