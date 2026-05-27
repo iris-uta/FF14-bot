@@ -6,7 +6,7 @@ import {
   MessageFlags,
   type InteractionReplyOptions,
 } from "discord.js";
-import { getCommand } from "./commands";
+import { commands, getCommand } from "./commands";
 import { getAllContents } from "./lib/contents";
 import { getDb } from "./lib/db";
 import { startAlertWorker, stopAlertWorker } from "./services/alert-worker";
@@ -24,6 +24,9 @@ if (!token) {
 
 const contents = getAllContents();
 console.log(`Loaded ${contents.length} content(s): ${contents.map((c) => c.id).join(", ")}`);
+
+const commandNames = Object.keys(commands).sort();
+console.log(`Registered ${commandNames.length} command(s): ${commandNames.join(", ")}`);
 
 getDb();
 console.log("DB initialized (migrations applied)");
@@ -118,11 +121,31 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
   if (interaction.isAutocomplete()) {
     const command = getCommand(interaction.commandName);
-    if (!command?.autocomplete) return;
+    const focusedOption = (() => {
+      try { return interaction.options.getFocused(true); } catch { return null; }
+    })();
+    if (!command?.autocomplete) {
+      // Unknown command — still respond so Discord doesn't show "loading options failed"
+      try { await interaction.respond([]); } catch { /* ignore */ }
+      return;
+    }
     try {
       await command.autocomplete(interaction);
     } catch (err) {
-      console.error(`Error in autocomplete /${interaction.commandName}:`, err);
+      console.error(
+        `[autocomplete] /${interaction.commandName} (focused=${focusedOption?.name}="${focusedOption?.value}", user=${interaction.user.id}, guild=${interaction.guildId}):`,
+        err instanceof Error ? `${err.message}\n${err.stack}` : err
+      );
+      // Fallback: ensure Discord gets a response so the UI doesn't hang on
+      // "loading options failed". If our handler already responded (then threw),
+      // this no-ops safely via the responded guard.
+      if (!interaction.responded) {
+        try {
+          await interaction.respond([]);
+        } catch (respondErr) {
+          console.error("[autocomplete] failed to send fallback empty response:", respondErr);
+        }
+      }
     }
   }
 });
