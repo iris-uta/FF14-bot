@@ -1,25 +1,35 @@
-import { sqliteTable, text, integer, primaryKey } from "drizzle-orm/sqlite-core";
+import { sqliteTable, text, integer, primaryKey, index } from "drizzle-orm/sqlite-core";
 
 /**
  * Scheduled events (固定活動の予定). Used by B-5 alert worker.
  * Times are stored as Unix milliseconds (UTC) to avoid timezone issues.
  */
-export const schedules = sqliteTable("schedules", {
-  id: text("id").primaryKey(),
-  guildId: text("guild_id").notNull(),
-  channelId: text("channel_id").notNull(),
-  contentId: text("content_id"),
-  phaseId: text("phase_id"),
-  startsAt: integer("starts_at").notNull(),
-  notifyMinutesBefore: integer("notify_minutes_before").notNull().default(10),
-  notifiedAt: integer("notified_at"),
-  mention: text("mention"),
-  note: text("note"),
-  chouseisanUrl: text("chouseisan_url"),
-  staticId: text("static_id"),                  // Phase A: 固定との紐付け (optional FK)
-  createdAt: integer("created_at").notNull(),
-  createdBy: text("created_by").notNull(),
-});
+export const schedules = sqliteTable(
+  "schedules",
+  {
+    id: text("id").primaryKey(),
+    guildId: text("guild_id").notNull(),
+    channelId: text("channel_id").notNull(),
+    contentId: text("content_id"),
+    phaseId: text("phase_id"),
+    startsAt: integer("starts_at").notNull(),
+    notifyMinutesBefore: integer("notify_minutes_before").notNull().default(10),
+    notifiedAt: integer("notified_at"),
+    mention: text("mention"),
+    note: text("note"),
+    chouseisanUrl: text("chouseisan_url"),
+    staticId: text("static_id"),                  // Phase A: 固定との紐付け (optional FK)
+    createdAt: integer("created_at").notNull(),
+    createdBy: text("created_by").notNull(),
+  },
+  (t) => ({
+    // alert-worker scans `WHERE notified_at IS NULL` every 30s — by far the hottest path.
+    notifiedAtIdx: index("schedules_notified_at_idx").on(t.notifiedAt),
+    // /upcoming + static-info filter by guild / static.
+    guildIdIdx: index("schedules_guild_id_idx").on(t.guildId),
+    staticIdIdx: index("schedules_static_id_idx").on(t.staticId),
+  })
+);
 
 export type Schedule = typeof schedules.$inferSelect;
 export type NewSchedule = typeof schedules.$inferInsert;
@@ -28,22 +38,32 @@ export type NewSchedule = typeof schedules.$inferInsert;
  * Static party (固定). Created by /static-init.
  * One static per (guildId, name) — Discord role and category are owned by it.
  */
-export const statics = sqliteTable("statics", {
-  id: text("id").primaryKey(),
-  guildId: text("guild_id").notNull(),
-  leaderId: text("leader_id").notNull(),
-  name: text("name").notNull(),
-  contentId: text("content_id").notNull(),
-  strategyId: text("strategy_id"),                 // 進行スタイル (content.strategies[].id)
-  roleId: text("role_id").notNull(),               // Discord role
-  categoryId: text("category_id").notNull(),       // Discord category
-  lobbyChannelId: text("lobby_channel_id"),
-  recruitmentChannelId: text("recruitment_channel_id"),
-  currentPhaseId: text("current_phase_id"),
-  pausedUntil: integer("paused_until"),            // alert worker が skip する期限
-  planId: text("plan_id"),                         // Phase B 計画書 FK (optional)
-  createdAt: integer("created_at").notNull(),
-});
+export const statics = sqliteTable(
+  "statics",
+  {
+    id: text("id").primaryKey(),
+    guildId: text("guild_id").notNull(),
+    leaderId: text("leader_id").notNull(),
+    name: text("name").notNull(),
+    contentId: text("content_id").notNull(),
+    strategyId: text("strategy_id"),                 // 進行スタイル (content.strategies[].id)
+    roleId: text("role_id").notNull(),               // Discord role
+    categoryId: text("category_id").notNull(),       // Discord category
+    lobbyChannelId: text("lobby_channel_id"),
+    recruitmentChannelId: text("recruitment_channel_id"),
+    currentPhaseId: text("current_phase_id"),
+    pausedUntil: integer("paused_until"),            // alert worker が skip する期限
+    planId: text("plan_id"),                         // Phase B 計画書 FK (optional)
+    createdAt: integer("created_at").notNull(),
+  },
+  (t) => ({
+    // findStaticByName / listStaticsInGuild — every autocomplete call.
+    guildIdIdx: index("statics_guild_id_idx").on(t.guildId),
+    // findStaticForChannel — every auto-detect.
+    lobbyChannelIdx: index("statics_lobby_channel_idx").on(t.lobbyChannelId),
+    categoryIdIdx: index("statics_category_idx").on(t.categoryId),
+  })
+);
 
 export type Static = typeof statics.$inferSelect;
 export type NewStatic = typeof statics.$inferInsert;
@@ -87,6 +107,8 @@ export const staticMembers = sqliteTable(
   },
   (t) => ({
     pk: primaryKey({ columns: [t.staticId, t.userId] }),
+    // static-info の active メンバー lookup (leftAt IS NULL).
+    staticLeftAtIdx: index("static_members_static_left_at_idx").on(t.staticId, t.leftAt),
   })
 );
 
@@ -98,22 +120,33 @@ export type NewStaticMember = typeof staticMembers.$inferInsert;
  * 1 vote = 1 質問 with 1〜5 候補。
  * candidates は JSON: [{index, label}]。
  */
-export const votes = sqliteTable("votes", {
-  id: text("id").primaryKey(),
-  guildId: text("guild_id").notNull(),
-  channelId: text("channel_id").notNull(),
-  messageId: text("message_id"),                 // 投稿後にセット (re-render 用)
-  creatorId: text("creator_id").notNull(),
-  title: text("title").notNull(),
-  candidates: text("candidates").notNull(),       // JSON: [{index:number, label:string, startsAt?:number}]
-  closesAt: integer("closes_at"),                  // null = 締切なし
-  closed: integer("closed", { mode: "boolean" }).notNull().default(false),
-  staticId: text("static_id"),                     // 固定 channel から自動検出 (optional)
-  mention: text("mention"),                        // /vote new で指定 or 固定 role mention
-  reminderHoursBefore: integer("reminder_hours_before"),  // 締切何時間前にリマインダー (null = なし)
-  remindedAt: integer("reminded_at"),              // リマインダー送信済みなら timestamp
-  createdAt: integer("created_at").notNull(),
-});
+export const votes = sqliteTable(
+  "votes",
+  {
+    id: text("id").primaryKey(),
+    guildId: text("guild_id").notNull(),
+    channelId: text("channel_id").notNull(),
+    messageId: text("message_id"),                 // 投稿後にセット (re-render 用)
+    creatorId: text("creator_id").notNull(),
+    title: text("title").notNull(),
+    candidates: text("candidates").notNull(),       // JSON: [{index:number, label:string, startsAt?:number}]
+    closesAt: integer("closes_at"),                  // null = 締切なし
+    closed: integer("closed", { mode: "boolean" }).notNull().default(false),
+    staticId: text("static_id"),                     // 固定 channel から自動検出 (optional)
+    mention: text("mention"),                        // /vote new で指定 or 固定 role mention
+    reminderHoursBefore: integer("reminder_hours_before"),  // 締切何時間前にリマインダー (null = なし)
+    remindedAt: integer("reminded_at"),              // リマインダー送信済みなら timestamp
+    createdAt: integer("created_at").notNull(),
+  },
+  (t) => ({
+    // listOpenVotesInGuild + listVotesInGuild (autocomplete every keystroke).
+    guildClosedIdx: index("votes_guild_closed_idx").on(t.guildId, t.closed),
+    // vote-closer worker: WHERE closed=0 AND closes_at <= now (every 30s).
+    closedClosesAtIdx: index("votes_closed_closes_at_idx").on(t.closed, t.closesAt),
+    // vote-reminder worker: WHERE closed=0 AND reminded_at IS NULL (every 30s).
+    closedRemindedIdx: index("votes_closed_reminded_idx").on(t.closed, t.remindedAt),
+  })
+);
 
 export type Vote = typeof votes.$inferSelect;
 export type NewVote = typeof votes.$inferInsert;
@@ -150,17 +183,24 @@ export type NewVoteResponse = typeof voteResponses.$inferInsert;
  *   - first-clear: 初見クリア (記念)
  *   - note     : freeform メモ
  */
-export const progressLogs = sqliteTable("progress_logs", {
-  id: text("id").primaryKey(),
-  staticId: text("static_id").notNull(),
-  guildId: text("guild_id").notNull(),         // query 用
-  userId: text("user_id").notNull(),           // 記録者
-  phaseId: text("phase_id"),                    // 例: "p3"。note タイプなら null 可
-  status: text("status").notNull(),             // reached / cleared / first-clear / note
-  note: text("note"),                            // 任意の追加コメント
-  loggedAt: integer("logged_at").notNull(),     // ユーザー指定の日付 (or now)
-  createdAt: integer("created_at").notNull(),   // record 作成時刻
-});
+export const progressLogs = sqliteTable(
+  "progress_logs",
+  {
+    id: text("id").primaryKey(),
+    staticId: text("static_id").notNull(),
+    guildId: text("guild_id").notNull(),         // query 用
+    userId: text("user_id").notNull(),           // 記録者
+    phaseId: text("phase_id"),                    // 例: "p3"。note タイプなら null 可
+    status: text("status").notNull(),             // reached / cleared / first-clear / note
+    note: text("note"),                            // 任意の追加コメント
+    loggedAt: integer("logged_at").notNull(),     // ユーザー指定の日付 (or now)
+    createdAt: integer("created_at").notNull(),   // record 作成時刻
+  },
+  (t) => ({
+    // listProgressLogsForStatic — every /progress show.
+    staticIdIdx: index("progress_logs_static_id_idx").on(t.staticId),
+  })
+);
 
 export type ProgressLog = typeof progressLogs.$inferSelect;
 export type NewProgressLog = typeof progressLogs.$inferInsert;
