@@ -10,9 +10,6 @@ import {
   buildTwitterSummary,
   formatProgressLine,
   isValidProgressStatus,
-  computeProgressStats,
-  countLogsForStatic,
-  countLogsByUserForStatic,
   PROGRESS_STATUSES,
   type ProgressStatus,
 } from "./progress";
@@ -136,6 +133,17 @@ describe("renderProgressTimeline", () => {
     expect(data.description).toContain("2026/05");
   });
 
+  it("groups by JST month even when UTC date differs", () => {
+    // 2026-06-01 06:00 JST = 2026-05-31 21:00 UTC
+    // Old (UTC) grouping put this under May; JST grouping must put it under June.
+    const jstJuneFirst = Date.UTC(2026, 4, 31, 21, 0); // 5/31 21:00 UTC = 6/1 06:00 JST
+    make("borderline", "reached", jstJuneFirst);
+    const logs = listProgressLogsForStatic("s1");
+    const data = renderProgressTimeline("S", logs).toJSON();
+    expect(data.description).toContain("2026/06");
+    expect(data.description).not.toContain("2026/05");
+  });
+
   it("shows total count in footer", () => {
     for (let i = 0; i < 3; i++) make(`log-${i}`, "reached", T0 + i * 1000);
     const logs = listProgressLogsForStatic("s1");
@@ -156,43 +164,3 @@ describe("buildTwitterSummary", () => {
   });
 });
 
-describe("computeProgressStats", () => {
-  it("counts by status correctly", () => {
-    make("a", "reached", T0);
-    make("b", "reached", T0 + 1);
-    make("c", "cleared", T0 + 2);
-    make("d", "first-clear", T0 + 3);
-    const stats = computeProgressStats(listProgressLogsForStatic("s1"));
-    expect(stats.total).toBe(4);
-    expect(stats.byStatus.reached).toBe(2);
-    expect(stats.byStatus.cleared).toBe(1);
-    expect(stats.byStatus["first-clear"]).toBe(1);
-    expect(stats.firstAt).toBe(T0);
-    expect(stats.latestAt).toBe(T0 + 3);
-  });
-
-  it("returns nulls for first/latest when empty", () => {
-    const stats = computeProgressStats([]);
-    expect(stats.total).toBe(0);
-    expect(stats.firstAt).toBeNull();
-    expect(stats.latestAt).toBeNull();
-  });
-});
-
-describe("countLogs* helpers", () => {
-  it("countLogsForStatic returns correct count", () => {
-    make("a", "reached", T0);
-    make("b", "reached", T0 + 1);
-    make("c", "reached", T0 + 2, { staticId: "other" });
-    expect(countLogsForStatic("s1")).toBe(2);
-    expect(countLogsForStatic("other")).toBe(1);
-  });
-
-  it("countLogsByUserForStatic filters by user", () => {
-    make("a", "reached", T0, { userId: "u-alice" });
-    make("b", "reached", T0 + 1, { userId: "u-bob" });
-    make("c", "reached", T0 + 2, { userId: "u-alice" });
-    expect(countLogsByUserForStatic("s1", "u-alice")).toBe(2);
-    expect(countLogsByUserForStatic("s1", "u-bob")).toBe(1);
-  });
-});

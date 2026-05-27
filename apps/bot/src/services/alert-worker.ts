@@ -1,5 +1,5 @@
 import { eq, isNull } from "drizzle-orm";
-import type { Client, TextBasedChannel } from "discord.js";
+import type { Client } from "discord.js";
 import { schedules, type Schedule } from "@ff14kotei/db";
 import { getDb } from "../lib/db";
 import { formatDiscordTime } from "./datetime";
@@ -59,12 +59,16 @@ function markNotified(id: string, now: number): void {
 
 async function sendAlert(client: Client, schedule: Schedule): Promise<void> {
   const channel = await client.channels.fetch(schedule.channelId);
-  if (!channel || !channel.isTextBased() || !("send" in channel)) {
+  if (!channel || !channel.isTextBased() || !("send" in channel) || typeof channel.send !== "function") {
     throw new Error(`Channel ${schedule.channelId} is not a sendable text channel`);
   }
-  await (channel as TextBasedChannel & { send: (m: string) => Promise<unknown> }).send(
-    buildAlertMessage(schedule)
-  );
+  // allowedMentions: roles + users only. NEVER @everyone/@here — schedule.mention
+  // comes from /book mention: (user input). Without this, discord.js v14 silently
+  // strips role mentions in the string content.
+  await channel.send({
+    content: buildAlertMessage(schedule),
+    allowedMentions: { parse: ["roles", "users"] },
+  });
 }
 
 export function buildAlertMessage(schedule: Schedule): string {

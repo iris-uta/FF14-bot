@@ -6,7 +6,7 @@
  *  - 後で Twitter にシェアする用
  *  - 新メンバー加入時に「ここまでやってます」 を共有
  */
-import { and, asc, eq, sql } from "drizzle-orm";
+import { asc, eq } from "drizzle-orm";
 import { EmbedBuilder } from "discord.js";
 import { progressLogs, type ProgressLog } from "@ff14kotei/db";
 import { getDb } from "../lib/db";
@@ -103,12 +103,18 @@ export function renderProgressTimeline(
     return embed;
   }
 
-  // Group by month for readability when long
+  // Group by JST month (this is a JST-first product; UTC grouping would put
+  // 6/1 06:00 JST under "May" because UTC is 5/31 21:00).
+  const monthFormatter = new Intl.DateTimeFormat("ja-JP", {
+    timeZone: "Asia/Tokyo",
+    year: "numeric",
+    month: "2-digit",
+  });
   const lines: string[] = [];
   let lastMonth = "";
   for (const log of logs) {
-    const date = new Date(log.loggedAt);
-    const month = `${date.getUTCFullYear()}/${String(date.getUTCMonth() + 1).padStart(2, "0")}`;
+    // ja-JP format: "2026/06" — exactly what we want
+    const month = monthFormatter.format(new Date(log.loggedAt));
     if (month !== lastMonth) {
       if (lines.length > 0) lines.push("");
       lines.push(`**${month}**`);
@@ -158,54 +164,4 @@ export function buildTwitterSummary(staticName: string, logs: ProgressLog[]): st
     lines.push(`${icon} ${date} ${phase}${label}${note}`);
   }
   return lines.join("\n");
-}
-
-/**
- * Stats for a static: counts by status.
- */
-export interface ProgressStats {
-  total: number;
-  byStatus: Record<ProgressStatus, number>;
-  firstAt: number | null;
-  latestAt: number | null;
-}
-
-export function computeProgressStats(logs: ProgressLog[]): ProgressStats {
-  const byStatus: Record<ProgressStatus, number> = {
-    reached: 0,
-    cleared: 0,
-    "first-clear": 0,
-    note: 0,
-  };
-  for (const log of logs) {
-    if (isValidProgressStatus(log.status)) byStatus[log.status]++;
-  }
-  // logs are sorted asc in listProgressLogsForStatic, so first/last are at the ends
-  const sorted = [...logs].sort((a, b) => a.loggedAt - b.loggedAt);
-  return {
-    total: logs.length,
-    byStatus,
-    firstAt: sorted[0]?.loggedAt ?? null,
-    latestAt: sorted[sorted.length - 1]?.loggedAt ?? null,
-  };
-}
-
-export function countLogsForStatic(staticId: string): number {
-  const db = getDb();
-  const row = db
-    .select({ count: sql<number>`count(*)` })
-    .from(progressLogs)
-    .where(eq(progressLogs.staticId, staticId))
-    .get();
-  return row?.count ?? 0;
-}
-
-export function countLogsByUserForStatic(staticId: string, userId: string): number {
-  const db = getDb();
-  const row = db
-    .select({ count: sql<number>`count(*)` })
-    .from(progressLogs)
-    .where(and(eq(progressLogs.staticId, staticId), eq(progressLogs.userId, userId)))
-    .get();
-  return row?.count ?? 0;
 }

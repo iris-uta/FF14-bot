@@ -162,7 +162,7 @@ export async function autocomplete(interaction: AutocompleteInteraction): Promis
       : listVotesInGuild(interaction.guildId, 25);
   const q = focused.value.toLowerCase();
   const filtered = pool
-    .filter((v) => v.title.toLowerCase().includes(q) || v.id.startsWith(focused.value))
+    .filter((v) => v.title.toLowerCase().includes(q) || v.id.toLowerCase().startsWith(q))
     .slice(0, 25)
     .map((v) => ({
       name: `${v.closed ? "🔒 " : ""}${v.title.slice(0, 60)} (${v.id.slice(0, 8)})`,

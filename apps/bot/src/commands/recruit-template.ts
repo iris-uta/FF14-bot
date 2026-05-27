@@ -149,6 +149,15 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
     return;
   }
 
+  const chouseisanUrlRaw = interaction.options.getString("chouseisan_url");
+  if (chouseisanUrlRaw && !isHttpsUrl(chouseisanUrlRaw)) {
+    await interaction.reply({
+      content: `chouseisan_url は \`https://\` で始まる URL を指定してください。`,
+      flags: MessageFlags.Ephemeral,
+    });
+    return;
+  }
+
   // Discord option names are lowercase. Map them to camelCase variable names used in templates.
   const values: Record<string, string | undefined> = {
     date: interaction.options.getString("date") ?? undefined,
@@ -157,7 +166,7 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
     datacenter: interaction.options.getString("datacenter") ?? undefined,
     language: interaction.options.getString("language") ?? undefined,
     goal: interaction.options.getString("goal") ?? undefined,
-    chouseisanUrl: interaction.options.getString("chouseisan_url") ?? undefined,
+    chouseisanUrl: chouseisanUrlRaw ?? undefined,
   };
 
   const { text, unfilledVariables } = renderTemplate(template, values);
@@ -193,4 +202,12 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
   lines.push("```");
 
   await interaction.reply({ content: lines.join("\n").slice(0, 2000) });
+}
+
+function isHttpsUrl(s: string): boolean {
+  try {
+    return new URL(s).protocol === "https:";
+  } catch {
+    return false;
+  }
 }
