@@ -11,12 +11,16 @@ import { configureContentTypeOption, checkTypeMatch } from "../lib/content-type-
 
 export const data = new SlashCommandBuilder()
   .setName("content")
+  .setNameLocalizations({ ja: "コンテンツ" })
   .setDescription("固定で挑むコンテンツを表示する")
+  .setDescriptionLocalizations({ ja: "コンテンツ情報 (Phase一覧・参照URL等) を表示" })
   .addStringOption((opt) => configureContentTypeOption(opt))
   .addStringOption((opt) =>
     opt
       .setName("id")
+      .setNameLocalizations({ ja: "コンテンツid" })
       .setDescription("コンテンツID (type で絞り込まれた一覧)")
+      .setDescriptionLocalizations({ ja: "コンテンツID (種別で絞られた一覧から選ぶ)" })
       .setRequired(true)
       .setAutocomplete(true)
   );

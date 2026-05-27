@@ -15,11 +15,15 @@ async function getCommands() {
 
 export const data = new SlashCommandBuilder()
   .setName("help")
+  .setNameLocalizations({ ja: "ヘルプ" })
   .setDescription("利用可能なコマンド一覧を表示")
+  .setDescriptionLocalizations({ ja: "利用可能なコマンド一覧と使い方を表示" })
   .addStringOption((opt) =>
     opt
       .setName("command")
+      .setNameLocalizations({ ja: "コマンド名" })
       .setDescription("詳細を見たいコマンド名（省略時は全コマンド一覧）")
+      .setDescriptionLocalizations({ ja: "詳細を見たいコマンド名 (省略時は全コマンド一覧)" })
       .setAutocomplete(true)
   );
 

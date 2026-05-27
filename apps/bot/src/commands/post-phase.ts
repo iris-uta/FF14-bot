@@ -12,11 +12,17 @@ import { resolveContentOrError } from "../services/resolve-content";
 
 export const data = new SlashCommandBuilder()
   .setName("post-phase")
+  .setNameLocalizations({ ja: "フェーズ投稿" })
   .setDescription("Phase の攻略情報を現チャネルに投稿 (固定 channel なら content 自動検出)")
+  .setDescriptionLocalizations({
+    ja: "フェーズの攻略情報 (動画/マクロ/軽減/Tips) を現チャネルに投稿",
+  })
   .addStringOption((opt) =>
     opt
       .setName("phase")
+      .setNameLocalizations({ ja: "フェーズ" })
       .setDescription("Phase ID (例: p1, p3)")
+      .setDescriptionLocalizations({ ja: "フェーズID (例: p1, p3)" })
       .setRequired(true)
       .setAutocomplete(true)
   )
@@ -24,7 +30,9 @@ export const data = new SlashCommandBuilder()
   .addStringOption((opt) =>
     opt
       .setName("content")
+      .setNameLocalizations({ ja: "コンテンツ" })
       .setDescription("コンテンツID (省略時は固定 channel から自動検出)")
+      .setDescriptionLocalizations({ ja: "コンテンツID (省略時は固定 channel から自動検出)" })
       .setAutocomplete(true)
   );
 

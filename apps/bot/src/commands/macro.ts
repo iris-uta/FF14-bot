@@ -15,11 +15,17 @@ import { resolveContentOrError } from "../services/resolve-content";
 
 export const data = new SlashCommandBuilder()
   .setName("macro")
+  .setNameLocalizations({ ja: "マクロ" })
   .setDescription("Phase のマクロを取得 (固定 channel なら content 自動検出、自分にだけ表示)")
+  .setDescriptionLocalizations({
+    ja: "フェーズのマクロを取り出す (固定 channel 内なら自動検出、自分にだけ表示)",
+  })
   .addStringOption((opt) =>
     opt
       .setName("phase")
+      .setNameLocalizations({ ja: "フェーズ" })
       .setDescription("Phase ID (例: p1, p3)")
+      .setDescriptionLocalizations({ ja: "フェーズID (例: p1, p3)" })
       .setRequired(true)
       .setAutocomplete(true)
   )
@@ -27,7 +33,9 @@ export const data = new SlashCommandBuilder()
   .addStringOption((opt) =>
     opt
       .setName("content")
+      .setNameLocalizations({ ja: "コンテンツ" })
       .setDescription("コンテンツID (省略時は固定 channel から自動検出)")
+      .setDescriptionLocalizations({ ja: "コンテンツID (省略時は固定 channel から自動検出)" })
       .setAutocomplete(true)
   );
 

@@ -8,48 +8,44 @@ import {
 } from "discord.js";
 import { getAllContents, getContentById } from "../lib/contents";
 import { sortByPatch } from "../lib/content-sort";
+import { configureContentTypeOption } from "../lib/content-type-choices";
 import { findStaticByName, initStatic } from "../services/static-manager";
 import { parseMembers, checkRoleUniqueness, MemberSpecParseError } from "../services/members-parser";
 import { SETUP_MODE_DESCRIPTIONS, type SetupMode } from "../services/static-channel-template";
 
 export const data = new SlashCommandBuilder()
   .setName("static-init")
+  .setNameLocalizations({ ja: "固定作成" })
   .setDescription("固定を作成 (role + カテゴリ + 全 channels + 各 phase に情報自動投稿)")
+  .setDescriptionLocalizations({
+    ja: "固定を一括作成 (Discord role + カテゴリ + 全 channels + Phase 情報自動投稿)",
+  })
   .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels)
-  .addStringOption((opt) =>
-    opt
-      .setName("type")
-      .setDescription("コンテンツ種別 (これを選んでから content を選ぶと一覧が絞られる)")
-      .setRequired(true)
-      .setChoices(
-        { name: "絶 (Ultimate)", value: "ultimate" },
-        { name: "零式 (Savage)", value: "savage" },
-        { name: "極 (Extreme)", value: "extreme" },
-        { name: "幻想 (Unreal)", value: "unreal" },
-        { name: "異聞 (Variant)", value: "variant" },
-        { name: "詩想 (Criterion)", value: "criterion" },
-        { name: "アライアンス", value: "alliance" },
-        { name: "その他", value: "other" }
-      )
-  )
+  .addStringOption((opt) => configureContentTypeOption(opt))
   .addStringOption((opt) =>
     opt
       .setName("content")
+      .setNameLocalizations({ ja: "コンテンツ" })
       .setDescription("コンテンツID (type で絞り込まれた一覧)")
+      .setDescriptionLocalizations({ ja: "コンテンツID (種別で絞られた一覧から選ぶ)" })
       .setRequired(true)
       .setAutocomplete(true)
   )
   .addStringOption((opt) =>
     opt
       .setName("name")
+      .setNameLocalizations({ ja: "固定名" })
       .setDescription("固定の名前 (Discord role 名にもなる)")
+      .setDescriptionLocalizations({ ja: "固定の名前 (Discord role 名にもなる)" })
       .setRequired(true)
       .setMaxLength(80)
   )
   .addStringOption((opt) =>
     opt
       .setName("mode")
+      .setNameLocalizations({ ja: "モード" })
       .setDescription("セットアップテンプレ (default: standard)")
+      .setDescriptionLocalizations({ ja: "セットアップテンプレ (default: standard)" })
       .setChoices(
         { name: `standard — ${SETUP_MODE_DESCRIPTIONS.standard}`, value: "standard" },
         { name: `race — ${SETUP_MODE_DESCRIPTIONS.race}`, value: "race" },
@@ -59,7 +55,11 @@ export const data = new SlashCommandBuilder()
   .addStringOption((opt) =>
     opt
       .setName("members")
+      .setNameLocalizations({ ja: "メンバー" })
       .setDescription("既知メンバー (例: '<@1234> MT PLD, <@5678> ST GNB'). 残りは募集枠扱い。")
+      .setDescriptionLocalizations({
+        ja: "既知メンバー (例: '<@1234> MT PLD, <@5678> ST GNB')。残りは募集枠扱い。",
+      })
       .setMaxLength(1000)
   );
 

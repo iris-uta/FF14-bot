@@ -16,47 +16,76 @@ import { findStaticForChannel } from "../services/static-manager";
 
 export const data = new SlashCommandBuilder()
   .setName("schedule")
+  .setNameLocalizations({ ja: "予定登録" })
   .setDescription("固定活動の予定を登録 (開始N分前に通知)")
+  .setDescriptionLocalizations({ ja: "固定活動の予定を登録 (開始 N 分前に自動通知)" })
   .setDefaultMemberPermissions(PermissionFlagsBits.ManageEvents)
   .addStringOption((opt) =>
     opt
       .setName("when")
+      .setNameLocalizations({ ja: "日時" })
       .setDescription("開始時刻 (JST、例: 2025-06-01 21:00)")
+      .setDescriptionLocalizations({ ja: "開始時刻 (JST、例: 2025-06-01 21:00)" })
       .setRequired(true)
       .setMaxLength(40)
   )
   .addChannelOption((opt) =>
     opt
       .setName("channel")
+      .setNameLocalizations({ ja: "通知先" })
       .setDescription("通知先チャネル (省略時は現在のチャネル)")
+      .setDescriptionLocalizations({ ja: "通知先チャネル (省略時は現在のチャネル)" })
       .addChannelTypes(ChannelType.GuildText, ChannelType.GuildAnnouncement)
   )
   .addStringOption((opt) =>
-    opt.setName("content").setDescription("コンテンツID (例: fru)").setAutocomplete(true).setMaxLength(40)
+    opt
+      .setName("content")
+      .setNameLocalizations({ ja: "コンテンツ" })
+      .setDescription("コンテンツID (例: fru、固定 channel なら自動検出)")
+      .setDescriptionLocalizations({ ja: "コンテンツID (固定 channel なら自動検出)" })
+      .setAutocomplete(true)
+      .setMaxLength(40)
   )
   .addStringOption((opt) =>
-    opt.setName("phase").setDescription("Phase ID (例: p3)").setAutocomplete(true).setMaxLength(40)
+    opt
+      .setName("phase")
+      .setNameLocalizations({ ja: "フェーズ" })
+      .setDescription("Phase ID (例: p3)")
+      .setDescriptionLocalizations({ ja: "フェーズID (例: p3)" })
+      .setAutocomplete(true)
+      .setMaxLength(40)
   )
   .addIntegerOption((opt) =>
     opt
       .setName("notify_minutes_before")
+      .setNameLocalizations({ ja: "通知何分前" })
       .setDescription("何分前に通知するか (default 10)")
+      .setDescriptionLocalizations({ ja: "何分前に通知するか (default 10)" })
       .setMinValue(0)
       .setMaxValue(1440)
   )
   .addStringOption((opt) =>
     opt
       .setName("mention")
-      .setDescription("通知時のメンション (例: @here, <@&role-id>)")
+      .setNameLocalizations({ ja: "メンション" })
+      .setDescription("通知時のメンション (例: @here、固定 channel なら role 自動)")
+      .setDescriptionLocalizations({ ja: "通知時のメンション (例: @here、固定 channel なら role 自動)" })
       .setMaxLength(200)
   )
   .addStringOption((opt) =>
-    opt.setName("note").setDescription("自由文 (例: P3練習)").setMaxLength(500)
+    opt
+      .setName("note")
+      .setNameLocalizations({ ja: "メモ" })
+      .setDescription("自由文 (例: P3練習)")
+      .setDescriptionLocalizations({ ja: "自由文 (例: P3練習)" })
+      .setMaxLength(500)
   )
   .addStringOption((opt) =>
     opt
       .setName("chouseisan_url")
+      .setNameLocalizations({ ja: "調整さんurl" })
       .setDescription("調整さん等のURL (任意)。通知時に添付される。")
+      .setDescriptionLocalizations({ ja: "調整さん等のURL (任意)。通知時に添付。" })
       .setMaxLength(500)
   );
 
