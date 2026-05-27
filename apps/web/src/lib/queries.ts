@@ -13,6 +13,7 @@ import {
   schedules,
   progressLogs,
   votes,
+  voteResponses,
   type Static,
   type StaticSlot,
   type StaticMember,
@@ -124,16 +125,47 @@ export function getStaticOverviewForUser(
  * (Simpler than full guild-membership check via Discord API.)
  */
 export function listVisibleOpenVotes(discordId: string, limit = 10): Vote[] {
+  return listVisibleVotes(discordId, { onlyOpen: true, limit });
+}
+
+/**
+ * Visible votes (both open + closed) with options for filtering.
+ */
+export function listVisibleVotes(
+  discordId: string,
+  opts: { onlyOpen?: boolean; limit?: number } = {}
+): Vote[] {
   const db = getDb();
-  const guildIds = db
+  const allGuilds = visibleGuildIds(discordId);
+  if (allGuilds.length === 0) return [];
+
+  const closedClause = opts.onlyOpen ? sql` AND ${votes.closed} = 0` : sql``;
+
+  return db
+    .select()
+    .from(votes)
+    .where(
+      sql`${votes.guildId} IN ${allGuilds}${closedClause}`
+    )
+    .orderBy(sql`${votes.createdAt} DESC`)
+    .limit(opts.limit ?? 25)
+    .all();
+}
+
+/**
+ * The set of guilds whose data the user can see.
+ * = leader-of-any-static OR active-member-of-any-static
+ */
+function visibleGuildIds(discordId: string): string[] {
+  const db = getDb();
+  const leaderGuilds = db
     .selectDistinct({ guildId: statics.guildId })
     .from(statics)
     .where(eq(statics.leaderId, discordId))
     .all()
     .map((r) => r.guildId);
 
-  // Also include guilds where user is a member (not just leader)
-  const memberGuildIds = db
+  const memberGuilds = db
     .selectDistinct({ guildId: statics.guildId })
     .from(statics)
     .innerJoin(staticMembers, eq(staticMembers.staticId, statics.id))
@@ -141,19 +173,47 @@ export function listVisibleOpenVotes(discordId: string, limit = 10): Vote[] {
     .all()
     .map((r) => r.guildId);
 
-  const allGuilds = Array.from(new Set([...guildIds, ...memberGuildIds]));
-  if (allGuilds.length === 0) return [];
+  return Array.from(new Set([...leaderGuilds, ...memberGuilds]));
+}
 
-  return db
+/**
+ * Fetch a vote + its responses, scoped to the user's visible guilds.
+ * Returns null if the user has no access to this vote.
+ */
+export interface VoteDetail {
+  vote: Vote;
+  candidates: { index: number; label: string; startsAt?: number | null }[];
+  tallies: { yes: number; no: number; maybe: number }[]; // index aligns with candidates
+}
+
+export function getVisibleVoteDetail(voteId: string, discordId: string): VoteDetail | null {
+  const db = getDb();
+  const v = db.select().from(votes).where(eq(votes.id, voteId)).get();
+  if (!v) return null;
+  const allGuilds = visibleGuildIds(discordId);
+  if (!allGuilds.includes(v.guildId)) return null;
+
+  let candidates: { index: number; label: string; startsAt?: number | null }[];
+  try {
+    candidates = JSON.parse(v.candidates);
+  } catch {
+    candidates = [];
+  }
+
+  const responses = db
     .select()
-    .from(votes)
-    .where(
-      and(
-        eq(votes.closed, false),
-        sql`${votes.guildId} IN ${allGuilds}`
-      )
-    )
-    .orderBy(sql`${votes.createdAt} DESC`)
-    .limit(limit)
+    .from(voteResponses)
+    .where(eq(voteResponses.voteId, voteId))
     .all();
+
+  const tallies = candidates.map((c) => {
+    const matching = responses.filter((r) => r.candidateIndex === c.index);
+    return {
+      yes: matching.filter((r) => r.value === "yes").length,
+      no: matching.filter((r) => r.value === "no").length,
+      maybe: matching.filter((r) => r.value === "maybe").length,
+    };
+  });
+
+  return { vote: v, candidates, tallies };
 }
