@@ -30,6 +30,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     ダッシュボード
                   </Link>
                 </li>
+                <li>
+                  <Link href="/votes" className="hover:underline">
+                    投票
+                  </Link>
+                </li>
               </ul>
               <AuthNav />
             </div>
