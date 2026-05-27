@@ -31,6 +31,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   </Link>
                 </li>
                 <li>
+                  <Link href="/upcoming" className="hover:underline">
+                    予定
+                  </Link>
+                </li>
+                <li>
                   <Link href="/votes" className="hover:underline">
                     投票
                   </Link>
