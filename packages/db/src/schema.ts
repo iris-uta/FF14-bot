@@ -92,3 +92,47 @@ export const staticMembers = sqliteTable(
 
 export type StaticMember = typeof staticMembers.$inferSelect;
 export type NewStaticMember = typeof staticMembers.$inferInsert;
+
+/**
+ * Vote (調整さん代替の self-hosted 投票).
+ * 1 vote = 1 質問 with 1〜5 候補。
+ * candidates は JSON: [{index, label}]。
+ */
+export const votes = sqliteTable("votes", {
+  id: text("id").primaryKey(),
+  guildId: text("guild_id").notNull(),
+  channelId: text("channel_id").notNull(),
+  messageId: text("message_id"),                 // 投稿後にセット (re-render 用)
+  creatorId: text("creator_id").notNull(),
+  title: text("title").notNull(),
+  candidates: text("candidates").notNull(),       // JSON: [{index:number, label:string}]
+  closesAt: integer("closes_at"),                  // null = 締切なし
+  closed: integer("closed", { mode: "boolean" }).notNull().default(false),
+  staticId: text("static_id"),                     // 固定 channel から自動検出 (optional)
+  createdAt: integer("created_at").notNull(),
+});
+
+export type Vote = typeof votes.$inferSelect;
+export type NewVote = typeof votes.$inferInsert;
+
+/**
+ * Vote response — 1 user × 1 candidate × 1 value。
+ * PK (voteId, userId, candidateIndex) で upsert。
+ * value ∈ {"yes", "no", "maybe"}
+ */
+export const voteResponses = sqliteTable(
+  "vote_responses",
+  {
+    voteId: text("vote_id").notNull(),
+    userId: text("user_id").notNull(),
+    candidateIndex: integer("candidate_index").notNull(),
+    value: text("value").notNull(),                // yes/no/maybe
+    updatedAt: integer("updated_at").notNull(),
+  },
+  (t) => ({
+    pk: primaryKey({ columns: [t.voteId, t.userId, t.candidateIndex] }),
+  })
+);
+
+export type VoteResponse = typeof voteResponses.$inferSelect;
+export type NewVoteResponse = typeof voteResponses.$inferInsert;

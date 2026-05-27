@@ -15,6 +15,7 @@ import * as unscheduleCommand from "./unschedule";
 import * as macroCommand from "./macro";
 import * as tipsCommand from "./tips";
 import * as staticInitCommand from "./static-init";
+import * as voteCommand from "./vote";
 
 export interface Command {
   data:
@@ -36,6 +37,7 @@ export const commands: Record<string, Command> = {
   [macroCommand.data.name]: macroCommand,
   [tipsCommand.data.name]: tipsCommand,
   [staticInitCommand.data.name]: staticInitCommand,
+  [voteCommand.data.name]: voteCommand,
 };
 
 export function getCommand(name: string): Command | undefined {

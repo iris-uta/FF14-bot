@@ -10,6 +10,7 @@ import { getCommand } from "./commands";
 import { getAllContents } from "./lib/contents";
 import { getDb } from "./lib/db";
 import { startAlertWorker, stopAlertWorker } from "./services/alert-worker";
+import { handleVoteButton } from "./services/vote-interaction";
 
 const token = process.env.DISCORD_TOKEN;
 if (!token) {
@@ -57,6 +58,26 @@ client.on(Events.InteractionCreate, async (interaction) => {
         await interaction.followUp(errorReply);
       } else {
         await interaction.reply(errorReply);
+      }
+    }
+    return;
+  }
+
+  if (interaction.isButton()) {
+    if (interaction.customId.startsWith("vote:")) {
+      try {
+        await handleVoteButton(interaction);
+      } catch (err) {
+        console.error("Error handling vote button:", err);
+        const reply: InteractionReplyOptions = {
+          content: "投票の更新中にエラーが発生しました。",
+          flags: MessageFlags.Ephemeral,
+        };
+        if (interaction.replied || interaction.deferred) {
+          await interaction.followUp(reply);
+        } else {
+          await interaction.reply(reply);
+        }
       }
     }
     return;
