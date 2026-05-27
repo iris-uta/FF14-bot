@@ -13,12 +13,17 @@ import {
   getResponses,
   closeVote,
   listOpenVotesInGuild,
+  listVotesInGuild,
   parseCandidateInput,
+  pickRankedCandidate,
   renderVoteMessage,
   getCandidates,
 } from "../services/vote";
 import { parseJstDateTime, formatDiscordTime } from "../services/datetime";
 import { findStaticForChannel } from "../services/static-manager";
+import { schedules, type Vote } from "@ff14kotei/db";
+import { getDb } from "../lib/db";
+import { EmbedBuilder } from "discord.js";
 
 export const data = new SlashCommandBuilder()
   .setName("vote")
@@ -99,6 +104,15 @@ export const data = new SlashCommandBuilder()
           .setDescriptionLocalizations({ ja: "投稿時のメンション (例: @here。固定 channel なら role 自動)" })
           .setMaxLength(200)
       )
+      .addIntegerOption((opt) =>
+        opt
+          .setName("remind_hours_before")
+          .setNameLocalizations({ ja: "リマインダー何時間前" })
+          .setDescription("締切何時間前にリマインダー (closes_at 必須)。例: 12")
+          .setDescriptionLocalizations({ ja: "締切何時間前にリマインダー (closes_at 必須)" })
+          .setMinValue(1)
+          .setMaxValue(168)
+      )
   )
   .addSubcommand((sub) =>
     sub
@@ -133,6 +147,41 @@ export const data = new SlashCommandBuilder()
           .setAutocomplete(true)
           .setMaxLength(40)
       )
+  )
+  .addSubcommand((sub) =>
+    sub
+      .setName("book")
+      .setNameLocalizations({ ja: "予定化" })
+      .setDescription("投票結果の top 候補を /book と同じ形式の予定として登録")
+      .setDescriptionLocalizations({ ja: "投票結果の top 候補を予定として登録 (alert-worker が通知)" })
+      .addStringOption((opt) =>
+        opt
+          .setName("id")
+          .setNameLocalizations({ ja: "id" })
+          .setDescription("投票 ID")
+          .setDescriptionLocalizations({ ja: "投票 ID" })
+          .setRequired(true)
+          .setAutocomplete(true)
+          .setMaxLength(40)
+      )
+      .addIntegerOption((opt) =>
+        opt
+          .setName("rank")
+          .setNameLocalizations({ ja: "順位" })
+          .setDescription("yes 数が N 番目の候補を予定化 (default: 1 = 最多)")
+          .setDescriptionLocalizations({ ja: "yes 数が N 番目の候補を予定化 (default: 1 = 最多)" })
+          .setMinValue(1)
+          .setMaxValue(5)
+      )
+      .addIntegerOption((opt) =>
+        opt
+          .setName("notify_minutes_before")
+          .setNameLocalizations({ ja: "通知何分前" })
+          .setDescription("開始の何分前に通知するか (default: 10)")
+          .setDescriptionLocalizations({ ja: "開始の何分前に通知するか (default: 10)" })
+          .setMinValue(0)
+          .setMaxValue(1440)
+      )
   );
 
 export async function autocomplete(interaction: AutocompleteInteraction): Promise<void> {
@@ -145,12 +194,18 @@ export async function autocomplete(interaction: AutocompleteInteraction): Promis
     await interaction.respond([]);
     return;
   }
-  const open = listOpenVotesInGuild(interaction.guildId, 25);
-  const filtered = open
-    .filter((v) => v.title.toLowerCase().includes(focused.value.toLowerCase()) || v.id.startsWith(focused.value))
+  // /vote close only suggests open votes; /vote info and /vote book suggest all.
+  const sub = interaction.options.getSubcommand();
+  const pool: Vote[] =
+    sub === "close"
+      ? listOpenVotesInGuild(interaction.guildId, 25)
+      : listVotesInGuild(interaction.guildId, 25);
+  const q = focused.value.toLowerCase();
+  const filtered = pool
+    .filter((v) => v.title.toLowerCase().includes(q) || v.id.startsWith(focused.value))
     .slice(0, 25)
     .map((v) => ({
-      name: `${v.title.slice(0, 60)} (${v.id.slice(0, 8)})`,
+      name: `${v.closed ? "🔒 " : ""}${v.title.slice(0, 60)} (${v.id.slice(0, 8)})`,
       value: v.id,
     }));
   await interaction.respond(filtered);
@@ -169,6 +224,7 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
   if (sub === "new") return handleNew(interaction);
   if (sub === "close") return handleClose(interaction);
   if (sub === "info") return handleInfo(interaction);
+  if (sub === "book") return handleBook(interaction);
   await interaction.reply({
     content: `Unknown subcommand: ${sub}`,
     flags: MessageFlags.Ephemeral,
@@ -231,6 +287,26 @@ async function handleNew(interaction: ChatInputCommandInteraction): Promise<void
     mention = `<@&${owningStatic.roleId}>`;
   }
 
+  // Reminder validation: requires closes_at to be set
+  const reminderHoursBefore = interaction.options.getInteger("remind_hours_before");
+  if (reminderHoursBefore !== null && closesAt === null) {
+    await interaction.reply({
+      content: "リマインダーを設定するには `closes_at` も必要です。",
+      flags: MessageFlags.Ephemeral,
+    });
+    return;
+  }
+  if (reminderHoursBefore !== null && closesAt !== null) {
+    const reminderAt = closesAt - reminderHoursBefore * 3_600_000;
+    if (reminderAt <= Date.now()) {
+      await interaction.reply({
+        content: `リマインダー時刻が既に過去です (${reminderHoursBefore}h before ${formatDiscordTime(closesAt)}).`,
+        flags: MessageFlags.Ephemeral,
+      });
+      return;
+    }
+  }
+
   // Defer (channel.send + edit is multi-step)
   await interaction.deferReply();
 
@@ -244,6 +320,8 @@ async function handleNew(interaction: ChatInputCommandInteraction): Promise<void
     candidates,
     closesAt,
     staticId: owningStatic?.id ?? null,
+    mention,
+    reminderHoursBefore,
   });
 
   const { embeds, components } = renderVoteMessage(vote, []);
@@ -320,4 +398,81 @@ async function handleInfo(interaction: ChatInputCommandInteraction): Promise<voi
     embeds,
     flags: MessageFlags.Ephemeral,
   });
+}
+
+async function handleBook(interaction: ChatInputCommandInteraction): Promise<void> {
+  const id = interaction.options.getString("id", true);
+  const rank = interaction.options.getInteger("rank") ?? 1;
+  const notifyMinutesBefore = interaction.options.getInteger("notify_minutes_before") ?? 10;
+
+  const vote = getVote(id);
+  if (!vote || vote.guildId !== interaction.guildId) {
+    await interaction.reply({
+      content: `投票が見つかりません: \`${id}\``,
+      flags: MessageFlags.Ephemeral,
+    });
+    return;
+  }
+
+  const responses = getResponses(id);
+  const cand = pickRankedCandidate(vote, responses, rank);
+  if (!cand) {
+    await interaction.reply({
+      content: `${rank} 番目の候補が存在しません。候補数を確認してください。`,
+      flags: MessageFlags.Ephemeral,
+    });
+    return;
+  }
+  if (!cand.startsAt) {
+    await interaction.reply({
+      content: `候補「${cand.label}」は日時として parse できないため予定化できません。\n候補は \`YYYY-MM-DD HH:mm\` 形式で作成してください。`,
+      flags: MessageFlags.Ephemeral,
+    });
+    return;
+  }
+  if (cand.startsAt <= Date.now()) {
+    await interaction.reply({
+      content: `候補日時が既に過去です: ${formatDiscordTime(cand.startsAt)}`,
+      flags: MessageFlags.Ephemeral,
+    });
+    return;
+  }
+
+  // Insert a schedule row, channel = vote's channel.
+  const scheduleId = randomUUID();
+  const now = Date.now();
+  getDb()
+    .insert(schedules)
+    .values({
+      id: scheduleId,
+      guildId: vote.guildId,
+      channelId: vote.channelId,
+      contentId: null,
+      phaseId: null,
+      startsAt: cand.startsAt,
+      notifyMinutesBefore,
+      mention: vote.mention,
+      note: `投票結果: ${vote.title} (rank ${rank})`,
+      chouseisanUrl: null,
+      staticId: vote.staticId,
+      createdAt: now,
+      createdBy: interaction.user.id,
+    })
+    .run();
+
+  const notifyAt = cand.startsAt - notifyMinutesBefore * 60_000;
+  const yesUsers = responses.filter((r) => r.candidateIndex === cand.index && r.value === "yes");
+  const embed = new EmbedBuilder()
+    .setTitle("📅 投票結果を予定として登録しました")
+    .setColor(0x6e85b7)
+    .addFields(
+      { name: "投票", value: vote.title, inline: false },
+      { name: "選ばれた候補", value: `**${cand.index + 1}. ${cand.label}** (rank ${rank}, ⭕${yesUsers.length})`, inline: false },
+      { name: "開始", value: `${formatDiscordTime(cand.startsAt)} (${formatDiscordTime(cand.startsAt, "R")})`, inline: false },
+      { name: "通知先", value: `<#${vote.channelId}>`, inline: true },
+      { name: "通知時刻", value: `${formatDiscordTime(notifyAt)} (${notifyMinutesBefore}分前)`, inline: true }
+    );
+  if (vote.mention) embed.addFields({ name: "メンション", value: vote.mention, inline: false });
+
+  await interaction.reply({ embeds: [embed], flags: MessageFlags.Ephemeral });
 }
