@@ -15,6 +15,7 @@ import { startVoteReminderWorker, stopVoteReminderWorker } from "./services/vote
 import { startRecurringScheduler, stopRecurringScheduler } from "./services/recurring-scheduler";
 import { handleVoteButton } from "./services/vote-interaction";
 import { handleVoteModalSubmit, MODAL_PREFIX as VOTE_MODAL_PREFIX } from "./services/vote-modal-submit";
+import { handleChouseisanPick, SELECT_PREFIX as CHOUSEISAN_SELECT_PREFIX } from "./services/chouseisan-interaction";
 
 const token = process.env.DISCORD_TOKEN;
 if (!token) {
@@ -87,6 +88,26 @@ client.on(Events.InteractionCreate, async (interaction) => {
         console.error("Error handling vote button:", err);
         const reply: InteractionReplyOptions = {
           content: "投票の更新中にエラーが発生しました。",
+          flags: MessageFlags.Ephemeral,
+        };
+        if (interaction.replied || interaction.deferred) {
+          await interaction.followUp(reply);
+        } else {
+          await interaction.reply(reply);
+        }
+      }
+    }
+    return;
+  }
+
+  if (interaction.isStringSelectMenu()) {
+    if (interaction.customId.startsWith(CHOUSEISAN_SELECT_PREFIX)) {
+      try {
+        await handleChouseisanPick(interaction);
+      } catch (err) {
+        console.error("Error handling chouseisan select:", err);
+        const reply: InteractionReplyOptions = {
+          content: "選択処理中にエラーが発生しました。",
           flags: MessageFlags.Ephemeral,
         };
         if (interaction.replied || interaction.deferred) {
