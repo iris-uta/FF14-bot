@@ -15,7 +15,7 @@ import {
 } from "../services/recruit-template";
 
 export const data = new SlashCommandBuilder()
-  .setName("recruit-template")
+  .setName("recruit")
   .setNameLocalizations({ ja: "募集テンプレ" })
   .setDescription("コンテンツの募集テンプレを生成 (固定 channel なら content 自動検出)")
   .setDescriptionLocalizations({

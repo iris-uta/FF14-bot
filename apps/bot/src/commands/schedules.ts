@@ -10,7 +10,7 @@ import { getDb } from "../lib/db";
 import { formatDiscordTime } from "../services/datetime";
 
 export const data = new SlashCommandBuilder()
-  .setName("schedules")
+  .setName("upcoming")
   .setNameLocalizations({ ja: "予定一覧" })
   .setDescription("このサーバーの今後の予定一覧")
   .setDescriptionLocalizations({ ja: "このサーバーの今後の固定予定一覧 (自分だけに表示)" });

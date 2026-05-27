@@ -11,7 +11,7 @@ import { configureContentTypeOption } from "../lib/content-type-choices";
 import { resolveContentOrError } from "../services/resolve-content";
 
 export const data = new SlashCommandBuilder()
-  .setName("post-phase")
+  .setName("share")
   .setNameLocalizations({ ja: "フェーズ投稿" })
   .setDescription("Phase の攻略情報を現チャネルに投稿 (固定 channel なら content 自動検出)")
   .setDescriptionLocalizations({

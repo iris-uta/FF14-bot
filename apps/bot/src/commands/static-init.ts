@@ -14,7 +14,7 @@ import { parseMembers, checkRoleUniqueness, MemberSpecParseError } from "../serv
 import { SETUP_MODE_DESCRIPTIONS, type SetupMode } from "../services/static-channel-template";
 
 export const data = new SlashCommandBuilder()
-  .setName("static-init")
+  .setName("setup")
   .setNameLocalizations({ ja: "固定作成" })
   .setDescription("固定を作成 (role + カテゴリ + 全 channels + 各 phase に情報自動投稿)")
   .setDescriptionLocalizations({

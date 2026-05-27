@@ -15,7 +15,7 @@ import { respondContentOrPhase } from "../services/autocomplete";
 import { findStaticForChannel } from "../services/static-manager";
 
 export const data = new SlashCommandBuilder()
-  .setName("schedule")
+  .setName("book")
   .setNameLocalizations({ ja: "予定登録" })
   .setDescription("固定活動の予定を登録 (開始N分前に通知)")
   .setDescriptionLocalizations({ ja: "固定活動の予定を登録 (開始 N 分前に自動通知)" })

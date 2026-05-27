@@ -33,19 +33,19 @@ describe("/help command", () => {
       expect(arg.embeds).toHaveLength(1);
       const embed = (arg.embeds as Array<{ toJSON(): { title?: string; description?: string } }>)[0].toJSON();
       expect(embed.title).toContain("コマンド一覧");
-      expect(embed.description).toContain("/content");
-      expect(embed.description).toContain("/setup-static");
-      expect(embed.description).toContain("/post-phase");
-      expect(embed.description).toContain("/recruit-template");
+      expect(embed.description).toContain("/raid");
+      expect(embed.description).toContain("/setup");
+      expect(embed.description).toContain("/share");
+      expect(embed.description).toContain("/recruit");
       expect(embed.description).toContain("/help");
     });
 
     it("shows detail for a known command", async () => {
-      const { interaction, reply } = makeInteraction({ commandName: "content" });
+      const { interaction, reply } = makeInteraction({ commandName: "raid" });
       await execute(interaction);
       const arg = reply.mock.calls[0][0] as { embeds: unknown[] };
       const embed = (arg.embeds as Array<{ toJSON(): { title?: string; fields?: Array<{ name: string }> } }>)[0].toJSON();
-      expect(embed.title).toBe("/content");
+      expect(embed.title).toBe("/raid");
       const optionsField = embed.fields?.find((f) => f.name === "オプション");
       expect(optionsField).toBeDefined();
     });
@@ -70,18 +70,18 @@ describe("/help command", () => {
       const choices = respond.mock.calls[0][0] as Array<{ value: string }>;
       const values = choices.map((c) => c.value);
       expect(values).not.toContain("help");
-      expect(values).toContain("content");
+      expect(values).toContain("raid");
     });
 
     it("filters by substring", async () => {
       const respond = vi.fn().mockResolvedValue(undefined);
       const interaction = {
-        options: { getFocused: () => "phase" },
+        options: { getFocused: () => "book" },
         respond,
       } as unknown as Parameters<typeof autocomplete>[0];
       await autocomplete(interaction);
       const choices = respond.mock.calls[0][0] as Array<{ value: string }>;
-      expect(choices.every((c) => c.value.toLowerCase().includes("phase"))).toBe(true);
+      expect(choices.every((c) => c.value.toLowerCase().includes("book"))).toBe(true);
     });
   });
 });
