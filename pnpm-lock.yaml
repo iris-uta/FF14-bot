@@ -45,9 +45,15 @@ importers:
 
   apps/web:
     dependencies:
+      '@ff14kotei/db':
+        specifier: workspace:*
+        version: link:../../packages/db
       '@ff14kotei/schema':
         specifier: workspace:*
         version: link:../../packages/schema
+      drizzle-orm:
+        specifier: ^0.36.4
+        version: 0.36.4(@types/better-sqlite3@7.6.13)(@types/react@19.2.15)(better-sqlite3@11.10.0)(react@19.2.6)
       marked:
         specifier: ^15.0.4
         version: 15.0.12
