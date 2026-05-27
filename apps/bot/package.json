@@ -16,7 +16,8 @@
     "@ff14kotei/schema": "workspace:*",
     "discord.js": "^14.16.3",
     "dotenv": "^16.4.7",
-    "drizzle-orm": "^0.36.4"
+    "drizzle-orm": "^0.36.4",
+    "iconv-lite": "^0.7.2"
   },
   "devDependencies": {
     "@types/node": "^22.10.1",
