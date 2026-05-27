@@ -18,17 +18,17 @@ export default function Home() {
           固定主の段取りを 1 つの Bot で支援します。
         </p>
         <div className="mt-8 flex flex-wrap gap-4 justify-center">
-          <a
-            href="#features"
+          <Link
+            href="/invite"
             className="inline-flex items-center justify-center rounded-md bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 text-sm font-medium transition-colors"
           >
-            機能を見る
-          </a>
+            サーバーに追加
+          </Link>
           <Link
-            href="/privacy"
+            href="/guide"
             className="inline-flex items-center justify-center rounded-md border border-black/15 dark:border-white/15 px-6 py-3 text-sm font-medium hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
           >
-            プライバシー
+            使い方を見る
           </Link>
         </div>
       </section>
@@ -37,20 +37,28 @@ export default function Home() {
         <h2 className="text-2xl font-bold">主な機能</h2>
         <div className="grid sm:grid-cols-2 gap-6">
           <Feature
-            title="/setup-static"
+            title="/setup"
             desc="コンテンツを選ぶだけで、固定用カテゴリと Phase 別チャネルを一括作成。"
           />
           <Feature
-            title="/post-phase"
-            desc="指定 Phase の攻略動画・マクロ・処理方を該当チャネルに自動投稿。"
+            title="/vote"
+            desc="日程候補を投票形式で募集。締切自動 + リマインダー付き (調整さん代替)。"
           />
           <Feature
-            title="/schedule"
-            desc="次回固定の開始時刻を登録。10 分前 (時間設定可) に自動通知。"
+            title="/book / /recurring"
+            desc="次回固定の開始時刻を登録、または毎週定期予定として登録。N 分前に自動通知。"
           />
           <Feature
-            title="/recruit-template"
+            title="/recruit"
             desc="募集テンプレを変数置換で即生成。Lodestone 投稿に貼り付けるだけ。"
+          />
+          <Feature
+            title="/static-info"
+            desc="8 slot fill 状況・現在 phase・直近予定をワンコマンドで確認。"
+          />
+          <Feature
+            title="/progress"
+            desc="P3 到達、初見クリア等のマイルストーンを記録。Twitter シェア対応。"
           />
         </div>
       </section>

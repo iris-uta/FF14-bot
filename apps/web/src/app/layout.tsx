@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { AuthNav } from "@/components/AuthNav";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -18,31 +17,23 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <Link href="/" className="font-semibold text-lg shrink-0">
               FF14 固定支援 Bot
             </Link>
-            <div className="flex items-center gap-6">
-              <ul className="hidden sm:flex gap-5 text-sm">
-                <li>
-                  <Link href="/" className="hover:underline">
-                    ホーム
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/dashboard" className="hover:underline">
-                    ダッシュボード
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/upcoming" className="hover:underline">
-                    予定
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/votes" className="hover:underline">
-                    投票
-                  </Link>
-                </li>
-              </ul>
-              <AuthNav />
-            </div>
+            <ul className="hidden sm:flex gap-5 text-sm">
+              <li>
+                <Link href="/" className="hover:underline">
+                  ホーム
+                </Link>
+              </li>
+              <li>
+                <Link href="/guide" className="hover:underline">
+                  使い方
+                </Link>
+              </li>
+              <li>
+                <Link href="/invite" className="hover:underline">
+                  サーバーに追加
+                </Link>
+              </li>
+            </ul>
           </nav>
         </header>
         <main className="flex-1 max-w-5xl mx-auto px-6 py-10 w-full">{children}</main>
