@@ -91,7 +91,8 @@ export async function handleVoteModalSubmit(interaction: ModalSubmitInteraction)
     content,
     embeds,
     components,
-    allowedMentions: { parse: ["everyone", "roles"] },
+    // roles + users only — prevent @everyone abuse (mention: option is user-controlled)
+    allowedMentions: { parse: ["roles", "users"] },
   });
   setVoteMessageId(id, sent.id);
 

@@ -78,7 +78,8 @@ async function sendReminder(client: Client, vote: Vote): Promise<void> {
   await ch.send({
     content: body,
     reply: { messageReference: vote.messageId, failIfNotExists: false },
-    allowedMentions: { parse: ["everyone", "roles"] },
+    // roles + users only — vote.mention is user-controlled at creation time
+    allowedMentions: { parse: ["roles", "users"] },
   });
 }
 
