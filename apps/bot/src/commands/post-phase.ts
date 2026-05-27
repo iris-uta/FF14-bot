@@ -1,11 +1,11 @@
 import {
   SlashCommandBuilder,
-  EmbedBuilder,
   MessageFlags,
   type ChatInputCommandInteraction,
   type AutocompleteInteraction,
 } from "discord.js";
 import { findPhase, getMacrosForPhase, splitMacroForDiscord } from "../services/phase-content";
+import { buildPhaseEmbed } from "../services/phase-channel-poster";
 import { respondContentOrPhase } from "../services/autocomplete";
 import { configureContentTypeOption } from "../lib/content-type-choices";
 import { resolveContentOrError } from "../services/resolve-content";
@@ -63,62 +63,10 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
 
   await interaction.deferReply();
 
-  const embed = new EmbedBuilder()
-    .setTitle(`${phase.name} — ${content.displayName}`)
-    .setColor(0x6e85b7);
-
+  // Shared embed builder (deduped from phase-channel-poster.ts).
+  const embed = buildPhaseEmbed(content, phase);
   if (autoDetected) {
     embed.setFooter({ text: "固定 channel から自動検出" });
-  }
-
-  if (phase.description) {
-    embed.setDescription(phase.description.slice(0, 4096));
-  }
-
-  if (phase.strategies.length > 0) {
-    embed.addFields({
-      name: "処理方",
-      value: phase.strategies
-        .map((s) => `**${s.name}**${s.description ? ` — ${s.description.split("\n")[0]}` : ""}`)
-        .join("\n")
-        .slice(0, 1024),
-    });
-  }
-
-  if (phase.videos.length > 0) {
-    embed.addFields({
-      name: "攻略動画",
-      value: phase.videos
-        .map((v) => `[${v.title}](${v.url})${v.author ? ` — ${v.author}` : ""}`)
-        .join("\n")
-        .slice(0, 1024),
-    });
-  }
-
-  if (phase.tips.length > 0) {
-    embed.addFields({
-      name: "Tips",
-      value: phase.tips.map((t) => `• ${t}`).join("\n").slice(0, 1024),
-    });
-  }
-
-  if (phase.mitigation) {
-    embed.addFields({
-      name: "軽減表",
-      value: `[${phase.mitigation.name}](${phase.mitigation.url})${
-        phase.mitigation.copyable ? "（コピー推奨）" : ""
-      }`,
-    });
-  }
-
-  if (macros.length > 0) {
-    embed.addFields({
-      name: `マクロ (${macros.length}個)`,
-      value: macros
-        .map((m, i) => `${i + 1}. [${m.source}](${m.url})`)
-        .join("\n")
-        .slice(0, 1024),
-    });
   }
 
   await interaction.editReply({ embeds: [embed] });
