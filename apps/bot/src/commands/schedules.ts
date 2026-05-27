@@ -11,7 +11,9 @@ import { formatDiscordTime } from "../services/datetime";
 
 export const data = new SlashCommandBuilder()
   .setName("schedules")
-  .setDescription("このサーバーの今後の予定一覧");
+  .setNameLocalizations({ ja: "予定一覧" })
+  .setDescription("このサーバーの今後の予定一覧")
+  .setDescriptionLocalizations({ ja: "このサーバーの今後の固定予定一覧 (自分だけに表示)" });
 
 export async function execute(interaction: ChatInputCommandInteraction): Promise<void> {
   if (!interaction.inGuild() || !interaction.guildId) {

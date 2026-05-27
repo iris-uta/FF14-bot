@@ -11,12 +11,16 @@ import { getDb } from "../lib/db";
 
 export const data = new SlashCommandBuilder()
   .setName("unschedule")
+  .setNameLocalizations({ ja: "予定削除" })
   .setDescription("登録済みの予定を取り消す")
+  .setDescriptionLocalizations({ ja: "登録済みの固定予定を取り消す" })
   .setDefaultMemberPermissions(PermissionFlagsBits.ManageEvents)
   .addStringOption((opt) =>
     opt
       .setName("id")
+      .setNameLocalizations({ ja: "予定id" })
       .setDescription("予定 ID (autocomplete対応)")
+      .setDescriptionLocalizations({ ja: "予定ID (autocomplete で選択可能)" })
       .setRequired(true)
       .setAutocomplete(true)
   );

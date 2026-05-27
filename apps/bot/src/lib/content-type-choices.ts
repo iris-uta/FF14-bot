@@ -28,7 +28,11 @@ export function configureContentTypeOption(
 ): SlashCommandStringOption {
   return opt
     .setName("type")
+    .setNameLocalizations({ ja: "種別" })
     .setDescription("コンテンツ種別 (これを選んでから content を選ぶと一覧が絞られる)")
+    .setDescriptionLocalizations({
+      ja: "コンテンツ種別 (絶/零式 等) — 先に選ぶとコンテンツ一覧が絞られる",
+    })
     .setRequired(options.required ?? true)
     .setChoices(...CONTENT_TYPE_CHOICES);
 }

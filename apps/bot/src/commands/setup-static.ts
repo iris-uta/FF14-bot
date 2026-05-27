@@ -15,20 +15,28 @@ import { buildChannelPlan, type ChannelPlan } from "../services/channel-setup";
 
 export const data = new SlashCommandBuilder()
   .setName("setup-static")
-  .setDescription("コンテンツのカテゴリ + Phase チャネルを一括作成")
+  .setNameLocalizations({ ja: "旧チャネル作成" })
+  .setDescription("コンテンツのカテゴリ + Phase チャネルを一括作成 (旧コマンド、/static-init 推奨)")
+  .setDescriptionLocalizations({
+    ja: "[旧] カテゴリ + Phase チャネルだけ作成 (DB 連携なし)。新しくは /固定作成 を推奨。",
+  })
   .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels)
   .addStringOption((opt) => configureContentTypeOption(opt))
   .addStringOption((opt) =>
     opt
       .setName("content")
+      .setNameLocalizations({ ja: "コンテンツ" })
       .setDescription("コンテンツID (type で絞り込まれた一覧)")
+      .setDescriptionLocalizations({ ja: "コンテンツID (種別で絞られた一覧から)" })
       .setRequired(true)
       .setAutocomplete(true)
   )
   .addStringOption((opt) =>
     opt
       .setName("name")
+      .setNameLocalizations({ ja: "固定名" })
       .setDescription("固定の名前 (省略時はコンテンツ名)")
+      .setDescriptionLocalizations({ ja: "固定の名前 (省略時はコンテンツ名)" })
       .setMaxLength(80)
   );
 

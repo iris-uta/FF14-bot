@@ -16,45 +16,82 @@ import {
 
 export const data = new SlashCommandBuilder()
   .setName("recruit-template")
+  .setNameLocalizations({ ja: "募集テンプレ" })
   .setDescription("コンテンツの募集テンプレを生成 (固定 channel なら content 自動検出)")
+  .setDescriptionLocalizations({
+    ja: "募集テンプレを生成 (固定 channel 内なら自動検出)",
+  })
   .addStringOption((opt) => configureContentTypeOption(opt, { required: false }))
   .addStringOption((opt) =>
     opt
       .setName("content")
+      .setNameLocalizations({ ja: "コンテンツ" })
       .setDescription("コンテンツID (省略時は固定 channel から自動検出)")
+      .setDescriptionLocalizations({ ja: "コンテンツID (省略時は固定 channel から自動検出)" })
       .setAutocomplete(true)
   )
   .addIntegerOption((opt) =>
     opt
       .setName("template")
+      .setNameLocalizations({ ja: "テンプレ番号" })
       .setDescription("テンプレが複数ある時の index (default 0)")
+      .setDescriptionLocalizations({ ja: "テンプレが複数ある時の番号 (default 0)" })
       .setMinValue(0)
   )
   .addStringOption((opt) =>
-    opt.setName("date").setDescription("日程 (例: 2025-06-01 21:00)").setMaxLength(100)
+    opt
+      .setName("date")
+      .setNameLocalizations({ ja: "日程" })
+      .setDescription("日程 (例: 2025-06-01 21:00)")
+      .setDescriptionLocalizations({ ja: "日程 (例: 2025-06-01 21:00)" })
+      .setMaxLength(100)
   )
   .addStringOption((opt) =>
-    opt.setName("progress").setDescription("進行度 (例: P3後半)").setMaxLength(100)
+    opt
+      .setName("progress")
+      .setNameLocalizations({ ja: "進行度" })
+      .setDescription("進行度 (例: P3後半)")
+      .setDescriptionLocalizations({ ja: "進行度 (例: P3後半)" })
+      .setMaxLength(100)
   )
   .addStringOption((opt) =>
     opt
       .setName("recruitingroles")
+      .setNameLocalizations({ ja: "募集ロール" })
       .setDescription("募集ロール (例: H1H2 D2D4)")
+      .setDescriptionLocalizations({ ja: "募集ロール (例: H1H2 D2D4)" })
       .setMaxLength(100)
   )
   .addStringOption((opt) =>
-    opt.setName("datacenter").setDescription("DC (例: Mana)").setMaxLength(60)
+    opt
+      .setName("datacenter")
+      .setNameLocalizations({ ja: "データセンター" })
+      .setDescription("DC (例: Mana)")
+      .setDescriptionLocalizations({ ja: "データセンター (例: Mana)" })
+      .setMaxLength(60)
   )
   .addStringOption((opt) =>
-    opt.setName("language").setDescription("言語 (例: 日本語)").setMaxLength(60)
+    opt
+      .setName("language")
+      .setNameLocalizations({ ja: "言語" })
+      .setDescription("言語 (例: 日本語)")
+      .setDescriptionLocalizations({ ja: "言語 (例: 日本語)" })
+      .setMaxLength(60)
   )
   .addStringOption((opt) =>
-    opt.setName("goal").setDescription("固定の目標 (例: クリア)").setMaxLength(200)
+    opt
+      .setName("goal")
+      .setNameLocalizations({ ja: "目標" })
+      .setDescription("固定の目標 (例: クリア)")
+      .setDescriptionLocalizations({ ja: "固定の目標 (例: クリア)" })
+      .setMaxLength(200)
   )
   .addStringOption((opt) =>
     opt
       .setName("chouseisan_url")
+      .setNameLocalizations({ ja: "調整さんurl" })
       .setDescription("調整さん等のURL (任意)")
+      .setDescriptionLocalizations({ ja: "調整さん等のURL (任意)" })
       .setMaxLength(500)
   );
 
