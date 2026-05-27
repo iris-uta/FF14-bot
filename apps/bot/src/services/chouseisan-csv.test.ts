@@ -147,8 +147,10 @@ describe("parseChouseisanCsv — end-to-end with synthetic data", () => {
 
   function makeCsv(text: string): ArrayBuffer {
     const buf = iconv.encode(text, "Shift_JIS");
-    // Convert Buffer to ArrayBuffer
-    return buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength);
+    // Copy into a fresh ArrayBuffer to avoid SharedArrayBuffer type ambiguity
+    const ab = new ArrayBuffer(buf.byteLength);
+    new Uint8Array(ab).set(new Uint8Array(buf.buffer, buf.byteOffset, buf.byteLength));
+    return ab;
   }
 
   it("parses a typical 3-candidate / 4-participant CSV", () => {
