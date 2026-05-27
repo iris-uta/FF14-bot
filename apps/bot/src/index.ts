@@ -10,6 +10,7 @@ import { getCommand } from "./commands";
 import { getAllContents } from "./lib/contents";
 import { getDb } from "./lib/db";
 import { startAlertWorker, stopAlertWorker } from "./services/alert-worker";
+import { startVoteCloserWorker, stopVoteCloserWorker } from "./services/vote-closer";
 import { handleVoteButton } from "./services/vote-interaction";
 
 const token = process.env.DISCORD_TOKEN;
@@ -32,12 +33,15 @@ client.once(Events.ClientReady, (c) => {
   console.log(`Logged in as ${c.user.tag}`);
   startAlertWorker(client);
   console.log("Alert worker started (30s tick)");
+  startVoteCloserWorker(client);
+  console.log("Vote-closer worker started (30s tick)");
 });
 
 for (const sig of ["SIGINT", "SIGTERM"] as const) {
   process.on(sig, () => {
     console.log(`Received ${sig}, shutting down`);
     stopAlertWorker();
+    stopVoteCloserWorker();
     void client.destroy().finally(() => process.exit(0));
   });
 }
