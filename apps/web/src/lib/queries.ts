@@ -129,6 +129,52 @@ export function listVisibleOpenVotes(discordId: string, limit = 10): Vote[] {
 }
 
 /**
+ * All upcoming schedules across statics the user has access to.
+ * Sorted by start time ascending. `withinDays` defaults to 14.
+ */
+export interface UpcomingScheduleRow {
+  schedule: Schedule;
+  staticName: string | null;
+  staticId: string | null;
+}
+
+export function listUpcomingForUser(
+  discordId: string,
+  withinDays = 14,
+  now: number = Date.now()
+): UpcomingScheduleRow[] {
+  const db = getDb();
+  const myStatics = listMyStatics(discordId);
+  if (myStatics.length === 0) return [];
+  const staticIds = myStatics.map((s) => s.id);
+  const staticById = new Map(myStatics.map((s) => [s.id, s]));
+
+  const horizon = now + withinDays * 24 * 60 * 60_000;
+  const rows = db
+    .select()
+    .from(schedules)
+    .where(
+      and(
+        gte(schedules.startsAt, now),
+        sql`${schedules.startsAt} <= ${horizon}`,
+        sql`${schedules.staticId} IN ${staticIds}`
+      )
+    )
+    .orderBy(asc(schedules.startsAt))
+    .limit(50)
+    .all();
+
+  return rows.map((s) => {
+    const ownerStatic = s.staticId ? staticById.get(s.staticId) : null;
+    return {
+      schedule: s,
+      staticName: ownerStatic?.name ?? null,
+      staticId: ownerStatic?.id ?? null,
+    };
+  });
+}
+
+/**
  * Visible votes (both open + closed) with options for filtering.
  */
 export function listVisibleVotes(
