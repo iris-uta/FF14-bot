@@ -38,6 +38,17 @@ export async function handleVoteButton(interaction: ButtonInteraction): Promise<
     return;
   }
 
+  // Defense-in-depth: prevent cross-guild voting. Discord normally scopes button
+  // interactions to the source channel/guild, but if a vote message were forwarded
+  // or quoted into another guild we don't want users there to be able to vote.
+  if (interaction.guildId && interaction.guildId !== vote.guildId) {
+    await interaction.reply({
+      content: "この投票は別のサーバーに属しているため投票できません。",
+      flags: MessageFlags.Ephemeral,
+    });
+    return;
+  }
+
   if (vote.closed) {
     await interaction.reply({
       content: "この投票は締切済みです。",

@@ -373,6 +373,17 @@ async function handleBook(interaction: ChatInputCommandInteraction): Promise<voi
     return;
   }
 
+  // Creator-only: prevent random users from converting someone else's vote into
+  // a schedule using the original vote's mention/channel/static context.
+  // Matches the /vote close authorization model.
+  if (vote.creatorId !== interaction.user.id) {
+    await interaction.reply({
+      content: "この投票を予定化できるのは作成者のみです。",
+      flags: MessageFlags.Ephemeral,
+    });
+    return;
+  }
+
   const responses = getResponses(id);
   const cand = pickRankedCandidate(vote, responses, rank);
   if (!cand) {
