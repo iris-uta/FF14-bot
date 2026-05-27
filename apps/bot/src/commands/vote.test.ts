@@ -40,19 +40,18 @@ describe("/vote command — shape", () => {
     expect(notify?.required).toBeFalsy();
   });
 
-  it("'new' requires title + candidate1 + candidate2 (min 2 candidates)", () => {
+  it("'new' requires title only — candidates come from a modal", () => {
     const json = data.toJSON();
     const newSub = json.options?.find((o: { name: string }) => o.name === "new") as
       | { options?: { name: string; required?: boolean }[] }
       | undefined;
     const titleOpt = newSub?.options?.find((o) => o.name === "title");
-    const c1 = newSub?.options?.find((o) => o.name === "candidate1");
-    const c2 = newSub?.options?.find((o) => o.name === "candidate2");
-    const c3 = newSub?.options?.find((o) => o.name === "candidate3");
     expect(titleOpt?.required).toBe(true);
-    expect(c1?.required).toBe(true);
-    expect(c2?.required).toBe(true);
-    expect(c3?.required).toBeFalsy();
+    // candidate1-5 should no longer exist (replaced by modal input)
+    expect(newSub?.options?.find((o) => o.name === "candidate1")).toBeUndefined();
+    expect(newSub?.options?.find((o) => o.name === "candidate5")).toBeUndefined();
+    // closes_at / mention / remind_hours_before remain optional slash options
+    expect(newSub?.options?.find((o) => o.name === "closes_at")?.required).toBeFalsy();
   });
 
   it("'close' requires id with autocomplete", () => {
