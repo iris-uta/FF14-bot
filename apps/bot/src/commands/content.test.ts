@@ -42,7 +42,7 @@ function makeAutocompleteInteraction(opts: { focusedName: string; focusedValue: 
 
 describe("/content command", () => {
   it("has correct command name", () => {
-    expect(data.name).toBe("content");
+    expect(data.name).toBe("raid");
   });
 
   it("has required string option 'id' with autocomplete", () => {

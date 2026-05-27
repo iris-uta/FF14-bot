@@ -4,7 +4,7 @@ import { data } from "./unschedule";
 
 describe("/unschedule command — shape", () => {
   it("has correct name", () => {
-    expect(data.name).toBe("unschedule");
+    expect(data.name).toBe("cancel");
   });
 
   it("requires Manage Events permission (leader-only by default)", () => {

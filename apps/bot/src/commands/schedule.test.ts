@@ -4,7 +4,7 @@ import { data } from "./schedule";
 
 describe("/schedule command — shape", () => {
   it("has correct name", () => {
-    expect(data.name).toBe("schedule");
+    expect(data.name).toBe("book");
   });
 
   it("requires Manage Events permission (leader-only by default)", () => {

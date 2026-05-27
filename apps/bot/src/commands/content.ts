@@ -10,7 +10,7 @@ import { sortByPatch } from "../lib/content-sort";
 import { configureContentTypeOption, checkTypeMatch } from "../lib/content-type-choices";
 
 export const data = new SlashCommandBuilder()
-  .setName("content")
+  .setName("raid")
   .setNameLocalizations({ ja: "コンテンツ" })
   .setDescription("固定で挑むコンテンツを表示する")
   .setDescriptionLocalizations({ ja: "コンテンツ情報 (Phase一覧・参照URL等) を表示" })

@@ -34,7 +34,7 @@ function makeInteraction(opts: { contentId: string | null; phaseId: string | nul
 
 describe("/post-phase command", () => {
   it("has correct command name", () => {
-    expect(data.name).toBe("post-phase");
+    expect(data.name).toBe("share");
   });
 
   it("has phase required (autocomplete) + content optional (auto-detect from static channel)", () => {

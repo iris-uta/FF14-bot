@@ -10,7 +10,7 @@ import { schedules } from "@ff14kotei/db";
 import { getDb } from "../lib/db";
 
 export const data = new SlashCommandBuilder()
-  .setName("unschedule")
+  .setName("cancel")
   .setNameLocalizations({ ja: "予定削除" })
   .setDescription("登録済みの予定を取り消す")
   .setDescriptionLocalizations({ ja: "登録済みの固定予定を取り消す" })
