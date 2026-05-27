@@ -139,3 +139,28 @@ export const voteResponses = sqliteTable(
 
 export type VoteResponse = typeof voteResponses.$inferSelect;
 export type NewVoteResponse = typeof voteResponses.$inferInsert;
+
+/**
+ * Progress log — 固定の進行マイルストーン。
+ * 例: "P3 到達 2026-05-10"、"撃破 2026-06-15"
+ *
+ * status は自由文だが UI では以下を提案:
+ *   - reached  : 初めて到達
+ *   - cleared  : phase 撃破
+ *   - first-clear: 初見クリア (記念)
+ *   - note     : freeform メモ
+ */
+export const progressLogs = sqliteTable("progress_logs", {
+  id: text("id").primaryKey(),
+  staticId: text("static_id").notNull(),
+  guildId: text("guild_id").notNull(),         // query 用
+  userId: text("user_id").notNull(),           // 記録者
+  phaseId: text("phase_id"),                    // 例: "p3"。note タイプなら null 可
+  status: text("status").notNull(),             // reached / cleared / first-clear / note
+  note: text("note"),                            // 任意の追加コメント
+  loggedAt: integer("logged_at").notNull(),     // ユーザー指定の日付 (or now)
+  createdAt: integer("created_at").notNull(),   // record 作成時刻
+});
+
+export type ProgressLog = typeof progressLogs.$inferSelect;
+export type NewProgressLog = typeof progressLogs.$inferInsert;
