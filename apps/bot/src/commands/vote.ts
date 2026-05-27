@@ -2,25 +2,27 @@ import {
   SlashCommandBuilder,
   MessageFlags,
   PermissionFlagsBits,
+  ActionRowBuilder,
+  ModalBuilder,
+  TextInputBuilder,
+  TextInputStyle,
   type ChatInputCommandInteraction,
   type AutocompleteInteraction,
 } from "discord.js";
 import { randomUUID } from "node:crypto";
 import {
-  createVote,
-  setVoteMessageId,
   getVote,
   getResponses,
   closeVote,
   listOpenVotesInGuild,
   listVotesInGuild,
-  parseCandidateInput,
   pickRankedCandidate,
   renderVoteMessage,
   getCandidates,
 } from "../services/vote";
 import { parseJstDateTime, formatDiscordTime } from "../services/datetime";
 import { findStaticForChannel } from "../services/static-manager";
+import { putDraft } from "../services/vote-draft";
 import { schedules, type Vote } from "@ff14kotei/db";
 import { getDb } from "../lib/db";
 import { EmbedBuilder } from "discord.js";
@@ -35,8 +37,8 @@ export const data = new SlashCommandBuilder()
     sub
       .setName("new")
       .setNameLocalizations({ ja: "作成" })
-      .setDescription("新しい投票を作成 (候補 2〜5 件)")
-      .setDescriptionLocalizations({ ja: "新しい投票を作成 (候補 2〜5 件)" })
+      .setDescription("新しい投票を作成 (候補は modal で入力、2〜5 件)")
+      .setDescriptionLocalizations({ ja: "新しい投票を作成 (候補は modal で入力、2〜5 件)" })
       .addStringOption((opt) =>
         opt
           .setName("title")
@@ -45,48 +47,6 @@ export const data = new SlashCommandBuilder()
           .setDescriptionLocalizations({ ja: "投票のタイトル (例: 次回固定日)" })
           .setRequired(true)
           .setMaxLength(100)
-      )
-      .addStringOption((opt) =>
-        opt
-          .setName("candidate1")
-          .setNameLocalizations({ ja: "候補1" })
-          .setDescription("候補1 (日時なら YYYY-MM-DD HH:mm、自由文も可)")
-          .setDescriptionLocalizations({ ja: "候補1 (日時なら YYYY-MM-DD HH:mm、自由文も可)" })
-          .setRequired(true)
-          .setMaxLength(80)
-      )
-      .addStringOption((opt) =>
-        opt
-          .setName("candidate2")
-          .setNameLocalizations({ ja: "候補2" })
-          .setDescription("候補2")
-          .setDescriptionLocalizations({ ja: "候補2" })
-          .setRequired(true)
-          .setMaxLength(80)
-      )
-      .addStringOption((opt) =>
-        opt
-          .setName("candidate3")
-          .setNameLocalizations({ ja: "候補3" })
-          .setDescription("候補3 (任意)")
-          .setDescriptionLocalizations({ ja: "候補3 (任意)" })
-          .setMaxLength(80)
-      )
-      .addStringOption((opt) =>
-        opt
-          .setName("candidate4")
-          .setNameLocalizations({ ja: "候補4" })
-          .setDescription("候補4 (任意)")
-          .setDescriptionLocalizations({ ja: "候補4 (任意)" })
-          .setMaxLength(80)
-      )
-      .addStringOption((opt) =>
-        opt
-          .setName("candidate5")
-          .setNameLocalizations({ ja: "候補5" })
-          .setDescription("候補5 (任意)")
-          .setDescriptionLocalizations({ ja: "候補5 (任意)" })
-          .setMaxLength(80)
       )
       .addStringOption((opt) =>
         opt
@@ -231,6 +191,12 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
   });
 }
 
+/**
+ * /vote new の handler.
+ *
+ * Slash option (title / closes_at / mention / remind_hours_before) を draft に保存して、
+ * 候補入力 modal を表示する。modal 提出後の処理は vote-modal-submit.ts に委譲。
+ */
 async function handleNew(interaction: ChatInputCommandInteraction): Promise<void> {
   const guildId = interaction.guildId!;
   const channel = interaction.channel;
@@ -243,21 +209,8 @@ async function handleNew(interaction: ChatInputCommandInteraction): Promise<void
   }
 
   const title = interaction.options.getString("title", true);
-  const rawCandidates: string[] = [];
-  for (let i = 1; i <= 5; i++) {
-    const v = interaction.options.getString(`candidate${i}`);
-    if (v) rawCandidates.push(v);
-  }
-  if (rawCandidates.length < 2) {
-    await interaction.reply({
-      content: "候補は 2 件以上必要です。",
-      flags: MessageFlags.Ephemeral,
-    });
-    return;
-  }
 
-  const candidates = rawCandidates.map((raw, idx) => parseCandidateInput(raw, idx));
-
+  // closes_at 検証
   const closesAtInput = interaction.options.getString("closes_at");
   let closesAt: number | null = null;
   if (closesAtInput) {
@@ -279,7 +232,7 @@ async function handleNew(interaction: ChatInputCommandInteraction): Promise<void
     closesAt = parsed;
   }
 
-  // Auto-detect static for optional mention default + linking
+  // mention auto-detect (固定 channel なら role 補完)
   const parentId = "parentId" in channel ? channel.parentId : null;
   const owningStatic = findStaticForChannel(guildId, channel.id, parentId);
   let mention = interaction.options.getString("mention");
@@ -287,7 +240,7 @@ async function handleNew(interaction: ChatInputCommandInteraction): Promise<void
     mention = `<@&${owningStatic.roleId}>`;
   }
 
-  // Reminder validation: requires closes_at to be set
+  // reminder 検証
   const reminderHoursBefore = interaction.options.getInteger("remind_hours_before");
   if (reminderHoursBefore !== null && closesAt === null) {
     await interaction.reply({
@@ -307,31 +260,37 @@ async function handleNew(interaction: ChatInputCommandInteraction): Promise<void
     }
   }
 
-  // Defer (channel.send + edit is multi-step)
-  await interaction.deferReply();
-
-  const id = randomUUID();
-  const vote = createVote({
-    id,
+  // Draft を保存して modal を表示
+  const draftId = randomUUID();
+  putDraft(draftId, {
     guildId,
     channelId: channel.id,
     creatorId: interaction.user.id,
     title,
-    candidates,
     closesAt,
-    staticId: owningStatic?.id ?? null,
     mention,
     reminderHoursBefore,
+    staticId: owningStatic?.id ?? null,
+    createdAt: Date.now(),
   });
 
-  const { embeds, components } = renderVoteMessage(vote, []);
-  const content = mention ?? undefined;
-  const sent = await channel.send({ content, embeds, components, allowedMentions: { parse: ["everyone", "roles"] } });
-  setVoteMessageId(id, sent.id);
+  const modal = new ModalBuilder()
+    .setCustomId(`vote-modal:${draftId}`)
+    .setTitle(`投票: ${title.slice(0, 38)}`);
 
-  await interaction.editReply({
-    content: `🗳️ 投票を作成しました。 ID: \`${id.slice(0, 8)}\``,
-  });
+  const candidatesInput = new TextInputBuilder()
+    .setCustomId("candidates")
+    .setLabel("候補 (1 行に 1 件、2〜5 件)")
+    .setPlaceholder("2026-06-01 21:00\n2026-06-02 21:00\n2026-06-03 21:00")
+    .setStyle(TextInputStyle.Paragraph)
+    .setRequired(true)
+    .setMaxLength(400);
+
+  modal.addComponents(
+    new ActionRowBuilder<TextInputBuilder>().addComponents(candidatesInput)
+  );
+
+  await interaction.showModal(modal);
 }
 
 async function handleClose(interaction: ChatInputCommandInteraction): Promise<void> {
