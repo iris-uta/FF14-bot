@@ -12,6 +12,7 @@ import { getDb } from "./lib/db";
 import { startAlertWorker, stopAlertWorker } from "./services/alert-worker";
 import { startVoteCloserWorker, stopVoteCloserWorker } from "./services/vote-closer";
 import { startVoteReminderWorker, stopVoteReminderWorker } from "./services/vote-reminder";
+import { startRecurringScheduler, stopRecurringScheduler } from "./services/recurring-scheduler";
 import { handleVoteButton } from "./services/vote-interaction";
 import { handleVoteModalSubmit, MODAL_PREFIX as VOTE_MODAL_PREFIX } from "./services/vote-modal-submit";
 
@@ -39,6 +40,8 @@ client.once(Events.ClientReady, (c) => {
   console.log("Vote-closer worker started (30s tick)");
   startVoteReminderWorker(client);
   console.log("Vote-reminder worker started (30s tick)");
+  startRecurringScheduler();
+  console.log("Recurring-scheduler worker started (1h tick)");
 });
 
 for (const sig of ["SIGINT", "SIGTERM"] as const) {
@@ -47,6 +50,7 @@ for (const sig of ["SIGINT", "SIGTERM"] as const) {
     stopAlertWorker();
     stopVoteCloserWorker();
     stopVoteReminderWorker();
+    stopRecurringScheduler();
     void client.destroy().finally(() => process.exit(0));
   });
 }
