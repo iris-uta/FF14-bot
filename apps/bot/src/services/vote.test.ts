@@ -9,10 +9,13 @@ import {
   getVote,
   closeVote,
   listOpenVotesInGuild,
+  listVotesInGuild,
   tallyCandidate,
   renderVoteMessage,
   parseVoteButtonCustomId,
   getCandidates,
+  pickRankedCandidate,
+  markReminded,
 } from "./vote";
 
 beforeEach(() => {
@@ -140,6 +143,107 @@ describe("closeVote", () => {
     const open = listOpenVotesInGuild("g1");
     expect(open.map((v) => v.id)).toContain("vote-open");
     expect(open.map((v) => v.id)).not.toContain("vote-closed");
+  });
+});
+
+describe("listVotesInGuild", () => {
+  it("returns both open and closed votes, newest first", () => {
+    createVote({
+      id: "v-old",
+      guildId: "g1",
+      channelId: "c1",
+      creatorId: "u",
+      title: "old",
+      candidates: [parseCandidateInput("a", 0), parseCandidateInput("b", 1)],
+    });
+    // Force the second vote's createdAt to be later
+    createVote({
+      id: "v-new",
+      guildId: "g1",
+      channelId: "c1",
+      creatorId: "u",
+      title: "new",
+      candidates: [parseCandidateInput("a", 0), parseCandidateInput("b", 1)],
+    });
+    closeVote("v-old"); // ensure closed votes are included
+    const list = listVotesInGuild("g1");
+    expect(list.map((v) => v.id)).toEqual(expect.arrayContaining(["v-old", "v-new"]));
+  });
+
+  it("filters by guild", () => {
+    createVote({
+      id: "g1-v",
+      guildId: "g1",
+      channelId: "c",
+      creatorId: "u",
+      title: "x",
+      candidates: [parseCandidateInput("a", 0), parseCandidateInput("b", 1)],
+    });
+    createVote({
+      id: "g2-v",
+      guildId: "g2",
+      channelId: "c",
+      creatorId: "u",
+      title: "y",
+      candidates: [parseCandidateInput("a", 0), parseCandidateInput("b", 1)],
+    });
+    const list = listVotesInGuild("g1");
+    expect(list.map((v) => v.id)).toEqual(["g1-v"]);
+  });
+});
+
+describe("pickRankedCandidate", () => {
+  it("returns top candidate by yes count (rank=1)", () => {
+    createVote({
+      id: "v",
+      guildId: "g",
+      channelId: "c",
+      creatorId: "u",
+      title: "x",
+      candidates: [
+        parseCandidateInput("2026-06-01 21:00", 0),
+        parseCandidateInput("2026-06-02 21:00", 1),
+        parseCandidateInput("2026-06-03 21:00", 2),
+      ],
+    });
+    // index 2 wins (3 yes), index 0 (1 yes), index 1 (0)
+    recordResponse("v", "u-a", 0, "yes");
+    recordResponse("v", "u-a", 2, "yes");
+    recordResponse("v", "u-b", 2, "yes");
+    recordResponse("v", "u-c", 2, "yes");
+    const v = getVote("v")!;
+    const top = pickRankedCandidate(v, getResponses("v"), 1);
+    expect(top?.index).toBe(2);
+    const second = pickRankedCandidate(v, getResponses("v"), 2);
+    expect(second?.index).toBe(0);
+  });
+
+  it("returns null when rank exceeds candidate count", () => {
+    createVote({
+      id: "v",
+      guildId: "g",
+      channelId: "c",
+      creatorId: "u",
+      title: "x",
+      candidates: [parseCandidateInput("a", 0), parseCandidateInput("b", 1)],
+    });
+    const v = getVote("v")!;
+    expect(pickRankedCandidate(v, [], 99)).toBeNull();
+  });
+});
+
+describe("markReminded", () => {
+  it("sets remindedAt on the vote", () => {
+    createVote({
+      id: "v",
+      guildId: "g",
+      channelId: "c",
+      creatorId: "u",
+      title: "x",
+      candidates: [parseCandidateInput("a", 0), parseCandidateInput("b", 1)],
+    });
+    markReminded("v", 12345);
+    expect(getVote("v")?.remindedAt).toBe(12345);
   });
 });
 

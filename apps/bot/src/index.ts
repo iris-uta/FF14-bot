@@ -11,6 +11,7 @@ import { getAllContents } from "./lib/contents";
 import { getDb } from "./lib/db";
 import { startAlertWorker, stopAlertWorker } from "./services/alert-worker";
 import { startVoteCloserWorker, stopVoteCloserWorker } from "./services/vote-closer";
+import { startVoteReminderWorker, stopVoteReminderWorker } from "./services/vote-reminder";
 import { handleVoteButton } from "./services/vote-interaction";
 
 const token = process.env.DISCORD_TOKEN;
@@ -35,6 +36,8 @@ client.once(Events.ClientReady, (c) => {
   console.log("Alert worker started (30s tick)");
   startVoteCloserWorker(client);
   console.log("Vote-closer worker started (30s tick)");
+  startVoteReminderWorker(client);
+  console.log("Vote-reminder worker started (30s tick)");
 });
 
 for (const sig of ["SIGINT", "SIGTERM"] as const) {
@@ -42,6 +45,7 @@ for (const sig of ["SIGINT", "SIGTERM"] as const) {
     console.log(`Received ${sig}, shutting down`);
     stopAlertWorker();
     stopVoteCloserWorker();
+    stopVoteReminderWorker();
     void client.destroy().finally(() => process.exit(0));
   });
 }

@@ -105,10 +105,13 @@ export const votes = sqliteTable("votes", {
   messageId: text("message_id"),                 // 投稿後にセット (re-render 用)
   creatorId: text("creator_id").notNull(),
   title: text("title").notNull(),
-  candidates: text("candidates").notNull(),       // JSON: [{index:number, label:string}]
+  candidates: text("candidates").notNull(),       // JSON: [{index:number, label:string, startsAt?:number}]
   closesAt: integer("closes_at"),                  // null = 締切なし
   closed: integer("closed", { mode: "boolean" }).notNull().default(false),
   staticId: text("static_id"),                     // 固定 channel から自動検出 (optional)
+  mention: text("mention"),                        // /vote new で指定 or 固定 role mention
+  reminderHoursBefore: integer("reminder_hours_before"),  // 締切何時間前にリマインダー (null = なし)
+  remindedAt: integer("reminded_at"),              // リマインダー送信済みなら timestamp
   createdAt: integer("created_at").notNull(),
 });
 

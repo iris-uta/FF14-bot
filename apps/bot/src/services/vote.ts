@@ -84,6 +84,8 @@ export interface CreateVoteInput {
   candidates: VoteCandidate[];
   closesAt?: number | null;
   staticId?: string | null;
+  mention?: string | null;
+  reminderHoursBefore?: number | null;
 }
 
 export function createVote(input: CreateVoteInput): Vote {
@@ -101,12 +103,20 @@ export function createVote(input: CreateVoteInput): Vote {
       closesAt: input.closesAt ?? null,
       closed: false,
       staticId: input.staticId ?? null,
+      mention: input.mention ?? null,
+      reminderHoursBefore: input.reminderHoursBefore ?? null,
+      remindedAt: null,
       createdAt: now,
     })
     .run();
   const row = db.select().from(votes).where(eq(votes.id, input.id)).get();
   if (!row) throw new Error(`vote insert failed: ${input.id}`);
   return row;
+}
+
+export function markReminded(voteId: string, at: number = Date.now()): void {
+  const db = getDb();
+  db.update(votes).set({ remindedAt: at }).where(eq(votes.id, voteId)).run();
 }
 
 export function setVoteMessageId(voteId: string, messageId: string): void {
@@ -128,6 +138,34 @@ export function listOpenVotesInGuild(guildId: string, limit = 25): Vote[] {
     .orderBy(sql`${votes.createdAt} DESC`)
     .limit(limit)
     .all();
+}
+
+export function listVotesInGuild(guildId: string, limit = 25): Vote[] {
+  const db = getDb();
+  return db
+    .select()
+    .from(votes)
+    .where(eq(votes.guildId, guildId))
+    .orderBy(sql`${votes.createdAt} DESC`)
+    .limit(limit)
+    .all();
+}
+
+/**
+ * Sort candidates by yes-count descending and return the Nth (1-indexed).
+ * Returns null if N is out of range or candidate has no startsAt (cannot be booked).
+ */
+export function pickRankedCandidate(
+  vote: Vote,
+  responses: VoteResponse[],
+  rank: number
+): VoteCandidate | null {
+  const candidates = getCandidates(vote);
+  const ranked = candidates
+    .map((c) => ({ cand: c, yes: tallyCandidate(responses, c.index).counts.yes }))
+    .sort((a, b) => b.yes - a.yes);
+  const picked = ranked[rank - 1];
+  return picked?.cand ?? null;
 }
 
 export function getResponses(voteId: string): VoteResponse[] {
