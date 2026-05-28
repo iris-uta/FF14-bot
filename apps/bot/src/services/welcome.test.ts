@@ -5,7 +5,7 @@ import { buildWelcomeEmbed, findWelcomeChannel } from "./welcome";
 describe("buildWelcomeEmbed", () => {
   it("returns a builder with a Japanese title", () => {
     const e = buildWelcomeEmbed().toJSON();
-    expect(e.title).toContain("FF14");
+    expect(e.title).toContain("固定支援Bot");
     expect(e.title).toMatch(/ようこそ/);
   });
 

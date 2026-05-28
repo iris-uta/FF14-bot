@@ -55,7 +55,7 @@ export async function getOrCreateJobRoles(guild: Guild): Promise<JobRoleSet> {
       color: spec.color,
       mentionable: true,
       hoist: true,
-      reason: `FF14kotei-bot: auto-created ${cat} role`,
+      reason: `固定支援Bot: auto-created ${cat} role`,
       permissions: [],
     });
     out[cat] = created;
@@ -102,12 +102,12 @@ export async function assignJobRoleByGameRole(
     (r) => allJobIds.has(r.id) && r.id !== roles[targetCat].id
   );
   if (toRemove.size > 0) {
-    await member.roles.remove([...toRemove.keys()], `FF14kotei-bot: switching job role to ${targetCat}`);
+    await member.roles.remove([...toRemove.keys()], `固定支援Bot: switching job role to ${targetCat}`);
   }
 
   // Add target role (no-op if already has it)
   if (!member.roles.cache.has(roles[targetCat].id)) {
-    await member.roles.add(roles[targetCat].id, `FF14kotei-bot: assigned via /role-pick`);
+    await member.roles.add(roles[targetCat].id, `固定支援Bot: assigned via /role-pick`);
   }
 
   return targetCat;

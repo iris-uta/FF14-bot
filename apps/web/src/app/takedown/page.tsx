@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { renderMarkdownFile } from "@/lib/markdown";
 
 export const metadata: Metadata = {
-  title: "削除要請窓口 — FF14 固定支援 Bot",
+  title: "削除要請窓口 — 固定支援Bot",
   description: "著作権・知的財産権・プライバシーに関する削除要請手順。24時間以内対応。",
 };
 

@@ -1,4 +1,4 @@
-# Fly.io configuration for the FF14 固定支援 Discord bot.
+# Fly.io configuration for 固定支援Bot (Discord bot for FF14 statics).
 #
 # First-time setup:
 #   1. `fly apps create ff14-kotei-bot` (or rename `app` below to your unique name)

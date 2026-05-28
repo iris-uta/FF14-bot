@@ -1,6 +1,6 @@
 # @ff14kotei/web
 
-FF14 固定支援 Bot の Web app (Next.js 15 + Tailwind)。
+固定支援Bot の Web app (Next.js 15 + Tailwind)。
 
 ## 構成
 

@@ -3,7 +3,7 @@ import Link from "next/link";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "FF14 固定支援 Bot",
+  title: "固定支援Bot",
   description:
     "Final Fantasy XIV の固定パーティ活動を Discord 上で支援する Bot。コンテンツ別 Phase チャネル自動作成、攻略マクロ・軽減表配信、開始通知。",
 };
@@ -15,7 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <header className="border-b border-black/10 dark:border-white/10">
           <nav className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between gap-4">
             <Link href="/" className="font-semibold text-lg shrink-0">
-              FF14 固定支援 Bot
+              固定支援Bot
             </Link>
             <ul className="hidden sm:flex gap-5 text-sm">
               <li>
@@ -71,7 +71,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </a>
             </div>
             <div className="flex flex-col sm:flex-row gap-2 sm:justify-between">
-              <span>© 2026 FF14 固定支援 Bot</span>
+              <span>© 2026 固定支援Bot</span>
               <span>
                 FINAL FANTASY XIV ©2010 - SQUARE ENIX CO., LTD. このサイトは公式コンテンツとは無関係です。
               </span>

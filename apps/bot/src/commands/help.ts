@@ -79,7 +79,7 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
     .join("\n");
 
   const embed = new EmbedBuilder()
-    .setTitle("FF14 固定支援 Bot — コマンド一覧")
+    .setTitle("固定支援Bot — コマンド一覧")
     .setDescription(commandList || "(コマンドなし)")
     .setColor(0x6e85b7)
     .setFooter({ text: "詳細: /help command:<コマンド名>" });

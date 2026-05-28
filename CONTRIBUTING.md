@@ -1,4 +1,4 @@
-# Contributing to FF14 固定支援 Bot
+# Contributing to 固定支援Bot
 
 PR / issue 大歓迎。 並列で複数 contributor が作業することを想定しています。 ルール詳細は [AGENTS.md](AGENTS.md) 参照。
 

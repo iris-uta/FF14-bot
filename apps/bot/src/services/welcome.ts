@@ -26,7 +26,7 @@ import {
  */
 export function buildWelcomeEmbed(): EmbedBuilder {
   return new EmbedBuilder()
-    .setTitle("🎉 FF14 固定支援 Bot へようこそ！")
+    .setTitle("🎉 固定支援Bot へようこそ！")
     .setColor(0x6e85b7)
     .setDescription(
       "FF14 の固定パーティ活動を Discord 上で支援する Bot です。\n" +

@@ -130,7 +130,7 @@ export async function initStatic(input: InitStaticInput): Promise<InitStaticResu
     name,
     color: ROLE_COLOR_BY_TYPE[content.type] ?? ROLE_COLOR_BY_TYPE.other,
     mentionable: true,
-    reason: `Created by /static-init for content ${content.id}`,
+    reason: `固定支援Bot: created by /setup for content ${content.id}`,
   });
 
   // 2. Create category (role-visible)

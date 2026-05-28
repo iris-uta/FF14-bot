@@ -1,4 +1,4 @@
-# FF14 固定支援 Bot
+# 固定支援Bot
 
 > FF14 (Final Fantasy XIV) の固定パーティ活動を Discord で支援する **オープンソース Bot + Web app**
 

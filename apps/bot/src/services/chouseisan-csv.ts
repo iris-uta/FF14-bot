@@ -96,7 +96,7 @@ export async function fetchChouseisanData(
     res = await fetch(url, {
       signal: controller.signal,
       headers: {
-        "User-Agent": "FF14kotei-bot/1.0 (+https://github.com/mitchkunn/FF14-bot)",
+        "User-Agent": "kotei-shien-bot/1.0 (+https://github.com/mitchkunn/FF14-bot)",
       },
     });
   } catch (err) {
