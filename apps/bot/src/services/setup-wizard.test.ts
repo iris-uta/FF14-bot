@@ -1,4 +1,6 @@
-import { describe, it, expect, beforeEach } from "vitest";
+import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import { createDb } from "@ff14kotei/db";
+import { setDbForTesting, resetDb } from "../lib/db";
 import {
   WIZARD_PREFIX,
   applyContentChoice,
@@ -18,7 +20,14 @@ import {
   type WizardState,
 } from "./setup-wizard";
 
-beforeEach(() => clearAllWizards());
+beforeEach(() => {
+  setDbForTesting(createDb({ path: ":memory:" }));
+  clearAllWizards();
+});
+
+afterEach(() => {
+  resetDb();
+});
 
 function makeState(overrides: Partial<WizardState> = {}): WizardState {
   return {

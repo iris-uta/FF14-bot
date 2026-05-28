@@ -67,38 +67,88 @@ export interface WizardState {
   createdAt: number;
 }
 
-// ── In-memory session store (15min TTL) ─────────────────────────────────────
+// ── DB-backed session store (15min TTL, survives bot restarts) ──────────────
+//
+// Why DB instead of Map: `tsx watch` reloads on file changes, wiping in-memory
+// state and triggering "session expired" mid-wizard. SQLite handles it.
+
+import { and, eq, gt, lt } from "drizzle-orm";
+import { wizardSessions } from "@ff14kotei/db";
+import { getDb } from "../lib/db.js";
 
 const TTL_MS = 15 * 60_000;
-const sessions = new Map<string, WizardState>();
+const KIND = "setup-wizard";
 
 export function putWizard(state: WizardState): void {
-  pruneExpired();
-  sessions.set(state.sessionId, state);
+  prunePeriodically();
+  const db = getDb();
+  const expiresAt = state.createdAt + TTL_MS;
+  db.insert(wizardSessions)
+    .values({
+      id: state.sessionId,
+      kind: KIND,
+      creatorId: state.creatorId,
+      guildId: state.guildId,
+      state: JSON.stringify(state),
+      expiresAt,
+      createdAt: state.createdAt,
+    })
+    .onConflictDoUpdate({
+      target: wizardSessions.id,
+      set: {
+        state: JSON.stringify(state),
+        expiresAt,
+      },
+    })
+    .run();
 }
 
 export function getWizard(id: string): WizardState | null {
-  pruneExpired();
-  return sessions.get(id) ?? null;
-}
-
-export function deleteWizard(id: string): void {
-  sessions.delete(id);
-}
-
-export function clearAllWizards(): void {
-  sessions.clear();
-}
-
-function pruneExpired(now: number = Date.now()): void {
-  for (const [id, s] of sessions.entries()) {
-    if (now - s.createdAt > TTL_MS) sessions.delete(id);
+  prunePeriodically();
+  const db = getDb();
+  const now = Date.now();
+  const row = db
+    .select()
+    .from(wizardSessions)
+    .where(
+      and(
+        eq(wizardSessions.id, id),
+        eq(wizardSessions.kind, KIND),
+        gt(wizardSessions.expiresAt, now)
+      )
+    )
+    .get();
+  if (!row) return null;
+  try {
+    return JSON.parse(row.state) as WizardState;
+  } catch {
+    return null;
   }
 }
 
-/** Test-only export. */
+export function deleteWizard(id: string): void {
+  const db = getDb();
+  db.delete(wizardSessions).where(eq(wizardSessions.id, id)).run();
+}
+
+export function clearAllWizards(): void {
+  const db = getDb();
+  db.delete(wizardSessions).where(eq(wizardSessions.kind, KIND)).run();
+}
+
+// Lazy prune — every ~1/20 call we delete expired rows. Avoids a worker.
+let pruneCounter = 0;
+function prunePeriodically(): void {
+  pruneCounter++;
+  if (pruneCounter % 20 !== 0) return;
+  const db = getDb();
+  db.delete(wizardSessions).where(lt(wizardSessions.expiresAt, Date.now())).run();
+}
+
+/** Test-only export. Forces an immediate prune (no counter check). */
 export function pruneNow(now: number): void {
-  pruneExpired(now);
+  const db = getDb();
+  db.delete(wizardSessions).where(lt(wizardSessions.expiresAt, now)).run();
 }
 
 // ── State machine: which step is next? ──────────────────────────────────────

@@ -241,3 +241,37 @@ export const recurringSchedules = sqliteTable(
 
 export type RecurringSchedule = typeof recurringSchedules.$inferSelect;
 export type NewRecurringSchedule = typeof recurringSchedules.$inferInsert;
+
+/**
+ * Ephemeral session store for interactive wizards (currently: /setup wizard).
+ *
+ * Why a table: the bot uses `tsx watch` in dev — any file change restarts the
+ * process, which would wipe in-memory sessions and leave users with "session
+ * expired" errors right after starting the wizard. Persisting to SQLite keeps
+ * sessions alive across restarts (and across replica boundaries if we ever
+ * scale).
+ *
+ * `kind` distinguishes session types so this single table can serve future
+ * wizards too without schema migrations. `state` is JSON-stringified.
+ *
+ * TTL is enforced at read time (filter by `expiresAt > now`) plus periodic
+ * prune (every Nth call). No background worker needed.
+ */
+export const wizardSessions = sqliteTable(
+  "wizard_sessions",
+  {
+    id: text("id").primaryKey(),
+    kind: text("kind").notNull(),
+    creatorId: text("creator_id").notNull(),
+    guildId: text("guild_id").notNull(),
+    state: text("state").notNull(),
+    expiresAt: integer("expires_at").notNull(),
+    createdAt: integer("created_at").notNull(),
+  },
+  (t) => ({
+    expiresAtIdx: index("wizard_sessions_expires_at_idx").on(t.expiresAt),
+  })
+);
+
+export type WizardSession = typeof wizardSessions.$inferSelect;
+export type NewWizardSession = typeof wizardSessions.$inferInsert;
