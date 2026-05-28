@@ -5,7 +5,7 @@ import { resolveContent } from "./resolve-content";
 
 /**
  * Shared autocomplete for content-then-phase command patterns
- * (used by /post-phase, /macro, /tips, /schedule).
+ * (used by /post-phase, /macro, /schedule).
  *
  * Call from autocomplete handler:
  *   await respondContentOrPhase(interaction);

@@ -31,7 +31,6 @@ phases:
       # Source: 要追加調査
     videos: []
     strategies: []
-    tips: []
 
 macros: []                   # リリース後にりりーどーる/ぬけまる等から取得
 

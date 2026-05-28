@@ -31,9 +31,6 @@ phases:
       - id: priority-htd-std4
         name: 優先HTD/STD4入替/塔キャス固定 (リリド式)
         description: 野良主流。STとD4が入替、塔をキャスター固定で処理する流派。
-    tips:
-      - 楽園絶技はSTD4入替。爆印を持っているMTのみ寄る。
-      - 塔処理はキャスター固定（赤魔・召喚・黒魔・ピクトを優先的に塔へ）。
   - id: p2
     name: P2 シヴァ・ミトロン (Usurper of Frost)
     order: 2
@@ -53,9 +50,6 @@ phases:
           りりーどーるの「基本イディル」処理法。
           DD（ダイアモンドダスト）は基本散開から時計回り調整、
           扇誘導は D3 MT D4 ライン上に1,3枚目（スプリント）。
-    tips:
-      - 扇誘導はスプリント推奨（1,3枚目担当）。
-      - 暴走はHT担当。ノクバマカ色とバニシュガ2ペアの優先度はパーティで合意必須。
   - id: p3
     name: P3 闇の巫女 (Oracle of Darkness)
     order: 3
@@ -92,9 +86,6 @@ phases:
         description: |
           アポカリの出現位置を見て安置を決定する流派。
           ぬけまる動画 (P3-2) で詳細解説。
-    tips:
-      - 時間圧縮はホットバーカンペ3種（全体/TH用/DPS用）の事前準備が必須。
-      - アポカリ処理は固定なら安置基準、野良ならアポカリ基準が多い傾向。
   - id: p4
     name: P4 2体フェーズ (Usurper of Frost & Oracle of Darkness)
     order: 4
@@ -120,9 +111,6 @@ phases:
           - アクモーン: 1:7（1人と7人の分割）
           - 赤爆走: アムレンY字配置
           - attack me マクロ使用
-    tips:
-      - ST組（闇の巫女担当）は attack me マクロを使用して敵視維持。
-      - "基本担当: MT組 → ミトロン / ST組 → 闇の巫女。"
   - id: p5
     name: P5 パンドラ・ミトロン (Pandora)
     order: 5
@@ -140,9 +128,6 @@ phases:
         name: ぬけまる式 (アクモーン ボス基準/MT組左/ST組右)
         description: |
           P5 野良主流。光塵の剣、アクモーン、パラダイスリゲインド、星霊の剣をぬけまる解説動画準拠で処理。
-    tips:
-      - 光塵の剣はSplatoonスクリプト (Fulgent Blade Dodge Spots) で安置可視化可能。
-      - "アクモーンはボス基準: MT組左、ST組右。"
 macros:
   - source: りりーどーる (P1 - リリド式 / 優先HTD・STD4入替・塔キャス固定)
     url: https://ffxiv.link/0122122

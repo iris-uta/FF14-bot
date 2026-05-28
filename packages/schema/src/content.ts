@@ -72,7 +72,6 @@ export const PhaseSchema = z.object({
   videos: z.array(VideoLinkSchema).default([]),
   mitigation: MitigationTemplateSchema.optional(),
   strategies: z.array(StrategyVariantSchema).default([]).describe("複数の処理法が存在するphase"),
-  tips: z.array(z.string()).default([]).describe("攻略Tips（短文）"),
 });
 
 export const ContentSchema = z.object({

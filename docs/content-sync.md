@@ -28,7 +28,6 @@
 | `videos` | `content_id`, `phase_id`, `title`, `url`, `author` |
 | `mitigations` | `content_id`, `phase_id`, `name`, `url`, `copyable` |
 | `strategies` | `content_id`, `phase_id`, `id`, `name`, `description` |
-| `tips` | `content_id`, `phase_id`, `tip` |
 | `macros` | `content_id`, `source`, `url`, `text` |
 | `templates` | `content_id`, `template`, `variables` (カンマ区切り) |
 | `references` | `content_id`, `url` |
@@ -70,7 +69,7 @@ pnpm --filter @ff14kotei/content-sync push --initial
 ### A. Sheet で編集 (devs)
 
 - Google Sheet を開く
-- 該当タブ (tips / videos / 等) で行を編集 / 追加 / 削除
+- 該当タブ (strategies / videos / 等) で行を編集 / 追加 / 削除
 - リアルタイム collab 可能
 - 履歴は Sheet 側で自動保持 ("ファイル → 変更履歴")
 

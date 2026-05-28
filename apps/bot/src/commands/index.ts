@@ -13,7 +13,6 @@ import * as scheduleCommand from "./schedule";
 import * as schedulesCommand from "./schedules";
 import * as unscheduleCommand from "./unschedule";
 import * as macroCommand from "./macro";
-import * as tipsCommand from "./tips";
 import * as fromChouseisanCommand from "./from-chouseisan";
 import * as progressCommand from "./progress";
 import * as quickstartCommand from "./quickstart";
@@ -41,7 +40,6 @@ export const commands: Record<string, Command> = {
   [schedulesCommand.data.name]: schedulesCommand,
   [unscheduleCommand.data.name]: unscheduleCommand,
   [macroCommand.data.name]: macroCommand,
-  [tipsCommand.data.name]: tipsCommand,
   [staticInitCommand.data.name]: staticInitCommand,
   [staticInfoCommand.data.name]: staticInfoCommand,
   [progressCommand.data.name]: progressCommand,

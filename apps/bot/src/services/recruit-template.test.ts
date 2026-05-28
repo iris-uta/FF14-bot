@@ -78,13 +78,13 @@ describe("findTemplate", () => {
     displayName: "T",
     shortName: "T",
     type: "ultimate",
-    phases: [{ id: "p1", name: "P1", order: 1, videos: [], strategies: [], tips: [] }],
+    phases: [{ id: "p1", name: "P1", order: 1, videos: [], strategies: [] }],
     macros: [],
     recruitmentTemplates: [
       { template: "first", variables: [] },
-      { template: "second", variables: [] },
+      { template: "second", variables: [] }
     ],
-    references: { urls: [] },
+    references: { urls: [] }
   };
 
   it("returns first template by default", () => {

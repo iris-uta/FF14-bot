@@ -8,8 +8,8 @@ const sample: Content = {
   shortName: "FRU",
   type: "ultimate",
   phases: [
-    { id: "p1", name: "P1", order: 1, videos: [], strategies: [], tips: [] },
-    { id: "p3", name: "P3", order: 3, videos: [], strategies: [], tips: [] },
+    { id: "p1", name: "P1", order: 1, videos: [], strategies: [] },
+    { id: "p3", name: "P3", order: 3, videos: [], strategies: [] }
   ],
   macros: [
     { source: "りりーどーる (P1 - リリド式)", url: "https://example.com", text: "/p P1..." },
@@ -18,7 +18,7 @@ const sample: Content = {
     { source: "ふうcだよ 全Phase", url: "https://example.com" },  // no P# label → excluded
   ],
   recruitmentTemplates: [],
-  references: { urls: [] },
+  references: { urls: [] }
 };
 
 describe("getMacrosForPhase", () => {
@@ -39,8 +39,8 @@ describe("getMacrosForPhase", () => {
       macros: [
         { source: "macro (P1)", url: "https://example.com", text: "" },
         { source: "macro (P10)", url: "https://example.com", text: "" },
-        { source: "macro (P11)", url: "https://example.com", text: "" },
-      ],
+        { source: "macro (P11)", url: "https://example.com", text: "" }
+      ]
     };
     const p1 = getMacrosForPhase(wide, "p1");
     expect(p1.map((m) => m.source)).toEqual(["macro (P1)"]);

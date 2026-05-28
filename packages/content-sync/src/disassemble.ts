@@ -1,5 +1,5 @@
 /**
- * Disassemble Content objects into the 9 flat sheet tabs.
+ * Disassemble Content objects into the 8 flat sheet tabs.
  * Inverse of assemble.ts.
  *
  * Used by:
@@ -16,7 +16,6 @@ export function disassembleContents(contents: Content[]): SheetData {
     videos: [],
     mitigations: [],
     strategies: [],
-    tips: [],
     macros: [],
     templates: [],
     references: [],
@@ -82,13 +81,6 @@ export function disassembleContents(contents: Content[]): SheetData {
           name: s.name,
           popular: s.popular ? "true" : "false",
           description: s.description ?? "",
-        });
-      }
-      for (const tip of phase.tips) {
-        out.tips.push({
-          content_id: c.id,
-          phase_id: phase.id,
-          tip,
         });
       }
     }
@@ -166,7 +158,6 @@ export const TAB_HEADERS: Record<keyof SheetData, string[]> = {
   videos:      ["content_id", "phase_id", "title", "url", "author"],
   mitigations: ["content_id", "phase_id", "name", "url", "copyable"],
   strategies:  ["content_id", "phase_id", "id", "name", "popular", "description"],
-  tips:        ["content_id", "phase_id", "tip"],
   macros:      ["content_id", "source", "url", "text"],
   templates:   ["content_id", "template", "variables"],
   references:  ["content_id", "url"],

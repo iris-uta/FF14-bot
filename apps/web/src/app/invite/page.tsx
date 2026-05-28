@@ -81,7 +81,7 @@ export default function InvitePage() {
             <code>/setup type:絶 content:fru name:週末絶エデン</code> のように実行。
             <br />
             → 自動で <code>役割 + カテゴリ + Phase 別チャネル</code> 一式が作られ、各 Phase
-            チャネルに マクロ + 攻略動画 + tips が投稿 + ピン留めされます。
+            チャネルに マクロ + 攻略動画 + 処理法 が投稿 + ピン留めされます。
           </Step>
           <Step n={3} title="メンバーを招待">
             <code>/setup ... members:&lt;@user1&gt; MT PLD, &lt;@user2&gt; ST WAR</code> のように既知メンバーを指定すれば slot

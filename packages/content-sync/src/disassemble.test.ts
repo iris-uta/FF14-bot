@@ -11,12 +11,12 @@ function makeContent(overrides: Partial<Content> = {}): Content {
     type: "ultimate",
     patch: "7.11",
     phases: [
-      { id: "p1", name: "Fatebreaker", order: 0, videos: [], strategies: [], tips: [] },
+      { id: "p1", name: "Fatebreaker", order: 0, videos: [], strategies: [] }
     ],
     macros: [],
     recruitmentTemplates: [],
     references: { urls: [] },
-    ...overrides,
+    ...overrides
   } as Content;
 }
 
@@ -28,18 +28,18 @@ describe("disassembleContents", () => {
       id: "fru",
       displayName: "絶もうひとつの未来",
       type: "ultimate",
-      patch: "7.11",
+      patch: "7.11"
     });
     expect(sheet.phases).toHaveLength(1);
     expect(sheet.phases[0]).toMatchObject({
       content_id: "fru",
       phase_id: "p1",
       name: "Fatebreaker",
-      order: "0",
+      order: "0"
     });
   });
 
-  it("emits videos / mitigations / strategies / tips per phase", () => {
+  it("emits videos / mitigations / strategies per phase", () => {
     const c = makeContent({
       phases: [
         {
@@ -48,25 +48,22 @@ describe("disassembleContents", () => {
           order: 0,
           videos: [{ title: "Walk", url: "https://e.com/v", author: "A" }],
           mitigation: { name: "Mit", url: "https://e.com/m", copyable: true },
-          strategies: [{ id: "ast", name: "アスト式", description: "desc", popular: true }],
-          tips: ["tip A", "tip B"],
-        },
-      ],
+          strategies: [{ id: "ast", name: "アスト式", description: "desc", popular: true }]
+        }
+      ]
     });
     const sheet = disassembleContents([c]);
     expect(sheet.videos).toHaveLength(1);
     expect(sheet.videos[0]).toMatchObject({ content_id: "fru", phase_id: "p1", title: "Walk", author: "A" });
     expect(sheet.mitigations[0].copyable).toBe("true");
     expect(sheet.strategies[0].name).toBe("アスト式");
-    expect(sheet.tips).toHaveLength(2);
-    expect(sheet.tips.map((t) => t.tip)).toEqual(["tip A", "tip B"]);
   });
 
   it("emits macros / templates / references at the content level", () => {
     const c = makeContent({
       macros: [{ source: "@alice", url: "https://e.com/m.txt", text: "/macroicon" }],
       recruitmentTemplates: [{ template: "Hi {name}", variables: ["name", "date"] }],
-      references: { primary: "りりーどーる", urls: ["https://e.com/r1", "https://e.com/r2"] },
+      references: { primary: "りりーどーる", urls: ["https://e.com/r1", "https://e.com/r2"] }
     });
     const sheet = disassembleContents([c]);
     expect(sheet.macros).toHaveLength(1);
@@ -95,12 +92,11 @@ describe("disassembleContents", () => {
           order: 0,
           videos: [{ title: "V1", url: "https://e.com/v1", author: "A" }],
           mitigation: { name: "M1", url: "https://e.com/m1", copyable: true },
-          strategies: [{ id: "s1", name: "S1", popular: false }],
-          tips: ["tip 1"],
-        },
+          strategies: [{ id: "s1", name: "S1", popular: false }]
+        }
       ],
       macros: [{ source: "@a", url: "https://e.com/m.txt", text: "hi" }],
-      references: { primary: "p", urls: ["https://e.com/r"] },
+      references: { primary: "p", urls: ["https://e.com/r"] }
     });
     const sheet = disassembleContents([original]);
     const back = assembleContents(sheet);
@@ -110,7 +106,6 @@ describe("disassembleContents", () => {
     expect(recovered.id).toBe(original.id);
     expect(recovered.phases[0].videos[0].url).toBe("https://e.com/v1");
     expect(recovered.phases[0].mitigation?.copyable).toBe(true);
-    expect(recovered.phases[0].tips).toEqual(["tip 1"]);
     expect(recovered.macros[0].source).toBe("@a");
     expect(recovered.references.urls).toEqual(["https://e.com/r"]);
   });
