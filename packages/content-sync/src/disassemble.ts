@@ -99,6 +99,7 @@ export function disassembleContents(contents: Content[]): SheetData {
       out.macros.push({
         content_id: c.id,
         phase_id: m.phaseId ?? "",
+        strategy_id: m.strategyId ?? "",
         source: m.source,
         url: m.url,
         text: m.text ?? "",
@@ -171,7 +172,7 @@ export const TAB_HEADERS: Record<keyof SheetData, string[]> = {
   mitigations: ["content_id", "phase_id", "name", "url", "copyable"],
   strategies:  ["content_id", "phase_id", "id", "name", "popular", "description"],
   tips:        ["content_id", "phase_id", "tip"],
-  macros:      ["content_id", "phase_id", "source", "url", "text"],
+  macros:      ["content_id", "phase_id", "strategy_id", "source", "url", "text"],
   templates:   ["content_id", "template", "variables"],
   references:  ["content_id", "url"],
 };

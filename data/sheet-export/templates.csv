@@ -405,5 +405,4 @@ fru,"▼募集ジョブ
 
 ▼コンタクト
 Discord: {{discordHandle}}
-X: {{xHandle}}
-","datacenter, language, recruitingRoles, goal, overrunPolicy, postClearPolicy, schedule, listenOnlyPolicy, strategy, requirements, prohibitions, discordHandle, xHandle"
+X: {{xHandle}}","datacenter, language, recruitingRoles, goal, overrunPolicy, postClearPolicy, schedule, listenOnlyPolicy, strategy, requirements, prohibitions, discordHandle, xHandle"

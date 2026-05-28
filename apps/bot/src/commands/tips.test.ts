@@ -46,8 +46,9 @@ describe("/tips command", () => {
     );
   });
 
-  it("returns ephemeral embed for phase with tips (FRU P3)", async () => {
-    const { interaction, reply } = makeInteraction({ contentId: "fru", phaseId: "p3" });
+  it("returns ephemeral embed for phase with tips (DSR P1)", async () => {
+    // FRU was sheet-curated to drop tips, so use a content that still has them.
+    const { interaction, reply } = makeInteraction({ contentId: "dsr", phaseId: "p1" });
     await execute(interaction);
     expect(reply).toHaveBeenCalledOnce();
     const arg = reply.mock.calls[0][0] as { embeds: unknown[]; flags: number };

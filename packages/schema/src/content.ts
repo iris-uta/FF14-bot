@@ -16,6 +16,10 @@ export const MacroRefSchema = z.object({
   phaseId: z.string().optional().describe(
     "どの phase 用マクロか (例: 'p1', 'p3-2')。 省略時は 全体 / 編成共通マクロ扱い"
   ),
+  strategyId: z.string().optional().describe(
+    "どの strategy 専用マクロか (例: 'ast-shiki')。 省略時は phase 共通 (全 strategy で表示)。" +
+    " phase channel intro では「user が選んだ strategy」 にマッチするマクロ + phase 共通マクロのみ表示。"
+  ),
   source: z.string().describe("参照元（例: りりーどーる, ゲーム8, 新みんとっと, Lily Doll）"),
   url: z.string().url(),
   text: z.string().optional().describe("マクロ本体（コピペ用）"),

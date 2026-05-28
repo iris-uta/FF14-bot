@@ -171,6 +171,7 @@ function buildContent(
     .filter((m) => (m.source ?? "").trim() || (m.url ?? "").trim())
     .map((m) => ({
       ...(m.phase_id?.trim() ? { phaseId: m.phase_id.trim() } : {}),
+      ...(m.strategy_id?.trim() ? { strategyId: m.strategy_id.trim() } : {}),
       source: m.source,
       url: m.url,
       text: m.text || undefined,
