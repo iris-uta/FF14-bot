@@ -1,24 +1,26 @@
-# Fly.io configuration for ff14-kotei-bot
-# Run `fly launch --no-deploy` once to initialize, then `fly deploy` to ship.
+# Fly.io configuration for the FF14 固定支援 Discord bot.
 #
-# Required secrets (set via `fly secrets set KEY=value`):
-#   DISCORD_TOKEN       — bot token from Discord Developer Portal
-#   DISCORD_CLIENT_ID   — application ID
-#   DISCORD_GUILD_ID    — (optional) test guild for guild-scope commands
-#                         omit to register globally
+# First-time setup:
+#   1. `fly apps create ff14-kotei-bot` (or rename `app` below to your unique name)
+#   2. `fly volumes create ff14_kotei_data --size 1 --region nrt`
+#   3. `fly secrets set DISCORD_TOKEN=xxx DISCORD_CLIENT_ID=xxx`
+#      (DISCORD_GUILD_ID is optional — set for guild-scope commands during dev)
+#   4. `fly deploy`
+#
+# See docs/deploy.md for the full walkthrough.
 
 app = "ff14-kotei-bot"
-primary_region = "nrt"  # Tokyo
+primary_region = "nrt"           # Tokyo (close to JP users)
 
 [build]
-  dockerfile = "Dockerfile"
+  dockerfile = "apps/bot/Dockerfile"
 
-# Re-register slash commands on every deploy.
-# This is a one-shot task that runs before the bot starts.
+# Re-register slash commands on every deploy (idempotent — Discord upserts).
+# Runs after build, before the new machine receives traffic.
 [deploy]
-  release_command = "pnpm --filter @ff14kotei/bot register-commands"
+  release_command = "node --enable-source-maps ../../node_modules/.bin/tsx src/register-commands.ts"
 
-# Persistent SQLite storage. Auto-created on first deploy.
+# Persistent SQLite storage. Auto-created on first deploy via `fly volumes create`.
 [[mounts]]
   source = "ff14_kotei_data"
   destination = "/data"
@@ -26,18 +28,29 @@ primary_region = "nrt"  # Tokyo
 
 [env]
   NODE_ENV = "production"
+  HEALTH_PORT = "8080"
   DATABASE_URL = "/data/ff14kotei.db"
+  # GIT_SHA can be injected: `fly deploy --env GIT_SHA=$(git rev-parse --short HEAD)`
 
-# Discord bot needs constant WebSocket connection to Gateway.
-# Don't auto-stop, even when idle.
-[[services]]
-  protocol = ""
-  internal_port = 0
-  auto_stop_machines = false
-  auto_start_machines = false
-  min_machines_running = 1
-
+# Discord bot needs exactly 1 instance holding the gateway connection.
+# Auto-start on crash, never auto-stop on idle.
 [[vm]]
-  cpu_kind = "shared"
-  cpus = 1
-  memory_mb = 256
+  size = "shared-cpu-1x"
+  memory = "512mb"                # bump to 1gb if first /setup OOMs
+
+# Internal-only HTTP for Fly's health checks. Not exposed to the public internet.
+[http_service]
+  internal_port = 8080
+  force_https = false
+  auto_stop_machines = "off"
+  auto_start_machines = true
+  min_machines_running = 1
+  processes = ["app"]
+
+  [[http_service.checks]]
+    interval = "30s"
+    timeout = "5s"
+    grace_period = "60s"          # gateway login can take ~10s
+    method = "GET"
+    path = "/health"
+    protocol = "http"

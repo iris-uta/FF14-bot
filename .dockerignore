@@ -1,26 +1,46 @@
-node_modules
+# Dependencies & build artifacts (installed/regenerated inside the image)
 **/node_modules
-.git
-.github
-.worktrees
-.pnpm-store
-dist
-build
-.next
-out
-.turbo
-coverage
-*.log
-.DS_Store
-.vscode
-.idea
-.env
-.env.*
-!.env.example
+**/dist
+**/.next
+**/.turbo
+**/out
+**/build
+**/.pnpm-store
+
+# Local DB & runtime data (production data lives on the Fly volume)
+**/data/ff14kotei.db
+**/data/ff14kotei.db-*
+**/*.sqlite*
 *.db
 *.db-journal
 *.db-wal
 *.db-shm
+
+# Env files — secrets go via fly secrets, never baked into the image
+**/.env
+**/.env.local
+**/.env.*.local
+**/.env.*
+!**/.env.example
+
+# Test/coverage
+**/coverage
+**/.vitest
+
+# Dev/editor files
+**/.vscode
+**/.idea
+**/*.swp
+**/.DS_Store
+**/.worktrees
+*.log
+
+# Git
+.git
+.gitignore
+.github
+
+# Documentation (not needed at runtime, except CLAUDE.md for agents)
 docs
 manual
 notes
@@ -28,3 +48,6 @@ ops
 inbox
 *.md
 !CLAUDE.md
+
+# Claude / local agent state
+.claude
