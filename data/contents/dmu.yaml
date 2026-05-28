@@ -1,39 +1,12 @@
-# 絶妖星乱舞 (Dancing Mad Ultimate / DMU)
-# 俗称: 絶ケフカ
-# 第7絶。Patch 7.51 / 2026-06-02 リリース予定。
-# Source: https://ffxiv.consolegameswiki.com/wiki/Dancing_Mad_(Ultimate)
-# Source: https://x.com/famitsu/status/2047756178143556050 (正式名「絶妖星乱舞」発表)
-# Source: https://www.shacknews.com/article/148845/final-fantasy-14-online-kefka-raid
-#
-# 概要:
-# - ボス: ケフカ・パラッツォ (FFVI のラスボス、野村哲也氏 アーティスト参加)
-# - Sigmascape V4.0 零式 (4.X 紅蓮、オメガレイドシリーズ) の発展形
-# - 1体のボスが複数の形態に変化
-# - 必要条件: AAC ヘビー級零式 4層 (M4S Heavyweight Savage) クリア
-# - 報酬: ケフカトーテム → IL 805 アルティメット ダイヤモンド武器
-#
-# 注: リリース前のため Phase 構成・処理法・マクロは未確定。
-# リリース後に agent でリサーチして埋めてください。
-
 id: dmu
 displayName: 絶妖星乱舞
 shortName: DMU
 type: ultimate
 patch: "7.51"
-
 phases:
-  # 実装前のため placeholder。リリース後にコミュニティ解析を待って詳細化。
   - id: p1
     name: P1 (未確定)
     order: 1
-    description: |
+    description: |-
       ケフカ第1形態。詳細は未公開 (リリース 2026-06-02 予定)。
       # Source: 要追加調査
-    videos: []
-    strategies: []
-    tips: []
-
-macros: []                   # リリース後にりりーどーる/ぬけまる等から取得
-
-recruitmentTemplates: []     # リリース後にコミュニティテンプレ参照
-

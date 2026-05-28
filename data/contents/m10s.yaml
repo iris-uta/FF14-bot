@@ -1,27 +1,13 @@
-# 至天の座アルカディア：ヘビー級零式 2層 - レッドホット & ディープブルー (M10S)
-# データ収集日: 2026-05-25
-# 第一参照: Game8 (ゲームエイト)
-#
-# 注意:
-# - 通称: 国際 M10S、Game8/JP では「ヘビー級零式2層」。
-# - 「温度差兄弟」と称される火 (レッドホット) / 水 (ディープブルー) のタッグマッチ。
-# - 火→水→2体合流の3フェーズ構成。
-# - Game8 のマクロは「家無しララ様 + 犬丸様」融合の野良準拠版が掲載 (2026-03-12 時点)。
-
 id: m10s
 displayName: 至天の座アルカディア：ヘビー級零式 2層 (レッドホット & ディープブルー)
 shortName: M10S
 type: savage
 patch: "7.4"
-# ノーマル実装日: 2025-12-16 / 零式実装日: 2026-01-06
-# Source: https://ffxiv.consolegameswiki.com/wiki/The_Arcadion
-# Source: https://leprestore.com/guides/ffxiv/arcadion-heavyweight/
-
 phases:
   - id: p1-fire
     name: P1 火属性ボス (レッドホット)
     order: 1
-    description: |
+    description: |-
       レッドホット (赤、火属性) 単独フェーズ。
       主要技:
         - ホットインパクト (全体)
@@ -30,39 +16,24 @@ phases:
         - ハイジャンプカットバック
         - バイロローテーション
       野良主流: Game8 / 家無しララ様 / 犬丸様の融合版。
-    # Source: https://game8.jp/ff14/755672
-    # Source: https://na.finalfantasyxiv.com/lodestone/character/34025302/blog/5645093/
-    mitigation:
-      name: Last Agous / らすと 軽減表 (アルカディア ヘビー級:零式 / 全層, Patch 7.4 対応)
-      # M9S-M12S 全層を 1 ブックで管理。詳細は M9S を参照。
-      # Source: https://na.finalfantasyxiv.com/lodestone/character/12440293/blog/5642585/
-      url: https://docs.google.com/spreadsheets/d/1mSfKgAq1RwXLG3IdL6tgIk8SHtdtOI1utXQkWr-iOq0/edit?usp=sharing
-      copyable: true
     videos:
       - title: 【FF14】ヘビー級零式2層 攻略解説 (家無しララ様)
         url: https://www.youtube.com/watch?v=PvWR-ARutLU
         author: 家無しララ
-        # Source: Game8 (https://game8.jp/ff14/755672) で参照されている動画
       - title: 【FF14】ヘビー級零式2層 攻略解説 (犬丸様)
         url: https://www.youtube.com/watch?v=B0cH0HmcPk4
         author: 犬丸
-        # Source: Game8 (https://game8.jp/ff14/755672) で参照されている動画
-    strategies:
-      - id: inumaru-suirou-hira-ac
-        name: 基本犬丸水牢ヒラ/炎AC (Game8 採用版)
-        description: |
-          犬丸様の攻略をベースに、家無しララ様の野良準拠解法を融合した処理法。
-          - 水牢: ヒーラー入り
-          - 炎: AC (近接) 担当
-          - 詳細はマクロ参照
+    mitigation:
+      name: Last Agous / らすと 軽減表 (アルカディア ヘビー級:零式 / 全層, Patch 7.4 対応)
+      url: https://docs.google.com/spreadsheets/d/1mSfKgAq1RwXLG3IdL6tgIk8SHtdtOI1utXQkWr-iOq0/edit?usp=sharing
+      copyable: true
     tips:
-      - "フレイムフローター1回目はボス見て右上→左上の交互で逆Z字描き。"
-      - "インセインエアー扇誘導は中央から左>遠D H T 近D>右。"
-
+      - フレイムフローター1回目はボス見て右上→左上の交互で逆Z字描き。
+      - インセインエアー扇誘導は中央から左>遠D H T 近D>右。
   - id: p2-water
     name: P2 水属性ボス (ディープブルー)
     order: 2
-    description: |
+    description: |-
       ディープブルー (青、水属性) 単独フェーズ。
       主要技:
         - シック・スウェル
@@ -72,15 +43,13 @@ phases:
         - ハイドロスネーキング (蛇ライン、1回目は MT組青ボス下/ST組赤ボス下)
         - ハイドロバリエル (赤デバフ→赤沼有り半面、青デバフ→赤沼無し半面)
         - 水牢 (H1H2 塔入り)
-    # Source: https://game8.jp/ff14/755672
     tips:
       - "水牢ギミック: 赤線は A/C 方向へ伸ばし往復、青線は出現位置から縦方向へ。"
-      - "ハイドロバリエルはデバフ色で半面を見分ける。"
-
+      - ハイドロバリエルはデバフ色で半面を見分ける。
   - id: p3-merge
     name: P3 2体合流フェーズ (Red Hot + Deep Blue)
     order: 3
-    description: |
+    description: |-
       赤青2体同時相手にする合流フェーズ。
       主要技:
         - エクストリーム・スペクタクル
@@ -90,20 +59,13 @@ phases:
         - スネーキング2回目 (交代散開: 1回目近接、2回目遠隔)
         - 青+赤アリウープ (マップ基準、基本散開方向の外周で時計回り)
         - ファイティングスピリット (時間切れ)
-    # Source: https://game8.jp/ff14/755672
     tips:
-      - "分断フェーズ後の頭割りは H>T、強攻撃は T。"
+      - 分断フェーズ後の頭割りは H>T、強攻撃は T。
       - "青+赤アリウープ: 強攻撃は青タゲ持ちが離れる、頭割りは青直下から中央へ。"
-
-# ────────────────────────────────────────────────────────
-# マクロ (コピペ用)
-# ────────────────────────────────────────────────────────
 macros:
   - source: Game8 (ゲームエイト) - ヘビー級零式2層 「基本犬丸水牢ヒラ/炎AC」
     url: https://game8.jp/ff14/755672
-    # 最終更新: 2026-03-12 (Game8 ページの最終更新日)
-    # 注: マクロは Game8 上で 2 本に分かれて掲載。本ファイルでは結合して掲載。
-    text: |
+    text: |-
       /p 【基本散開】 【波乗り散開/4人割】
       /p 　D3MTD4 │　　 　　★
       /p 　H1 ★ H2 │　D3MT　 STD4
@@ -134,13 +96,8 @@ macros:
       /p 【青+赤アリウープ】
       /p マップ基準、基本散開方向の外周で時計回り
       /p 強攻撃：青タゲ持ちが離れる　頭割り：青直下から中央へ
-
-# ────────────────────────────────────────────────────────
-# 募集テンプレ
-# ────────────────────────────────────────────────────────
 recruitmentTemplates:
-  - source: 零式野良募集 汎用テンプレ (Heavyweight 用)
-    template: |
+  - template: |-
       【FF14 零式募集】{{contentShort}}
       ● 進行度: {{progress}}                  # 例: P2 練 / 通し / 消化
       ● 流派: {{strategy}}                    # 例: Game8 (犬丸水牢ヒラ/炎AC)
@@ -160,16 +117,3 @@ recruitmentTemplates:
       - macroSource
       - requirements
       - notes
-
-# ────────────────────────────────────────────────────────
-# 参考リンク
-# ────────────────────────────────────────────────────────
-
-# ────────────────────────────────────────────────────────
-# 要手動補完メモ
-# ────────────────────────────────────────────────────────
-# - 公式声優: レッドホット (CV.富岡泰崇)、ディープブルー (CV.藤原聖侑)
-# - 公式肩書: 「温度差兄弟」
-# - Game8 ページ上ではぬけまる動画への直接リンクではなく
-#   家無しララ様 / 犬丸様の解説動画が参照されている (2026-03-12 時点)。
-#   別流派 (ぬけまる単独版等) があれば strategies[] に追加。

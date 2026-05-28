@@ -1,30 +1,13 @@
-# 至天の座アルカディア：ヘビー級零式 4層 - リンドブルム (M12S)
-# データ収集日: 2026-05-25
-# 第一参照: Game8 (ゲームエイト)
-#
-# 注意:
-# - 通称: 国際 M12S、Game8/JP では「ヘビー級零式4層」「アルカディア零式4層」。
-# - 公式ボス名: 「リンドブルム」(本作 Heavyweight 最終ボス)。
-# - 4層は前半 (Part1) と後半 (Part2) の2部構成で実装。
-#   * 前半: 細胞付着ギミックメイン (リーサルスカージ等)
-#   * 後半: アルカディアンドリーム (3分以上の長大ギミック) メイン
-# - Game8 後半ページにはマクロ本文が直接掲載されておらず「ぬけまる動画リンクから」
-#   という案内のみ。本ファイルではぬけまる動画 + Lodestone Sr Odin 改良版マクロを参照。
-
 id: m12s
 displayName: 至天の座アルカディア：ヘビー級零式 4層 (リンドブルム)
 shortName: M12S
 type: savage
 patch: "7.4"
-# ノーマル実装日: 2025-12-16 / 零式実装日: 2026-01-06
-# Source: https://ffxiv.consolegameswiki.com/wiki/The_Arcadion
-# Source: https://leprestore.com/guides/ffxiv/arcadion-heavyweight/
-
 phases:
   - id: p1
     name: P1 リンドブルム 前半 (細胞付着フェーズ) — M12S Part 1
     order: 1
-    description: |
+    description: |-
       Part 1 (前半)。細胞付着ギミックがメイン。
       主要技:
         - リーサルスカージ (玉誘導、D側:MT組 / B側:ST組)
@@ -34,39 +17,22 @@ phases:
         - 細胞付着・終期 (AoE 左上から外周沿い捨て)
         - スローターシェッド (頭割り＆散開＆半面攻撃判定)
       野良主流: ぬけまる様式 (ほぼイディル式) - Game8 採用。
-    # Source: https://game8.jp/ff14/756439
-    mitigation:
-      name: Last Agous / らすと 軽減表 (アルカディア ヘビー級:零式 / 全層, Patch 7.4 対応)
-      # M9S-M12S 全層を 1 ブックで管理。詳細は M9S を参照。
-      # Source: https://na.finalfantasyxiv.com/lodestone/character/12440293/blog/5642585/
-      url: https://docs.google.com/spreadsheets/d/1mSfKgAq1RwXLG3IdL6tgIk8SHtdtOI1utXQkWr-iOq0/edit?usp=sharing
-      copyable: true
     videos:
       - title: 【FF14】ほぼイディル式 アルカディア：ヘビー級 零式 4層前半 攻略解説 M12S Part1 Guide【ぬけまる】
         url: https://www.youtube.com/watch?v=Tmfv_bbDqQ8
         author: ぬけまるG
-        # Source: Game8 (https://game8.jp/ff14/756439) で参照されている動画
-    strategies:
-      - id: nukemaru-idyll-style
-        name: ぬけまる様式 (ほぼイディル式) - Game8 採用版
-        description: |
-          ぬけまる様 + イディル様の解説をベースにした処理法。
-          - リーサルスカージ: D側 MT組 / B側 ST組
-          - 細胞付着 前期: 左前タゲサ端で散開、頭割り角扇外周
-          - 細胞付着 中期: 線取り 1234 / 塔踏み 3412
-          - 細胞付着 後期: X字/十字判断で散開位置変更
-            X字: DPS右上 TH左下
-            十字 東西: DPS右上 TH左下 / 南北: DPS左上 TH右下
-          - タン強: 無敵前捨て D側MT/B側ST
+    mitigation:
+      name: Last Agous / らすと 軽減表 (アルカディア ヘビー級:零式 / 全層, Patch 7.4 対応)
+      url: https://docs.google.com/spreadsheets/d/1mSfKgAq1RwXLG3IdL6tgIk8SHtdtOI1utXQkWr-iOq0/edit?usp=sharing
+      copyable: true
     tips:
-      - "細胞付着 前期で線切は北から MT/D1 > ST/D2 > H1/D3 > H2/D4 の優先度。"
-      - "細胞付着 終期の線処理は中央集合→TH:西、D:東。"
-      - "スローターシェッド散会組は H1MT/MTH1, D3D1/D1D3 ペアで処理。"
-
+      - 細胞付着 前期で線切は北から MT/D1 > ST/D2 > H1/D3 > H2/D4 の優先度。
+      - 細胞付着 終期の線処理は中央集合→TH:西、D:東。
+      - スローターシェッド散会組は H1MT/MTH1, D3D1/D1D3 ペアで処理。
   - id: p2
     name: P2 リンドブルム 後半 (アルカディアンドリームフェーズ) — M12S Part 2
     order: 2
-    description: |
+    description: |-
       Part 2 (後半)。リンドブルム・メテオから始まり、フィールドが浮島×2に変化。
       4 色の塔 (赤/黄/紫/緑) ギミック → アルカディアンドリーム (3 分以上の大ギミック)
       が後半の山場。最終的にアルカディアンドリームを処理しきれば実質クリア。
@@ -79,54 +45,25 @@ phases:
         - 変異細胞 + マナスフィア (αβデバフ管理)
         - アルカディアンドリーム (3 分以上、予告遅延型大ギミック、ワンエース式)
       野良主流: Game8 推奨は レプリ:位置固定式 / 模倣:牛子式 / ドリーム:ワンエース式。
-    # Source: https://game8.jp/ff14/757988
-    # Source: https://nizusiro.com/ff14/heavy-raid-4s/
     videos:
       - title: 【FF14】最新修正版 アルカディア：ヘビー級 零式 4層後半 攻略解説 M12S Part 2 Guide【ぬけまる】
         url: https://www.youtube.com/watch?v=YXxp8nrRw3o
         author: ぬけまるG
-        # Source: Game8 (https://game8.jp/ff14/757988) で参照されている動画 (最新修正版)
       - title: 【FF14/イメトレ用】アルカディアンドリームをいくつか見る動画 (ヘビー級 零式 4層後半) M12S part2 Image training【ぬけまる】
         url: https://www.youtube.com/watch?v=lF8RJ97UWeo
         author: ぬけまるG
       - title: 【FF14】アルカディア：ヘビー級 零式 4層後半 攻略解説 M12S Part2 Guide【ぬけまる】(初版)
         url: https://www.youtube.com/watch?v=Fl1nPBxcPpM
         author: ぬけまるG
-    strategies:
-      - id: nukemaru-wanace-game8
-        name: Game8 採用版 (レプリ位置固定 / 模倣牛子式 / ドリームワンエース式)
-        description: |
-          Game8 が採用しているハイブリッド流派。
-          - レプリケーション: 位置固定式
-          - 模倣細胞: 牛子式
-          - アルカディアンドリーム: ワンエース式
-          - マクロは Game8 では直接掲載されておらず、ぬけまる動画リンク先からコピーする必要あり。
-      - id: nukemaru-improved-srodin
-        name: ぬけまる改良版 (Sr Odin 改) - レプリ近接内+レプリ固定法
-        description: |
-          Sr Odin 氏が公開した「ヘビー級零式4層後半 アルカディアンドリーム用 ぬけまる改良版」。
-          ぬけまる動画 (修正版) で追加された
-          - レプリ近接内 + レプリ固定法
-          - アルカディアンドリーム理屈説明
-          - マナバ図修正
-          を反映した /e (emote) コール用マクロ。
-          確認したい場合は Lodestone を参照。
-          # Source: https://na.finalfantasyxiv.com/lodestone/character/39631700/blog/5649775/
     tips:
-      - "リンドブルム・メテオは全体大ダメージ。詠唱完了時ボスHPが37%以下なら時間切れ突破可能の火力目安。"
-      - "アルカディアンドリームは3分かけて処理するが、2分は後出し提示で実質覚えるべきは少ない。"
-      - "Game8 4層後半ページにはマクロ本文非掲載 (2026-03-12 時点)。ぬけまる動画 or Lodestone からコピーすること。"
-      - "/p マクロより /e (emote) のコールマクロが採用される傾向 (Sr Odin 版参照)。"
-
-# ────────────────────────────────────────────────────────
-# マクロ (コピペ用)
-# ────────────────────────────────────────────────────────
+      - リンドブルム・メテオは全体大ダメージ。詠唱完了時ボスHPが37%以下なら時間切れ突破可能の火力目安。
+      - アルカディアンドリームは3分かけて処理するが、2分は後出し提示で実質覚えるべきは少ない。
+      - Game8 4層後半ページにはマクロ本文非掲載 (2026-03-12 時点)。ぬけまる動画 or Lodestone からコピーすること。
+      - /p マクロより /e (emote) のコールマクロが採用される傾向 (Sr Odin 版参照)。
 macros:
   - source: Game8 (ゲームエイト) - ヘビー級零式4層前半 ぬけまる様式
     url: https://game8.jp/ff14/756439
-    # 最終更新: 2026-03-12 (Game8 ページの最終更新日)
-    # Game8 上では 2 本に分かれて掲載。
-    text: |
+    text: |-
       /p ■リーサルスカージ　D側:MT組 B側:ST組
       /p H→近→遠→調整役　T/遠調整 (紫T)
       /p ■細胞付着：前期 左前タゲサ端で散開
@@ -142,10 +79,9 @@ macros:
       /p 〈X字〉 DPS右上 TH左下
       /p 〈十字〉東西：DPS右上TH左下 南北：DPS左上TH右下
       /p 〈タン強〉無敵前捨て：D側MT　B側ST
-
   - source: Game8 (ゲームエイト) - ヘビー級零式4層前半 ぬけまる様式 (散開・スローターシェッド)
     url: https://game8.jp/ff14/756439
-    text: |
+    text: |-
       /p 〈散開〉T　　T
       /p 　　★D1 HH D2 ★
       /p 　　　D3　　 D4
@@ -154,21 +90,11 @@ macros:
       /p ■スローターシェッド　詠唱中集合：TH：A　DPS：タゲサ先
       /p 散会組：H1 MT | MT H1　D3 D1 | D1 D3
       /p 　 　　　H2 S T | S T H2　D4 D2 | D2 D4
-
   - source: Game8 (ゲームエイト) - ヘビー級零式4層後半 (マクロは外部リンク参照)
     url: https://game8.jp/ff14/757988
-    # 注: Game8 4層後半ページにはマクロ本文の直接記載がなく
-    # 「ぬけまる様が紹介しているので下記リンクからコピーしましょう」
-    # との案内のみ。完全なマクロ本文はぬけまる YouTube 動画
-    # (https://www.youtube.com/watch?v=YXxp8nrRw3o) の概要欄から取得すること。
-    # 要手動補完。
-
   - source: Lodestone Sr Odin - 「ヘビー級零式4層後半 アルカディアンドリーム用 ぬけまる改良版」
     url: https://na.finalfantasyxiv.com/lodestone/character/39631700/blog/5649775/
-    # 著者: Sr Odin (Hades [Mana])
-    # /e (emote) コマンドベースのコールマクロ。レプリ固定法を含む改良版。
-    # マクロ全文は WebFetch で取得困難だったため、URL のみ保持。要手動補完。
-    text: |
+    text: |-
       # 抜粋 (実際の本文は Lodestone を参照)
       /e -----
       /e [A] ●頭割り
@@ -177,13 +103,9 @@ macros:
       /mk attack4 <me>
       /micon A fieldmarking
       # ... (続きは Lodestone URL を参照)
-
   - source: Lodestone Ku Yuri - 「４層後半アルカディアンドリーム 自分用メモとコールマクロ（処理法ぬけまる）」
     url: https://na.finalfantasyxiv.com/lodestone/character/22717408/blog/5651169/
-    # 著者: Ku Yuri (Pandaemonium [Mana])
-    # ぬけまる処理法に基づく十字/X字判断マクロ + 分身判定マクロ (8 種)。
-    # マクロ全文は WebFetch で取得困難だったため、URL のみ保持。要手動補完。
-    text: |
+    text: |-
       # 抜粋 (実際の本文は Lodestone を参照)
       /p -十字から-------------
       /p MT組：A→扇よけ→1→扇よけ
@@ -192,13 +114,8 @@ macros:
       /p MT組：1→扇よけ→A→扇よけ
       /p ST組：4→扇よけ→D→扇よけ
       # ... (続きは Lodestone URL を参照)
-
-# ────────────────────────────────────────────────────────
-# 募集テンプレ
-# ────────────────────────────────────────────────────────
 recruitmentTemplates:
-  - source: 零式野良募集 汎用テンプレ (Heavyweight 用 / 4層特化)
-    template: |
+  - template: |-
       【FF14 零式募集】{{contentShort}}
       ● 進行度: {{progress}}                  # 例: P1 練 / P2 ドリーム練 / 通し / 消化
       ● 流派: {{strategy}}                    # 例: Game8 (位置固定/牛子式/ワンエース式)
@@ -218,19 +135,3 @@ recruitmentTemplates:
       - macroSource
       - requirements
       - notes
-
-# ────────────────────────────────────────────────────────
-# 参考リンク
-# ────────────────────────────────────────────────────────
-
-# ────────────────────────────────────────────────────────
-# 要手動補完メモ
-# ────────────────────────────────────────────────────────
-# - リンドブルムの公式声優情報は 2026-05 時点で未確認 (公式リリースで省略)。
-# - Game8 4層後半ページのマクロ未掲載問題: ぬけまる動画の説明欄から /p マクロを
-#   コピーして本ファイル macros[] に追記すること。
-# - アルカディアンドリーム処理法 (ワンエース式) の詳細位置は要動画予習。
-# - Sr Odin / Ku Yuri のマクロ全文は WebFetch で取りきれなかったため、
-#   Lodestone を直接訪問して手動でコピーすること。
-# - 流派バリアント: 「位置固定式」「牛子式」「ワンエース式」「イディル式」など
-#   複数の名称が混在する。流派の細分化が進む場合は strategies[] を増やす。

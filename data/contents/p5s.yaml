@@ -1,34 +1,13 @@
-# 万魔殿パンデモニウム零式：煉獄編 1層 - プロトカーバンクル (P5S)
-# データ収集日: 2026-05-25
-# 第一参照: Game8 (ゲームエイト)
-#
-# 注意:
-# - 通称: 国際/FFLogs では P5S (Pandaemonium 通し番号)、日本コミュニティでは
-#   「煉獄編1層」「煉獄1層」が一般的。本ファイルは shortName を P5S とする。
-# - 公式ボス名: 「創造の継承者・プロトカーバンクル」(Mythic Creation: Proto-Carbuncle)。
-# - 旧コンテンツ (パッチ 6.21, 2022年8月) のため、現在は野良募集が少なく、
-#   主に固定や経験者ファインダー (DF) で攻略する層。マクロは速攻当時の
-#   ぬけまる式 / Game8 採用版が標準。
-# - Game8 ページのマクロ抽出は WebFetch 経由で実施 (2026-05-25 確認)。
-# - ユーザー指示の「辺獄編 (Abyssos)」は誤記。正しくは「煉獄編 (Abyssos)」。
-#   辺獄編 = Asphodelos (P1S-P4S, 6.0), 煉獄編 = Abyssos (P5S-P8S, 6.21),
-#   天獄編 = Anabaseios (P9S-P12S, 6.4)。
-
 id: p5s
 displayName: 万魔殿パンデモニウム零式：煉獄編 1層 (プロトカーバンクル)
 shortName: P5S
 type: savage
 patch: "6.21"
-# ノーマル実装日: 2022-08-23 (Patch 6.2)
-# 零式実装日:   2022-08-30 (Patch 6.21 同梱、1週間後)
-# Source: https://ffxiv.consolegameswiki.com/wiki/Pandaemonium:_Abyssos
-# Source: https://next-innovation-fuk.com/2022/08/20/ff14-%E3%83%91%E3%83%83%E3%83%816-2x-%E3%80%8C%E9%9B%B6%E5%BC%8F%E3%80%8D%E4%B8%87%E9%AD%94%E6%AE%BF%E3%83%91%E3%83%B3%E3%83%87%E3%83%A2%E3%83%8B%E3%82%A6%E3%83%A0%EF%BC%9A%E7%85%89%E7%8D%84%E7%B7%A8/
-
 phases:
   - id: p1
     name: P1 プロトカーバンクル (Proto-Carbuncle) 通し
     order: 1
-    description: |
+    description: |-
       ライオン型「創造の継承者」プロトカーバンクル戦。1ボス完結型。
       主要ギミック:
         - ソニックハウル (全体攻撃 + ノックバック)
@@ -43,14 +22,6 @@ phases:
         - 十字毒沼 (十字配置の毒沼、塔踏み)
         - ベノムスプラッシュ (4部屋の3個部屋から対角逃げ)
       野良主流: ぬけまる式 (Game8 採用)。
-    # Source: https://game8.jp/ff14/464675
-    # Source: https://ffxiv.consolegameswiki.com/wiki/Abyssos:_The_Fifth_Circle_(Savage)
-    mitigation:
-      name: Shimaji Row 軽減表 (パンデモニウム煉獄編 零式 全層 スプレッドシート)
-      # P5S-P8S 全層を 1 ブックで管理。タイムライン + マクロ + 資料集を含む。
-      # Source: https://na.finalfantasyxiv.com/lodestone/character/3285757/blog/5089241/
-      url: https://docs.google.com/spreadsheets/d/1bXhAgECunWRkWTn6zt7cxARg41il_wZcTVucgAu01m4/edit?usp=sharing
-      copyable: true
     videos:
       - title: 【 FF14 / 煉獄零式解説 】煉獄編 零式 1層 さらっと解説 概要欄にマクロあります【ぬけまる】
         url: https://www.youtube.com/watch?v=GRrZvJT1fXM
@@ -58,30 +29,18 @@ phases:
       - title: 【 FF14 】速報版 パンデモニウム 煉獄編 零式1層 解説動画 【 犬丸のぞみ 】
         url: https://www.youtube.com/watch?v=W7nJ5q8cU7w
         author: 犬丸のぞみ
-    strategies:
-      - id: nukemaru-game8
-        name: ぬけまる式 (Game8 採用版)
-        description: |
-          Game8 が採用しているぬけまる氏解説に準拠した処理法 (マクロVer2)。
-          - 基本散開: 北 D3/MT/D4、中央 H1/H2、南 D1/ST/D2
-          - 十字毒塔: MTが無敵受け、H1D3 / H2D4 / D1D2 で塔処理 (STフリー)
-          - 毒石ペア: MTST/H1D3 は 12時から反時計回り、D1D2/H2D4 は 1時から時計回り
-          - ベノムサージ/スプラッシュ: 西/内壁に MT組 (MTH1D1D3)、東/外壁に ST組 (STH2D2D4)
-          - 毒沼+ベノムスコール: マーカー1or4 に出た毒に MT組、2or3 は ST組
-          - 4部屋ベノムスプラッシュ: 3個部屋の対角に逃げる
+    mitigation:
+      name: Shimaji Row 軽減表 (パンデモニウム煉獄編 零式 全層 スプレッドシート)
+      url: https://docs.google.com/spreadsheets/d/1bXhAgECunWRkWTn6zt7cxARg41il_wZcTVucgAu01m4/edit?usp=sharing
+      copyable: true
     tips:
-      - "毒石ペアは時計/反時計の方向ミスでパーティ事故になりやすい。マクロ表記を必ず読み合わせる。"
-      - "8連噛みつき (Starving Stampede) は青マーカー順を覚えれば回避は機械的。"
-      - "トパーズクラスターは結晶落下順をボイチャでコールするのが安定。"
-
-# ────────────────────────────────────────────────────────
-# マクロ（コピペ用）
-# ────────────────────────────────────────────────────────
+      - 毒石ペアは時計/反時計の方向ミスでパーティ事故になりやすい。マクロ表記を必ず読み合わせる。
+      - 8連噛みつき (Starving Stampede) は青マーカー順を覚えれば回避は機械的。
+      - トパーズクラスターは結晶落下順をボイチャでコールするのが安定。
 macros:
   - source: Game8 (ゲームエイト) - 煉獄編零式1層 ぬけまる式 マクロVer2
     url: https://game8.jp/ff14/464675
-    # 最終更新: 2022-09-02 (マクロVer2 当時) / Game8 ページ自体は継続維持
-    text: |
+    text: |-
       /p 【基本散開】　　　【十字毒塔】STフリー
       /p D3 MT D4　　　　　　MT(無敵)
       /p H1　　H2　　　H1D3　　 H2D4
@@ -101,13 +60,8 @@ macros:
       /p ST組：マーカー2or3に出た毒に合わせて移動
       /p AOEは外周に捨ててMT/STの位置で頭割り
       /p 【4部屋ベノムスプラッシュ：3個部屋の対角】
-
-# ────────────────────────────────────────────────────────
-# 募集テンプレ
-# ────────────────────────────────────────────────────────
 recruitmentTemplates:
-  - source: 零式野良募集 汎用テンプレ (旧コンテンツ用)
-    template: |
+  - template: |-
       【FF14 零式募集】{{contentShort}}
       ● 進行度: {{progress}}                  # 例: 通し / 消化 / マウント周回
       ● 流派: {{strategy}}                    # 例: Game8 / ぬけまる式
@@ -127,18 +81,3 @@ recruitmentTemplates:
       - macroSource
       - requirements
       - notes
-
-# ────────────────────────────────────────────────────────
-# 参考リンク
-# ────────────────────────────────────────────────────────
-
-# ────────────────────────────────────────────────────────
-# 要手動補完メモ
-# ────────────────────────────────────────────────────────
-# - プロトカーバンクルの公式声優情報は本ファイル作成時点で未確認。
-# - りりーどーる / Hector / Lily Doll 系の追加マクロは旧コンテンツのため
-#   入手難。固定で使われている場合は macros[] に追加すること。
-# - 軽減表は Shimaji Row 版を全層共通として参照。各層特化版が必要なら
-#   Eri Nabejunbi (学者用) Lodestone を参照。
-# - 8連噛みつき (Starving Stampede) は北/南折り返しパターンが2種ある。
-#   ARUTORA の解説が参考になる。

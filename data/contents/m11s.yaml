@@ -1,29 +1,13 @@
-# 至天の座アルカディア：ヘビー級零式 3層 - ザ・タイラント / キング・オブ・アルカディア (M11S)
-# データ収集日: 2026-05-25
-# 第一参照: Game8 (ゲームエイト)
-#
-# 注意:
-# - 通称: 国際 M11S、Game8/JP では「ヘビー級零式3層」「アルカディア零式3層」。
-# - 公式タイトル「ザ・タイラント」(CV.濱野大輝)、バトルフィールド上の表記は
-#   「キング・オブ・アルカディア」。本ファイルではボス名併記。
-# - 統一王者 (Unified Champion)。
-# - Game8 採用流派: 「ぬけまる様式」(基本ルクレ + ドミネ安置北 + チャンピオンズメテオ ジジ式
-#   + スタンピード DXA 式)。
-
 id: m11s
 displayName: 至天の座アルカディア：ヘビー級零式 3層 (ザ・タイラント / キング・オブ・アルカディア)
 shortName: M11S
 type: savage
 patch: "7.4"
-# ノーマル実装日: 2025-12-16 / 零式実装日: 2026-01-06
-# Source: https://ffxiv.consolegameswiki.com/wiki/The_Arcadion
-# Source: https://leprestore.com/guides/ffxiv/arcadion-heavyweight/
-
 phases:
   - id: p1
     name: P1 武器ジェネレート (Weapon Generate) 〜 メテオレイン
     order: 1
-    description: |
+    description: |-
       開幕〜中盤フェーズ。
       主要技:
         - キング・オブ・アルカディア (全体)
@@ -37,39 +21,22 @@ phases:
         - ファイアストリーム
         - メテオレイン (3回連続、隕石処理)
       野良主流: ぬけまる様式 (Game8 採用)。
-    # Source: https://game8.jp/ff14/755154
-    # Source: https://na.finalfantasyxiv.com/lodestone/character/34025302/blog/5645096
-    mitigation:
-      name: Last Agous / らすと 軽減表 (アルカディア ヘビー級:零式 / 全層, Patch 7.4 対応)
-      # M9S-M12S 全層を 1 ブックで管理。詳細は M9S を参照。
-      # Source: https://na.finalfantasyxiv.com/lodestone/character/12440293/blog/5642585/
-      url: https://docs.google.com/spreadsheets/d/1mSfKgAq1RwXLG3IdL6tgIk8SHtdtOI1utXQkWr-iOq0/edit?usp=sharing
-      copyable: true
     videos:
       - title: 【FF14】ヘビー級零式3層 攻略解説【ぬけまる】
         url: https://www.youtube.com/watch?v=9fMy4yJRNTM
         author: ぬけまるG
-        # Source: Game8 (https://game8.jp/ff14/755154) で参照されている動画
-    strategies:
-      - id: nukemaru-game8
-        name: ぬけまる様式 (Game8 採用版)
-        description: |
-          Game8 採用流派。
-          - 基本: ルクレ (基本散開)
-          - ドミネーション: 安置を北基準に処理
-          - オービタル: 北固定
-          - メテオレイン: H 遠近 (H1: 南西遠、H2: 北東タゲサ上 など、3回ローテーション)
-          - チャンピオンズ・メテオ: ジジ式位置固定
-          - メテオスタンピード: DXA 式
+    mitigation:
+      name: Last Agous / らすと 軽減表 (アルカディア ヘビー級:零式 / 全層, Patch 7.4 対応)
+      url: https://docs.google.com/spreadsheets/d/1mSfKgAq1RwXLG3IdL6tgIk8SHtdtOI1utXQkWr-iOq0/edit?usp=sharing
+      copyable: true
     tips:
-      - "コメットレインはボス背面から時計回りで誘導。"
-      - "ドミネーションは安置を北に見て、H1D3/H2D4/MTD1/STD2 で配置。"
+      - コメットレインはボス背面から時計回りで誘導。
+      - ドミネーションは安置を北に見て、H1D3/H2D4/MTD1/STD2 で配置。
       - "メテオレインでタンク線取りは隕石基準、MT: 23マカ、ST: 4マカ。"
-
   - id: p2
     name: P2 チャンピオンズ・メテオ 〜 ハートブレイクキック (時間切れ)
     order: 2
-    description: |
+    description: |-
       後半フェーズ。チャンピオンズ・メテオから始まり、メテオスタンピード、
       最終的にハートブレイクキック (時間切れ) で終了。
       主要技:
@@ -78,22 +45,15 @@ phases:
         - フォーウェイ (X字ペア / 内側誘導)
         - ツーウェイ (東西4:4)
         - ハートブレイクキック (時間切れ)
-    # Source: https://game8.jp/ff14/755154
     tips:
       - "チャンピオンズ・メテオ 塔踏み1回目: 範囲捨てボス下から割れ目沿い南北。"
       - "塔踏み2回目: 1回目処理位置近くに同じペアで入る。"
       - "メテオスタンピード沼捨て: 北 H1D3 / 南 H2D4 (D 調整)。"
-      - "線持ちは穴を背にして右前に伸ばす。"
-
-# ────────────────────────────────────────────────────────
-# マクロ (コピペ用)
-# ────────────────────────────────────────────────────────
+      - 線持ちは穴を背にして右前に伸ばす。
 macros:
   - source: Game8 (ゲームエイト) - ヘビー級零式3層 ぬけまる様式 (前半)
     url: https://game8.jp/ff14/755154
-    # 最終更新: 2026-03-12 (Game8 ページの最終更新日)
-    # Game8 上では 2 本に分かれて掲載。本ファイルでは前半 (基本散開〜メテオレイン) を掲載。
-    text: |
+    text: |-
       /p ■基本散開　　■ミールストーム誘導
       /p 　D3 MT D4 　　 　D3MT
       /p 　H1 ☆ H2 　　　H1　　D4
@@ -108,11 +68,9 @@ macros:
       /p 2回目　D3:南西中間　　　D4:南東タゲサ上
       /p 3回目　D1:南西タゲサ上　 D2:北東タゲサ上
       /p タンク線取り(隕石基準)　　MT:23マカ、ST:4マカ
-
   - source: Game8 (ゲームエイト) - ヘビー級零式3層 ぬけまる様式 (後半 / チャンピオンズメテオ〜)
     url: https://game8.jp/ff14/755154
-    # Game8 上の後半マクロ。チャンピオンズメテオ以降。
-    text: |
+    text: |-
       /p ■チャンピオンズメテオ（ジジー式位置固定）
       /p ◯塔踏み1回目 ※範囲捨てボス下から割れ目沿い南北
       /p 　MTD3　H2D4
@@ -128,13 +86,8 @@ macros:
       /p 〈内側誘導〉①北沼 ②無職近接 ③南沼 ④無職遠隔
       /p 【ツーウェイ】東西4:4
       /p 〈内側誘導〉西:反時計2人塔線無、東:時計2人塔線無
-
-# ────────────────────────────────────────────────────────
-# 募集テンプレ
-# ────────────────────────────────────────────────────────
 recruitmentTemplates:
-  - source: 零式野良募集 汎用テンプレ (Heavyweight 用)
-    template: |
+  - template: |-
       【FF14 零式募集】{{contentShort}}
       ● 進行度: {{progress}}                  # 例: P1 / チャンピオンズメテオ練 / 消化
       ● 流派: {{strategy}}                    # 例: Game8 (ぬけまる様式 / ジジ式 / DXA式)
@@ -154,15 +107,3 @@ recruitmentTemplates:
       - macroSource
       - requirements
       - notes
-
-# ────────────────────────────────────────────────────────
-# 参考リンク
-# ────────────────────────────────────────────────────────
-
-# ────────────────────────────────────────────────────────
-# 要手動補完メモ
-# ────────────────────────────────────────────────────────
-# - 公式声優: ザ・タイラント (CV.濱野大輝)
-# - 公式肩書: 「統一王者」
-# - フィールド上のボス名表記は「キング・オブ・アルカディア」だが、公式キャラクター名は「ザ・タイラント」。
-# - ジジ式 / DXA 式は野良コミュニティ内で命名された処理法。詳細仕様は要動画確認。

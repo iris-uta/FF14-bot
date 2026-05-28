@@ -1,31 +1,13 @@
-# 万魔殿パンデモニウム零式：煉獄編 2層 - ヘーゲモネ (P6S)
-# データ収集日: 2026-05-25
-# 第一参照: Game8 (ゲームエイト)
-#
-# 注意:
-# - 通称: 国際/FFLogs では P6S、日本コミュニティでは「煉獄編2層」「煉獄2層」。
-# - 公式ボス名: 「半神の継承者・ヘーゲモネ」(Hemitheos: Hegemone)。
-# - ギリシャ神話の「美と優雅の女神」ヘーゲモネー由来 (リーダー/支配者/女王の意)。
-# - Game8 ページの呼称は「ヘーミテオス・ダージャ」と一見表記されているが、
-#   これは初手の全体技「ヘーミテオス・ダージャ」のことであり、ボス本体は
-#   ヘーゲモネ。
-# - サイコロ (Pathogenic Cells) と カヘキシー (Cachexia) が代表ギミック。
-
 id: p6s
 displayName: 万魔殿パンデモニウム零式：煉獄編 2層 (ヘーゲモネ)
 shortName: P6S
 type: savage
 patch: "6.21"
-# ノーマル実装日: 2022-08-23 (Patch 6.2)
-# 零式実装日:   2022-08-30 (Patch 6.21)
-# Source: https://ffxiv.consolegameswiki.com/wiki/Abyssos:_The_Sixth_Circle_(Savage)
-# Source: https://www.icy-veins.com/ffxiv/the-sixth-circle-savage-raid-guide
-
 phases:
   - id: p1
     name: P1 ヘーゲモネ (Hegemone) 通し
     order: 1
-    description: |
+    description: |-
       白蛇人型「半神の継承者」ヘーゲモネ戦。1ボス完結型。
       主要ギミック:
         - ヘーミテオス・ダージャ (Hemitheos's Dark IV、開幕全体)
@@ -39,12 +21,6 @@ phases:
         - エクソークリーバー (Exocleaver)
         - カヘキシー (Cachexia、全2回、複合ギミック)
       野良主流: ぬけまる式 (Game8 採用)、流派分岐少なめ。
-    # Source: https://game8.jp/ff14/479307
-    mitigation:
-      name: Shimaji Row 軽減表 (パンデモニウム煉獄編 零式 全層 スプレッドシート)
-      # P5S-P8S 全層を 1 ブックで管理。詳細は P5S を参照。
-      url: https://docs.google.com/spreadsheets/d/1bXhAgECunWRkWTn6zt7cxARg41il_wZcTVucgAu01m4/edit?usp=sharing
-      copyable: true
     videos:
       - title: 【 FF14 / 煉獄零式解説 】煉獄編 零式 2層 さらっと解説【ぬけまる】
         url: https://www.youtube.com/watch?v=pibChZ8AjZ8
@@ -52,31 +28,18 @@ phases:
       - title: 【 FF14 】速報版 パンデモニウム 煉獄編 零式2層 解説動画 【 犬丸のぞみ 】
         url: https://www.youtube.com/watch?v=0DOhkqfDELw
         author: 犬丸のぞみ
-    strategies:
-      - id: nukemaru-game8
-        name: ぬけまる式 (Game8 採用版)
-        description: |
-          Game8 が採用しているぬけまる氏解説に準拠した処理法 (マクロVer1)。
-          - MT組: MTH1D1D3 / ST組: STH2D2D4
-          - 基本散開: 北 MT/D3, ST/D4 / 南 H1/D1, H2/D2 / 中央 ★
-          - 頭割り+扇範囲: 西 MT組 / 東 ST組 (時計回りで頭割り)
-          - サイコロ: 西 奇数 / 東 偶数
-          - カヘキシー1回目: 内周20→外周16→中央8の数字配置でAOE誘導
-          - カヘキシー2回目: 西 紫デバフ / 東 緑デバフ、北南外周マス→AoE、内周マス→頭割り
-          - チェンジバースト2回目: 西→T・H / 東→DPS (AOEも上記方向に捨てる)
-          - 4:4頭割り: 西側→MT組、東側→ST組 (内周4マスを使用)
+    mitigation:
+      name: Shimaji Row 軽減表 (パンデモニウム煉獄編 零式 全層 スプレッドシート)
+      url: https://docs.google.com/spreadsheets/d/1bXhAgECunWRkWTn6zt7cxARg41il_wZcTVucgAu01m4/edit?usp=sharing
+      copyable: true
     tips:
-      - "サイコロは数字を見落とすと即死級の事故になる。声出しコールが安全。"
-      - "カヘキシーは外周AoE +  頭割り + デバフ位置調整の複合。マクロを読み込んでから動画予習推奨。"
-      - "寄生 (ケロモーフ/グロソモーフ) は前後の扇方向に注意。"
-
-# ────────────────────────────────────────────────────────
-# マクロ（コピペ用）
-# ────────────────────────────────────────────────────────
+      - サイコロは数字を見落とすと即死級の事故になる。声出しコールが安全。
+      - カヘキシーは外周AoE +  頭割り + デバフ位置調整の複合。マクロを読み込んでから動画予習推奨。
+      - 寄生 (ケロモーフ/グロソモーフ) は前後の扇方向に注意。
 macros:
   - source: Game8 (ゲームエイト) - 煉獄編零式2層 ぬけまる式 マクロVer1
     url: https://game8.jp/ff14/479307
-    text: |
+    text: |-
       /p ※MT組：MTH1D1D3 ST組：STH2D2D4
       /p 　【基本散開】　　【カヘキシー1回目】
       /p MT/D3　ST/D4 　 　 8　　 　 　8
@@ -91,13 +54,8 @@ macros:
       /p 【カヘキシー2回目】
       /p 西：紫デバフ　東：緑デバフ
       /p 北・南外周マス→AoE　内周マス→頭割り
-
-# ────────────────────────────────────────────────────────
-# 募集テンプレ
-# ────────────────────────────────────────────────────────
 recruitmentTemplates:
-  - source: 零式野良募集 汎用テンプレ (旧コンテンツ用)
-    template: |
+  - template: |-
       【FF14 零式募集】{{contentShort}}
       ● 進行度: {{progress}}                  # 例: 通し / 消化 / 装備周回
       ● 流派: {{strategy}}                    # 例: Game8 / ぬけまる式
@@ -117,17 +75,3 @@ recruitmentTemplates:
       - macroSource
       - requirements
       - notes
-
-# ────────────────────────────────────────────────────────
-# 参考リンク
-# ────────────────────────────────────────────────────────
-
-# ────────────────────────────────────────────────────────
-# 要手動補完メモ
-# ────────────────────────────────────────────────────────
-# - ヘーゲモネの公式声優情報は本ファイル作成時点で未確認。
-# - サイコロ (Pathogenic Cells) の数字割りは「西 奇数 / 東 偶数」がGame8採用だが、
-#   海外コミュニティでは「奇数 N / 偶数 S」「奇数 W / 偶数 E」の流派あり。
-# - DPS チェックは約53,900 raid DPS、エンレージ 10:39 (ConsoleGamesWiki)。
-# - Lodestone Petiroi Magiroi のマクロは Ilya (ヒカセン名) 版で別流派の可能性あり。
-#   詳細を取り込む場合は Lodestone 直接確認。

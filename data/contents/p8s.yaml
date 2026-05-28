@@ -1,31 +1,13 @@
-# 万魔殿パンデモニウム零式：煉獄編 4層 - ヘファイストス (P8S)
-# データ収集日: 2026-05-25
-# 第一参照: Game8 (ゲームエイト)
-#
-# 注意:
-# - 通称: 国際/FFLogs では P8S、日本コミュニティでは「煉獄編4層」「煉獄4層」。
-# - 公式ボス名: 「完成された不完全・ヘファイストス」(Perfect Imperfection: Hephaistos)。
-# - 4層は前半 (Part1) と後半 (Part2) の2部構成。
-#   * 前半: ヘファイストス 第1形態 (ケンタウロス/蛇 変身、創獣ギミック)
-#   * 後半: ヘファイストス 第2形態 (概念支配/万象灰燼/支配者の一撃)
-# - 前半マクロ: Game8 では「FFO式」呼称 (野良標準)、ぬけまる解説あり。
-# - 後半マクロ: 「はいじあ式/ビジョン式」(万象灰燼処理法) が野良標準。
-# - 煉獄編最終ボス。当時 (6.21) のエンドコンテンツ、Top 50 マウント報酬対象。
-
 id: p8s
 displayName: 万魔殿パンデモニウム零式：煉獄編 4層 (ヘファイストス)
 shortName: P8S
 type: savage
 patch: "6.21"
-# ノーマル実装日: 2022-08-23 (Patch 6.2)
-# 零式実装日:   2022-08-30 (Patch 6.21)
-# Source: https://ffxiv.consolegameswiki.com/wiki/Abyssos:_The_Eighth_Circle_(Savage)
-
 phases:
   - id: p1
     name: P1 ヘファイストス 前半 (第1形態) — P8S Part 1
     order: 1
-    description: |
+    description: |-
       Part 1 (前半)。ヘファイストス第1形態。創獣 (ケンタウロス/蛇) ギミックがメイン。
       主要技:
         - 創獣炎舞 / 炎蛇砲 (ケンタウロス炎攻撃 / 蛇形態のビーム)
@@ -39,41 +21,26 @@ phases:
         - ブレイジングフィート (Blazing Footfalls、形態変身演出)
         - テトラ/ディフレア (Tetraflare/Difflare、複数頭割り)
       野良主流: ぬけまる式 (Game8 採用、FFO式)。
-    # Source: https://game8.jp/ff14/480095
-    mitigation:
-      name: Shimaji Row 軽減表 (パンデモニウム煉獄編 零式 全層 スプレッドシート)
-      url: https://docs.google.com/spreadsheets/d/1bXhAgECunWRkWTn6zt7cxARg41il_wZcTVucgAu01m4/edit?usp=sharing
-      copyable: true
     videos:
       - title: 【 FF14 / 煉獄零式解説 】概要欄に最新版のアニメーション版があります。煉獄編 零式 4層 前半 さらっと解説Re:【ぬけまる】
         url: https://www.youtube.com/watch?v=tY6c1yXCe18
         author: ぬけまるG
-      - title: ゆっくりと振り返るパンデモニウム煉獄編零式4層前半 #FF14
+      - title: ゆっくりと振り返るパンデモニウム煉獄編零式4層前半
         url: https://www.youtube.com/watch?v=MNKL9NqluRI
       - title: 煉獄編零式4層前半ヘファイストス 賢者視点解説動画 【FF14】
         url: https://www.youtube.com/watch?v=CdOhzb7EUqs
-    strategies:
-      - id: nukemaru-game8-ffo
-        name: ぬけまる式 (Game8 採用版 - FFO式)
-        description: |
-          Game8 が採用しているぬけまる氏解説 + 野良標準「FFO式」処理法 (マクロVer1)。
-          - 基本散開: 北 D3 MT D4 / 中 H1(H2) ST / 南 D1 H2 D2
-          - テトラオクタ/誘導/蛇2: MT/D3 → ST/D4 / H1/D1 ← H2/D2 の4方向誘導
-          - イントゥシャドウ(1回目): 蛇は北から時計回り MTD1 > STD2 > H1D3 > H2D4
-          - フェイタルストンプ: 1,3回目→1(北西), 2,4回目→中央, 待機→A(北)
-          - 幻影創造: 竜竜×散開 or フェニ×散開 でパターン分岐
-          - 四重炎嵐: 縦横/角 の2パターン、頭割りは近H位置 (MTD1/STD2/H1D3/H2D4)
-          - イントゥシャドウ(2回目): 4:4頭割り、デバフ持ち 北西>MT/D1>...>H2/D4>南東、無職は北西TH/南東DPS
-          - テトラ/ディフレア: テトラは(ボス)MT/D1>ST/D2>H1/D3>H2/D4、ディフレアは(ボス)MTH1D1D2>STH2D3D4
+    mitigation:
+      name: Shimaji Row 軽減表 (パンデモニウム煉獄編 零式 全層 スプレッドシート)
+      url: https://docs.google.com/spreadsheets/d/1bXhAgECunWRkWTn6zt7cxARg41il_wZcTVucgAu01m4/edit?usp=sharing
+      copyable: true
     tips:
-      - "前半は変身ギミックを覚えれば事故りにくい。動画予習推奨。"
-      - "四重炎嵐は縦横/角の判別を早く。マクロの図を覚える。"
-      - "幻影創造の竜竜/フェニ判別を間違えると壊滅するため、声出しコール推奨。"
-
+      - 前半は変身ギミックを覚えれば事故りにくい。動画予習推奨。
+      - 四重炎嵐は縦横/角の判別を早く。マクロの図を覚える。
+      - 幻影創造の竜竜/フェニ判別を間違えると壊滅するため、声出しコール推奨。
   - id: p2
     name: P2 ヘファイストス 後半 (第2形態) — P8S Part 2
     order: 2
-    description: |
+    description: |-
       Part 2 (後半)。第2形態ヘファイストス。概念ギミック (High Concept) がメイン。
       最終的に「万象灰燼」(Ego Death) を生存するため、概念デバフ合成 (Immortal Conception)
       が必要。煉獄編最大の山場。
@@ -88,7 +55,6 @@ phases:
         - エイオンアゴニア (Aionagonia、全体大ダメージ)
         - 暴君の一撃 / 支配者の一撃 (Tyrant's Grasp、タンク無敵級)
       野良主流: ぬけまる式 (Game8 採用、はいじあ式 / ビジョン式)。
-    # Source: https://game8.jp/ff14/480771
     videos:
       - title: 【 FF14 / 煉獄零式解説 】最新版が概要欄にあります。煉獄編 零式 4層 後半 軽減例付き アニメーション解説【ぬけまる】:Re
         url: https://www.youtube.com/watch?v=RaLfkv-B2Zg
@@ -102,37 +68,15 @@ phases:
       - title: 【 FF14 】※概要欄に補足動画あり パンデモニウム 煉獄零式 4層後半 解説動画 【 犬丸のぞみ / inumaru 】
         url: https://www.youtube.com/watch?v=Umwojv_T5yc
         author: 犬丸のぞみ
-    strategies:
-      - id: nukemaru-game8-haijia
-        name: ぬけまる式 (Game8 採用版 - はいじあ式 / ビジョン式)
-        description: |
-          Game8 が採用しているぬけまる氏解説 + ビジョン式「万象灰燼処理法」(マクロVer1)。
-          - 術式1回目: 頭割りは西、紫 ST、★中央 / D1 MT D2 / H1 H2 / D3 ST D4
-          - 術式炎氷: TH西 DPS東 / 炎は中央前詰め MT>ST>H1>H2、氷誘導 西 D1>ST / 東 MT>D2
-          - 術式2回目散開: STMT 紫 D3D1 / H1H2D4D2
-          - 概念1回目①: 早α/早β/早γ + 複/遅α/重/遅βγ → 配置
-          - 概念1回目②: 遅α/遅β/遅γ + 生物 → 配置
-          - 4塔合成: 遅αβγ→北で合成、複/重/早余り→南で合成
-          - 万象灰燼 (はいじあ/ビジョン式): MT/D1 ST/D2 H1/D3 H2/D4 の +位置
-            * 1,3番塔は前+で範囲捨て、2,4番塔は後+で範囲捨て
-          - 概念2回目①: 無/早α + 単 + 早β/複/遅 + 早γ → 配置
-          - 概念2回目②: 遅α + 生物 + イフ + 遅β + 遅γ → 配置
-          - 4塔合成 (2回目): 遅αβ→北で合成、遅γ/早余り→南で合成
-          - 支配者の一撃: MTH1 D3 D1 / ST H2 D4 D2 の配置
-          - 塔優先度: 西>MTSTH1H2D4D3D2D1>東
     tips:
-      - "概念支配 (High Concept) は煉獄編最難ギミック。デバフ合成を間違えるとパーティ壊滅。"
-      - "万象灰燼 (Ego Death) は Immortal Conception (3デバフ合成) で生存。1人でもミスすると壊滅。"
-      - "はいじあ式 / ビジョン式 / リシュア式 など流派が複数存在。Game8 採用はぬけまる版のはいじあ/ビジョン式。"
-      - "煉獄編クリア時の Top 50 マウント (タイマット) 報酬対象だったが、配布は終了済み。"
-
-# ────────────────────────────────────────────────────────
-# マクロ（コピペ用）
-# ────────────────────────────────────────────────────────
+      - 概念支配 (High Concept) は煉獄編最難ギミック。デバフ合成を間違えるとパーティ壊滅。
+      - 万象灰燼 (Ego Death) は Immortal Conception (3デバフ合成) で生存。1人でもミスすると壊滅。
+      - はいじあ式 / ビジョン式 / リシュア式 など流派が複数存在。Game8 採用はぬけまる版のはいじあ/ビジョン式。
+      - 煉獄編クリア時の Top 50 マウント (タイマット) 報酬対象だったが、配布は終了済み。
 macros:
   - source: Game8 (ゲームエイト) - 煉獄編零式4層前半 ぬけまる式 マクロVer1
     url: https://game8.jp/ff14/480095
-    text: |
+    text: |-
       /p ■テトラオクタ/誘導/蛇2　 ■基本散開
       /p 　MT/D3　→　ST/D4　　　D3 MT D4
       /p 　　↑　　 ☆　　↓　 　　　H1(H2) ST
@@ -158,10 +102,9 @@ macros:
       /p ■テトラ/ディフレア
       /p 　テトラ：(ボス)MT/D1>ST/D2>H1/D3>H2/D4
       /p 　ディフレア：(ボス)MTH1D1D2>STH2D3D4
-
   - source: Game8 (ゲームエイト) - 煉獄編零式4層後半 ぬけまる式 マクロVer1 (術式 + 概念1回目)
     url: https://game8.jp/ff14/480771
-    text: |
+    text: |-
       /p 【術式1回目(頭割は西)】【術式炎氷(TH西 DPS東) 】
       /p 　 　★　　　紫 　 ST│ ▼炎:中央前詰め　▼氷誘導
       /p D1 MT D2　　 MT　│ MT>ST >H1>H2 西 D1>ST
@@ -177,10 +120,9 @@ macros:
       /p 　　　　早γ　　 　 │　　　遅γ
       /p ※4塔：遅αβγ→北で合成
       /p 　 　 　 複/重/早余り→南で合成
-
   - source: Game8 (ゲームエイト) - 煉獄編零式4層後半 ぬけまる式 マクロVer1 (万象灰燼 + 概念2回目 + 支配者)
     url: https://game8.jp/ff14/480771
-    text: |
+    text: |-
       /p 【万象灰燼：はいじあ/ビジョン式】
       /p 　　MT　　D1
       /p ST　 +　　　+　D2　※1,3番塔は前+で範囲捨て
@@ -196,13 +138,8 @@ macros:
       /p 【支配者の一撃】　　　　　【塔優先度】
       /p 　MTH1 D3 D1　西>MTSTH1H2D4D3D2D1>東
       /p 　ST H2 D4 D2
-
-# ────────────────────────────────────────────────────────
-# 募集テンプレ
-# ────────────────────────────────────────────────────────
 recruitmentTemplates:
-  - source: 零式野良募集 汎用テンプレ (旧コンテンツ用 / 4層特化)
-    template: |
+  - template: |-
       【FF14 零式募集】{{contentShort}}
       ● 進行度: {{progress}}                  # 例: 前半通し / 後半概念練 / 万象灰燼練 / 通し / 消化
       ● 流派: {{strategy}}                    # 例: Game8 / FFO式 / はいじあ式 / ビジョン式
@@ -222,20 +159,3 @@ recruitmentTemplates:
       - macroSource
       - requirements
       - notes
-
-# ────────────────────────────────────────────────────────
-# 参考リンク
-# ────────────────────────────────────────────────────────
-
-# ────────────────────────────────────────────────────────
-# 要手動補完メモ
-# ────────────────────────────────────────────────────────
-# - ヘファイストスの公式声優情報は本ファイル作成時点で未確認。
-# - 概念支配 (High Concept) のデバフ詳細 (早α/遅β/複/重/単 等) の意味は
-#   ぬけまる動画 + Lodestone Shimaji Row で予習必須。
-# - 「はいじあ式」「ビジョン式」「リシュア式」など複数流派あり。
-#   Game8 採用は「はいじあ/ビジョン式」(マクロVer1)。
-# - 万象灰燼 (Ego Death) は Immortal Conception (3デバフ合成バフ) で生存可能になる
-#   仕様。デバフの色組み合わせを正確に作る必要あり。
-# - 当時 Top50 マウント報酬「タイマット (Tiamat)」配布対象だったが現在は配布終了。
-# - 旧コンテンツのため野良募集は閑散としており、固定 or 経験者 PT 必須。

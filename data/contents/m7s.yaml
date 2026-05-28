@@ -1,33 +1,13 @@
-# 至天の座アルカディア：クルーザー級零式 3層 - ブルートアボミネーター (M7S)
-# データ収集日: 2026-05-25
-# 第一参照: Game8 (ゲームエイト)
-#
-# 注意:
-# - 通称: 国際/FFLogs では M7S、Game8/JP では「クルーザー級零式3層」「クルーザー3層」。
-# - 公式肩書: 「反則王のリベンジ」(Source: ファミ通 https://www.famitsu.com/article/202505/42745)
-# - 背景: ブルートボンバー (前 tier の M3S ボス) が複数の魔物の魂を注入した状態で再登場。
-# - 魂の源: カトブレパス、サイクロプス、ベラドンナ。
-# - 特徴: 人の形を成していない外見。多彩な攻撃を展開。
-# - BGM: 『Not Afraid』(THE PRIMALS によるヘヴィメタル調)。
-# - Game8 採用流派: 「さり式」(Asche Okumura 氏 = note の さり 氏)。
-#   別流派として「ぽにこね式」も掲載。
-# - 攻略の鍵: ソーンデスマッチ・ビルディング (地下マーカー前提)。
-
 id: m7s
 displayName: 至天の座アルカディア：クルーザー級零式 3層 (ブルートアボミネーター)
 shortName: M7S
 type: savage
 patch: "7.2"
-# パッチ実装日: 2025-03-25 (Patch 7.2)
-# 零式実装日: 2025-04-01
-# Source: https://www.famitsu.com/article/202503/36584
-# Source: https://ffxiv.consolegameswiki.com/wiki/The_Arcadion
-
 phases:
   - id: p1
     name: P1 ブルートアボミネーター 前半 (スキャッターシード 〜 ビルディング)
     order: 1
-    description: |
+    description: |-
       ブルートアボミネーター前半フェーズ。
       主要技:
         - スキャッターシード 1回目 (種捨て + エラプ)
@@ -38,43 +18,22 @@ phases:
         - ブルートグラワー (中央集合からの十字配置)
         - ソーンデスマッチ・ビルディング (いしあ式・さり式・ぽにこね式が存在、Game8 はさり式)
       野良主流: さり式 (Game8 採用) または ぽにこね式。
-    # Source: https://game8.jp/ff14/681274
-    # Source: https://na.finalfantasyxiv.com/lodestone/character/13307902/blog/5542016/ (ぬけまる固定 マクロ)
-    mitigation:
-      name: Last Agous / らすと 軽減表 (アルカディア クルーザー級:零式 [1-4層対応])
-      # M5S-M8S 全層を 1 ブックで管理。
-      # Source: https://na.finalfantasyxiv.com/lodestone/character/12440293/blog/5540581/
-      url: https://na.finalfantasyxiv.com/lodestone/character/12440293/blog/5540581/
-      copyable: true
     videos:
       - title: 【FF14/解説】さり式 クルーザー級零式 3層解説 GAME8準拠【ぬけまる】(M7S)
         url: https://www.youtube.com/watch?v=EvPn0UHMevk
         author: ぬけまるG
-        # Source: Game8 (https://game8.jp/ff14/681274) で参照されている動画
-    strategies:
-      - id: sari-shiki
-        name: さり式 (Game8 採用版)
-        description: |
-          さり氏 (Asche Okumura, note.com/srm_br) が考案、Game8 採用流派。
-          - いしあ式よりも後出しGCDを多く回せる処理法 (火力寄り)。
-          - 移動がシビアで P3 ストーンウェポンでスプリント必須。
-          - ソーンデスマッチ・ビルディング (奇数 3回目安置 / 13捨て位置 など) の位置を固定。
-          - ペア頭割り: MTD1=①, STD2=②, H1D3=③, H2D4=⑤。
-      - id: ponikone-shiki
-        name: ぽにこね式 (代替流派)
-        description: |
-          Game8 が代替として掲載しているもうひとつの処理法。
-          ソーンデスマッチ・ビルディングを別アプローチで処理する。詳細は Game8 ページ参照。
-          # Source: https://game8.jp/ff14/681274
+    mitigation:
+      name: Last Agous / らすと 軽減表 (アルカディア クルーザー級:零式 [1-4層対応])
+      url: https://na.finalfantasyxiv.com/lodestone/character/12440293/blog/5540581/
+      copyable: true
     tips:
       - "ビルディング処理が攻略のキー (さり氏 活動録: 7割の準備時間をここに費やした)。"
-      - "P3 ストーンウェポンでは複数回スプリント必須。クールダウン管理を徹底。"
-      - "地下マーカーをマップ上に置く前提のマクロ運用 (ぬけまる固定 Lodestone 参照)。"
-
+      - P3 ストーンウェポンでは複数回スプリント必須。クールダウン管理を徹底。
+      - 地下マーカーをマップ上に置く前提のマクロ運用 (ぬけまる固定 Lodestone 参照)。
   - id: p2
     name: P2 ブルートアボミネーター 後半 (ゾーンデスマッチ・ウォール 〜 ツイン)
     order: 2
-    description: |
+    description: |-
       後半フェーズ。石化視線ギミックと2体ボス処理。
       主要技:
         - ゾーンデスマッチ・ウォール (石化視線: 北西/南東避け、雑魚石化後処理)
@@ -83,21 +42,14 @@ phases:
           * 遠隔 AoE: 最外周捨て→中央安置 (近接: シード十字内側捨て、外から2マス、中央避け)
         - ウェポンツイン + ブロウシード (1回目北向き / 2回目ボス北基準)
         - ストーンウェポン: ツイン (P3 最大の山場、移動シビア)
-    # Source: https://game8.jp/ff14/681274
     tips:
       - "ストーンウェポン: ツインは石化視線+8方向直線+ブルートスイング+ツインの複合。"
       - "ウェポンツイン+ブロウシード 1回目: MT/D3 北西、ST/D4 北東。"
       - "ウェポンツイン+ブロウシード 2回目: MT/D1 北西、ST/D2 北東、H1/D3 南西、H2/D4 南東。"
-
-# ────────────────────────────────────────────────────────
-# マクロ (コピペ用)
-# ────────────────────────────────────────────────────────
 macros:
   - source: Lodestone Poni Kone - 「ぬけまる固定 アルカディア零式 クルーザー級3層 マクロ ※地下マーカー前提」 (前半)
     url: https://na.finalfantasyxiv.com/lodestone/character/13307902/blog/5542016/
-    # Game8 採用の「さり式」/「ぽにこね式」と整合する野良固定向けマクロ。
-    # 元著者: Poni Kone (Lodestone)。
-    text: |
+    text: |-
       /p 【スキャッターシード一回目】
       /p (種捨て)　　　　　　(エラプ)
       /p 　D3/MT　　 ST/D4 　近接:南内側開始→上→中央→下
@@ -113,10 +65,9 @@ macros:
       /p ①　 　MT　　②　 　H1　　③　(ペア頭割り)
       /p 　 D1　 ST 　H2　　D3　　 MTD1:①　STD2:②
       /p ④　　 D2　　⑤　　 D4　　⑥　 H1D3:③　H2D4:⑤
-
   - source: Lodestone Poni Kone - 「ぬけまる固定 クルーザー級3層 マクロ ※地下マーカー前提」 (後半)
     url: https://na.finalfantasyxiv.com/lodestone/character/13307902/blog/5542016/
-    text: |
+    text: |-
       /p 【ゾーンデスマッチ・ウォール】
       /p 　　　 MT/D3　　　　※石化視線：北西/南東避け
       /p 　　　　　　　　　　　 雑魚石化後処理
@@ -131,21 +82,10 @@ macros:
       /p MT/D3　 　 ST/D4 ｜　MT/D1　　 ST/D2
       /p 　　　 ★　　　　 ｜
       /p H1/D1　　 H2/D2 ｜ H1/D3　　 H2/D4
-
   - source: Game8 (ゲームエイト) - クルーザー級零式3層 さり式 / ぽにこね式 (本文は Game8 を参照)
     url: https://game8.jp/ff14/681274
-    # 注: Game8 ページに「コピー」ボタン付きで さり式 / ぽにこね式の完全マクロが掲載。
-    # WebFetch では著作権配慮で全文取得を断られたため、本ファイルは
-    # 互換性のある Poni Kone (Lodestone) 版を主に保持し、Game8 直リンクを併記。
-    # 完全な Game8 公式版マクロが必要な場合は URL を訪問してコピー取得すること。
-    # 要手動補完。
-
-# ────────────────────────────────────────────────────────
-# 募集テンプレ
-# ────────────────────────────────────────────────────────
 recruitmentTemplates:
-  - source: 零式野良募集 汎用テンプレ (Cruiserweight 用)
-    template: |
+  - template: |-
       【FF14 零式募集】{{contentShort}}
       ● 進行度: {{progress}}                  # 例: ビルディング練 / P3 ツイン練 / 通し / 消化
       ● 流派: {{strategy}}                    # 例: Game8 (さり式 / ぽにこね式)
@@ -165,20 +105,3 @@ recruitmentTemplates:
       - macroSource
       - requirements
       - notes
-
-# ────────────────────────────────────────────────────────
-# 参考リンク
-# ────────────────────────────────────────────────────────
-
-# ────────────────────────────────────────────────────────
-# 要手動補完メモ
-# ────────────────────────────────────────────────────────
-# - ブルートアボミネーターの公式声優: 2026-05 時点で未確認。
-# - BGM: 『Not Afraid』(THE PRIMALS, ヘヴィメタル調)。Source: ファミ通記事。
-# - Game8 マクロ本体は WebFetch で取得拒否されたため、互換性ある Poni Kone 版を保持。
-#   Game8 公式 さり式 / ぽにこね式マクロが必要な場合は URL から手動コピーすること。
-# - 流派の派生:
-#   * いしあ式 (最初に出回ったが、さり式に置き換わった)
-#   * さり式 (Game8 採用 / 主流)
-#   * ぽにこね式 (Game8 併記 / 代替)
-# - スプリント必須ポイントが多いため、ジョブ別 CD 管理シートも併用推奨。

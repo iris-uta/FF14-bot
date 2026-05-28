@@ -1,35 +1,13 @@
-# 至天の座アルカディア：クルーザー級零式 4層 - ハウリングブレード (M8S)
-# データ収集日: 2026-05-25
-# 第一参照: Game8 (ゲームエイト)
-#
-# 注意:
-# - 通称: 国際/FFLogs では M8S、Game8/JP では「クルーザー級零式4層」「クルーザー4層」。
-# - 公式肩書: 「孤高の狼」、本名: レザラ。
-# - 背景: 元駆除人。クルーザー級の現王者で「善玉闘士」と呼ばれている。
-# - 魂の源: 魔狼フェンリル (FF9 召喚獣)。
-# - 特徴: 光剣とビットを使用。素早さと鋭さを併せ持つ斬撃が特徴。
-# - 後半では土と風のフェンリルの力をすべて取り込み巨大化する。
-# - BGM: 『Unleashed』『Peerless』(Jason Charles Miller 歌唱)。
-#   Source: ファミ通 https://www.famitsu.com/article/202505/42745
-# - 4層は前半 (Part1) と後半 (Part2) の2部構成で実装。
-# - Game8 採用流派: ぬけまる様マクロ (前半:イディル土修正/風化IQ6000/狐狼Alice/81128,
-#   後半: 魔印正規/狐狼Alice/81128)。
-
 id: m8s
 displayName: 至天の座アルカディア：クルーザー級零式 4層 (ハウリングブレード)
 shortName: M8S
 type: savage
 patch: "7.2"
-# パッチ実装日: 2025-03-25 (Patch 7.2)
-# 零式実装日: 2025-04-01
-# Source: https://www.famitsu.com/article/202503/36584
-# Source: https://ffxiv.consolegameswiki.com/wiki/The_Arcadion
-
 phases:
   - id: p1
     name: P1 ハウリングブレード 前半 (土・風の魔技) — M8S Part 1
     order: 1
-    description: |
+    description: |-
       Part 1 (前半)。土と風のフェンリルを操る戦闘。
       主要技:
         - 空間斬り (タンク強攻撃)
@@ -42,40 +20,22 @@ phases:
         - 大地の怒り (風化散開 + 安置時計回り or ズレ時計回り)
         - 幻狼招来 (MT/D3 / ST/D4 / H1/D1 ST/D2 配置)
       野良主流: ぬけまる様マクロ (イディル土修正 / 風化IQ6000 / 狐狼Alice / 81128 構成)。
-    # Source: https://game8.jp/ff14/681843
-    mitigation:
-      name: Last Agous / らすと 軽減表 (アルカディア クルーザー級:零式 [1-4層対応])
-      # M5S-M8S 全層を 1 ブックで管理。
-      # Source: https://na.finalfantasyxiv.com/lodestone/character/12440293/blog/5540581/
-      url: https://na.finalfantasyxiv.com/lodestone/character/12440293/blog/5540581/
-      copyable: true
     videos:
       - title: 【FF14/解説】GAME8準拠 クルーザー級 4層 前半 解説 マクロ有【ぬけまる】(M8S-1)
         url: https://www.youtube.com/watch?v=Pqxs9VBKn74
         author: ぬけまるG
-        # Source: Game8 (https://game8.jp/ff14/681843) で参照されている動画
-    strategies:
-      - id: nukemaru-idyll-mod
-        name: ぬけまる様マクロ (Game8 採用 / イディル土修正 / 風化IQ6000)
-        description: |
-          ぬけまる様 + イディルシャイア居住区様の土修正版を融合した流派。
-          - 土の魔技: MTD4 / D3 / H1 / D1ST / H2 / D2 の配置。
-          - 風の魔技 / 千年の風化 (IQ6000式):
-            MT/D3 H2/D4 / H1/D1 ST/D2、塔ズレ時計、回転中に前=近接 / 南北=遠隔 / 後=無職。
-          - 群狼剣 (薙/廻): 北 MT/ST → 中央 H1組/H2組 へ移行。
-          - 大地の怒り:
-            ① 風化散開 → 安置時計回り、頭割り中央。
-            ② 風化散開 → ズレ時計回り、頭割り北。
-          - 幻狼招来: MT/D3 (頭割り) / H2/D4 / H1/D1 ST/D2。
+    mitigation:
+      name: Last Agous / らすと 軽減表 (アルカディア クルーザー級:零式 [1-4層対応])
+      url: https://na.finalfantasyxiv.com/lodestone/character/12440293/blog/5540581/
+      copyable: true
     tips:
-      - "前半最大の山場は『薙/廻の群狼剣』+『千年の風化』複合。"
-      - "幻狼招来は『分身を見て避ける派』が多数派 (さり氏 活動録)。"
-      - "土修正と風化IQ6000は独立する処理法だが、Game8 はこの組合せを採用。"
-
+      - 前半最大の山場は『薙/廻の群狼剣』+『千年の風化』複合。
+      - 幻狼招来は『分身を見て避ける派』が多数派 (さり氏 活動録)。
+      - 土修正と風化IQ6000は独立する処理法だが、Game8 はこの組合せを採用。
   - id: p2
     name: P2 ハウリングブレード 後半 (フェンリル巨大化 / アルティメット) — M8S Part 2
     order: 2
-    description: |
+    description: |-
       Part 2 (後半)。土と風のフェンリルの力を全て取り込み巨大化したハウリングブレード戦。
       主要技:
         - クエイガ / 1-3 魔光 (青マカ上から北島→その場→南島)
@@ -85,39 +45,18 @@ phases:
         - 孤狼の呪い (Alice式: Tニア北東 / Tファー西 / H不動 / Dニア線南北判定 / Dファー線南北判定)
         - 八連光弾 (時間切れ前: 2=MT無敵 / 3=ST無敵 / 4=T二人フルバフ)
       野良主流: ぬけまる様 魔印正規 / 狐狼Alice / 81128 構成 (Game8 採用)。
-    # Source: https://game8.jp/ff14/681846
-    # Source: https://note.com/feenal/n/n30ea48699717
     videos:
       - title: 【FF14】クルーザー級零式 4層後半 攻略解説【ぬけまる】(M8S Part 2)
         url: https://www.youtube.com/@nukemarugames/videos
         author: ぬけまるG
-        # Source: Game8 (https://game8.jp/ff14/681846) で参照されている動画
-        # 注: ぬけまるG チャンネル内の M8S Part 2 動画 (具体的な watch URL は要確認)
-    strategies:
-      - id: nukemaru-maxin-alice
-        name: ぬけまる様マクロ (Game8 採用 / 魔印正規 / 狐狼Alice / 81128)
-        description: |
-          Game8 採用流派。
-          - 風震の魔印: 正規処理 (頭割りは風撃タンク隣島)。
-          - 双牙撃: 西島=MT / 東島=ST。
-          - 孤狼の呪い: Alice式 (T/H/D の位置とライン誘導を分岐固定)。
-            * Tニア: 北東 / Tファー: 西 / H: 不動
-            * Dニア: 線が北伸び→北東 / 南伸び→南
-            * Dファー: 線が北伸び→不動 / 南伸び→北東
-          - 八連光弾: 2=MT無敵 / 3=ST無敵 / 4=T二人フルバフ。
     tips:
-      - "後半は通し戦闘でスピード感重視 (さり氏談)。"
-      - "孤狼の呪いは複数流派 (Alice式 / イディル式等) があるが、Game8 は Alice式を採用。"
-      - "八連光弾の無敵タイミングは固定。MT2=2発目, ST3=3発目, T2人フルバフ=4発目。"
-
-# ────────────────────────────────────────────────────────
-# マクロ (コピペ用)
-# ────────────────────────────────────────────────────────
+      - 後半は通し戦闘でスピード感重視 (さり氏談)。
+      - 孤狼の呪いは複数流派 (Alice式 / イディル式等) があるが、Game8 は Alice式を採用。
+      - 八連光弾の無敵タイミングは固定。MT2=2発目, ST3=3発目, T2人フルバフ=4発目。
 macros:
   - source: Game8 (ゲームエイト) - クルーザー級零式4層前半 ぬけまる様マクロ (イディル土修正/風化IQ6000/狐狼Alice/81128)
     url: https://game8.jp/ff14/681843
-    # 最終更新: 2026-03-12 (Game8 ページの最終更新日)
-    text: |
+    text: |-
       /p 【土の魔技】　 |【風の魔技/千年の風化 IQ6000式】
       /p 　 　MTD4　　| MT/D3　　H2/D4
       /p 　D3　　　H2 | 　　　　★　　　　 ※塔ズレ時計
@@ -133,10 +72,9 @@ macros:
       /p 【幻狼招来】
       /p MT/D3　 (頭割り) 　H2/D4
       /p 　　　H1/D1　ST/D2
-
   - source: Game8 (ゲームエイト) - クルーザー級零式4層後半 ぬけまる様マクロ (魔印正規/狐狼Alice/81128)
     url: https://game8.jp/ff14/681846
-    text: |
+    text: |-
       /p 【クエイガ/1-3魔光】青マカ上から北島⇒その場⇒南島
       /p MT　　　 　★　　　　ST
       /p D3　　　　　　　　　D4 【双牙撃】西島:MT 東島:ST
@@ -152,13 +90,8 @@ macros:
       /p 　島　★　D　　 Dニア　:線が北伸び⇒北東 南伸び⇒南
       /p 　　　H　　　　 Dファー :線が北伸び⇒不動 南伸び⇒北東
       /p 【八連光弾】2:MT無敵 3:ST無敵 4:T二人フルバフ
-
-# ────────────────────────────────────────────────────────
-# 募集テンプレ
-# ────────────────────────────────────────────────────────
 recruitmentTemplates:
-  - source: 零式野良募集 汎用テンプレ (Cruiserweight 用 / 4層特化)
-    template: |
+  - template: |-
       【FF14 零式募集】{{contentShort}}
       ● 進行度: {{progress}}                  # 例: P1 群狼剣練 / P2 孤狼の呪い練 / 通し / 消化
       ● 流派: {{strategy}}                    # 例: Game8 (ぬけまる/IQ6000/Alice/81128)
@@ -178,17 +111,3 @@ recruitmentTemplates:
       - macroSource
       - requirements
       - notes
-
-# ────────────────────────────────────────────────────────
-# 参考リンク
-# ────────────────────────────────────────────────────────
-
-# ────────────────────────────────────────────────────────
-# 要手動補完メモ
-# ────────────────────────────────────────────────────────
-# - ハウリングブレード (レザラ) の公式声優: 2026-05 時点で未確認。
-# - BGM: 『Unleashed』『Peerless』(Jason Charles Miller 歌唱)。Source: ファミ通記事。
-# - フェンリル元ネタ: FF9 召喚獣。土と風のフェンリルを操る (ファミ通記事より)。
-# - M8S Part 2 ぬけまる動画の watch URL は要確認 (チャンネル内検索)。
-# - 流派バリアント: 孤狼の呪いは Alice 式以外にイディル式等もあるが、Game8 は Alice 式採用。
-# - 4層後半マクロは Game8 上で正常に取得できた (M12S とは違いマクロ直接掲載)。

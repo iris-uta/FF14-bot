@@ -1,31 +1,13 @@
-# 至天の座アルカディア：ヘビー級零式 1層 - ヴァンプ・ファタール (M9S)
-# データ収集日: 2026-05-25
-# 第一参照: Game8 (ゲームエイト)
-#
-# 注意:
-# - 本ファイルの情報源は2026年初頭〜2026年3月の Game8 / Lodestone / X 上で確認できた
-#   野良主流の処理法・マクロです。流派は時期により変化する可能性があります。
-# - 通称: 国際/FFLogs では M9S (Arcadion 通し番号)、Game8 等の日本コミュニティでは
-#   「ヘビー級零式1層」「ヘビー1層」が一般的。本ファイルは shortName を M9S とする。
-# - Game8 のマクロ抽出は WebFetch 経由で実施 (2026-03-12 版)。
-
 id: m9s
 displayName: 至天の座アルカディア：ヘビー級零式 1層 (ヴァンプ・ファタール)
 shortName: M9S
 type: savage
-patch: "7.4"                # 実装パッチ
-# ノーマル実装日: 2025-12-16 (Patch 7.4)
-# 零式実装日:   2026-01-06 (3週間後)
-# AAC = Arcadion Anti-Personnel Champion (推測)。本層は Heavyweight Tier の 1 戦目。
-# Source: https://ffxiv.consolegameswiki.com/wiki/The_Arcadion
-# Source: https://leprestore.com/guides/ffxiv/arcadion-heavyweight/
-# Source: https://x.com/FF_XIV_EN/status/1984216777472237728 (公式実装告知)
-
+patch: "7.4"
 phases:
   - id: p1
     name: P1 ヴァンプ・ファタール (Vamp Fatale) 通し
     order: 1
-    description: |
+    description: |-
       コウモリモチーフの「魔性の処刑人」ヴァンプ・ファタール戦。1ボス完結型。
       主要ギミック:
         - ヴァンプストンプ (近接タゲサ上、コウモリ1の背後)
@@ -36,45 +18,24 @@ phases:
         - その他: フィナーレ・ファターレ / ハーフムーン / ブルータルレイン (頭割り) /
           サングインスクラッチ / インセーシャブル・サースト / ハードコア (タンク強)
       野良主流: ぬけまる式 (Game8 マクロが採用)。
-    # Source: https://game8.jp/ff14/754895
-    # Source: https://na.finalfantasyxiv.com/lodestone/character/34025302/blog/5645091/
-    mitigation:
-      name: Last Agous / らすと 軽減表 (アルカディア ヘビー級:零式 / 全層, Patch 7.4 対応)
-      # 1シートで M9S-M12S 全層をカバー。便宜上 P1 にぶら下げる。
-      # Source: https://na.finalfantasyxiv.com/lodestone/character/12440293/blog/5642585/
-      url: https://docs.google.com/spreadsheets/d/1mSfKgAq1RwXLG3IdL6tgIk8SHtdtOI1utXQkWr-iOq0/edit?usp=sharing
-      copyable: true
     videos:
       - title: 【FF14】ヘビー級零式1層 攻略解説【ぬけまる】
         url: https://www.youtube.com/watch?v=m4_8a0N8GcM
         author: ぬけまるG
-        # Source: Game8 (https://game8.jp/ff14/754895) 内で参照されている動画
       - title: 【FF14】アルカディア零式ヘビー級１層 世界一わかりやすい解説【game8対応】
         url: https://www.youtube.com/watch?v=S_bhkYVN5Yk
-        # Source: 検索結果より (投稿者未確認)
-    strategies:
-      - id: nukemaru-game8
-        name: ぬけまる式 (Game8 採用版)
-        description: |
-          Game8 が公式採用しているぬけまる氏解説に準拠した処理法。
-          - ヴァンプストンプ: 近接 (D1/D2) はコウモリ1の背後に寄り、TH+遠は前散開。
-          - エーテルレッティング: 最外周扇範囲を捨てて中央集合。
-          - 茨塔 (ラディスティック・スクリーチ): 北から時計回り、優先順 T>近>遠>H。
-          - ヘル・イン・ア・セル: 4セット連続塔踏み。
-          - バット・デスマッチ: MT組 北西 / ST組 南東。
+    mitigation:
+      name: Last Agous / らすと 軽減表 (アルカディア ヘビー級:零式 / 全層, Patch 7.4 対応)
+      url: https://docs.google.com/spreadsheets/d/1mSfKgAq1RwXLG3IdL6tgIk8SHtdtOI1utXQkWr-iOq0/edit?usp=sharing
+      copyable: true
     tips:
-      - "ヴァンプストンプの近接寄りはコウモリ追従基準。HT/遠はその逆方向散開。"
-      - "茨塔はロール側と頭割り側で位置が分かれる。マクロ図の左/右を要確認。"
-      - "バット・デスマッチでコウモリの誘導距離を取り過ぎると、次ギミックの本体位置調整が遅れる。"
-
-# ────────────────────────────────────────────────────────
-# マクロ（コピペ用）
-# ────────────────────────────────────────────────────────
+      - ヴァンプストンプの近接寄りはコウモリ追従基準。HT/遠はその逆方向散開。
+      - 茨塔はロール側と頭割り側で位置が分かれる。マクロ図の左/右を要確認。
+      - バット・デスマッチでコウモリの誘導距離を取り過ぎると、次ギミックの本体位置調整が遅れる。
 macros:
   - source: Game8 (ゲームエイト) - ヘビー級零式1層 ぬけまる式
     url: https://game8.jp/ff14/754895
-    # 最終更新: 2026-03-12 (Game8 ページの最終更新日)
-    text: |
+    text: |-
       /p 【ヴァンプストンプ】
       /p 　D3　 MT 　 D4　近：コウモリ1後
       /p 　 　 D1 　D2
@@ -90,13 +51,8 @@ macros:
       /p 　D ★ H　 　 　 ★
       /p 塔　 T　塔　 塔　全　塔
       /p 【バットデスマッチ】北西:MT組 南東:ST組
-
-# ────────────────────────────────────────────────────────
-# 募集テンプレ
-# ────────────────────────────────────────────────────────
 recruitmentTemplates:
-  - source: 零式野良募集 汎用テンプレ (Heavyweight 用)
-    template: |
+  - template: |-
       【FF14 零式募集】{{contentShort}}
       ● 進行度: {{progress}}                  # 例: P1 通し練 / 消化
       ● 流派: {{strategy}}                    # 例: Game8 / ぬけまる式
@@ -116,17 +72,3 @@ recruitmentTemplates:
       - macroSource
       - requirements
       - notes
-
-# ────────────────────────────────────────────────────────
-# 参考リンク
-# ────────────────────────────────────────────────────────
-
-# ────────────────────────────────────────────────────────
-# 要手動補完メモ
-# ────────────────────────────────────────────────────────
-# - ヴァンプ・ファタールの正式声優: 渡辺明乃 (公式発表より)
-# - ボスキャラクター肩書: 「魔性の処刑人」
-# - 軽減表 (Last Agous) は M9S〜M12S を 1 ブックで管理。各層にぶら下げる場合は
-#   タブ参照を分けること。
-# - Game8 ページ上の野良マクロは「ぬけまる式」が単独掲載 (2026-03-12 時点)。
-#   別流派 (家無しララ式等) があれば strategies[] に追加すること。

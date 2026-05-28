@@ -165,8 +165,11 @@ function buildContent(
       return phaseObj;
     });
 
+  // Require BOTH source AND url — a macro with no URL is unusable and
+  // shouldn't crash the import. This commonly happens when a user has just
+  // started filling in a new macro row (source set, url pending).
   const macros = macroRows
-    .filter((m) => (m.source ?? "").trim() || (m.url ?? "").trim())
+    .filter((m) => (m.source ?? "").trim() && (m.url ?? "").trim())
     .map((m) => ({
       ...(m.phase_id?.trim() ? { phaseId: m.phase_id.trim() } : {}),
       ...(m.strategy_id?.trim() ? { strategyId: m.strategy_id.trim() } : {}),

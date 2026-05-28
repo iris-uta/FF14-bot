@@ -19,11 +19,6 @@ phases:
       name: Last Agous / らすと 軽減表スプレッドシート (Patch 7.11 対応, 全Phase)
       url: https://docs.google.com/spreadsheets/d/1MWvfvf283BAkDjLBXu6wQz7EWbjYrJzAtyKfO5E3k2s/edit?usp=sharing
       copyable: true
-    strategies:
-      - id: priority-htd-std4
-        name: 優先HTD/STD4入替/塔キャス固定
-        description: 野良主流。STとD4が入替、塔をキャスター固定で処理する流派。
-        popular: false
   - id: p2
     name: P2 シヴァ・ミトロン (Usurper of Frost)
     order: 2
@@ -36,14 +31,6 @@ phases:
       - title: P2～2.5 シヴァ･ミトロン～光の氾濫解説【しのしょー】
         url: https://youtu.be/u7yy2BMyaIU?si=Qe7CLMrmnnktrXNC
         author: しのしょー
-    strategies:
-      - id: idyll-basic
-        name: 基本イディル (リリド式)
-        description: |-
-          りりーどーるの「基本イディル」処理法。
-          DD（ダイアモンドダスト）は基本散開から時計回り調整、
-          扇誘導は D3 MT D4 ライン上に1,3枚目（スプリント）。
-        popular: false
   - id: p3
     name: P3 闇の巫女 (Oracle of Darkness)
     order: 3
@@ -58,25 +45,6 @@ phases:
       - title: P3-2 アポカリ解説 安置基準&アポカリ基準【ぬけまる】
         url: https://youtu.be/4gWtS7GWiFQ?si=KQ39y1ZDNZixEut-
         author: ぬけまるG
-    strategies:
-      - id: atobe-kingdom-kai
-        name: 跡部王国改 (時間圧縮・絶)
-        description: |-
-          ポネコニさんが派生させた跡部王国改版。
-          P3野良主流の時間圧縮処理。X投稿 (PoneKoni) に詳細図あり。
-        popular: false
-      - id: anchi-kijun
-        name: アポカリ：最初の安置基準
-        description: |-
-          TH 赤紫マーカー / DPS 黄青マーカーで、最初の安置を基準にアポカリ処理。
-          固定での採用が主流。遠隔組の移動距離が少ない。
-        popular: false
-      - id: apoka-kijun
-        name: アポカリ：アポカリ基準
-        description: |-
-          アポカリの出現位置を見て安置を決定する流派。
-          ぬけまる動画 (P3-2) で詳細解説。
-        popular: false
   - id: p4
     name: P4 2体フェーズ (Usurper of Frost & Oracle of Darkness)
     order: 4
@@ -90,16 +58,6 @@ phases:
       - title: P4 2体フェーズ解説【ぬけまる】
         url: https://youtu.be/nX2kfaMnCiU?si=jF80rhVAJCnm_0ZV
         author: ぬけまるG
-    strategies:
-      - id: nukemaru-style
-        name: ぬけまる式 (扇前調整/アクモーン1:7/赤爆走アムレンY字)
-        description: |-
-          P4-P5 野良主流。
-          - 扇前調整: ウォタガ扇前調整
-          - アクモーン: 1:7（1人と7人の分割）
-          - 赤爆走: アムレンY字配置
-          - attack me マクロ使用
-        popular: false
   - id: p5
     name: P5 パンドラ・ミトロン (Pandora)
     order: 5
@@ -110,13 +68,9 @@ phases:
       - title: P5 パンドラ・ミトロン ギミック解説【ぬけまる】
         url: https://youtu.be/nzpOdfOyUNo?si=PNFVTdyQv87FH4Zk
         author: ぬけまるG
-    strategies:
-      - id: nukemaru-style-p5
-        name: ぬけまる式 (アクモーン ボス基準/MT組左/ST組右)
-        description: P5 野良主流。光塵の剣、アクモーン、パラダイスリゲインド、星霊の剣をぬけまる解説動画準拠で処理。
-        popular: false
 macros:
-  - source: りりーどーる (P1 - リリド式 / 優先HTD・STD4入替・塔キャス固定)
+  - phaseId: p1
+    source: りりーどーる (P1 - リリド式 / 優先HTD・STD4入替・塔キャス固定)
     url: https://ffxiv.link/0122122
     text: "/p P1(優先HTD/STD4入替/塔キャス固定)\r
 
@@ -155,8 +109,8 @@ macros:
       /p 上MT 下ST ｜ 塔 上:H1 中:H2 下:D4\r
 
       /p 人数調整優先度 上 D1＞D2＞D3 下"
-    phaseId: p1
-  - source: りりーどーる (P2 - 基本イディル / 暴走HT / ノクバマカ色＆バニシュガ2ペア変更)
+  - phaseId: p2
+    source: りりーどーる (P2 - 基本イディル / 暴走HT / ノクバマカ色＆バニシュガ2ペア変更)
     url: https://ffxiv.link/0122122
     text: |-
       /p P2(基本イディル/暴走HT/ノクバマカ色＆バニシュガ2ペア変更)
@@ -189,8 +143,8 @@ macros:
       /p D1　　　　  D2 ｜　　：ボス本体に近接LB3
       /p 　  H1　  D4      ｜遠隔：扇誘導
       /p 　　　ST　　　  ｜　　：時計回りの光水晶を攻撃
-    phaseId: p2
-  - source: りりーどーる (P3 -安置基準 / TH赤紫DPS黄青)
+  - phaseId: p3
+    source: りりーどーる (P3 -安置基準 / TH赤紫DPS黄青)
     url: https://ffxiv.link/0122122
     text: "/p P3(アポカリ[最初の安置基準]TH赤紫/DPS黄青)\r
 
@@ -221,8 +175,8 @@ macros:
       /p 散開優先度Z字:内側左<D12 MTST D3H1他<外側右\r
 
       /p 【暗夜の舞踏技】ボス見てTH組：左/DPS組：右"
-    phaseId: p3
-  - source: りりーどーる (P3 - アポカリ基準 / TH赤紫DPS黄青)
+  - phaseId: p3
+    source: りりーどーる (P3 - アポカリ基準 / TH赤紫DPS黄青)
     url: https://ffxiv.link/0122122
     text: |-
       /p P3(アポカリ[1個目のアポカリ基準]TH赤紫/DPS黄青)
@@ -240,8 +194,8 @@ macros:
       /p 1枚目範囲の担当色マーカー左右の安置側で散開
       /p 散開優先度Z字:内側左<D12 MTST D3H1他<外側右
       /p 【暗夜の舞踏技】ボス見てTH組：左/DPS組：右
-    phaseId: p3
-  - source: りりーどーる (P4 - ぬけまる扇前 / アクモーン1:7 / 赤爆走アムレンY字)
+  - phaseId: p4
+    source: りりーどーる (P4 - ぬけまる扇前 / アクモーン1:7 / 赤爆走アムレンY字)
     url: https://ffxiv.link/0122122
     text: |-
       /p P4(扇前調整/アクモーン1:7/赤爆走アムレンY字/attack meマクロ)
@@ -275,8 +229,8 @@ macros:
       /p ■テイカー散開⇒波が来た南北基準で基本散開(タンクはAを避けて外周側に)
       /p リターン残り5秒で軽減、残り2秒でアムレン
       /p ※バリア＆軽減3枚以上必要[動画ではレンジ,BH,PH(無いならタンク)軽減]
-    phaseId: p4
-  - source: りりーどーる (P5 - ぬけまる最終フェーズ)
+  - phaseId: p5
+    source: りりーどーる (P5 - ぬけまる最終フェーズ)
     url: https://ffxiv.link/0122122
     text: |-
       /p P5最終フェーズ(ぬけまる)
@@ -294,7 +248,6 @@ macros:
       /p 先頭受け：T→D12→D34→H
       /p 【パンドラの櫃】タンクLB3
       /p 詠唱バー「パン[ﾀﾝｸLB]ドラの櫃」目安
-    phaseId: p5
 recruitmentTemplates:
   - template: |-
       ▼募集ジョブ

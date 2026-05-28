@@ -1,29 +1,13 @@
-# 万魔殿パンデモニウム零式：煉獄編 3層 - アグディスティス (P7S)
-# データ収集日: 2026-05-25
-# 第一参照: Game8 (ゲームエイト)
-#
-# 注意:
-# - 通称: 国際/FFLogs では P7S、日本コミュニティでは「煉獄編3層」「煉獄3層」。
-# - 公式ボス名: 「半神の継承者・アグディスティス」(Hemitheos: Agdistis)。
-# - ユーザー指示の「アガディスタガル」は誤記。正しくは「アグディスティス」。
-# - 巨大樹/フェニックス/牛 等の召喚物 (生命の果実) を捌くアド管理型ボス。
-# - 流派分岐が多い (獄8人凶無敵式 / 乱犬丸式 など)。Game8 は「マクロVer1.5」採用。
-
 id: p7s
 displayName: 万魔殿パンデモニウム零式：煉獄編 3層 (アグディスティス)
 shortName: P7S
 type: savage
 patch: "6.21"
-# ノーマル実装日: 2022-08-23 (Patch 6.2)
-# 零式実装日:   2022-08-30 (Patch 6.21)
-# Source: https://ffxiv.consolegameswiki.com/wiki/Abyssos:_The_Seventh_Circle_(Savage)
-# Source: https://www.icy-veins.com/ffxiv/the-seventh-circle-savage-raid-guide
-
 phases:
   - id: p1
     name: P1 アグディスティス (Agdistis) 通し
     order: 1
-    description: |
+    description: |-
       巨大樹「半神の継承者」アグディスティス戦。1ボス完結型、アド管理が肝。
       主要ギミック:
         - アッティスの刃葉 (エクサフレア、外周連続AoE)
@@ -39,12 +23,6 @@ phases:
         - 不可侵の絆 / 不可侵の浄罪 (Inviolate Bonds/Purgation、ペア/散開)
         - 神鳥/牛/イオ召喚 (Forbidden Fruit のサブパターン)
       野良主流: ぬけまる式 (Game8 採用、獄8人 凶無敵 乱犬丸)。
-    # Source: https://game8.jp/ff14/479465
-    mitigation:
-      name: Shimaji Row 軽減表 (パンデモニウム煉獄編 零式 全層 スプレッドシート)
-      # P5S-P8S 全層を 1 ブックで管理。詳細は P5S を参照。
-      url: https://docs.google.com/spreadsheets/d/1bXhAgECunWRkWTn6zt7cxARg41il_wZcTVucgAu01m4/edit?usp=sharing
-      copyable: true
     videos:
       - title: 【 FF14 / 煉獄零式解説 】煉獄編 零式 ３層 獄八凶無敵乱犬丸 主流図解解説【ぬけまる】
         url: https://www.youtube.com/watch?v=iaxDpAfkTIA
@@ -54,32 +32,18 @@ phases:
         author: ぬけまるG
       - title: 生命の繁茂【凶】 無敵式 解説動画!! 【煉獄編零式3層】【賢者視点】【FF14】
         url: https://www.youtube.com/watch?v=ltw49krh4JI
-    strategies:
-      - id: nukemaru-game8
-        name: ぬけまる式 (Game8 採用版 - 獄8人 凶無敵 乱犬丸)
-        description: |
-          Game8 が採用しているぬけまる氏解説に準拠した処理法 (マクロVer1.5)。
-          - MT組: MTH1D1D3 / ST組: STH2D2D4
-          - 基本散開: 北 MT/D1, ST/D2 / 南 H1/D3, H2/D4 / 中央 ★
-          - ノックバック + 鳥: 中央列に MT/ST、上下に D1-D4、両通路を H1/H2
-          - 生命の果実 (頭割り): 北側 MT組 / 南側 ST組
-          - 魔印創成 (散開): 基本散開準拠、頭割りと被ったら通路へ
-          - エクサ + 頭割り: 西 MT組 / 東 ST組
-          - 鳥誘導 + 塔: 基本散開準拠でズレたら時計回り
-          - 魔印創成【獄】: 西島/東島で対称配置 (頭割り MT/D1 / ST/D2 / H2/D4 / H1/D3 / 通路)
-        # Source: https://game8.jp/ff14/479465
+    mitigation:
+      name: Shimaji Row 軽減表 (パンデモニウム煉獄編 零式 全層 スプレッドシート)
+      url: https://docs.google.com/spreadsheets/d/1bXhAgECunWRkWTn6zt7cxARg41il_wZcTVucgAu01m4/edit?usp=sharing
+      copyable: true
     tips:
-      - "【凶】無敵式は無敵CDをきっちり管理。MT/ST が必ず受ける役割なのでマクロで明示。"
-      - "生命の果実の3種判別 (牛/鳥/ミノタウロス) を最初に覚えるとギミック流れが理解しやすい。"
-      - "魔印創成【獄】は西島/東島で4箇所ずつの塔配置になる。Consomme Mkll の動く図解 Toolbox が予習に便利。"
-
-# ────────────────────────────────────────────────────────
-# マクロ（コピペ用）
-# ────────────────────────────────────────────────────────
+      - 【凶】無敵式は無敵CDをきっちり管理。MT/ST が必ず受ける役割なのでマクロで明示。
+      - 生命の果実の3種判別 (牛/鳥/ミノタウロス) を最初に覚えるとギミック流れが理解しやすい。
+      - 魔印創成【獄】は西島/東島で4箇所ずつの塔配置になる。Consomme Mkll の動く図解 Toolbox が予習に便利。
 macros:
   - source: Game8 (ゲームエイト) - 煉獄編零式3層 ぬけまる式 マクロVer1.5
     url: https://game8.jp/ff14/479465
-    text: |
+    text: |-
       /p MT組：MTH1D1D3　ST組：STH2D2D4
       /p 　【基本散開】　　　　　【ノックバック+鳥】
       /p MT/D1　ST/D2　　　　 D1　　 　 　 D2
@@ -95,13 +59,8 @@ macros:
       /p 頭割り　MT/D1 　 　 　 MT/D1　頭割り
       /p ST/D2　H2/D4　通路　H2/D4　ST/D2
       /p 　　　　H1/D3　 　　　H1/D3
-
-# ────────────────────────────────────────────────────────
-# 募集テンプレ
-# ────────────────────────────────────────────────────────
 recruitmentTemplates:
-  - source: 零式野良募集 汎用テンプレ (旧コンテンツ用)
-    template: |
+  - template: |-
       【FF14 零式募集】{{contentShort}}
       ● 進行度: {{progress}}                  # 例: 通し / 消化 / 装備周回
       ● 流派: {{strategy}}                    # 例: Game8 / ぬけまる式 / 凶無敵
@@ -121,17 +80,3 @@ recruitmentTemplates:
       - macroSource
       - requirements
       - notes
-
-# ────────────────────────────────────────────────────────
-# 参考リンク
-# ────────────────────────────────────────────────────────
-
-# ────────────────────────────────────────────────────────
-# 要手動補完メモ
-# ────────────────────────────────────────────────────────
-# - アグディスティスの公式声優情報は本ファイル作成時点で未確認。
-# - 流派バリアント: 「獄8人凶無敵式」「乱犬丸式」「ハピおじ式」「ほララ式」「辺獄無敵」など
-#   多数。詳細を取り込む場合は strategies[] を追加すること。
-# - 「魔印創成【獄】」の塔配置は流派により左右反転する場合あり。マクロ図を必ず確認。
-# - 生命の繁茂【乱】 (Inviolate Purgation) の処理は野良で揺れる。
-#   Game8 採用は「乱犬丸式」。
