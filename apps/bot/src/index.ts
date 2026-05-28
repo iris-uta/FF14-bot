@@ -17,6 +17,7 @@ import { handleVoteButton } from "./services/vote-interaction";
 import { handleVoteModalSubmit, MODAL_PREFIX as VOTE_MODAL_PREFIX } from "./services/vote-modal-submit";
 import { handleChouseisanPick, SELECT_PREFIX as CHOUSEISAN_SELECT_PREFIX } from "./services/chouseisan-interaction";
 import { postWelcomeToGuild } from "./services/welcome";
+import { startHealthServer, stopHealthServer, type HealthState } from "./health-server";
 
 const token = process.env.DISCORD_TOKEN;
 if (!token) {
@@ -42,6 +43,12 @@ const client = new Client({
 // flip this flag once ClientReady fires.
 let isReadyForNewGuilds = false;
 
+// Shared state object the health endpoint can read without coupling.
+const healthState: HealthState = { ready: false };
+
+// Health endpoint starts immediately so Fly's checks see "starting" (503) until ready.
+startHealthServer(client, healthState);
+
 // When bot is added to a NEW guild post-startup, post the welcome / 3-step
 // quickstart embed to the system channel (or first sendable text channel).
 client.on(Events.GuildCreate, async (guild) => {
@@ -64,6 +71,7 @@ client.on(Events.GuildCreate, async (guild) => {
 
 client.once(Events.ClientReady, (c) => {
   isReadyForNewGuilds = true;
+  healthState.ready = true;
   console.log(`Logged in as ${c.user.tag}`);
   startAlertWorker(client);
   console.log("Alert worker started (30s tick)");
@@ -82,7 +90,7 @@ for (const sig of ["SIGINT", "SIGTERM"] as const) {
     stopVoteCloserWorker();
     stopVoteReminderWorker();
     stopRecurringScheduler();
-    void client.destroy().finally(() => process.exit(0));
+    void Promise.all([client.destroy(), stopHealthServer()]).finally(() => process.exit(0));
   });
 }
 
