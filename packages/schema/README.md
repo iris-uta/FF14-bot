@@ -8,7 +8,7 @@
 
 - `Content` / `ContentSchema` — コンテンツ（絶エデン等）の定義
 - `Phase` / `PhaseSchema` — Phase（P1, P2 等）
-- `StrategyVariant` — 処理方バリアント（アスト式 / 十字式 等）
+- `StrategyVariant` — 処理法バリアント（アスト式 / 十字式 等）
 - `StaticParty` / `StaticPartySchema` — 固定パーティ
 - `Member`, `Schedule`, `Progress` — 固定の構成要素
 - `loadContentFromFile`, `loadAllContents` — YAML → 型へのloader

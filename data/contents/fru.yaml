@@ -1,44 +1,19 @@
-# 絶もうひとつの未来 (Futures Rewritten Ultimate / FRU)
-# 俗称: 絶エデン
-# データ収集日: 2026-05-24
-# 第一参照: りりーどーる (Lily Doll) - Lodestone 日記、ぬけまるG (YouTube)
-#
-# 注意:
-# - 本ファイルの情報源は2025年初頭時点で確認できた野良主流の処理法・マクロです。
-# - 「処理方」「マクロ」は時期によって変化します。最新版はりりーどーる/ぬけまるの最新記事を参照。
-# - WebFetch でりりーどーるの短縮URL (ffxiv.link/0122122) は 403 で取得不可だったため、
-#   Lodestone 原文 (blog/5500375) から抽出したマクロ抜粋を記載しています。
-
 id: fru
 displayName: 絶もうひとつの未来
 shortName: FRU
 type: ultimate
-patch: "7.11"                # 実装パッチ
-# 実装日 2024-11-26 / 世界最速クリア Kindred (NA) 2024-11-28
-# 俗称「絶エデン」(Eden 由来) のほうがコミュニティで通りやすいので、
-# autocomplete で「エデン」検索もヒットするよう将来 alias 対応検討。
-# Source: https://asellog.com/fru-raidrace/
-# Source: https://ffxiv.consolegameswiki.com/wiki/Futures_Rewritten_(Ultimate)
-
+patch: "7.11"
 phases:
   - id: p1
     name: P1 フェイトブレイカー (Fatebreaker)
     order: 1
+    popularStrategy: 優先HTD / STD4入替 / 塔キャス固定
     description: |
       開幕フェーズ。サイクロニックブレイク、楽園絶技、転輪召、シンソイルセヴァー、塔踏み（バーンストライク）など。
       野良主流は「優先HTD / STD4入替 / 塔キャス固定」。
-    # Source: https://ffxiv.consolegameswiki.com/wiki/Futures_Rewritten_(Ultimate)
-    # Source: https://fuucdayo.com/battle/5758/
-    # 軽減表は本来 P1-P5 全Phase を 1 シートで扱うため、便宜上 P1 にぶら下げる。
-    # Source: https://na.finalfantasyxiv.com/lodestone/character/12440293/blog/5489598/
-    mitigation:
-      name: Last Agous / らすと 軽減表スプレッドシート (Patch 7.11 対応, 全Phase)
-      url: https://docs.google.com/spreadsheets/d/1MWvfvf283BAkDjLBXu6wQz7EWbjYrJzAtyKfO5E3k2s/edit?usp=sharing
-      copyable: true
     videos:
       - title: 【FF14/絶エデン】フェーズ1野良主流簡易解説(優先HTD/STD4入替/塔キャス固定)【絶もうひとつの未来】
         url: https://www.youtube.com/watch?v=0HDstP0aU_Y
-        # Source: 検索結果より (投稿者非確定)
       - title: 【絶エデン】P1通しでひたすら見る動画 新リリドぬけまる【FF14 絶もうひとつの未来】
         url: https://www.youtube.com/watch?v=Ws3p-stlYuY
         author: ぬけまるG
@@ -48,23 +23,25 @@ phases:
       - title: 「P1フェイトブレイカーの解説動画」by Lucrezia (X投稿)
         url: https://x.com/TeamLucrezia/status/1861426186238468427
         author: Lucrezia (TeamLucrezia)
+    mitigation:
+      name: Last Agous / らすと 軽減表スプレッドシート (Patch 7.11 対応, 全Phase)
+      url: https://docs.google.com/spreadsheets/d/1MWvfvf283BAkDjLBXu6wQz7EWbjYrJzAtyKfO5E3k2s/edit?usp=sharing
+      copyable: true
     strategies:
       - id: priority-htd-std4
         name: 優先HTD/STD4入替/塔キャス固定 (リリド式)
         description: 野良主流。STとD4が入替、塔をキャスター固定で処理する流派。
     tips:
-      - "楽園絶技はSTD4入替。爆印を持っているMTのみ寄る。"
-      - "塔処理はキャスター固定（赤魔・召喚・黒魔・ピクトを優先的に塔へ）。"
-
+      - 楽園絶技はSTD4入替。爆印を持っているMTのみ寄る。
+      - 塔処理はキャスター固定（赤魔・召喚・黒魔・ピクトを優先的に塔へ）。
   - id: p2
     name: P2 シヴァ・ミトロン (Usurper of Frost)
     order: 2
+    popularStrategy: 基本イディル / 暴走HT / ノクバマカ色＆バニシュガ2ペア変更
     description: |
       ダイアモンドダスト、鏡の国、光の暴走など。
       Intermission として「Ice Veil (氷帝)」破壊フェーズが直後にある。
       野良主流は「基本イディル / 暴走HT / ノクバマカ色＆バニシュガ2ペア変更」。
-    # Source: https://fuucdayo.com/battle/5758/
-    # Source: https://ffxiv.consolegameswiki.com/wiki/Futures_Rewritten_(Ultimate)
     videos:
       - title: 【絶エデン】P2光の暴走ひたすら見る動画 新リリドぬけまる【FF14 絶もうひとつの未来】
         url: https://www.youtube.com/watch?v=S_M1xdQMVng
@@ -77,17 +54,15 @@ phases:
           DD（ダイアモンドダスト）は基本散開から時計回り調整、
           扇誘導は D3 MT D4 ライン上に1,3枚目（スプリント）。
     tips:
-      - "扇誘導はスプリント推奨（1,3枚目担当）。"
-      - "暴走はHT担当。ノクバマカ色とバニシュガ2ペアの優先度はパーティで合意必須。"
-
+      - 扇誘導はスプリント推奨（1,3枚目担当）。
+      - 暴走はHT担当。ノクバマカ色とバニシュガ2ペアの優先度はパーティで合意必須。
   - id: p3
     name: P3 闇の巫女 (Oracle of Darkness)
     order: 3
+    popularStrategy: 跡部王国改（ポネコニさん版）
     description: |
       究極幻想（時間圧縮・絶）、アポカリプス、頭割り、塔など。
       野良主流は「跡部王国改（ポネコニさん版）」での時間圧縮処理 + アポカリ「最初の安置基準」または「アポカリ基準」。
-    # Source: https://fuucdayo.com/battle/5758/
-    # Source: https://na.finalfantasyxiv.com/lodestone/character/34120564/blog/5500375
     videos:
       - title: 【FF14/絶エデン解説】P3-1 時間圧縮・絶 解説 絶もうひとつの未来【ぬけまる】
         url: https://www.youtube.com/watch?v=oKSHteslL2w
@@ -118,19 +93,17 @@ phases:
           アポカリの出現位置を見て安置を決定する流派。
           ぬけまる動画 (P3-2) で詳細解説。
     tips:
-      - "時間圧縮はホットバーカンペ3種（全体/TH用/DPS用）の事前準備が必須。"
-      - "アポカリ処理は固定なら安置基準、野良ならアポカリ基準が多い傾向。"
-
+      - 時間圧縮はホットバーカンペ3種（全体/TH用/DPS用）の事前準備が必須。
+      - アポカリ処理は固定なら安置基準、野良ならアポカリ基準が多い傾向。
   - id: p4
     name: P4 2体フェーズ (Usurper of Frost & Oracle of Darkness)
     order: 4
+    popularStrategy: 扇前調整 / アクモーン1:7 / 赤爆走アムレンY字 / attack me マクロ
     description: |
       ミトロンと闇の巫女の2体フェーズ。
       アークライ、光と闇の竜詩、アク・モーン、モーン・アファー、時間結晶など。
       野良主流は「扇前調整 / アクモーン1:7 / 赤爆走アムレンY字 / attack me マクロ」。
       MT組がミトロン、ST組が闇の巫女を担当。
-    # Source: https://na.finalfantasyxiv.com/lodestone/character/34120564/blog/5500375
-    # Source: https://fuucdayo.com/battle/5758/
     videos:
       - title: 【FF14/絶エデン】P4 2体フェーズ解説 絶もうひとつの未来 Futures Rewritten (ULTIMATE)【ぬけまる】
         url: https://www.youtube.com/watch?v=nX2kfaMnCiU
@@ -148,51 +121,28 @@ phases:
           - 赤爆走: アムレンY字配置
           - attack me マクロ使用
     tips:
-      - "ST組（闇の巫女担当）は attack me マクロを使用して敵視維持。"
+      - ST組（闇の巫女担当）は attack me マクロを使用して敵視維持。
       - "基本担当: MT組 → ミトロン / ST組 → 闇の巫女。"
-
   - id: p5
     name: P5 パンドラ・ミトロン (Pandora)
     order: 5
     description: |
       最終フェーズ。光塵の剣（Fulgent Blade）、パラダイスリゲインド、星霊の剣など。
       野良主流はぬけまる式。アクモーンはボス基準で MT組左/ST組右。
-    # Source: https://fuucdayo.com/battle/5758/
-    # Source: https://www.youtube.com/watch?v=nzpOdfOyUNo
     videos:
       - title: 【FF14/絶エデン解説】P5(最終) パンドラ・ミトロン ギミック解説 絶もうひとつの未来【ぬけまる】
         url: https://www.youtube.com/watch?v=nzpOdfOyUNo
         author: ぬけまるG
       - title: 【FF14】絶もうひとつの未来最速攻略ガイド！絶エデンのギミック分析＆攻略短縮のコツを徹底解説【patch7.18】
         url: https://www.youtube.com/watch?v=TFmeQMKxcjU
-        # Source: 検索結果より
     strategies:
       - id: nukemaru-style-p5
         name: ぬけまる式 (アクモーン ボス基準/MT組左/ST組右)
         description: |
           P5 野良主流。光塵の剣、アクモーン、パラダイスリゲインド、星霊の剣をぬけまる解説動画準拠で処理。
     tips:
-      - "光塵の剣はSplatoonスクリプト (Fulgent Blade Dodge Spots) で安置可視化可能。"
+      - 光塵の剣はSplatoonスクリプト (Fulgent Blade Dodge Spots) で安置可視化可能。
       - "アクモーンはボス基準: MT組左、ST組右。"
-
-# ────────────────────────────────────────────────────────
-# マクロ（コピペ用・りりーどーる Lodestone 原文の全文）
-# ────────────────────────────────────────────────────────
-# 主流: 「P123リリドP45ぬけまる」(扇前)
-#   バリアント募集:
-#     - P123リリドP45ぬけまる (安置基準/扇前)
-#     - P123リリドP45ぬけまる (アポカリ基準/扇前)
-#   ↑ 違いは P3 アポカリの安置判断のみ。
-#
-# 出典: りりーどーる Lily Doll - Lodestone 日記
-#   短縮URL: https://ffxiv.link/0122122
-#   Lodestone: https://jp.finalfantasyxiv.com/lodestone/character/34120564/blog/5500375/
-# 更新履歴(りりーどーる原文より):
-#   2024/12 P3 アポカリ安置基準 マクロ追加
-#   2025/01 P4 竜詩 扇前マクロ追加
-#   2025/02/05 P4 扇前マクロを主流として差し替え
-#   2025/02/27 P3 アポカリ両方解説のぬけまる動画リリース
-#   2025/07/03 マーカー位置検証
 macros:
   - source: りりーどーる (P1 - リリド式 / 優先HTD・STD4入替・塔キャス固定)
     url: https://ffxiv.link/0122122
@@ -215,7 +165,6 @@ macros:
       /p 【バーンストライク(塔)】フィールド北(上)基準
       /p 上MT 下ST ｜ 塔 上:H1 中:H2 下:D4
       /p 人数調整優先度 上 D1＞D2＞D3 下
-
   - source: りりーどーる (P2 - 基本イディル / 暴走HT / ノクバマカ色＆バニシュガ2ペア変更)
     url: https://ffxiv.link/0122122
     text: |
@@ -249,7 +198,6 @@ macros:
       /p D1　　　　  D2 ｜　　：ボス本体に近接LB3
       /p 　  H1　  D4      ｜遠隔：扇誘導
       /p 　　　ST　　　  ｜　　：時計回りの光水晶を攻撃
-
   - source: りりーどーる (P3 - アポカリ最初の安置基準 / TH赤紫DPS黄青)
     url: https://ffxiv.link/0122122
     text: |
@@ -268,7 +216,6 @@ macros:
       /p 最初の安置の担当色マーカーで散開
       /p 散開優先度Z字:内側左<D12 MTST D3H1他<外側右
       /p 【暗夜の舞踏技】ボス見てTH組：左/DPS組：右
-
   - source: りりーどーる (P3 - アポカリ基準 / 1個目のアポカリ基準 / TH赤紫DPS黄青)
     url: https://ffxiv.link/0122122
     text: |
@@ -287,7 +234,6 @@ macros:
       /p 1枚目範囲の担当色マーカー左右の安置側で散開
       /p 散開優先度Z字:内側左<D12 MTST D3H1他<外側右
       /p 【暗夜の舞踏技】ボス見てTH組：左/DPS組：右
-
   - source: りりーどーる (P4 - ぬけまる扇前 / アクモーン1:7 / 赤爆走アムレンY字)
     url: https://ffxiv.link/0122122
     text: |
@@ -321,7 +267,6 @@ macros:
       /p ■テイカー散開⇒波が来た南北基準で基本散開(タンクはAを避けて外周側に)
       /p リターン残り5秒で軽減、残り2秒でアムレン
       /p ※バリア＆軽減3枚以上必要[動画ではレンジ,BH,PH(無いならタンク)軽減]
-
   - source: りりーどーる (P5 - ぬけまる最終フェーズ)
     url: https://ffxiv.link/0122122
     text: |
@@ -340,20 +285,10 @@ macros:
       /p 先頭受け：T→D12→D34→H
       /p 【パンドラの櫃】タンクLB3
       /p 詠唱バー「パン[ﾀﾝｸLB]ドラの櫃」目安
-
   - source: ふうcだよ FF14情報サイト - 絶もうひとつの未来（絶エデン）マクロ
     url: https://fuucdayo.com/macro/5618/
-    # P1-P5 各Phase ごとに「マクロコピー」ボタン付きで提供されている。
-    # 著者: ふうしーだよ (X: @fuucdayo) / 公開日: 2024-12-05
-    # 注: HTMLからマクロ本文を直接抽出できなかったため、URL のみ保持。リリド/ぬけまる以外の代替マクロを参照したい場合に。
-
-# ────────────────────────────────────────────────────────
-# 募集テンプレ
-# ────────────────────────────────────────────────────────
 recruitmentTemplates:
   - source: Rage Avel - Lodestone「固定募集記事テンプレート（コピペ用）」
-    # Source: https://na.finalfantasyxiv.com/lodestone/character/36087283/blog/5297756/
-    # 注: Lodestone 用 BBCode フォーマット。Discord 用には別途整形が必要。
     template: |
       ▼募集ジョブ
       ● 活動DC: {{datacenter}}
@@ -393,42 +328,19 @@ recruitmentTemplates:
       - prohibitions
       - discordHandle
       - xHandle
-
-# ────────────────────────────────────────────────────────
-# 参考リンク
-# ────────────────────────────────────────────────────────
 references:
   primary: りりーどーる (Lily Doll) - Lodestone 日記
   urls:
-    # 公式 Wiki
     - https://ffxiv.consolegameswiki.com/wiki/Futures_Rewritten_(Ultimate)
-    # りりーどーる マクロ
     - https://jp.finalfantasyxiv.com/lodestone/character/34120564/blog/5500375/
-    # りりーどーる 参考資料とカンペ
     - https://jp.finalfantasyxiv.com/lodestone/character/34120564/blog/5498502/
-    # ぬけまるG YouTube チャンネル
     - https://www.youtube.com/@nukemarugames/videos
-    # Lucrezia YouTube チャンネル
     - https://www.youtube.com/@TeamLucrezia
-    # ふうcだよ マクロまとめ
     - https://fuucdayo.com/macro/5618/
-    # ふうcだよ 野良主流カンペ集
     - https://fuucdayo.com/battle/5758/
-    # あせろぐ レイドレースまとめ
     - https://asellog.com/fru-raidrace/
-    # あせろぐ ギミック処理マクロ
     - https://asellog.com/fru-macro/
-    # 軽減表 (Last Agous / らすと) 注: 軽減表自体は phase.mitigation で扱う設計だが、references にも掲載
     - https://docs.google.com/spreadsheets/d/1MWvfvf283BAkDjLBXu6wQz7EWbjYrJzAtyKfO5E3k2s/edit?usp=sharing
-    # シミュレータ
     - https://www.xivsim.com/game/
     - https://yisan5772156.github.io/FRU-UR-Simulator/
-    # Splatoon スクリプトまとめ
     - https://tooleroflight.blog.jp/archives/26375876.html
-
-# ────────────────────────────────────────────────────────
-# 軽減表メモ
-# ────────────────────────────────────────────────────────
-# Last Agous (らすと) の軽減表は全Phaseを1シートで扱うため P1 の mitigation
-# にぶら下げている。将来的に Phase 毎にシートが分かれた場合は P2-P5 にも
-# 個別の mitigation を付与すること。

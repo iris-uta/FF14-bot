@@ -2,22 +2,61 @@ import { EmbedBuilder, type TextChannel } from "discord.js";
 import type { Content, Phase } from "@ff14kotei/schema";
 import { getMacrosForPhase, splitMacroForDiscord } from "./phase-content";
 
+/** Render variant — keeps two views without code duplication. */
+export type PhaseEmbedVariant = "intro" | "full";
+
+export interface BuildPhaseEmbedOptions {
+  /**
+   * `intro` (used by /setup phase channel intro):
+   *   - 野良主流 line at top
+   *   - 処理法 (strategies)
+   *   - 攻略動画 (markdown link + author)
+   *   - NO tips / mitigation / description / macro list
+   *     → users run /tips, /macro, /share on demand
+   *
+   * `full` (used by /share — current behavior):
+   *   - everything in intro + description + tips + mitigation + macro list
+   */
+  variant?: PhaseEmbedVariant;
+  color?: number;
+}
+
 /**
- * Build the standard Phase info embed shared by /post-phase and /static-init.
+ * Build the Phase info embed.
  * Pure function — Discord API not called here.
+ *
+ * Back-compat: third arg may be a number (color) for older callers.
  */
-export function buildPhaseEmbed(content: Content, phase: Phase, color = 0x6e85b7): EmbedBuilder {
+export function buildPhaseEmbed(
+  content: Content,
+  phase: Phase,
+  options: BuildPhaseEmbedOptions | number = {}
+): EmbedBuilder {
+  const opts: BuildPhaseEmbedOptions =
+    typeof options === "number" ? { color: options } : options;
+  const variant = opts.variant ?? "intro";
+  const color = opts.color ?? 0x6e85b7;
+
   const embed = new EmbedBuilder()
     .setTitle(`${phase.name} — ${content.displayName}`)
     .setColor(color);
 
-  if (phase.description) {
-    embed.setDescription(phase.description.slice(0, 4096));
+  // Top description: 野良主流 (both variants) + full description (full only)
+  const descParts: string[] = [];
+  if (phase.popularStrategy) {
+    descParts.push(`**野良主流**: ${phase.popularStrategy}`);
+  }
+  if (variant === "full" && phase.description) {
+    descParts.push(phase.description);
+  }
+  if (descParts.length > 0) {
+    embed.setDescription(descParts.join("\n\n").slice(0, 4096));
   }
 
+  // 処理法 — both variants
   if (phase.strategies.length > 0) {
     embed.addFields({
-      name: "処理方",
+      name: "処理法",
       value: phase.strategies
         .map((s) => `**${s.name}**${s.description ? ` — ${s.description.split("\n")[0]}` : ""}`)
         .join("\n")
@@ -25,41 +64,45 @@ export function buildPhaseEmbed(content: Content, phase: Phase, color = 0x6e85b7
     });
   }
 
+  // 攻略動画 — both variants (numbered, link + author)
   if (phase.videos.length > 0) {
     embed.addFields({
       name: "攻略動画",
       value: phase.videos
-        .map((v) => `[${v.title}](${v.url})${v.author ? ` — ${v.author}` : ""}`)
+        .map((v, i) => `${i + 1}) [${v.title}](${v.url})${v.author ? ` — ${v.author}` : ""}`)
         .join("\n")
         .slice(0, 1024),
     });
   }
 
-  if (phase.tips.length > 0) {
-    embed.addFields({
-      name: "Tips",
-      value: phase.tips.map((t) => `• ${t}`).join("\n").slice(0, 1024),
-    });
-  }
+  // tips / mitigation / macro list — full only
+  if (variant === "full") {
+    if (phase.tips.length > 0) {
+      embed.addFields({
+        name: "Tips",
+        value: phase.tips.map((t) => `• ${t}`).join("\n").slice(0, 1024),
+      });
+    }
 
-  if (phase.mitigation) {
-    embed.addFields({
-      name: "軽減表",
-      value: `[${phase.mitigation.name}](${phase.mitigation.url})${
-        phase.mitigation.copyable ? "（コピー推奨）" : ""
-      }`,
-    });
-  }
+    if (phase.mitigation) {
+      embed.addFields({
+        name: "軽減表",
+        value: `[${phase.mitigation.name}](${phase.mitigation.url})${
+          phase.mitigation.copyable ? "（コピー推奨）" : ""
+        }`,
+      });
+    }
 
-  const macros = getMacrosForPhase(content, phase.id);
-  if (macros.length > 0) {
-    embed.addFields({
-      name: `マクロ (${macros.length}個)`,
-      value: macros
-        .map((m, i) => `${i + 1}. [${m.source}](${m.url})`)
-        .join("\n")
-        .slice(0, 1024),
-    });
+    const macros = getMacrosForPhase(content, phase.id);
+    if (macros.length > 0) {
+      embed.addFields({
+        name: `マクロ (${macros.length}個)`,
+        value: macros
+          .map((m, i) => `${i + 1}. [${m.source}](${m.url})`)
+          .join("\n")
+          .slice(0, 1024),
+      });
+    }
   }
 
   return embed;
@@ -226,7 +269,7 @@ export async function postUtilityIntro(
           content: [
             `**🆕 攻略情報・発見 (早期攻略)**`,
             ``,
-            `新ギミック・暫定処理方・新マクロのメモはここに。`,
+            `新ギミック・暫定処理法・新マクロのメモはここに。`,
             `Phase channels は確定情報、ここは流動情報の置き場。`,
           ].join("\n"),
         });

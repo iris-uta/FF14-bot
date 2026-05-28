@@ -63,8 +63,10 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
 
   await interaction.deferReply();
 
-  // Shared embed builder (deduped from phase-channel-poster.ts).
-  const embed = buildPhaseEmbed(content, phase);
+  // Shared embed builder. /share is the "rich" surface — show everything
+  // (tips / mitigation / macro list / description). Setup channel intros use
+  // the default 'intro' variant which is more compact.
+  const embed = buildPhaseEmbed(content, phase, { variant: "full" });
   if (autoDetected) {
     embed.setFooter({ text: "固定 channel から自動検出" });
   }

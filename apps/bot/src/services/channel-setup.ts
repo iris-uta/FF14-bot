@@ -55,7 +55,7 @@ function buildPhaseTopic(phase: Phase): string {
     if (firstLine) parts.push(firstLine);
   }
   if (phase.strategies.length > 0) {
-    parts.push(`処理方: ${phase.strategies.map((s) => s.name).join(" / ")}`);
+    parts.push(`処理法: ${phase.strategies.map((s) => s.name).join(" / ")}`);
   }
   if (phase.videos.length > 0) {
     parts.push(`動画 ${phase.videos.length}本`);

@@ -1,51 +1,28 @@
-# 絶竜詩戦争 (Dragonsong's Reprise Ultimate / DSR)
-# データ収集日: 2026-05-25
-# 第一参照: りりーどーる (Lily Doll) - Lodestone 日記、ぬけまるG (YouTube)、ふうcだよ
-#
-# 注意:
-# - 本ファイルの情報源は 2025〜2026 年時点で確認できた野良主流の処理法・マクロです。
-# - 「処理方」「マクロ」は時期によって変化します。最新版はりりーどーる/ふうcだよの最新記事を参照。
-# - りりーどーる Lodestone 原文 (blog/5178834) はマクロ全文の自動抽出を著作権上の理由で
-#   拒否されたため、fru.yaml と同様「冒頭抜粋 + URL + コメント」パターンで掲載します。
-# - フェーズ番号付けは ARUTORA など一部サイトでは P1〜P8（教皇庁2回目を独立 P5 として扱う）の
-#   8段階構成ですが、ふうcだよ・ばる工房・ユーザ要件に従い P1〜P7 構成（P4-2 として P4 と統合、
-#   P7 が最終）で記述します。
-# - 「P5 死刻」「P6 二天竜」「P7 最終」が攻略の山場となるメカニクス。
-
 id: dsr
 displayName: 絶竜詩戦争
 shortName: DSR
 type: ultimate
-patch: "6.11"                # 実装パッチ
-# 実装日 2022-04-26 / 世界最速クリア Neverland (EU/NA mixed) 2022-05-02 (約124時間)
-# Source: https://automaton-media.com/articles/newsjp/20220503-201287/
-# Source: https://ffxiv.consolegameswiki.com/wiki/Dragonsong%27s_Reprise_(Ultimate)
-
+patch: "6.11"
 phases:
   - id: p1
     name: P1 教皇庁フェーズ (Sers Adelphel, Grinnaux, and Charibert)
     order: 1
+    popularStrategy: MTアデル / STグリノー / 線ST無敵 / 沈黙 MT→レンジ→MT
     description: |
       開幕フェーズ。蒼天騎士団3名（聖騎士アデルフェル / グリノー / シャリベル）と戦う。
       ハイパーディメンション、プレステ散開（◯×△□マーカー）、光翼閃、
       ホーリーブレードダンス（線処理）、ホリエストブレッシング（沈黙）など。
       野良主流は「MTアデル / STグリノー / 線ST無敵 / 沈黙 MT→レンジ→MT」。
-    # Source: https://arutora.com/24113
-    # Source: https://fuucdayo.com/battle/3414/
-    # Source: https://na.finalfantasyxiv.com/lodestone/character/34120564/blog/5178834
-    # 軽減表は本来 P1-P7 全Phase を 1 シートで扱うため、便宜上 P1 にぶら下げる。
-    # Source: https://na.finalfantasyxiv.com/lodestone/character/12440293/blog/5006460/
-    mitigation:
-      name: Last Agous / らすと 軽減表スプレッドシート (Patch 7.1 対応, 全Phase)
-      url: https://docs.google.com/spreadsheets/d/1mvMEPv8BkWObs1z37AeOZ41u0dHV5RpA8_Sbzd3x84Y/edit?usp=sharing
-      copyable: true
     videos:
       - title: 【絶竜詩戦争】文字を読みたくない人のための教皇庁① (P1解説)
-        # Source: 検索結果より（同シリーズの解説動画群）
         url: https://www.youtube.com/watch?v=Xd9DQojqmWA
       - title: 【FF14/絶】絶竜詩戦争 攻略配信 Day 1【ぬけまる】
         url: https://www.youtube.com/watch?v=knE5LqufEW8
         author: ぬけまるG
+    mitigation:
+      name: Last Agous / らすと 軽減表スプレッドシート (Patch 7.1 対応, 全Phase)
+      url: https://docs.google.com/spreadsheets/d/1mvMEPv8BkWObs1z37AeOZ41u0dHV5RpA8_Sbzd3x84Y/edit?usp=sharing
+      copyable: true
     strategies:
       - id: ririd-style-p1
         name: リリド式 P1 (MTアデル/STグリノー/線ST無敵/沈黙 MT→レンジ→MT)
@@ -56,26 +33,21 @@ phases:
           - ホリエストブレッシング詠唱は沈黙でキャンセル: MT→レンジ→MT の順
           - プレステ散開: 北基準で◯×△□マーカーをロール固定で散開
     tips:
-      - "ハイパーディメンションは北捨て→南捨ての順で処理。"
-      - "プレステ散開はロール固定で簡略化できるが、後半（P5死刻）に備え位置パターンの理解も必要。"
-      - "光翼閃の捨て位置は安置横にペア（H1H2 / D34 / MTST / D12）。"
-
+      - ハイパーディメンションは北捨て→南捨ての順で処理。
+      - プレステ散開はロール固定で簡略化できるが、後半（P5死刻）に備え位置パターンの理解も必要。
+      - 光翼閃の捨て位置は安置横にペア（H1H2 / D34 / MTST / D12）。
   - id: p2
     name: P2 トールダン (King Thordan and His Knights Twelve)
     order: 2
+    popularStrategy: ゼフィラン基準散開 / 隕石ハムカツ式
     description: |
       雷槍、聖杖、隕石（ホーリーコメット）など。
       野良主流は「ゼフィラン基準散開 / 隕石ハムカツ式」。
       雷槍はスパイラルスラスト＋百雷、聖杖はゼフィラン基準でペア調整（MTST/H1H2/D1D2/D3D4）。
       隕石GGパターンは多くの固定で「詰みパターンとして諦める」とされる。
-    # Source: https://arutora.com/24197
-    # Source: https://fuucdayo.com/battle/3414/
-    # Source: https://na.finalfantasyxiv.com/lodestone/character/34120564/blog/5178834
     videos:
       - title: 【絶竜詩戦争】文字を読みたくない人のためのトールダンフェーズ
-        # Source: 検索結果より (ぬけまる/他のシリーズ動画)
         url: https://www.youtube.com/watch?v=mxeQNCgHI7Y
-        # 注: ニーズ動画と同系列の解説動画シリーズ。トールダン版は別動画にあるかも要確認。
     strategies:
       - id: ririd-style-p2
         name: リリド式 P2 (ゼフィラン基準散開/隕石ハムカツ式)
@@ -85,27 +57,23 @@ phases:
           - 聖杖: ゼフィラン基準でペア (MTST/H1H2/D1D2/D3D4) を組み、剣1+MT組はゼフィラン対角、剣2+ST組はゼフィラン後ろ
           - 隕石（ホーリーコメット）: ハムカツ式（南北スタートで7回設置）
     tips:
-      - "トールダン位置は蒼天騎士団の出現時点で予測可能。誰かがコールすると効率的。"
-      - "ヘヴィインパクト（ドーナツ型攻撃）は中心に寄って回避。"
-      - "ディメンションクラッシュ後はエリアが分断され、6本の塔処理が必要。"
-
+      - トールダン位置は蒼天騎士団の出現時点で予測可能。誰かがコールすると効率的。
+      - ヘヴィインパクト（ドーナツ型攻撃）は中心に寄って回避。
+      - ディメンションクラッシュ後はエリアが分断され、6本の塔処理が必要。
   - id: p3
     name: P3 ニーズヘッグ (Nidhogg)
     order: 3
+    popularStrategy: ①②③ イル↓D・スパ↑B 固定 / 4塔近接調整
     description: |
       サイコロ（堕天のドラゴンダイブ）、4塔（ジオーガとゲイルスコグル）、
       ソウルテザー、アイ・オブ・タイラント、牙尾/尾牙の連旋などのギミック。
       野良主流は「①②③ イル↓D・スパ↑B 固定 / 4塔近接調整」。
-    # Source: https://arutora.com/24296
-    # Source: https://fuucdayo.com/battle/3414/
-    # Source: https://na.finalfantasyxiv.com/lodestone/character/34120564/blog/5178834
     videos:
       - title: 【FF14/絶解説】絶竜詩戦争 ニーズフェーズ図解解説 ジャンプ全パターン視点あり【ぬけまる】
         url: https://www.youtube.com/watch?v=mxeQNCgHI7Y
         author: ぬけまるG
       - title: 【絶竜詩戦争】文字を読みたくない人のためのニーズヘッグフェーズ前半【解説】
         url: https://www.youtube.com/watch?v=Xd9DQojqmWA
-        # Source: 検索結果より
     strategies:
       - id: iru-d-spa-b
         name: イル↓D・スパ↑B固定 (リリド式)
@@ -121,27 +89,21 @@ phases:
           ぬけまる動画準拠の処理法。サイコロ全パターンの視点動画あり。
           固定の流派として選ばれることもある。
     tips:
-      - "MTはボスをA（北）に向け続ける。"
-      - "ソウルテザーはタンク2名で線処理（無敵活用推奨）。"
+      - MTはボスをA（北）に向け続ける。
+      - ソウルテザーはタンク2名で線処理（無敵活用推奨）。
       - "時間調整: 最期の咆哮までに削り切る必要があるため、火力管理が必須。"
-
   - id: p4
     name: P4 邪眼フェーズ (The Eyes of Nidhogg)
     order: 4
+    popularStrategy: 近接青眼寄せ / ミラージュダイブ交代固定
     description: |
       邪竜の目（左眼 / 右眼）を破壊する短いフェーズ。
       赤線/青線の交換による眼への攻撃、ミラージュダイブ（複数回の円形範囲）など。
       野良主流は「近接青眼寄せ / ミラージュダイブ交代固定」。
       ※ARUTORA 等の 8 段階構成では P5「教皇庁②（タンクLB / 光翼閃②）」を独立フェーズとして
       扱うが、本ファイルは P1〜P7 構成のため、教皇庁② を P4 の後半（P4-2）として含む。
-    # Source: https://arutora.com/24357
-    # Source: https://arutora.com/24400
-    # Source: https://fuucdayo.com/battle/3414/
-    # Source: https://na.finalfantasyxiv.com/lodestone/character/34120564/blog/5178834
     videos:
       - title: 【絶竜詩戦争】邪眼フェーズ解説（要調査）
-        # Source: 検索結果から個別動画タイトルは確証できなかったため要調査
-        # 代替: ぬけまるG 攻略配信 Day シリーズ
         url: https://www.youtube.com/@nukemarugames/videos
         author: ぬけまるG
     strategies:
@@ -154,22 +116,18 @@ phases:
           - ミラージュダイブ: 青眼集合、交代順は ①②③④優先順位
           - 1回目: ①D1>D2④ / 2回目: ①D3>D4④ / 3回目: ①MT>ST>H2>H1④
     tips:
-      - "赤線と青線は接触することで交換できる。これを利用して効率的に削る。"
-      - "右眼を優先破壊、その後左眼を処理。"
-      - "P4 後の P4-2「教皇庁②」では タンク LB3 を シャリベル HP 29% で使用、光翼閃② は P1 と同様。"
-
+      - 赤線と青線は接触することで交換できる。これを利用して効率的に削る。
+      - 右眼を優先破壊、その後左眼を処理。
+      - P4 後の P4-2「教皇庁②」では タンク LB3 を シャリベル HP 29% で使用、光翼閃② は P1 と同様。
   - id: p5
     name: P5 偽典トールダン / 至天の陣 (Dark King Thordan)
     order: 5
+    popularStrategy: こまぞう式改
     description: |
       偽典トールダン戦。「至天の陣:風槍」と「至天の陣:死刻」の 2 大ギミック。
       死刻は絶竜詩最大の山場とも言われる複雑なギミックで、
       死の宣告デバフ + ツイスター + ヘヴィインパクトを直線移動で処理する。
       野良主流は「こまぞう式改」（イディル式 + こまぞう式のハイブリッド）。
-    # Source: https://arutora.com/24419
-    # Source: https://meilog-ff14.com/sikoku-kaisetsu/
-    # Source: https://na.finalfantasyxiv.com/lodestone/character/26041085/blog/5023548/
-    # Source: https://na.finalfantasyxiv.com/lodestone/character/26040845/blog/5034036/
     videos:
       - title: 【FF14/絶解説】こまぞう式改 死刻 絶竜詩 アニメーション解説【ぬけまる】
         url: https://www.youtube.com/watch?v=NIroKcIHpnI
@@ -197,23 +155,19 @@ phases:
           旧主流処理法。現在は「こまぞう式改」に取って代わられているが
           固定によっては依然採用されることもある。
     tips:
-      - "フィールドマーカー設置（1234マーカーは斜め内側 / ABCDは外周金リング接触）が必須。"
+      - フィールドマーカー設置（1234マーカーは斜め内側 / ABCDは外周金リング接触）が必須。
       - "風槍: スパイラルピアス対象者は対角側へ線を伸ばし、青玉対象は北西へ。"
       - "死刻: 北西→南東に斜め8人並び、ゲリック出現位置を北として認識。"
-      - "死刻処理は固定向け（複数の流派融合のため複雑）。野良では「こまぞう式改」が主流。"
-
+      - 死刻処理は固定向け（複数の流派融合のため複雑）。野良では「こまぞう式改」が主流。
   - id: p6
     name: P6 二天竜 (Nidhogg and Hraesvelgr)
     order: 6
+    popularStrategy: おこめ式息吹1 / 脳死息吹2 / 南三角
     description: |
       ニーズヘッグ（D側）とフレースヴェルグ（B側）の 2 体戦。
       聖竜/邪竜の息吹（線処理）、滅殺の誓い（DPS リレー）、
       アク・アファー（ヒラ起点頭割り）、邪念の炎、カータライズなどのギミック。
       野良主流は「おこめ式息吹1 / 脳死息吹2 / 南三角」。
-    # Source: https://arutora.com/24493
-    # Source: https://arutora.com/24254
-    # Source: https://fuucdayo.com/battle/3414/
-    # Source: https://na.finalfantasyxiv.com/lodestone/character/34120564/blog/5178834
     videos:
       - title: 【FF14/絶解説】絶竜詩戦争 2天竜フェーズ 図解解説【ぬけまる】
         url: https://www.youtube.com/watch?v=3yJpWHmKjpg
@@ -231,30 +185,25 @@ phases:
           - 滅殺の誓い受け渡し順: DPS→MT→ST→近接(D1優先)→D3
           - 邪念の炎: ←MT ST D1 D2 D3 D4 H1 H2→ の優先順位で白+(無)/紫を配置
     tips:
-      - "息吹は線を伸ばし過ぎて反対側の即死範囲に入らないよう注意。"
+      - 息吹は線を伸ばし過ぎて反対側の即死範囲に入らないよう注意。
       - "アク・アファー: ヒーラー2名を起点とした頭割り、HP均等化が必須。"
       - "カータライズ: MT/ST はタッチダウン A 集合、滅殺持ち近接と D3 は A に残る。"
-      - "1234マーカーは「絶対的な安地」として機能。設置精度が攻略成否を分ける。"
-
+      - 1234マーカーは「絶対的な安地」として機能。設置精度が攻略成否を分ける。
   - id: p7
     name: P7 騎竜神トールダン / 最終フェーズ (Dragon-king Thordan)
     order: 7
+    popularStrategy: アクモーン2回目 TLB3
     description: |
       最終フェーズ。騎竜剣エクサフレア、トリニティ（オートアタック）、
       騎竜剣アク・モーン、騎竜剣ギガフレア、騎竜剣モーン・アファー（時間切れ攻撃）の連続。
       「エクサ→アクモーン→ギガフレア」のサイクルを 3 週繰り返して時間切れに到達する設計。
       野良主流は「アクモーン2回目 TLB3」処理。
-    # Source: https://arutora.com/24559
-    # Source: https://baru7studio.hatenablog.com/entry/2024/06/23/193038
-    # Source: https://yuguchan.com/1226/
-    # Source: https://na.finalfantasyxiv.com/lodestone/character/34120564/blog/5178834
     videos:
       - title: 【FF14/絶解説】絶竜詩戦争 最終フェーズ 図解解説 軽減例付き 忍暗白視点【ぬけまる】
         url: https://www.youtube.com/watch?v=1fsbzkZsWUE
         author: ぬけまるG
       - title: 【絶竜詩戦争】文字を読みたくない人のための騎竜神トールダン【解説】
         url: https://www.youtube.com/watch?v=pRkdxw9YOLo
-        # Source: 検索結果より
     strategies:
       - id: acmorn2-tlb3
         name: アクモーン2回目 TLB3 (リリド式)
@@ -270,23 +219,10 @@ phases:
           ボスを北または南に向けた状態で、最初の爆発後に中心に移動、
           その後ひし形の床模様の頂点へ移動する縦避け方式。
     tips:
-      - "タンクはミスが許されない（向き調整 / ヘイトコントロールの失敗は即ワイプ）。"
-      - "タンク以外がダイナモ/チャリオットのコールを担当して負担軽減。"
+      - タンクはミスが許されない（向き調整 / ヘイトコントロールの失敗は即ワイプ）。
+      - タンク以外がダイナモ/チャリオットのコールを担当して負担軽減。
       - "ギガフレア: 1発目の予兆を見たら対角へ、着弾後は直線スプリント移動。"
       - "アクモーン: 連続頭割り＋塔出現、方向は「MT組、ST組、タンク」で分散。"
-
-# ────────────────────────────────────────────────────────
-# マクロ（コピペ用・りりーどーる Lodestone 原文の抜粋）
-# ────────────────────────────────────────────────────────
-# 主流: 「ゼ基ペア/↓DB↑固定/4塔近接/赤鎖D/息吹1△2脳死/アクモーン2TLB」(リリド式)
-#
-# 出典: りりーどーる Lily Doll - Lodestone 日記
-#   短縮URL: https://ffxiv.link/088010
-#   Lodestone: https://jp.finalfantasyxiv.com/lodestone/character/34120564/blog/5178834/
-#
-# 注意: WebFetch によるマクロ全文抽出は著作権上の理由で拒否されたため、
-# 各 phase で取得できた抜粋のみ掲載。完全版は上記 URL から直接参照のこと。
-# 主要なマクロ参照元クリエイター: りりーどーる / ハムカツさん / ぬけまるさん / みんとっとさん。
 macros:
   - source: りりーどーる (P1 - 教皇庁① / MTアデル STグリノー / 線ST無敵 / 沈黙 MT→レンジ→MT)
     url: https://ffxiv.link/088010
@@ -306,7 +242,6 @@ macros:
       /p ｜シ　　 　捨　　　安置　　　捨
       /p ｜ュ (H1H2)(D34) 　 (MTST)(D12)
       /p ｜ファン　※安置横にペア捨て（重ねる）
-
   - source: りりーどーる (P2 - トールダン / 雷槍 / スカイワードリープ / 聖杖ゼフィラン基準)
     url: https://ffxiv.link/088010
     text: |
@@ -324,7 +259,6 @@ macros:
       /p ｜　※ペア調整 (MTST/H1H2/D1D2/D3D4)
       /p ｜　剣1+MT組→ゼフィランの対角
       /p ｜　剣2+ST組→ゼフィランの後ろ
-
   - source: りりーどーる (P3 - ニーズヘッグ / ①②③イル↓D・スパ↑B固定 / 4塔近接調整)
     url: https://ffxiv.link/088010
     text: |
@@ -341,7 +275,6 @@ macros:
       /p ｜　　　　 ボス　　　　※調整優先度：時計回り＞反時計＞対角
       /p ｜　H1/D1　　D2/H2 ※タンク強攻撃：ボス下MT/分身下ST
       /p ｜　　　　　　　　　　 ※タンク強着弾後バースト（AA【南】向き）
-
   - source: りりーどーる (P4 - 竜の邪眼 / 近接青眼寄せ / ミラージュダイブ青眼集合)
     url: https://ffxiv.link/088010
     text: |
@@ -360,7 +293,6 @@ macros:
       /p ｜ 1回目：①D1＞D2④
       /p ｜ 2回目：①D3＞D4④
       /p ｜ 3回目⇒1回目対象者①MT>ST>H2>H1④
-
   - source: りりーどーる (P4-2 - 教皇庁❷ / タンクLB3 / 光翼閃②)
     url: https://ffxiv.link/088010
     text: |
@@ -373,7 +305,6 @@ macros:
       /p ｜シ　　 　捨　　　安置　　　捨
       /p ｜ュ (H1H2)(D34) 　 (MTST)(D12)
       /p ｜ファン　※安置横にペア捨て（重ねる）
-
   - source: りりーどーる (P5 - 儀典トールダン / 風槍 / 死刻こまぞう式改)
     url: https://ffxiv.link/088010
     text: |
@@ -385,9 +316,6 @@ macros:
       /p ｜　D4>D3>D2>D1>ST>MT>H1>H2 の散開優先度
       /p ｜　北西→南東に斜め8人並び、ゲリック出現位置を北として認識
       /p ｜　死の宣告解放点を固定、ツイスター直線移動処理
-    # 注: マクロ全文は https://ffxiv.link/088010 (りりーどーる Lodestone) 参照。
-    # こまぞう式改の詳細図解は https://www.youtube.com/watch?v=NIroKcIHpnI (ぬけまる) 参照。
-
   - source: りりーどーる (P6 - 二天竜 / おこめ式息吹1 / 脳死息吹2 / 南三角)
     url: https://ffxiv.link/088010
     text: |
@@ -420,7 +348,6 @@ macros:
       /p ｜■カータライズ
       /p ｜　MT　ST　→タッチダウンA集合
       /p ｜　 その他 　　 滅殺持ち近接とD3はAに残る
-
   - source: りりーどーる (P7 - 騎竜神トールダン最終 / アクモーン2回目TLB3)
     url: https://ffxiv.link/088010
     text: |
@@ -433,24 +360,10 @@ macros:
       /p ｜　1回目: 受け / 2回目: TLB3
       /p ｜■ギガフレア
       /p ｜　1発目予兆→対角移動→着弾後直線スプリント
-    # 注: マクロ全文は https://ffxiv.link/088010 (りりーどーる Lodestone) 参照。
-    # 図解解説は https://www.youtube.com/watch?v=1fsbzkZsWUE (ぬけまる) 参照。
-
   - source: ふうcだよ FF14情報サイト - 絶竜詩戦争 カンペ集
     url: https://fuucdayo.com/battle/3414/
-    # 著者: ふうしーだよ (X: @fuucdayo) / 最終更新: 2025-06-14
-    # P1-P7 各Phase ごとに「野良主流の処理法に並べ替え」されたカンペ画像と
-    # 複数の処理パターン（野良主流 + 固定向け代替）を掲載。
-    # 注: HTMLからカンペ画像を直接抽出できなかったため、URL のみ保持。
-    # リリド式以外の代替処理を参照したい場合に。
-
-# ────────────────────────────────────────────────────────
-# 募集テンプレ
-# ────────────────────────────────────────────────────────
 recruitmentTemplates:
   - source: Rage Avel - Lodestone「固定募集記事テンプレート（コピペ用）」
-    # Source: https://na.finalfantasyxiv.com/lodestone/character/36087283/blog/5297756/
-    # 注: Lodestone 用 BBCode フォーマット。Discord 用には別途整形が必要。
     template: |
       ▼募集ジョブ
       ● 活動DC: {{datacenter}}
@@ -490,11 +403,7 @@ recruitmentTemplates:
       - prohibitions
       - discordHandle
       - xHandle
-
   - source: 絶竜詩 固定募集 慣例パターン (Lodestone 各種募集記事より集約)
-    # Source: https://jp.finalfantasyxiv.com/lodestone/character/26759521/blog/4853571/
-    # Source: https://jp.finalfantasyxiv.com/lodestone/character/35728574/blog/5551486/
-    # 注: 慣習的な絶竜詩攻略固定の募集テンプレ。攻略期間 1〜2 ヶ月が一般的。
     template: |
       【絶竜詩戦争 攻略固定募集】
       ● 活動DC: {{datacenter}}
@@ -522,30 +431,17 @@ recruitmentTemplates:
       - listenOnlyPolicy
       - requirements
       - discordHandle
-
-# ────────────────────────────────────────────────────────
-# 参考リンク
-# ────────────────────────────────────────────────────────
 references:
   primary: りりーどーる (Lily Doll) - Lodestone 日記
   urls:
-    # 公式 Wiki
     - https://ffxiv.consolegameswiki.com/wiki/Dragonsong%27s_Reprise_(Ultimate)
-    # りりーどーる マクロ
     - https://jp.finalfantasyxiv.com/lodestone/character/34120564/blog/5178834/
-    # ぬけまるG YouTube チャンネル
     - https://www.youtube.com/@nukemarugames/videos
-    # ぬけまる 死刻こまぞう式改解説
     - https://www.youtube.com/watch?v=NIroKcIHpnI
-    # ぬけまる 二天竜図解解説
     - https://www.youtube.com/watch?v=3yJpWHmKjpg
-    # ぬけまる 最終フェーズ図解解説
     - https://www.youtube.com/watch?v=1fsbzkZsWUE
-    # ぬけまる ニーズフェーズ図解解説
     - https://www.youtube.com/watch?v=mxeQNCgHI7Y
-    # ふうcだよ 絶竜詩カンペ集
     - https://fuucdayo.com/battle/3414/
-    # ARUTORA 絶竜詩 P1-P8 各フェーズ解説
     - https://arutora.com/24113
     - https://arutora.com/24197
     - https://arutora.com/24296
@@ -554,45 +450,13 @@ references:
     - https://arutora.com/24419
     - https://arutora.com/24493
     - https://arutora.com/24559
-    # ARUTORA フィールドマーカー設置ガイド
     - https://arutora.com/24254
-    # AUTOMATON 世界最速クリア報告
     - https://automaton-media.com/articles/newsjp/20220503-201287/
-    # 軽減表 (Last Agous / らすと) Patch7.1 対応
     - https://na.finalfantasyxiv.com/lodestone/character/12440293/blog/5006460/
     - https://docs.google.com/spreadsheets/d/1mvMEPv8BkWObs1z37AeOZ41u0dHV5RpA8_Sbzd3x84Y/edit?usp=sharing
-    # 死刻 こまぞう式改 マクロ (Hydi Ai)
     - https://na.finalfantasyxiv.com/lodestone/character/26040845/blog/5034036/
-    # 死刻 解法例 (Hosiume San)
     - https://na.finalfantasyxiv.com/lodestone/character/26041085/blog/5023548/
-    # 死刻解説 (めいろぐ)
     - https://meilog-ff14.com/sikoku-kaisetsu/
-    # マクロと図解まとめ (Pino Mu)
     - https://na.finalfantasyxiv.com/lodestone/character/36315484/blog/5022452/
-    # 攻略まとめ (まじ卍)
     - http://laytina14.com/archives/30475371.html
-    # 解説まとめ (HackMD - Tsune)
     - https://hackmd.io/@Tsune/ryushi
-
-# ────────────────────────────────────────────────────────
-# 軽減表メモ
-# ────────────────────────────────────────────────────────
-# Last Agous (らすと) の軽減表は全Phaseを1シートで扱うため P1 の mitigation
-# にぶら下げている。将来的に Phase 毎にシートが分かれた場合は P2-P7 にも
-# 個別の mitigation を付与すること。
-
-# ────────────────────────────────────────────────────────
-# フェーズ番号付けに関する注意
-# ────────────────────────────────────────────────────────
-# 本ファイルは P1-P7 構成（P7 最終）を採用。
-# 一部解説サイト（ARUTORA など）では P5「教皇庁②」を独立フェーズとして扱う
-# 8 段階構成を採用しているが、本ファイルでは P4-2 として P4 の後半に統合している。
-# マッピング表:
-#   本ファイル          ARUTORA 8 段階構成
-#   P1 教皇庁①    ←→  P1 教皇庁
-#   P2 トールダン  ←→  P2 トールダン
-#   P3 ニーズヘッグ ←→  P3 ニーズヘッグ
-#   P4 邪眼 (+ P4-2 教皇庁②)  ←→  P4 邪眼 + P5 教皇庁②
-#   P5 偽典トールダン  ←→  P6 偽典トールダン (風槍・死刻)
-#   P6 二天竜      ←→  P7 二天竜
-#   P7 騎竜神トールダン ←→  P8 最終フェーズ

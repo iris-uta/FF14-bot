@@ -14,7 +14,7 @@
 | `phases` | 各 phase のメタ | `content_id` + `phase_id` | 1 phase (p1, p2, etc.) |
 | `videos` | 攻略動画 link | `content_id` + `phase_id` | 1 動画 |
 | `mitigations` | 軽減表 link | `content_id` + `phase_id` | 1 軽減表 (1 phase に 1 つ) |
-| `strategies` | 処理方 variant | `content_id` + `phase_id` + `id` | 1 処理方 |
+| `strategies` | 処理法 variant | `content_id` + `phase_id` + `id` | 1 処理法 |
 | `tips` | 攻略 tips | `content_id` + `phase_id` | 1 tip |
 | `macros` | マクロ link | `content_id` | 1 マクロ |
 | `templates` | 募集テンプレ | `content_id` | 1 テンプレ |
@@ -90,7 +90,7 @@ fru    p3    P3 解説 (Light Party視点)    https://youtu.be/xxxxxxxxxxx    @u
 |---|---|---|---|
 | `content_id` | ✅ | `fru` | – |
 | `phase_id` | ✅ | `p2` | – |
-| `id` | ✅ | `ast-shiki` | 処理方 ID、 phase 内で一意。 URL safe |
+| `id` | ✅ | `ast-shiki` | 処理法 ID、 phase 内で一意。 URL safe |
 | `name` | ✅ | `アスト式` | 表示名 |
 | `description` | – | `北優先 ...` | 1 行説明 |
 
@@ -204,7 +204,7 @@ fru    p4    juuji-shiki    十字式    対面散開、 8 方向定位置
    ```
 2. 既存の `ast-shiki` 等の隣に並ぶ
 
-→ `/share phase:p4` で 「処理方」 セクションに表示される。
+→ `/share phase:p4` で 「処理法」 セクションに表示される。
 
 ---
 

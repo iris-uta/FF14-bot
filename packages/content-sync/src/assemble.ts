@@ -158,6 +158,9 @@ function buildContent(
         strategies,
         tips,
       };
+      if (pr.popular_strategy && pr.popular_strategy.trim()) {
+        phaseObj.popularStrategy = pr.popular_strategy;
+      }
       if (pr.description && pr.description.trim()) phaseObj.description = pr.description;
       if (mitigation) phaseObj.mitigation = mitigation;
       return phaseObj;

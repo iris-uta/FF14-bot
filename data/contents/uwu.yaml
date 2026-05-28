@@ -1,43 +1,18 @@
-# 絶アルテマウェポン破壊作戦 (The Weapon's Refrain Ultimate / UWU)
-# データ収集日: 2026-05-25
-# 第一参照: りりーどーる (Lily Doll) - Lodestone 日記、みんとっと (YouTube)
-#
-# 注意:
-# - 本ファイルの情報源は2024-2025年時点で確認できた野良主流の処理法・マクロです。
-# - UWU は 2018-06-05 (Patch 4.31) 実装の古い絶 (FFXIV 初の Ultimate 第2弾)。
-#   2024 年の Patch 7.0 (黄金のレガシー) でレベル/IL シンクが残ったまま装備が刷新され、
-#   "野良主流" は「新みんとっと(楔逆Z/ジェイル自滅/十字無視/3111/乱撃TLB)」に整理された。
-# - 「処理方」「マクロ」は時期によって変化します。最新版はりりーどーる/みんとっとの最新記事を参照。
-# - Phase の番号付けはサイトによって揺れがある (タイタン+LBを P3 とするか分けるか等)。
-#   本ファイルは asellog.com の 6 Phase 区分 (P1ガルーダ / P2イフリート / P3タイタン+LB /
-#   P4追撃 / P5爆撃 / P6乱撃+最終三蛮神) を採用。
-
 id: uwu
 displayName: 絶アルテマウェポン破壊作戦
 shortName: UWU
 type: ultimate
-patch: "4.31"                   # 実装パッチ
-# 実装日 2018-06-05 / 世界最速クリア Entropy (NA) 2018-06-10
-# Source: https://ffxiv.consolegameswiki.com/wiki/The_Weapon%27s_Refrain_(Ultimate)
-# Source: https://asellog.com/uwu/
-
+patch: "4.31"
 phases:
   - id: p1
     name: P1 ガルーダ (Garuda)
     order: 1
+    popularStrategy: ドーム処理(低気圧)
     description: |
       開幕フェーズ。スリップストリーム、ミストラルソング、フェザーレイン、サーマルロウ、
       メソハイ、ウィキッドウィール、ウィキッドトルネード、低気圧(ドーム処理)など。
       所要時間 約2分43秒。
       野良主流は「ドーム処理(低気圧)」+「メソハイMTキャス」+「インシネレート1回目ST/2回目MT」。
-    # Source: https://asellog.com/uwu/
-    # Source: https://ffxiv.consolegameswiki.com/wiki/The_Weapon%27s_Refrain_(Ultimate)
-    # 軽減表は本来 P1-P6 全Phase を 1 シートで扱うため、便宜上 P1 にぶら下げる。
-    # Source: https://note.com/lastagous/n/ncfcb027117fd
-    mitigation:
-      name: らすと (lastagous) 軽減表スプレッドシート (絶アルテマ Patch 4.31, 全Phase)
-      url: https://docs.google.com/spreadsheets/d/1C73RrIVV6sUoTxwUSiifMp_oktkxeOAWn9RbwbVrUOk/edit?usp=sharing
-      copyable: true
     videos:
       - title: FF14 みんとのギミック解説 絶アルテマウェポン ガルーダ編(メソハイMTキャス)
         url: https://www.youtube.com/watch?v=zZ6qhddIO3I
@@ -45,6 +20,10 @@ phases:
       - title: FF14 みんとのギミック解説 絶アルテマ破壊作戦 ガルーダ編 MT視点 (メソハイキャスMT)
         url: https://www.youtube.com/watch?v=iWQmHY19zt0
         author: みんとっと
+    mitigation:
+      name: らすと (lastagous) 軽減表スプレッドシート (絶アルテマ Patch 4.31, 全Phase)
+      url: https://docs.google.com/spreadsheets/d/1C73RrIVV6sUoTxwUSiifMp_oktkxeOAWn9RbwbVrUOk/edit?usp=sharing
+      copyable: true
     strategies:
       - id: dome-shori
         name: ドーム処理 (低気圧)
@@ -57,20 +36,17 @@ phases:
           メソハイ線取りを D 側に D4、B 側に MT (キャスター MT 想定) で取る流派。
           みんとっと動画準拠で野良主流。
     tips:
-      - "覚醒バフは BH > D4 > D1 の順で取得。"
-      - "ミストラルソングは MT B>A>C / ST D>C>A の順で誘導。"
-      - "インシネレートは 1 回目 ST 無敵 / 2 回目 MT 無敵 (ナイト MT なら 1 回目無敵)。"
-
+      - 覚醒バフは BH > D4 > D1 の順で取得。
+      - ミストラルソングは MT B>A>C / ST D>C>A の順で誘導。
+      - インシネレートは 1 回目 ST 無敵 / 2 回目 MT 無敵 (ナイト MT なら 1 回目無敵)。
   - id: p2
     name: P2 イフリート (Ifrit)
     order: 2
+    popularStrategy: 楔:逆Z
     description: |
       クリムゾンサイクロン、レイディアントプルーム、エラプション、炎獄の楔、灼熱の咆哮など。
       所要時間 約2分37秒。
       野良主流は「楔:逆Z」処理。①D1 ②D2 ③D3 ④D4 の順で楔を破壊。
-    # Source: https://asellog.com/uwu/
-    # Source: https://note.com/mozuzuzu/n/nd4fb5fff75ab
-    # Source: https://www.youtube.com/watch?v=LCjYKOImeuM
     videos:
       - title: FF14 みんとのギミック解説 絶アルテマウェポン破壊作戦 イフリート編(楔逆Z)
         url: https://www.youtube.com/watch?v=LCjYKOImeuM
@@ -84,11 +60,11 @@ phases:
           D3D4 はエラプ誘導から楔へ。みんとっと動画準拠。
     tips:
       - "楔配置: 上段に ③ ④、下段に D3 ① ② D4 (逆 Z 字)。"
-      - "エラプ誘導は D3D4 が担当した後に楔処理へ移行。"
-
+      - エラプ誘導は D3D4 が担当した後に楔処理へ移行。
   - id: p3
     name: P3 タイタン + アルテマ履行LB (Titan + Limit Break Phase)
     order: 3
+    popularStrategy: ジェイル自滅式 (重み2回目で ST/メレー/レンジが被弾死)
     description: |
       ジオクラッシュ、ロックバスター、マウンテンバスター、大地の重み、ランドスライド、
       グラナイトジェイル、タムルトなど。タイタン討伐後、ヘイブンスインビョクスから
@@ -96,9 +72,6 @@ phases:
       所要時間 約4分27秒 (タイタン本体)。
       野良主流は「ジェイル自滅式 (重み2回目で ST/メレー/レンジが被弾死)」+
       「マウンテンバスター 1回目 MT / 2回目 ST(かばう) / 3回目 MT」。
-    # Source: https://asellog.com/uwu/
-    # Source: https://note.com/mozuzuzu/n/nd4fb5fff75ab
-    # Source: https://2aka-ff14.hatenablog.com/entry/2024/05/06/075121
     videos:
       - title: FF14 みんとのギミック解説 絶アルテマ破壊作戦 タイタン編
         url: https://www.youtube.com/watch?v=cJaNpDkBwu4
@@ -117,18 +90,16 @@ phases:
           Source: https://www.youtube.com/playlist?list=PL2Hitw4uipFQQ8svogk788A9eWSPtz33M
     tips:
       - "ジェイル位置: ボス D4 / H1 / H2。ランスラ斜め誘導。"
-      - "マウンテンバスター 1回目&3回目は MT バフ / 2回目は ST バフ(orかばう)。"
+      - マウンテンバスター 1回目&3回目は MT バフ / 2回目は ST バフ(orかばう)。
       - "アルテマ履行 LB 使用順: D4 -> H2 -> D1 -> MT。"
-
   - id: p4
     name: P4 追撃の究極幻想 (Annihilation - Predation)
     order: 4
+    popularStrategy: 十字無視法
     description: |
       アルテマウェポン本体フェーズの前半。誘導レーザー(吸着爆雷)、激震、
       フェザーレイン、ジェイル、十字範囲など。所要時間 約1分38秒。
       野良主流は「十字無視法」(十字範囲を安置判定で無視して位置取り)。
-    # Source: https://asellog.com/uwu/
-    # Source: https://note.com/mozuzuzu/n/nd4fb5fff75ab
     videos:
       - title: FF14 みんとのギミック解説 絶アルテマウェポン 追撃の究極幻想
         url: https://www.youtube.com/watch?v=ENn9O274DMw
@@ -141,44 +112,39 @@ phases:
           フェザーレイン回避方向は ★ -> A -> D。
           ジェイル破壊はフェザーレイン回避時にターゲット可能。
     tips:
-      - "吸着爆雷(ヘイト1位)は MT 無敵 -> 激震後半で ST 挑発。"
-      - "誘導レーザー(ヘイト2位)は追撃中は MT 無敵 / 爆撃中は ST 無敵。"
-
+      - 吸着爆雷(ヘイト1位)は MT 無敵 -> 激震後半で ST 挑発。
+      - 誘導レーザー(ヘイト2位)は追撃中は MT 無敵 / 爆撃中は ST 無敵。
   - id: p5
     name: P5 爆撃の究極幻想 (Annihilation - Bombardment)
     order: 5
+    popularStrategy: 3111 (緑玉3-1-1-1配分)
     description: |
       アルテマウェポン本体フェーズの中盤。緑玉(エメラルドレディアンス)、
       ノックバック、メソハイ、灼熱など。所要時間 約58秒。
       野良主流は「3111 (緑玉3-1-1-1配分)」処理。
-    # Source: https://asellog.com/uwu/
-    # Source: https://note.com/mozuzuzu/n/nd4fb5fff75ab
     videos:
       - title: FF14 ⑤絶アルテマ きりたんたちと学ぶ アルテマフェーズ(中)
         url: https://www.youtube.com/watch?v=fjDJattJTi4
     strategies:
       - id: san-ichi-ichi-ichi
-        name: "3111 (緑玉 3-1-1-1 配分)"
+        name: 3111 (緑玉 3-1-1-1 配分)
         description: |
           緑玉(エメラルドレディアンス)を 3-1-1-1 で配分する野良主流。
           1 回目は MT/ST/D1 / 2-4 回目は MT が処理。
           爆撃 P メソハイは 1 回目 D3 / 2 回目 灼熱ヒラ。
     tips:
-      - "緑玉 1 回目は MT/ST/D1 の 3 人で処理。"
-      - "灼熱はヒラがメソハイ線取り (2 回目)。"
-
+      - 緑玉 1 回目は MT/ST/D1 の 3 人で処理。
+      - 灼熱はヒラがメソハイ線取り (2 回目)。
   - id: p6
     name: P6 乱撃+最終三蛮神 (Annihilation - Final + Primal Roulette)
     order: 6
+    popularStrategy: 乱撃TLB (タンクLB3顔面受け)
     description: |
       アルテマウェポン本体フェーズの終盤。乱撃 (タンクLB3 ※顔面受け)、
       アルテマ詠唱、エーテル波動、紫玉(パープルレディアンス)、そして
       最終三蛮神ルーレット (ガルーダ/イフリート/タイタン のランダム順序処理) で締める。
       所要時間 約2分28秒。
       野良主流は「乱撃TLB (タンクLB3顔面受け)」+「紫玉 4 隅散開」。
-    # Source: https://asellog.com/uwu/
-    # Source: https://note.com/mozuzuzu/n/nd4fb5fff75ab
-    # Source: https://www.youtube.com/watch?v=QpuleeUOHh0
     videos:
       - title: FF14 みんとのギミック解説 絶アルテマ破壊作戦 完結編(3111 乱撃インビン)
         url: https://www.youtube.com/watch?v=QpuleeUOHh0
@@ -201,21 +167,9 @@ phases:
           ③タイタンスタート (イフ→ガル)
           各パターンで移動ルートが異なる。スプリントをイフリート処理に合わせる。
     tips:
-      - "乱撃顔面受けは ST が LB3。ヒラは堅実魔で詠唱中断回避。"
+      - 乱撃顔面受けは ST が LB3。ヒラは堅実魔で詠唱中断回避。
       - "紫玉散開: MT AB間->AD間 / ST BC間 / その他 CD間。"
-      - "最終三蛮神の移動ルートはパターン分岐。事前にホットバーカンペ準備推奨。"
-
-# ────────────────────────────────────────────────────────
-# マクロ（コピペ用・りりーどーる「新みんとっと」マクロ）
-# ────────────────────────────────────────────────────────
-# 主流: 「新みんとっと (楔逆Z/ジェイル自滅/十字無視/3111/乱撃TLB)」
-#   2024 年 Patch 7.0 黄金のレガシー後の野良主流マクロ。
-#
-# 出典: りりーどーる Lily Doll - Lodestone 日記
-#   Lodestone (JP): https://jp.finalfantasyxiv.com/lodestone/character/34120564/blog/5248065/
-#   Lodestone (NA): https://na.finalfantasyxiv.com/lodestone/character/34120564/blog/5248065
-# 注: マクロ全文は Lodestone 上で 3 つに分割されている (15行制限のため)。
-#     ここでは Phase まとめ単位で 2 マクロに集約 (りりーどーる原文を要約抽出)。
+      - 最終三蛮神の移動ルートはパターン分岐。事前にホットバーカンペ準備推奨。
 macros:
   - source: りりーどーる (P1-P3 共通 - 新みんとっと / 楔逆Z / ジェイル自滅)
     url: https://jp.finalfantasyxiv.com/lodestone/character/34120564/blog/5248065/
@@ -234,7 +188,6 @@ macros:
       /p 　ボスD4 H1 H2　　　　 | H1⇒ST　H2⇒D1　D４⇒D2/D3
       /p 　ランスラ斜めに誘導　　　 |
       /p 【マウンテンバスター】1回目：MT/2回目：ST(orかばう)/3回目：MT
-
   - source: りりーどーる (P4-P6 - 新みんとっと / 十字無視 / 3111 / 乱撃TLB)
     url: https://jp.finalfantasyxiv.com/lodestone/character/34120564/blog/5248065/
     text: |
@@ -253,27 +206,12 @@ macros:
       /p 【紫玉】MT：AB間→AD間　ST：BC間　その他：CD間
       /p 【三蛮神】
       /p 　・ガル(A北→A→2)→イフ(2→3)→タコ(3→2.3間→3)
-
   - source: あせろぐ (asellog) - 絶アルテマウェポン 攻略準備&マーカー配置 (3分割マクロ)
     url: https://asellog.com/uwu/
-    # りりーどーる「新みんとっと」マクロを 3 つの 15 行マクロに分割した派生版。
-    # 開幕～アルテマ履行 / 追撃～乱撃 / 紫玉～最終 の 3 マクロ構成。
-    # 著者: あせろぐ / 更新: 2026-04-01 (Patch 7.45 対応)
-    # 注: HTML から原文ママの取得が複雑なため URL のみ保持。リリド原文と内容はほぼ等価。
-
   - source: もず (note) - 絶アルテマまとめ (みん学/楔逆Z/ジェイル自殺式/十字無視/3111/乱撃TLB)
     url: https://note.com/mozuzuzu/n/nd4fb5fff75ab
-    # 主流処理方の整理記事。マクロ本文の代替参照先。
-    # 著者: もず (note)
-
-# ────────────────────────────────────────────────────────
-# 募集テンプレ
-# ────────────────────────────────────────────────────────
 recruitmentTemplates:
   - source: 「【初絶歓迎！】絶テマ草案【@MT,ST,近接,レンジ】」(Lodestone 用 BBCode テンプレ)
-    # Source: https://rentry.co/ultimate_weapon_lodestone_plan
-    # 注: Lodestone 用 BBCode フォーマット。Discord 用には別途整形が必要。
-    # 「初絶歓迎」を謳い、楽な処理 (ジェイル脳死法、イフ十字無視法等) を採用する方針。
     template: |
       ▼募集ジョブ
       ● 活動DC: {{datacenter}}
@@ -313,58 +251,19 @@ recruitmentTemplates:
       - prohibitions
       - discordHandle
       - xHandle
-
-# ────────────────────────────────────────────────────────
-# 参考リンク
-# ────────────────────────────────────────────────────────
 references:
   primary: りりーどーる (Lily Doll) - Lodestone 日記
   urls:
-    # 公式 Wiki
     - https://ffxiv.consolegameswiki.com/wiki/The_Weapon%27s_Refrain_(Ultimate)
-    # りりーどーる マクロ「新みんとっと」(JP)
     - https://jp.finalfantasyxiv.com/lodestone/character/34120564/blog/5248065/
-    # りりーどーる マクロ「新みんとっと」(NA)
     - https://na.finalfantasyxiv.com/lodestone/character/34120564/blog/5248065
-    # あせろぐ - 絶アルテマウェポン 攻略準備&マーカー配置 (Patch 7.45 対応)
     - https://asellog.com/uwu/
-    # もず note - 絶アルテマまとめ (主流処理方の解説)
     - https://note.com/mozuzuzu/n/nd4fb5fff75ab
-    # ARUTORA - 絶アルテマ攻略記事まとめ
     - https://arutora.com/16539
-    # ARUTORA - 覚醒タイタン編 ジェイル3連
     - https://arutora.com/16288
-    # みんとっと YouTube チャンネル (新みんとっと動画群)
     - https://www.youtube.com/@aomintotto
-    # みん学 (4連スキップ) ジェイル自滅 TLB 法プレイリスト
     - https://www.youtube.com/playlist?list=PL2Hitw4uipFQQ8svogk788A9eWSPtz33M
-    # 軽減表 (らすと / lastagous) 注: 軽減表自体は phase.mitigation で扱う設計だが、references にも掲載
     - https://docs.google.com/spreadsheets/d/1C73RrIVV6sUoTxwUSiifMp_oktkxeOAWn9RbwbVrUOk/edit?usp=sharing
-    # 絶コンテンツ軽減表一覧 (らすと note)
     - https://note.com/lastagous/n/ncfcb027117fd
-    # Lodestone 募集テンプレ草案 (rentry)
     - https://rentry.co/ultimate_weapon_lodestone_plan
-    # 旧マクロ参照 (Yobaba Yoba Lodestone - 漆黒時代のもの)
     - https://na.finalfantasyxiv.com/lodestone/character/19924564/blog/4695414/
-
-# ────────────────────────────────────────────────────────
-# 軽減表メモ
-# ────────────────────────────────────────────────────────
-# らすと (lastagous) の軽減表は全Phaseを1シートで扱うため P1 の mitigation
-# にぶら下げている。将来的に Phase 毎にシートが分かれた場合は P2-P6 にも
-# 個別の mitigation を付与すること。
-#
-# ────────────────────────────────────────────────────────
-# ジョブ構成メモ (asellog はむちゃんズ Patch 7.45 構成)
-# ────────────────────────────────────────────────────────
-# MT: ナイト (インビンシブル長リキャスト = スイッチ回数削減)
-# ST: ガンブレイカー (ボーライドで無効タイプ軽減 + Lv70 火力高め)
-# H1: 占星術師 (Lv70 単体軽減カードバフ + シナジー)
-# H2: 賢者 (Lv70 単体軽減 + バリア + 疑似無詠唱 GCD)
-# D1: ヴァイパー (操作難易度が低い)
-# D2: 踊り子 (癒しのワルツ + レンジ 2 で全体軽減増加)
-# D3: 機工士 (ウェポンブレイク + 軽減スキル多め)
-# D4: 赤魔道士 (連続魔ヴァルレイズで蘇生速度向上)
-# Source: https://asellog.com/uwu/
-#
-# 装備: IL500 以上推奨。サブステ調整必要 (詳細は asellog /weapons-syncgear/)。

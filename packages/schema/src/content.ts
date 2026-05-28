@@ -48,9 +48,12 @@ export const PhaseSchema = z.object({
   name: z.string().describe("表示名（例: P1 Fatebreaker）"),
   order: z.number().int().nonnegative(),
   description: z.string().optional(),
+  popularStrategy: z.string().optional().describe(
+    "野良主流の処理法を 1 行で (channel intro 冒頭に目立つ形で表示される)。 例: 「ヤークト無視 + サイコロ 1211」"
+  ),
   videos: z.array(VideoLinkSchema).default([]),
   mitigation: MitigationTemplateSchema.optional(),
-  strategies: z.array(StrategyVariantSchema).default([]).describe("複数の処理方が存在するphase"),
+  strategies: z.array(StrategyVariantSchema).default([]).describe("複数の処理法が存在するphase"),
   tips: z.array(z.string()).default([]).describe("攻略Tips（短文）"),
 });
 
