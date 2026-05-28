@@ -13,6 +13,9 @@ export const ContentTypeSchema = z.enum([
 export type ContentType = z.infer<typeof ContentTypeSchema>;
 
 export const MacroRefSchema = z.object({
+  phaseId: z.string().optional().describe(
+    "どの phase 用マクロか (例: 'p1', 'p3-2')。 省略時は 全体 / 編成共通マクロ扱い"
+  ),
   source: z.string().describe("参照元（例: りりーどーる, ゲーム8, 新みんとっと, Lily Doll）"),
   url: z.string().url(),
   text: z.string().optional().describe("マクロ本体（コピペ用）"),
@@ -59,6 +62,14 @@ export const ContentOverviewSchema = z.object({
   partyWideMacro: MacroRefSchema.optional().describe(
     "編成全体共通マクロ (各 phase に個別マクロがある場合の「最初に貼るマクロ」)"
   ),
+  guideUrl: z.string().url().optional().describe(
+    "攻略ガイド元 URL (例: りりーどーる Lodestone post、 ぬけまる note 記事)。 " +
+    "全体 channel 上部に「📚 攻略ガイド」として 1 link 表示される"
+  ),
+  bisUrl: z.string().url().optional().describe(
+    "最適装備 (BiS) URL (例: Etro、 The Balance gear set、 FF Logs)。 " +
+    "全体 channel に「⚔️ 最適装備」として 1 link 表示される"
+  ),
 });
 
 export const PhaseSchema = z.object({
@@ -87,6 +98,12 @@ export const ContentSchema = z.object({
   overview: ContentOverviewSchema.optional().describe(
     "「全体」channel に表示する content 全体の概要 (主流処理法 / プレイリスト / 全体マクロ)"
   ),
+  /**
+   * @deprecated 新しい content は `overview.guideUrl` / `overview.bisUrl` を
+   * 使うこと。 references は untagged URL 配列で labeling できないため、
+   * 既存 31 content の back-compat 用に残してるだけ。 Sheet 側で blank に
+   * なれば自然消滅する。
+   */
   references: z.object({
     primary: z.string().optional().describe("第一参照先（例: りりーどーる）"),
     urls: z.array(z.string().url()).default([]),

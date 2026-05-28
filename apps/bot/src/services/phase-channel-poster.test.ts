@@ -180,6 +180,51 @@ describe("postUtilityIntro role=overview", () => {
     const calls = (ch.send as ReturnType<typeof vi.fn>).mock.calls;
     expect(calls).toHaveLength(1); // just the embed text, no macro body
   });
+
+  it("emits guideUrl + bisUrl sections when set", async () => {
+    const ch = makeChannel();
+    const content = makeContent({
+      overview: {
+        guideUrl: "https://na.finalfantasyxiv.com/lodestone/character/123/blog/4567",
+        bisUrl: "https://etro.gg/gearset/abc",
+      },
+    });
+    await postUtilityIntro(ch, content, "overview");
+    const main = (ch.send as ReturnType<typeof vi.fn>).mock.calls[0][0].content;
+    expect(main).toContain("📚 攻略ガイド");
+    expect(main).toContain("https://na.finalfantasyxiv.com/lodestone");
+    expect(main).toContain("⚔️ 最適装備");
+    expect(main).toContain("https://etro.gg/gearset/abc");
+  });
+
+  it("emits macro list grouped by phase, with no-phaseId macros at the end", async () => {
+    const ch = makeChannel();
+    const content = makeContent({
+      phases: [
+        { id: "p1", name: "P1 開幕", order: 0, videos: [], strategies: [], tips: [] },
+        { id: "p2", name: "P2 中盤", order: 1, videos: [], strategies: [], tips: [] },
+      ],
+      macros: [
+        { phaseId: "p2", source: "@bob P2", url: "https://e.com/p2", text: undefined },
+        { phaseId: "p1", source: "@alice P1", url: "https://e.com/p1", text: undefined },
+        // No phaseId — should appear last under「全体」
+        { source: "@carol 全体", url: "https://e.com/all", text: undefined },
+      ],
+    });
+    await postUtilityIntro(ch, content, "overview");
+    const main = (ch.send as ReturnType<typeof vi.fn>).mock.calls[0][0].content;
+    expect(main).toContain("📜 マクロ一覧");
+    // Order: P1 first, P2 second, 全体 last
+    const idxP1 = main.indexOf("**P1 開幕**");
+    const idxP2 = main.indexOf("**P2 中盤**");
+    const idxAll = main.indexOf("**全体**");
+    expect(idxP1).toBeGreaterThan(0);
+    expect(idxP2).toBeGreaterThan(idxP1);
+    expect(idxAll).toBeGreaterThan(idxP2);
+    expect(main).toContain("[@alice P1](https://e.com/p1)");
+    expect(main).toContain("[@bob P2](https://e.com/p2)");
+    expect(main).toContain("[@carol 全体](https://e.com/all)");
+  });
 });
 
 describe("postUtilityIntro role=mitigation", () => {

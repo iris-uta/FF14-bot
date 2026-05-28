@@ -293,13 +293,56 @@ export async function postUtilityIntro(
           lines.push("");
         }
 
+        // 攻略ガイド (元 URL) — リリーどーる / Lodestone post / note 等
+        if (content.overview?.guideUrl) {
+          lines.push(`**📚 攻略ガイド**`);
+          lines.push(`└ <${content.overview.guideUrl}>`);
+          lines.push("");
+        }
+
+        // 最適装備 (BiS) — Etro / The Balance 等
+        if (content.overview?.bisUrl) {
+          lines.push(`**⚔️ 最適装備 (BiS)**`);
+          lines.push(`└ <${content.overview.bisUrl}>`);
+          lines.push("");
+        }
+
+        // Phase 別マクロ一覧 — phase 順で並べ、 残った無印 (= 全体) は末尾。
+        // partyWideMacro と内容重複しても短い list なので OK。
+        if (content.macros.length > 0) {
+          const macrosByPhase = new Map<string | null, typeof content.macros>();
+          for (const m of content.macros) {
+            const key = m.phaseId ?? null;
+            if (!macrosByPhase.has(key)) macrosByPhase.set(key, []);
+            macrosByPhase.get(key)!.push(m);
+          }
+          // Order phaseId entries by their order in content.phases, then null at end.
+          const phaseIdOrder = content.phases.map((p) => p.id);
+          const orderedKeys: (string | null)[] = [
+            ...phaseIdOrder.filter((id) => macrosByPhase.has(id)),
+            ...(macrosByPhase.has(null) ? [null] : []),
+          ];
+          if (orderedKeys.length > 0) {
+            lines.push(`**📜 マクロ一覧**`);
+            for (const key of orderedKeys) {
+              const phase = key ? content.phases.find((p) => p.id === key) : null;
+              const heading = phase ? phase.name : "全体";
+              lines.push(`**${heading}**`);
+              for (const m of macrosByPhase.get(key)!) {
+                lines.push(`└ [${m.source}](${m.url})`);
+              }
+            }
+            lines.push("");
+          }
+        }
+
         if (lines.length <= 3) {
           lines.push(
             "> このコンテンツの overview データはまだ未登録です。",
-            "> sheet の `contents` タブで `overview.mainStrategy`、`overview.videoPlaylist`、`overview.partyWideMacro` を埋めると自動表示されます。"
+            "> sheet の `contents` タブで overview 系列の列を埋めると自動表示されます。"
           );
         } else {
-          lines.push(`💡 個別 Phase の詳細は上の Phase channels で。 全マクロは \`/macro content:${content.id} phase:p1\` で取得。`);
+          lines.push(`💡 個別 Phase の詳細は上の Phase channels で。 マクロ本文は \`/macro content:${content.id} phase:p1\` で取得。`);
         }
 
         const intro = lines.join("\n").slice(0, 2000);
@@ -321,6 +364,15 @@ export async function postUtilityIntro(
 
       case "videos": {
         const lines: string[] = [`**🎬 動画・参考 — ${content.displayName}**`, ``];
+
+        // New: prefer the labelled overview.guideUrl. Fallback to legacy
+        // references.primary/urls for unmigrated content.
+        if (content.overview?.guideUrl) {
+          lines.push(`**📚 攻略ガイド**: <${content.overview.guideUrl}>`);
+        }
+        if (content.overview?.bisUrl) {
+          lines.push(`**⚔️ 最適装備 (BiS)**: <${content.overview.bisUrl}>`);
+        }
         if (content.references.primary) {
           lines.push(`**主参照**: ${content.references.primary}`);
         }
