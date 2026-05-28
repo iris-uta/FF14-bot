@@ -30,6 +30,8 @@ import { startRecurringScheduler, stopRecurringScheduler, waitForRecurringSchedu
 import { handleVoteButton } from "./services/vote-interaction";
 import { handleVoteModalSubmit, MODAL_PREFIX as VOTE_MODAL_PREFIX } from "./services/vote-modal-submit";
 import { handleChouseisanPick, SELECT_PREFIX as CHOUSEISAN_SELECT_PREFIX } from "./services/chouseisan-interaction";
+import { handleWizardButton, handleWizardSelect } from "./services/setup-wizard-interaction";
+import { WIZARD_PREFIX } from "./services/setup-wizard";
 import { postWelcomeToGuild } from "./services/welcome";
 import { postMemberWelcome, handleRolePickButton, ROLE_PICK_PREFIX } from "./services/member-welcome";
 import { startHealthServer, stopHealthServer, type HealthState } from "./health-server";
@@ -221,6 +223,23 @@ client.on(Events.InteractionCreate, async (interaction) => {
       }
       return;
     }
+    if (interaction.customId.startsWith(WIZARD_PREFIX)) {
+      try {
+        await handleWizardButton(interaction);
+      } catch (err) {
+        console.error("Error handling setup wizard button:", err);
+        const reply: InteractionReplyOptions = {
+          content: "setup ウィザード処理中にエラーが発生しました。",
+          flags: MessageFlags.Ephemeral,
+        };
+        if (interaction.replied || interaction.deferred) {
+          await interaction.followUp(reply);
+        } else {
+          await interaction.reply(reply);
+        }
+      }
+      return;
+    }
     return;
   }
 
@@ -232,6 +251,23 @@ client.on(Events.InteractionCreate, async (interaction) => {
         console.error("Error handling chouseisan select:", err);
         const reply: InteractionReplyOptions = {
           content: "選択処理中にエラーが発生しました。",
+          flags: MessageFlags.Ephemeral,
+        };
+        if (interaction.replied || interaction.deferred) {
+          await interaction.followUp(reply);
+        } else {
+          await interaction.reply(reply);
+        }
+      }
+      return;
+    }
+    if (interaction.customId.startsWith(WIZARD_PREFIX)) {
+      try {
+        await handleWizardSelect(interaction);
+      } catch (err) {
+        console.error("Error handling setup wizard select:", err);
+        const reply: InteractionReplyOptions = {
+          content: "setup ウィザード処理中にエラーが発生しました。",
           flags: MessageFlags.Ephemeral,
         };
         if (interaction.replied || interaction.deferred) {

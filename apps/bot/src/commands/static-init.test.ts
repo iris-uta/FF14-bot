@@ -14,12 +14,13 @@ describe("/setup (旧 /static-init) — shape", () => {
     );
   });
 
-  it("has required 'content' option with autocomplete", () => {
+  it("has optional 'content' option with autocomplete (wizard fills it when missing)", () => {
     const json = data.toJSON();
     const content = json.options?.find((o: { name: string }) => o.name === "content") as
       | { required?: boolean; autocomplete?: boolean }
       | undefined;
-    expect(content).toMatchObject({ required: true, autocomplete: true });
+    expect(content?.autocomplete).toBe(true);
+    expect(content?.required).toBeFalsy();
   });
 
   it("has required 'name' option", () => {

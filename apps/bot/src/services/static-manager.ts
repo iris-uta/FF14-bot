@@ -47,6 +47,8 @@ export interface InitStaticInput {
   content: Content;
   mode?: SetupMode;
   strategyId?: string;
+  /** Per-phase strategy choice from setup wizard. JSON-stringified to DB. */
+  phaseStrategies?: Record<string, string>;
   members?: MemberSpec[];
   // TODO Phase B: planId / plan slots
 }
@@ -122,7 +124,7 @@ export function findStaticForChannel(
  * + auto-post phase info to each Phase channel + intro messages to utility channels.
  */
 export async function initStatic(input: InitStaticInput): Promise<InitStaticResult> {
-  const { guild, leaderId, name, content, strategyId, members } = input;
+  const { guild, leaderId, name, content, strategyId, members, phaseStrategies } = input;
   const mode: SetupMode = input.mode ?? "standard";
 
   // 1. Create role
@@ -184,6 +186,9 @@ export async function initStatic(input: InitStaticInput): Promise<InitStaticResu
     name,
     contentId: content.id,
     strategyId: strategyId ?? null,
+    phaseStrategies: phaseStrategies && Object.keys(phaseStrategies).length > 0
+      ? JSON.stringify(phaseStrategies)
+      : null,
     roleId: role.id,
     categoryId: category.id,
     lobbyChannelId: lobby?.channelId ?? null,
@@ -262,6 +267,7 @@ export async function initStatic(input: InitStaticInput): Promise<InitStaticResu
     const result = await postPhaseToChannel(pc.channel, content, phase, {
       includeMacros: true,
       pin: true,
+      selectedStrategyId: phaseStrategies?.[phase.id],
     });
     if (result.ok) postedPhaseCount++;
     if (result.pinned) pinnedCount++;
