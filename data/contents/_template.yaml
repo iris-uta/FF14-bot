@@ -22,7 +22,7 @@ phases:
       name: 標準軽減表
       url: https://docs.google.com/spreadsheets/...
       copyable: true
-    strategies: []           # 処理方が複数あるphaseのみ記載
+    strategies: []           # 処理法が複数あるphaseのみ記載
     tips:
       - 開幕は◯◯に注意
       - 散開位置は△△

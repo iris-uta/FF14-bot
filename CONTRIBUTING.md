@@ -74,7 +74,7 @@ pnpm --filter @ff14kotei/web dev
 feat(bot): /availability コマンド追加
 fix(web): /recruit-tool でコピーボタンが動かない
 docs: deploy.md に Sentry セクション追加
-data(m9s): P3 の処理方を追加
+data(m9s): P3 の処理法を追加
 chore(deps): drizzle-orm を 0.36.5 にアップデート
 ```
 

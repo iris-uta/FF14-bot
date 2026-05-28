@@ -46,6 +46,7 @@ export function disassembleContents(contents: Content[]): SheetData {
         phase_id: phase.id,
         name: phase.name,
         order: String(phase.order),
+        popular_strategy: phase.popularStrategy ?? "",
         description: phase.description ?? "",
       });
       for (const v of phase.videos) {
@@ -148,7 +149,7 @@ function escapeCsvCell(value: string): string {
 
 export const TAB_HEADERS: Record<keyof SheetData, string[]> = {
   contents:    ["id", "displayName", "shortName", "type", "patch", "references_primary"],
-  phases:      ["content_id", "phase_id", "name", "order", "description"],
+  phases:      ["content_id", "phase_id", "name", "order", "popular_strategy", "description"],
   videos:      ["content_id", "phase_id", "title", "url", "author"],
   mitigations: ["content_id", "phase_id", "name", "url", "copyable"],
   strategies:  ["content_id", "phase_id", "id", "name", "description"],

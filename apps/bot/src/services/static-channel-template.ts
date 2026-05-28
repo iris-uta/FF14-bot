@@ -60,7 +60,7 @@ function utilityChannelsFor(mode: SetupMode): UtilityChannel[] {
     base.push(
       {
         name: "攻略情報-発見",
-        topic: "新ギミック・新マクロ・暫定処理方のメモ (早期攻略中)",
+        topic: "新ギミック・新マクロ・暫定処理法のメモ (早期攻略中)",
         role: "race-notes",
       },
       {

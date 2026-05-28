@@ -174,7 +174,7 @@ const CATEGORIES: Category[] = [
         name: "/share",
         ja: "フェーズ投稿",
         desc:
-          "指定 Phase の embed (攻略動画 + 軽減 + tips + 処理方) + マクロを現チャネルに投稿。固定 channel なら content 自動検出。",
+          "指定 Phase の embed (攻略動画 + 軽減 + tips + 処理法) + マクロを現チャネルに投稿。固定 channel なら content 自動検出。",
         examples: ["/share phase:p3", "/share content:fru phase:p3"],
       },
       {

@@ -87,6 +87,7 @@ function orderPhaseKeys(p: Content["phases"][number]): Record<string, unknown> {
   out.id = p.id;
   out.name = p.name;
   out.order = p.order;
+  if (p.popularStrategy) out.popularStrategy = p.popularStrategy;
   if (p.description) out.description = p.description;
   if (p.videos.length > 0) out.videos = p.videos;
   if (p.mitigation) out.mitigation = p.mitigation;

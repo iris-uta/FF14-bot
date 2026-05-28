@@ -41,7 +41,7 @@ flowchart TB
 
     subgraph Repo["GitHub Repo"]
       Code[apps/bot, apps/web, packages/schema]
-      Data[("data/contents/*.yaml<br/>固定データ・マクロ・処理方")]
+      Data[("data/contents/*.yaml<br/>固定データ・マクロ・処理法")]
     end
 
     subgraph External["外部連携 (Phase 2+)"]
@@ -345,7 +345,7 @@ flowchart TB
 
 ### コンテンツデータ更新パイプライン
 
-新コンテンツ実装時 or 既存処理方変更時の流れ:
+新コンテンツ実装時 or 既存処理法変更時の流れ:
 
 ```
 新コンテンツ実装 (例: 新絶コンテンツ)
@@ -417,7 +417,7 @@ flowchart TB
 | **Bot ダウンタイム** | 全ユーザー機能停止 | Better Stack uptime + Discord 通知、Fly.io health check、graceful shutdown 実装 |
 | **DB データ消失** | 固定データ全滅 | Neon 自動バックアップ (point-in-time recovery 7日)、月次手動 dump 推奨 |
 | **Discord rate limit** | 一時的にコマンド応答失敗 | discord.js は自動 retry、爆発的成長時は sharding（5000+ servers で必須） |
-| **コンテンツデータ陳腐化** | 古い処理方を投稿、混乱 | データに `lastVerifiedAt` フィールド追加（要 schema 変更）、3ヶ月以上未更新でwarning |
+| **コンテンツデータ陳腐化** | 古い処理法を投稿、混乱 | データに `lastVerifiedAt` フィールド追加（要 schema 変更）、3ヶ月以上未更新でwarning |
 | **マクロ著作権・出典クレーム** | 「無断転載やめろ」と言われる | データに出典明記（既に実装）、要請あれば即削除のフロー整備 |
 | **Discord ToS違反** | bot アカウント停止 | ToS 厳守、特に user data scraping/storage しない、verified bot 申請推奨 |
 | **依存ライブラリの zero-day** | セキュリティ穴 | Dependabot 有効化（GitHub 標準）、毎月 `pnpm update` |
