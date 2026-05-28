@@ -38,6 +38,7 @@ export type WizardStep =
   | "pickType"
   | "pickContent"
   | "pickMode"
+  | "pickStrategyMode"
   | "pickStrategy"
   | "confirm"
   | "done";
@@ -56,6 +57,17 @@ export interface WizardState {
   type?: ContentType;
   contentId?: string;
   mode?: "standard" | "race" | "minimal";
+
+  /**
+   * How the user wants to decide phase strategies:
+   *   - `popular`: skip the per-phase picker — fill in popular: true defaults
+   *     for every multi-strategy phase. One click, done.
+   *   - `custom`:  walk through every multi-strategy phase and toggle
+   *     strategies manually (multiple gimmicks per phase supported).
+   *
+   * Asked after pickMode iff the content has at least one multi-strategy phase.
+   */
+  strategyMode?: "popular" | "custom";
 
   /**
    * Per-phase strategy choice. key = phase.id, value = array of strategy.id.
@@ -166,12 +178,15 @@ export function pruneNow(now: number): void {
  *  - missing type → pickType
  *  - missing content → pickContent
  *  - missing mode → pickMode
- *  - cursor still inside multi-strategy phase list → pickStrategy
+ *  - has multi-strategy phases AND strategyMode missing → pickStrategyMode
+ *  - strategyMode = popular → straight to confirm (defaults pre-filled)
+ *  - strategyMode = custom AND cursor still inside list → pickStrategy
  *  - all done → confirm
  *
- * The cursor (`pendingPhaseIdx`) is the source of truth — strategy *picks*
- * just toggle entries; advancing requires the explicit 次フェーズ button.
- * A phase may legitimately end with zero picks if there's no popular default.
+ * The cursor (`pendingPhaseIdx`) is the source of truth inside custom mode —
+ * strategy *picks* just toggle entries; advancing requires the explicit
+ * 次フェーズ button. A phase may legitimately end with zero picks if there's
+ * no popular default.
  */
 export function nextStep(state: WizardState): WizardStep {
   if (!state.type) return "pickType";
@@ -181,6 +196,18 @@ export function nextStep(state: WizardState): WizardStep {
   const content = getContentByIdSafe(state.contentId);
   if (!content) return "pickContent"; // recover from a stale id
   const multiStrategyPhases = content.phases.filter((p) => p.strategies.length >= 2);
+
+  // No multi-strategy phases → skip both strategy steps entirely.
+  if (multiStrategyPhases.length === 0) return "confirm";
+
+  // Ask the user which way they want to go before diving into the picker.
+  if (!state.strategyMode) return "pickStrategyMode";
+
+  // Popular mode: defaults were pre-filled when the choice was made; nothing
+  // else to ask.
+  if (state.strategyMode === "popular") return "confirm";
+
+  // Custom mode: walk through each phase via the cursor.
   if (state.pendingPhaseIdx < multiStrategyPhases.length) return "pickStrategy";
 
   return "confirm";
@@ -201,12 +228,13 @@ export interface StepMessage {
 export function buildStepMessage(state: WizardState): StepMessage {
   const step = nextStep(state);
   switch (step) {
-    case "pickType":     return buildPickType(state);
-    case "pickContent":  return buildPickContent(state);
-    case "pickMode":     return buildPickMode(state);
-    case "pickStrategy": return buildPickStrategy(state);
-    case "confirm":      return buildConfirm(state);
-    case "done":         return buildDone(state);
+    case "pickType":         return buildPickType(state);
+    case "pickContent":      return buildPickContent(state);
+    case "pickMode":         return buildPickMode(state);
+    case "pickStrategyMode": return buildPickStrategyMode(state);
+    case "pickStrategy":     return buildPickStrategy(state);
+    case "confirm":          return buildConfirm(state);
+    case "done":             return buildDone(state);
   }
 }
 
@@ -299,6 +327,49 @@ function buildPickMode(state: WizardState): StepMessage {
     new ButtonBuilder()
       .setCustomId(`${WIZARD_PREFIX}${state.sessionId}:mode:minimal`)
       .setLabel("最小")
+      .setStyle(ButtonStyle.Secondary)
+  );
+  return { embeds: [embed], components: [row, cancelRow(state)] };
+}
+
+function buildPickStrategyMode(state: WizardState): StepMessage {
+  const content = getContentByIdSafe(state.contentId!);
+  if (!content) return buildConfirm(state);
+  const multiPhases = content.phases.filter((p) => p.strategies.length >= 2);
+
+  // Build a short preview of what "popular" would pick — helps the user decide.
+  const popularPreview: string[] = [];
+  for (const p of multiPhases.slice(0, 4)) {
+    const popular = p.strategies.find((s) => s.popular);
+    popularPreview.push(`└ **${p.name}**: ${popular?.name ?? "(野良主流未設定)"}`);
+  }
+  const more = multiPhases.length > 4 ? `\n…他 ${multiPhases.length - 4} phase` : "";
+
+  const embed = header(
+    state,
+    "🎯 処理法の決め方を選んでください",
+    [
+      `このコンテンツは ${multiPhases.length} phase で処理法を選択できます。`,
+      ``,
+      `**⭐ 野良主流で進める (おすすめ)**`,
+      `→ 全 phase に野良主流を自動適用。 後で個別に変更可能 (将来追加予定)。`,
+      ``,
+      `**🛠 自分で全部決める**`,
+      `→ 各 phase で複数ギミックの処理法を toggle 形式で選択。`,
+      ``,
+      `_(野良主流で進めた場合の preview)_`,
+      popularPreview.join("\n") + more,
+    ].join("\n")
+  );
+
+  const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
+    new ButtonBuilder()
+      .setCustomId(`${WIZARD_PREFIX}${state.sessionId}:smode:popular`)
+      .setLabel("⭐ 野良主流で進める")
+      .setStyle(ButtonStyle.Primary),
+    new ButtonBuilder()
+      .setCustomId(`${WIZARD_PREFIX}${state.sessionId}:smode:custom`)
+      .setLabel("🛠 自分で全部決める")
       .setStyle(ButtonStyle.Secondary)
   );
   return { embeds: [embed], components: [row, cancelRow(state)] };
@@ -449,7 +520,7 @@ function buildDone(state: WizardState): StepMessage {
 
 export interface ParsedWizardAction {
   sessionId: string;
-  /** "type" | "content" | "mode" | "strat" | "next" | "create" | "cancel" */
+  /** "type" | "content" | "mode" | "smode" | "strat" | "next" | "create" | "cancel" */
   action: string;
   /** Action-specific payload */
   payload?: string;
@@ -486,6 +557,22 @@ export function applyContentChoice(state: WizardState, contentId: string): Wizar
 
 export function applyModeChoice(state: WizardState, mode: string): WizardState {
   return { ...state, mode: mode as WizardState["mode"] };
+}
+
+/**
+ * Choose between the "野良主流 / 自分で決める" branches.
+ * popular  → pre-fill all popular defaults so the user sees them on confirm.
+ * custom   → just mark the mode; user proceeds through the per-phase picker.
+ */
+export function applyStrategyModeChoice(
+  state: WizardState,
+  mode: "popular" | "custom"
+): WizardState {
+  if (mode === "popular") {
+    // Pre-fill so confirm reflects what will actually be created.
+    return applyPopularDefaults({ ...state, strategyMode: "popular" });
+  }
+  return { ...state, strategyMode: "custom" };
 }
 
 /**

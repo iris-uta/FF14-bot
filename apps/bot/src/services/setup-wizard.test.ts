@@ -8,6 +8,7 @@ import {
   applyModeChoice,
   applyPopularDefaults,
   applyStrategyChoice,
+  applyStrategyModeChoice,
   applyTypeChoice,
   buildStepMessage,
   clearAllWizards,
@@ -87,6 +88,19 @@ describe("parseWizardCustomId", () => {
     expect(r).toEqual({ sessionId: "sid-1", action: "next", payload: undefined });
   });
 
+  it("parses smode action (popular | custom)", () => {
+    expect(parseWizardCustomId(`${WIZARD_PREFIX}sid-1:smode:popular`)).toEqual({
+      sessionId: "sid-1",
+      action: "smode",
+      payload: "popular",
+    });
+    expect(parseWizardCustomId(`${WIZARD_PREFIX}sid-1:smode:custom`)).toEqual({
+      sessionId: "sid-1",
+      action: "smode",
+      payload: "custom",
+    });
+  });
+
   it("parses strat: action (phaseId + strategyId)", () => {
     const r = parseWizardCustomId(`${WIZARD_PREFIX}sid-1:strat:p3:ast-shiki`);
     expect(r).toEqual({
@@ -123,14 +137,34 @@ describe("nextStep", () => {
     expect(nextStep(makeState({ type: "ultimate", contentId: "fru" }))).toBe("pickMode");
   });
 
-  it("→ pickStrategy when multi-strategy phase still unanswered", () => {
-    // fru has multi-strategy phases (per real data); rely on real content loader
+  it("→ pickStrategyMode after pickMode when content has multi-strategy phases", () => {
+    // fru has multi-strategy phases (per real data). With strategyMode undefined,
+    // the user should first be asked how they want to decide strategies.
     const s = makeState({ type: "ultimate", contentId: "fru", mode: "standard" });
-    // No phaseStrategies set → at least the first multi-strategy phase needs answering
+    expect(nextStep(s)).toBe("pickStrategyMode");
+  });
+
+  it("→ pickStrategy in custom mode while cursor is inside the multi-strategy list", () => {
+    const s = makeState({
+      type: "ultimate",
+      contentId: "fru",
+      mode: "standard",
+      strategyMode: "custom",
+    });
     expect(nextStep(s)).toBe("pickStrategy");
   });
 
-  it("→ confirm when no multi-strategy phases remain", () => {
+  it("→ confirm in popular mode (no per-phase picker needed)", () => {
+    const s = makeState({
+      type: "ultimate",
+      contentId: "fru",
+      mode: "standard",
+      strategyMode: "popular",
+    });
+    expect(nextStep(s)).toBe("confirm");
+  });
+
+  it("→ confirm when no multi-strategy phases remain (skips strategy steps entirely)", () => {
     // Use a content with no multi-strategy phases (e.g., dmu has 1 phase, no variants)
     const s = makeState({ type: "ultimate", contentId: "dmu", mode: "standard" });
     expect(nextStep(s)).toBe("confirm");
@@ -220,6 +254,23 @@ describe("apply* state updaters", () => {
     }
   });
 
+  it("applyStrategyModeChoice('popular') sets mode + pre-fills popular defaults", () => {
+    const s = makeState({ type: "ultimate", contentId: "fru", mode: "standard" });
+    const next = applyStrategyModeChoice(s, "popular");
+    expect(next.strategyMode).toBe("popular");
+    // popular defaults should now be filled (or stay empty if no popular: true set on a phase)
+    for (const ids of Object.values(next.phaseStrategies)) {
+      expect(ids.length).toBeGreaterThan(0);
+    }
+  });
+
+  it("applyStrategyModeChoice('custom') sets mode only (no defaults filled)", () => {
+    const s = makeState({ type: "ultimate", contentId: "fru", mode: "standard" });
+    const next = applyStrategyModeChoice(s, "custom");
+    expect(next.strategyMode).toBe("custom");
+    expect(next.phaseStrategies).toEqual({});
+  });
+
   it("applyPopularDefaults preserves user picks (does not overwrite)", () => {
     const fru = getContentById("fru")!;
     const multiPhases = fru.phases.filter((p) => p.strategies.length >= 2);
@@ -262,10 +313,27 @@ describe("buildStepMessage", () => {
     expect(msg.components).toHaveLength(1);
   });
 
-  it("pickStrategy step always includes the advance/cancel row at the bottom", () => {
-    // fru has multi-strategy phases. The advance row is the last component.
+  it("pickStrategyMode step → 1 row of 2 buttons (野良主流 / 自分で決める) + cancel row", () => {
+    // fru has multi-strategy phases — strategyMode undefined → pickStrategyMode
     const msg = buildStepMessage(
       makeState({ type: "ultimate", contentId: "fru", mode: "standard" })
+    );
+    expect(msg.components).toHaveLength(2);
+    const customIds = msg.components[0].components.map((c: any) => c.data?.custom_id ?? "");
+    expect(customIds.some((id: string) => id.endsWith(":smode:popular"))).toBe(true);
+    expect(customIds.some((id: string) => id.endsWith(":smode:custom"))).toBe(true);
+  });
+
+  it("pickStrategy step always includes the advance/cancel row at the bottom", () => {
+    // fru has multi-strategy phases. strategyMode: custom skips the picker
+    // mode step and goes straight to per-phase. The advance row is last.
+    const msg = buildStepMessage(
+      makeState({
+        type: "ultimate",
+        contentId: "fru",
+        mode: "standard",
+        strategyMode: "custom",
+      })
     );
     // At least one strategy row + one advance row.
     expect(msg.components.length).toBeGreaterThanOrEqual(2);

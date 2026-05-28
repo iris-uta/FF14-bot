@@ -23,6 +23,7 @@ import {
   applyModeChoice,
   applyPopularDefaults,
   applyStrategyChoice,
+  applyStrategyModeChoice,
   applyTypeChoice,
   buildStepMessage,
   deleteWizard,
@@ -89,6 +90,16 @@ export async function handleWizardButton(interaction: ButtonInteraction): Promis
     case "mode": {
       if (!parsed.payload) return rejectAndAck(interaction, "mode が空です。");
       const next = applyModeChoice(state, parsed.payload);
+      putWizard(next);
+      const msg = buildStepMessage(next);
+      await interaction.update({ embeds: msg.embeds, components: msg.components });
+      return;
+    }
+    case "smode": {
+      if (parsed.payload !== "popular" && parsed.payload !== "custom") {
+        return rejectAndAck(interaction, "smode payload が不正です。");
+      }
+      const next = applyStrategyModeChoice(state, parsed.payload);
       putWizard(next);
       const msg = buildStepMessage(next);
       await interaction.update({ embeds: msg.embeds, components: msg.components });
