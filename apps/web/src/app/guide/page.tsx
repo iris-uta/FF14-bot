@@ -178,10 +178,10 @@ const CATEGORIES: Category[] = [
         examples: ["/share phase:p3", "/share content:fru phase:p3"],
       },
       {
-        name: "/macro / /tips / /raid",
-        ja: "マクロ / Tips / コンテンツ詳細",
+        name: "/macro / /tips",
+        ja: "マクロ / Tips",
         desc: "個別取得 (ephemeral)。autocomplete で content + phase を選べる。",
-        examples: ["/macro content:fru phase:p3", "/tips content:fru phase:p3", "/raid fru"],
+        examples: ["/macro content:fru phase:p3", "/tips content:fru phase:p3"],
       },
     ],
   },

@@ -33,7 +33,6 @@ describe("/help command", () => {
       expect(arg.embeds).toHaveLength(1);
       const embed = (arg.embeds as Array<{ toJSON(): { title?: string; description?: string } }>)[0].toJSON();
       expect(embed.title).toContain("コマンド一覧");
-      expect(embed.description).toContain("/raid");
       expect(embed.description).toContain("/setup");
       expect(embed.description).toContain("/share");
       expect(embed.description).toContain("/recruit");
@@ -41,11 +40,11 @@ describe("/help command", () => {
     });
 
     it("shows detail for a known command", async () => {
-      const { interaction, reply } = makeInteraction({ commandName: "raid" });
+      const { interaction, reply } = makeInteraction({ commandName: "macro" });
       await execute(interaction);
       const arg = reply.mock.calls[0][0] as { embeds: unknown[] };
       const embed = (arg.embeds as Array<{ toJSON(): { title?: string; fields?: Array<{ name: string }> } }>)[0].toJSON();
-      expect(embed.title).toBe("/raid");
+      expect(embed.title).toBe("/macro");
       const optionsField = embed.fields?.find((f) => f.name === "オプション");
       expect(optionsField).toBeDefined();
     });
@@ -70,7 +69,7 @@ describe("/help command", () => {
       const choices = respond.mock.calls[0][0] as Array<{ value: string }>;
       const values = choices.map((c) => c.value);
       expect(values).not.toContain("help");
-      expect(values).toContain("raid");
+      expect(values).toContain("macro");
     });
 
     it("filters by substring", async () => {

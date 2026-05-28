@@ -5,7 +5,6 @@ import type {
   SlashCommandOptionsOnlyBuilder,
   SlashCommandSubcommandsOnlyBuilder,
 } from "discord.js";
-import * as contentCommand from "./content";
 import * as postPhaseCommand from "./post-phase";
 import * as recruitTemplateCommand from "./recruit-template";
 import * as helpCommand from "./help";
@@ -32,7 +31,6 @@ export interface Command {
 }
 
 export const commands: Record<string, Command> = {
-  [contentCommand.data.name]: contentCommand,
   [postPhaseCommand.data.name]: postPhaseCommand,
   [recruitTemplateCommand.data.name]: recruitTemplateCommand,
   [helpCommand.data.name]: helpCommand,
