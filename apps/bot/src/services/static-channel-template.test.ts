@@ -22,10 +22,11 @@ const sampleContent: Content = {
 };
 
 describe("buildChannelTemplate", () => {
-  it("default mode is 'standard' with 6 utility channels", () => {
+  it("default mode is 'standard' with 7 utility channels", () => {
     const t = buildChannelTemplate(sampleContent);
-    expect(t.utility).toHaveLength(6);
+    expect(t.utility).toHaveLength(7);
     expect(t.utility.map((c) => c.name)).toEqual([
+      "全体",       // NEW: content-level overview (main strategy / playlist / party-wide macro)
       "ロビー",
       "雑談",
       "日程調整",
@@ -37,9 +38,17 @@ describe("buildChannelTemplate", () => {
 
   it("race mode adds 2 extra channels (攻略情報-発見, ログ-fflogs)", () => {
     const t = buildChannelTemplate(sampleContent, { mode: "race" });
-    expect(t.utility).toHaveLength(8);
+    expect(t.utility).toHaveLength(9);
+    expect(t.utility.map((c) => c.name)).toContain("全体");
     expect(t.utility.map((c) => c.name)).toContain("攻略情報-発見");
     expect(t.utility.map((c) => c.name)).toContain("ログ-fflogs");
+  });
+
+  it("standard mode includes overview channel with role=overview", () => {
+    const t = buildChannelTemplate(sampleContent);
+    const overview = t.utility.find((c) => c.role === "overview");
+    expect(overview).toBeDefined();
+    expect(overview?.name).toBe("全体");
   });
 
   it("minimal mode has only 2 utility (ロビー + 日程調整)", () => {

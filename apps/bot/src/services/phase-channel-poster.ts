@@ -193,25 +193,95 @@ export async function postUtilityIntro(
         return null;
 
       case "mitigation": {
-        const sheets = content.phases
-          .map((p) => p.mitigation)
-          .filter((m): m is NonNullable<typeof m> => Boolean(m));
+        // Group by phase order so the lineup matches the phase channels above.
         const lines: string[] = [
-          `**🛡 軽減表まとめ — ${content.displayName}**`,
+          `**🛡 軽減表 — ${content.displayName}**`,
           ``,
         ];
-        if (sheets.length === 0) {
+        const phasesWithMit = content.phases.filter((p) => p.mitigation);
+        if (phasesWithMit.length === 0) {
           lines.push("> 軽減表テンプレが未登録です。固定主が独自に作成・共有してください。");
         } else {
-          // dedupe by url
+          // Dedupe by URL (multiple phases sometimes share one sheet)
           const seen = new Set<string>();
-          for (const s of sheets) {
-            if (seen.has(s.url)) continue;
-            seen.add(s.url);
-            lines.push(`• [${s.name}](${s.url})${s.copyable ? " — **コピーして固定用にカスタマイズしてください**" : ""}`);
+          for (const phase of phasesWithMit) {
+            const m = phase.mitigation!;
+            if (seen.has(m.url)) continue;
+            seen.add(m.url);
+            const copyHint = m.copyable ? " — **コピーして固定用にカスタマイズしてください**" : "";
+            lines.push(`**${phase.name}**`);
+            lines.push(`└ [${m.name}](${m.url})${copyHint}`);
+            lines.push("");
           }
         }
-        await channel.send({ content: lines.join("\n") });
+        lines.push(`💡 個別 Phase の軽減確認は \`/share phase:p1\` でも見られます。`);
+        await channel.send({ content: lines.join("\n").slice(0, 2000) });
+        return null;
+      }
+
+      case "overview": {
+        const lines: string[] = [
+          `**🌐 全体 — ${content.displayName}**`,
+          ``,
+        ];
+
+        // 主流処理法 (content-level)
+        if (content.overview?.mainStrategy) {
+          lines.push(`**🎯 主流処理法**`);
+          lines.push(`└ ${content.overview.mainStrategy}`);
+          lines.push("");
+        }
+
+        // 攻略動画プレイリスト (content-level)
+        if (content.overview?.videoPlaylist) {
+          const v = content.overview.videoPlaylist;
+          const author = v.author ? ` — ${v.author}` : "";
+          lines.push(`**🎬 攻略動画プレイリスト**`);
+          lines.push(`└ [${v.title}](${v.url})${author}`);
+          lines.push("");
+        }
+
+        // Phase 別 popular strategy 一覧 (見出し的に)
+        const phasesWithPopular = content.phases.filter((p) => p.popularStrategy);
+        if (phasesWithPopular.length > 0) {
+          lines.push(`**📍 Phase 別 野良主流**`);
+          for (const p of phasesWithPopular) {
+            lines.push(`└ **${p.name}**: ${p.popularStrategy}`);
+          }
+          lines.push("");
+        }
+
+        // 編成全体マクロ (link)
+        const macro = content.overview?.partyWideMacro;
+        if (macro) {
+          lines.push(`**📜 編成全体マクロ**`);
+          lines.push(`└ [${macro.source}](${macro.url})`);
+          lines.push("");
+        }
+
+        if (lines.length <= 3) {
+          lines.push(
+            "> このコンテンツの overview データはまだ未登録です。",
+            "> sheet の `contents` タブで `overview.mainStrategy`、`overview.videoPlaylist`、`overview.partyWideMacro` を埋めると自動表示されます。"
+          );
+        } else {
+          lines.push(`💡 個別 Phase の詳細は上の Phase channels で。 全マクロは \`/macro content:${content.id} phase:p1\` で取得。`);
+        }
+
+        const intro = lines.join("\n").slice(0, 2000);
+        await channel.send({ content: intro });
+
+        // 編成全体マクロ の本文を別 message として post (もし text があれば)
+        if (macro?.text) {
+          const chunks = splitMacroForDiscord(macro.text);
+          for (let i = 0; i < chunks.length; i++) {
+            const header =
+              chunks.length > 1
+                ? `**${macro.source}** (${i + 1}/${chunks.length})`
+                : `**${macro.source}**`;
+            await channel.send({ content: `${header}\n\`\`\`\n${chunks[i]}\n\`\`\`` });
+          }
+        }
         return null;
       }
 
