@@ -155,6 +155,7 @@ macros:
       /p 上MT 下ST ｜ 塔 上:H1 中:H2 下:D4\r
 
       /p 人数調整優先度 上 D1＞D2＞D3 下"
+    phaseId: p1
   - source: りりーどーる (P2 - 基本イディル / 暴走HT / ノクバマカ色＆バニシュガ2ペア変更)
     url: https://ffxiv.link/0122122
     text: |-
@@ -188,6 +189,7 @@ macros:
       /p D1　　　　  D2 ｜　　：ボス本体に近接LB3
       /p 　  H1　  D4      ｜遠隔：扇誘導
       /p 　　　ST　　　  ｜　　：時計回りの光水晶を攻撃
+    phaseId: p2
   - source: りりーどーる (P3 -安置基準 / TH赤紫DPS黄青)
     url: https://ffxiv.link/0122122
     text: "/p P3(アポカリ[最初の安置基準]TH赤紫/DPS黄青)\r
@@ -219,6 +221,7 @@ macros:
       /p 散開優先度Z字:内側左<D12 MTST D3H1他<外側右\r
 
       /p 【暗夜の舞踏技】ボス見てTH組：左/DPS組：右"
+    phaseId: p3
   - source: りりーどーる (P3 - アポカリ基準 / TH赤紫DPS黄青)
     url: https://ffxiv.link/0122122
     text: |-
@@ -237,6 +240,7 @@ macros:
       /p 1枚目範囲の担当色マーカー左右の安置側で散開
       /p 散開優先度Z字:内側左<D12 MTST D3H1他<外側右
       /p 【暗夜の舞踏技】ボス見てTH組：左/DPS組：右
+    phaseId: p3
   - source: りりーどーる (P4 - ぬけまる扇前 / アクモーン1:7 / 赤爆走アムレンY字)
     url: https://ffxiv.link/0122122
     text: |-
@@ -271,6 +275,7 @@ macros:
       /p ■テイカー散開⇒波が来た南北基準で基本散開(タンクはAを避けて外周側に)
       /p リターン残り5秒で軽減、残り2秒でアムレン
       /p ※バリア＆軽減3枚以上必要[動画ではレンジ,BH,PH(無いならタンク)軽減]
+    phaseId: p4
   - source: りりーどーる (P5 - ぬけまる最終フェーズ)
     url: https://ffxiv.link/0122122
     text: |-
@@ -289,6 +294,7 @@ macros:
       /p 先頭受け：T→D12→D34→H
       /p 【パンドラの櫃】タンクLB3
       /p 詠唱バー「パン[ﾀﾝｸLB]ドラの櫃」目安
+    phaseId: p5
 recruitmentTemplates:
   - template: |-
       ▼募集ジョブ
