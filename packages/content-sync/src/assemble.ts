@@ -1,19 +1,22 @@
 /**
  * Assemble Content objects from flat sheet rows.
  *
- * Sheet structure (9 tabs):
- *   contents     | id, displayName, shortName, type, patch, references_primary
- *   phases       | content_id, phase_id, name, order, description
+ * Sheet structure (8 tabs):
+ *   contents     | id, displayName, shortName, type, patch, overview_*
+ *   phases       | content_id, phase_id, name, order, popular_strategy, description
  *   videos       | content_id, phase_id, title, url, author
  *   mitigations  | content_id, phase_id, name, url, copyable
- *   strategies   | content_id, phase_id, id, name, description
+ *   strategies   | content_id, phase_id, id, name, popular, description
  *   tips         | content_id, phase_id, tip
- *   macros       | content_id, source, url, text
+ *   macros       | content_id, phase_id, strategy_id, source, url, text
  *   templates    | content_id, template, variables (CSV)
- *   references   | content_id, url
  *
- * Note: this is the inverse of "current YAML → Sheet" — we read all 9 tabs
+ * Note: this is the inverse of "current YAML → Sheet" — we read all 8 tabs
  * and stitch them back into the nested Content structure that Zod validates.
+ *
+ * `references` tab was removed — labelled URLs live in overview.guideUrl /
+ * overview.bisUrl / overview.videoPlaylist / overview.partyWideMacro.
+ * Untagged URL lists were cruft.
  */
 import { ContentSchema, type Content } from "@ff14kotei/schema";
 
@@ -26,7 +29,6 @@ export interface SheetData {
   tips: Record<string, string>[];
   macros: Record<string, string>[];
   templates: Record<string, string>[];
-  references: Record<string, string>[];
 }
 
 export const TAB_NAMES = {
@@ -38,7 +40,6 @@ export const TAB_NAMES = {
   tips: "tips",
   macros: "macros",
   templates: "templates",
-  references: "references",
 } as const;
 
 export interface AssembleError {
@@ -68,7 +69,6 @@ export function assembleContents(data: SheetData): AssembleResult {
   const tipsByPhase = groupBy(data.tips, (r) => key(r.content_id, r.phase_id));
   const macrosByContent = groupBy(data.macros, "content_id");
   const templatesByContent = groupBy(data.templates, "content_id");
-  const refsByContent = groupBy(data.references, "content_id");
 
   for (const row of data.contents) {
     const id = row.id?.trim();
@@ -83,8 +83,7 @@ export function assembleContents(data: SheetData): AssembleResult {
         stratsByPhase,
         tipsByPhase,
         macrosByContent[id] ?? [],
-        templatesByContent[id] ?? [],
-        refsByContent[id] ?? []
+        templatesByContent[id] ?? []
       );
       const parsed = ContentSchema.safeParse(candidate);
       if (!parsed.success) {
@@ -114,8 +113,7 @@ function buildContent(
   stratsByPhase: Record<string, Record<string, string>[]>,
   tipsByPhase: Record<string, Record<string, string>[]>,
   macroRows: Record<string, string>[],
-  templateRows: Record<string, string>[],
-  refRows: Record<string, string>[]
+  templateRows: Record<string, string>[]
 ): unknown {
   const id = contentRow.id;
 
@@ -187,15 +185,6 @@ function buildContent(
       };
     });
 
-  const references: Record<string, unknown> = {
-    urls: refRows
-      .map((r) => r.url)
-      .filter((u): u is string => !!u && u.trim().length > 0),
-  };
-  if (contentRow.references_primary?.trim()) {
-    references.primary = contentRow.references_primary;
-  }
-
   // Optional `overview` — assembled from the new columns on the contents tab
   const overview = buildOverview(contentRow);
 
@@ -207,7 +196,6 @@ function buildContent(
     phases,
     macros,
     recruitmentTemplates,
-    references,
   };
   if (contentRow.patch?.trim()) out.patch = contentRow.patch;
   if (overview) out.overview = overview;

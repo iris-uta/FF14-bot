@@ -151,31 +151,6 @@ recruitmentTemplates:
 # ────────────────────────────────────────────────────────
 # 参考リンク
 # ────────────────────────────────────────────────────────
-references:
-  primary: Game8 (ゲームエイト) - クルーザー級零式2層 攻略丨マクロ
-  urls:
-    # Game8 攻略・マクロページ (第一参照)
-    - https://game8.jp/ff14/681086
-    # Lodestone 軽減表 (Last Agous, 全層対応)
-    - https://na.finalfantasyxiv.com/lodestone/character/12440293/blog/5540581/
-    # Lodestone マクロ提供元 (Yuna'' Kanon' - 新FFO式)
-    - https://jp.finalfantasyxiv.com/lodestone/character/11516239/blog/5542931/
-    # ファミ通 - キャラクター設定・声優紹介
-    - https://www.famitsu.com/article/202505/42745
-    # Consolegameswiki - The Arcadion
-    - https://ffxiv.consolegameswiki.com/wiki/The_Arcadion
-    # とらめもブログ - 雑魚フェーズ ルクレ複合 woops 式
-    - https://toramemoblog.com/cr2-woops
-    # FF14速報 - 雑魚 woops ルクレ複合 FFO式 解説
-    - https://ff14net.2chblog.jp/archives/62265631.html
-    # さり 活動録 (note)
-    - https://note.com/srm_br/n/n942f8c325c9a
-    # erSharifst - クルーザー1〜2層 所感
-    - https://www.ersharifst.com/2025/04/07/fsaasfgew/
-    # Aeson Magloire Lodestone - 雑魚戦感想
-    - https://na.finalfantasyxiv.com/lodestone/character/35880736/blog/5544069/
-    # ぬけまるG YouTube チャンネル
-    - https://www.youtube.com/@nukemarugames/videos
 
 # ────────────────────────────────────────────────────────
 # 要手動補完メモ

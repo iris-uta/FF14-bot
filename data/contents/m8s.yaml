@@ -182,36 +182,6 @@ recruitmentTemplates:
 # ────────────────────────────────────────────────────────
 # 参考リンク
 # ────────────────────────────────────────────────────────
-references:
-  primary: Game8 (ゲームエイト) - クルーザー級零式4層前半/後半 攻略丨マクロ
-  urls:
-    # Game8 攻略・マクロページ (第一参照)
-    - https://game8.jp/ff14/681843           # 4層前半
-    - https://game8.jp/ff14/681846           # 4層後半
-    # Lodestone 軽減表 (Last Agous, 全層対応)
-    - https://na.finalfantasyxiv.com/lodestone/character/12440293/blog/5540581/
-    # ファミ通 - キャラクター設定 (4層 ハウリングブレード 設定画)
-    - https://www.famitsu.com/article/202505/42745
-    # Consolegameswiki - The Arcadion
-    - https://ffxiv.consolegameswiki.com/wiki/The_Arcadion
-    # FF14 Online Wiki - クルーザー級
-    - https://ff14wiki.info/?%E8%87%B3%E5%A4%A9%E3%81%AE%E5%BA%A7%E3%82%A2%E3%83%AB%E3%82%AB%E3%83%87%E3%82%A3%E3%82%A2%EF%BC%9A%E3%82%AF%E3%83%AB%E3%83%BC%E3%82%B6%E3%83%BC%E7%B4%9A
-    # さり 活動録 (note) - クリア所感 (5人死亡から1%未満で押し切り)
-    - https://note.com/srm_br/n/n942f8c325c9a
-    # feenal (note) - クルーザー級 零式4層後半 攻略メモ
-    - https://note.com/feenal/n/n30ea48699717
-    # erSharifst - クルーザー4層 所感
-    - https://www.ersharifst.com/2025/05/04/uogihjk/
-    # クローズドアルファ - クリア必要 DPS 試算
-    - https://closedalpha.com/ffxiv-guide/aac-cruiserweight-m8s-dps/
-    # Lodestone Hamutaro Rakuten - 廻の群狼剣・幻狼招来 個人的なコツ
-    - https://na.finalfantasyxiv.com/lodestone/character/46506043/blog/5548854/
-    # U1F BLOG - クルーザー零式4層
-    - https://u1f.blogspot.com/2025/06/ff14-4.html
-    # neko14 - 4層前半 ライト向け攻略めも
-    - https://neko14.com/2025/05/16/post-10844/
-    # ぬけまるG YouTube チャンネル
-    - https://www.youtube.com/@nukemarugames/videos
 
 # ────────────────────────────────────────────────────────
 # 要手動補完メモ

@@ -55,7 +55,7 @@ function makeChannel(opts: {
     permissionsFor: () =>
       opts.canSend === false
         ? { has: () => false }
-        : { has: (perm: bigint) => perm === PermissionsBitField.Flags.SendMessages },
+        : { has: (perm: bigint) => perm === PermissionsBitField.Flags.SendMessages }
   };
 }
 
@@ -71,9 +71,9 @@ function makeGuild(opts: {
     channels: {
       cache: {
         values: () => channelsMap.values(),
-        get: (id: string) => channelsMap.get(id),
-      },
-    },
+        get: (id: string) => channelsMap.get(id)
+      }
+    }
   };
 }
 
@@ -87,7 +87,7 @@ describe("findWelcomeChannel", () => {
     const sys = makeChannel({ id: "sys-1", canSend: true });
     const guild = makeGuild({
       systemChannel: sys,
-      channels: [sys, makeChannel({ id: "other", canSend: true })],
+      channels: [sys, makeChannel({ id: "other", canSend: true })]
     });
     expect(findWelcomeChannel(guild as never)?.id).toBe("sys-1");
   });
@@ -98,7 +98,7 @@ describe("findWelcomeChannel", () => {
     const later = makeChannel({ id: "off-topic", canSend: true, position: 5 });
     const guild = makeGuild({
       systemChannel: sysNoSend,
-      channels: [later, fallback, sysNoSend],
+      channels: [later, fallback, sysNoSend]
     });
     expect(findWelcomeChannel(guild as never)?.id).toBe("general");
   });
@@ -108,8 +108,8 @@ describe("findWelcomeChannel", () => {
       systemChannel: null,
       channels: [
         makeChannel({ id: "a", canSend: false }),
-        makeChannel({ id: "b", canSend: false }),
-      ],
+        makeChannel({ id: "b", canSend: false })
+      ]
     });
     expect(findWelcomeChannel(guild as never)).toBeNull();
   });
@@ -117,7 +117,7 @@ describe("findWelcomeChannel", () => {
   it("returns null when no system channel and no sendable text channels exist", () => {
     const guild = makeGuild({
       systemChannel: null,
-      channels: [makeChannel({ id: "voice-only", type: ChannelType.GuildVoice })],
+      channels: [makeChannel({ id: "voice-only", type: ChannelType.GuildVoice })]
     });
     expect(findWelcomeChannel(guild as never)).toBeNull();
   });

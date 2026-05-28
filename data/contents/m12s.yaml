@@ -222,32 +222,6 @@ recruitmentTemplates:
 # ────────────────────────────────────────────────────────
 # 参考リンク
 # ────────────────────────────────────────────────────────
-references:
-  primary: Game8 (ゲームエイト) - ヘビー級零式4層前半/後半 攻略丨マクロ
-  urls:
-    # Game8 攻略・マクロページ (第一参照)
-    - https://game8.jp/ff14/756439           # 4層前半
-    - https://game8.jp/ff14/757988           # 4層後半
-    # Lodestone 軽減表 (Last Agous, 全層対応)
-    - https://na.finalfantasyxiv.com/lodestone/character/12440293/blog/5642585/
-    # Lodestone マクロ (Sr Odin - アルカディアンドリーム改良版)
-    - https://na.finalfantasyxiv.com/lodestone/character/39631700/blog/5649775/
-    # Lodestone マクロ (Ku Yuri - 4層後半 自分用メモ+コールマクロ)
-    - https://na.finalfantasyxiv.com/lodestone/character/22717408/blog/5651169/
-    # Lodestone 軽減メモ (Hamutaro Rakuten - タンク視点)
-    - https://na.finalfantasyxiv.com/lodestone/character/46506043/blog/5653108/
-    # にずしろブログ - 4層後半ヒーラー軽減
-    - https://nizusiro.com/ff14/heavy-raid-4s/
-    # erSharifst - ヘビー級零式4層ギミック覚え方
-    - https://www.ersharifst.com/2026/02/08/fdsgfea/
-    # 公式ニュース (ボスキャラクター情報・声優)
-    - https://jp.finalfantasy.com/news/5854
-    # Consolegameswiki - The Arcadion
-    - https://ffxiv.consolegameswiki.com/wiki/The_Arcadion
-    # Icy Veins - M4 Final Boss Savage Raid Guide (英語)
-    - https://www.icy-veins.com/ffxiv/aac-heavyweight-m4-final-boss-savage-raid-guide
-    # ぬけまるG YouTube チャンネル
-    - https://www.youtube.com/@nukemarugames/videos
 
 # ────────────────────────────────────────────────────────
 # 要手動補完メモ

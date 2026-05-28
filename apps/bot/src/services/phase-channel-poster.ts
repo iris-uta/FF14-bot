@@ -365,23 +365,13 @@ export async function postUtilityIntro(
       case "videos": {
         const lines: string[] = [`**🎬 動画・参考 — ${content.displayName}**`, ``];
 
-        // New: prefer the labelled overview.guideUrl. Fallback to legacy
-        // references.primary/urls for unmigrated content.
+        // Labelled overview URLs (guide + BiS). The legacy untagged
+        // `references.urls` array was removed — those are noise.
         if (content.overview?.guideUrl) {
           lines.push(`**📚 攻略ガイド**: <${content.overview.guideUrl}>`);
         }
         if (content.overview?.bisUrl) {
           lines.push(`**⚔️ 最適装備 (BiS)**: <${content.overview.bisUrl}>`);
-        }
-        if (content.references.primary) {
-          lines.push(`**主参照**: ${content.references.primary}`);
-        }
-        if (content.references.urls.length > 0) {
-          lines.push(``);
-          lines.push(`**参考URL**:`);
-          for (const url of content.references.urls.slice(0, 15)) {
-            lines.push(`• <${url}>`);
-          }
         }
         // Aggregate phase videos
         const allVideos = content.phases.flatMap((p) =>

@@ -199,32 +199,6 @@ recruitmentTemplates:
 # ────────────────────────────────────────────────────────
 # 参考リンク
 # ────────────────────────────────────────────────────────
-references:
-  primary: Game8 (ゲームエイト) - 辺獄編零式4層前半/後半 攻略丨マクロ
-  urls:
-    # Game8 攻略・マクロページ (第一参照)
-    - https://game8.jp/ff14/421733                       # 4 層前半
-    - https://game8.jp/ff14/422515                       # 4 層後半
-    # ARUTORA - P4S 後半攻略 (マクロ + カンペ + ギミック解説)
-    - https://arutora.com/23843
-    # FF14 攻略の虎 - 辺獄編4 (ヘスペロス)
-    - https://final-fantasy.cc/14/id/8/pan_hen_n4.php
-    # クローズドアルファ - P4S 前半各ジョブ必要 DPS
-    - https://closedalpha.com/ffxiv-guide/ffxiv-pandemonium-fourth-circle-part1-dps/
-    # パママ - 辺獄編4 攻略ガイド
-    - https://www.mtgames.jp/contents/FF14-RAID-002-PANDEMONIUM-1-4.html
-    # Aqua Cat - 辺獄編4層 スペスペ用タイムライン
-    - https://www.aquacat.work/entry/2022/01/08/032112
-    # ぶんちりーメモランダム - P4S クリア後感想と総評
-    - https://bunchiry.com/p4s-review/
-    # ameblo FF14 練習部 - P4S 前半詳細解説
-    - https://ameblo.jp/ff14rensyubu/entry-12735791846.html
-    # YouTube - ゆっくり辺獄編零式4層前半
-    - https://www.youtube.com/watch?v=AH0mRxuJx7c
-    # YouTube - ゆっくり辺獄編零式4層後半
-    - https://www.youtube.com/watch?v=GYCDnITC_jc
-    # Consolegameswiki - Asphodelos: The Fourth Circle (Savage)
-    - https://ffxiv.consolegameswiki.com/wiki/Asphodelos:_The_Fourth_Circle_(Savage)
 
 # ────────────────────────────────────────────────────────
 # 要手動補完メモ

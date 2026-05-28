@@ -15,7 +15,7 @@ const baseContent: Content = {
       description: "開幕フェーズ。\n野良主流は優先HTD/STD4入替/塔キャス固定。",
       videos: [],
       strategies: [],
-      tips: [],
+      tips: []
     },
     {
       id: "p3",
@@ -24,18 +24,17 @@ const baseContent: Content = {
       description: "アポカリプス処理が肝。",
       videos: [
         { title: "v1", url: "https://example.com/1" },
-        { title: "v2", url: "https://example.com/2" },
+        { title: "v2", url: "https://example.com/2" }
       ],
       strategies: [
         { id: "anchi", name: "アポカリ：最初の安置基準", popular: false },
-        { id: "apoka", name: "アポカリ：アポカリ基準", popular: false },
+        { id: "apoka", name: "アポカリ：アポカリ基準", popular: false }
       ],
-      tips: [],
-    },
+      tips: []
+    }
   ],
   macros: [],
-  recruitmentTemplates: [],
-  references: { urls: [] },
+  recruitmentTemplates: []
 };
 
 describe("buildChannelPlan", () => {

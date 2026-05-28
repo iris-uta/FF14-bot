@@ -37,9 +37,3 @@ macros: []                   # リリース後にりりーどーる/ぬけまる
 
 recruitmentTemplates: []     # リリース後にコミュニティテンプレ参照
 
-references:
-  primary: Consolegameswiki
-  urls:
-    - https://ffxiv.consolegameswiki.com/wiki/Dancing_Mad_(Ultimate)
-    - https://www.icy-veins.com/ffxiv/dancing-mad-ultimate-guide-and-overview
-    - https://www.shacknews.com/article/148845/final-fantasy-14-online-kefka-raid

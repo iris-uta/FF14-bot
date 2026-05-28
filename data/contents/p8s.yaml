@@ -226,28 +226,6 @@ recruitmentTemplates:
 # ────────────────────────────────────────────────────────
 # 参考リンク
 # ────────────────────────────────────────────────────────
-references:
-  primary: Game8 (ゲームエイト) - 煉獄編零式4層前半/後半 攻略丨マクロ
-  urls:
-    # Game8 攻略・マクロページ (第一参照)
-    - https://game8.jp/ff14/480095           # 4層前半
-    - https://game8.jp/ff14/480771           # 4層後半
-    # Consolegameswiki - The Eighth Circle (Savage)
-    - https://ffxiv.consolegameswiki.com/wiki/Abyssos:_The_Eighth_Circle_(Savage)
-    # Lodestone - Shimaji Row 全層スプレッドシート + マクロ + 資料集
-    - https://na.finalfantasyxiv.com/lodestone/character/3285757/blog/5089241/
-    # Lodestone - Eri Nabejunbi 軽減表 4層 学者用
-    - https://na.finalfantasyxiv.com/lodestone/character/33856878/blog/5100712/
-    # neko14 - ライトちゃんでも行きたい4層後半攻略めも
-    - https://neko14.com/2022/10/24/post-4715/
-    # ameblo - パンデモニウム煉獄編4
-    - https://ameblo.jp/angelo-ff14/entry-12761214317.html
-    # GamiXor - 煉獄編 零式 攻略 lv90
-    - https://gamixor.com/%E4%B8%87%E9%AD%94%E6%AE%BF%E3%83%91%E3%83%B3%E3%83%87%E3%83%A2%E3%83%8B%E3%82%A6%E3%83%A0%E9%9B%B6%E5%BC%8F%E3%80%80%E7%85%89%E7%8D%84%E7%B7%A8%E3%80%80%E6%94%BB%E7%95%A5%E3%80%80lv90/
-    # ぬけまるG YouTube チャンネル
-    - https://www.youtube.com/@nukemarugames/videos
-    # monoqloblog - 煉獄編マクロまとめ
-    - https://monoqloblog.com/pandaemoniumpurgatoryff14/
 
 # ────────────────────────────────────────────────────────
 # 要手動補完メモ

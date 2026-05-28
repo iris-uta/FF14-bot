@@ -9,7 +9,7 @@ const sample: Content = {
   type: "ultimate",
   phases: [
     { id: "p1", name: "P1", order: 1, videos: [], strategies: [], tips: [] },
-    { id: "p3", name: "P3", order: 3, videos: [], strategies: [], tips: [] },
+    { id: "p3", name: "P3", order: 3, videos: [], strategies: [], tips: [] }
   ],
   macros: [
     { source: "りりーどーる (P1 - リリド式)", url: "https://example.com", text: "/p P1..." },
@@ -17,8 +17,7 @@ const sample: Content = {
     { source: "りりーどーる (P3 - アポカリ基準)", url: "https://example.com", text: "/p P3 apoka" },
     { source: "ふうcだよ 全Phase", url: "https://example.com" },  // no P# label → excluded
   ],
-  recruitmentTemplates: [],
-  references: { urls: [] },
+  recruitmentTemplates: []
 };
 
 describe("getMacrosForPhase", () => {
@@ -39,8 +38,8 @@ describe("getMacrosForPhase", () => {
       macros: [
         { source: "macro (P1)", url: "https://example.com", text: "" },
         { source: "macro (P10)", url: "https://example.com", text: "" },
-        { source: "macro (P11)", url: "https://example.com", text: "" },
-      ],
+        { source: "macro (P11)", url: "https://example.com", text: "" }
+      ]
     };
     const p1 = getMacrosForPhase(wide, "p1");
     expect(p1.map((m) => m.source)).toEqual(["macro (P1)"]);
@@ -57,8 +56,8 @@ describe("getMacrosForPhase", () => {
         // Explicit phaseId — winning match
         { phaseId: "p1", source: "ノーラベル", url: "https://example.com" },
         // Old-style regex match in source — should be ignored when explicit exists
-        { source: "りりーどーる (P1 - 旧)", url: "https://example.com" },
-      ],
+        { source: "りりーどーる (P1 - 旧)", url: "https://example.com" }
+      ]
     };
     const p1 = getMacrosForPhase(withPhaseId, "p1");
     expect(p1).toHaveLength(1);
@@ -72,8 +71,8 @@ describe("getMacrosForPhase", () => {
         // For p2 — irrelevant
         { phaseId: "p2", source: "p2 only", url: "https://example.com" },
         // No phaseId — fallback regex catches this for p1
-        { source: "P1 macro", url: "https://example.com" },
-      ],
+        { source: "P1 macro", url: "https://example.com" }
+      ]
     };
     const p1 = getMacrosForPhase(mixed, "p1");
     expect(p1).toHaveLength(1);
@@ -86,8 +85,8 @@ describe("getMacrosForPhase", () => {
     const trap: Content = {
       ...sample,
       macros: [
-        { phaseId: "p2", source: "P1 mentioned but it's P2 macro", url: "https://example.com" },
-      ],
+        { phaseId: "p2", source: "P1 mentioned but it's P2 macro", url: "https://example.com" }
+      ]
     };
     expect(getMacrosForPhase(trap, "p1")).toEqual([]);
   });

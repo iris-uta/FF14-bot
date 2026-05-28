@@ -82,9 +82,8 @@ describe("findTemplate", () => {
     macros: [],
     recruitmentTemplates: [
       { template: "first", variables: [] },
-      { template: "second", variables: [] },
-    ],
-    references: { urls: [] },
+      { template: "second", variables: [] }
+    ]
   };
 
   it("returns first template by default", () => {

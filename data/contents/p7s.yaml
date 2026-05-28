@@ -125,29 +125,6 @@ recruitmentTemplates:
 # ────────────────────────────────────────────────────────
 # 参考リンク
 # ────────────────────────────────────────────────────────
-references:
-  primary: Game8 (ゲームエイト) - 煉獄編零式3層 攻略丨マクロ
-  urls:
-    # Game8 攻略・マクロページ (第一参照)
-    - https://game8.jp/ff14/479465
-    # Consolegameswiki - The Seventh Circle (Savage) (英語)
-    - https://ffxiv.consolegameswiki.com/wiki/Abyssos:_The_Seventh_Circle_(Savage)
-    # Icy Veins - The Seventh Circle Savage Raid Guide
-    - https://www.icy-veins.com/ffxiv/the-seventh-circle-savage-raid-guide
-    # Fanbyte - Abyssos The Seventh Circle Raid Guide
-    - https://www.fanbyte.com/ffxiv/guides/abyssos-the-seventh-circle-raid-guide-pandaemonium-ffxiv-patch-6-2
-    # Lodestone - Shimaji Row 全層スプレッドシート + マクロ + 資料集
-    - https://na.finalfantasyxiv.com/lodestone/character/3285757/blog/5089241/
-    # Lodestone - Consomme Mkll アグディスティス 動く図解 Toolbox
-    - https://na.finalfantasyxiv.com/lodestone/character/8075024/blog/5094303/
-    # Lodestone - Eri Nabejunbi 軽減表 3層 学者用
-    - https://na.finalfantasyxiv.com/lodestone/character/33856878/blog/5091223/
-    # Gamer Escape - P7S Guide
-    - https://gamerescape.com/2022/08/25/ffxiv-endwalker-guide-abyssos-the-seventh-circle/
-    # ぬけまるG YouTube チャンネル
-    - https://www.youtube.com/@nukemarugames/videos
-    # monoqloblog - 煉獄編マクロまとめ
-    - https://monoqloblog.com/pandaemoniumpurgatoryff14/
 
 # ────────────────────────────────────────────────────────
 # 要手動補完メモ

@@ -169,19 +169,6 @@ recruitmentTemplates:
 # ────────────────────────────────────────────────────────
 # 参考リンク
 # ────────────────────────────────────────────────────────
-references:
-  primary: Game8 (ゲームエイト) - 辺獄編零式3層 攻略丨マクロ
-  urls:
-    # Game8 攻略・マクロページ (第一参照)
-    - https://game8.jp/ff14/421350
-    # ARUTORA - P3S ギミック解説 / 闇の炎X字・霊泉ハピおじ式詳細
-    - https://arutora.com/23996
-    # さにすと - D4 視点 P3S 攻略
-    - https://www.sunny-stronger.com/entry/2022/01/25/180000
-    # Lodestone Naryusie Austere - P3S タンク復習メモ
-    - https://na.finalfantasyxiv.com/lodestone/character/29214030/blog/4957280/
-    # Consolegameswiki - Asphodelos: The Third Circle (Savage)
-    - https://ffxiv.consolegameswiki.com/wiki/Asphodelos:_The_Third_Circle_(Savage)
 
 # ────────────────────────────────────────────────────────
 # 要手動補完メモ

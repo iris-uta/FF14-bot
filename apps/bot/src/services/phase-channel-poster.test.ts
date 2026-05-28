@@ -16,13 +16,12 @@ function makeContent(overrides: Partial<Content> = {}): Content {
         order: 1,
         videos: [],
         strategies: [],
-        tips: [],
-      },
+        tips: []
+      }
     ],
     macros: [],
     recruitmentTemplates: [],
-    references: { urls: [] },
-    ...overrides,
+    ...overrides
   } as Content;
 }
 
@@ -35,7 +34,7 @@ function makeChannel(sendImpl = vi.fn().mockResolvedValue({ id: "msg" })) {
 describe("buildPhaseEmbed — variant: intro (default)", () => {
   it("shows popularStrategy as a 'description' line if set", () => {
     const content = makeContent({
-      phases: [{ id: "p1", name: "P1", order: 1, popularStrategy: "ヤークト無視 + サイコロ 1211", videos: [], strategies: [], tips: [] }],
+      phases: [{ id: "p1", name: "P1", order: 1, popularStrategy: "ヤークト無視 + サイコロ 1211", videos: [], strategies: [], tips: [] }]
     });
     const data = buildPhaseEmbed(content, content.phases[0]).toJSON();
     expect(data.description).toContain("野良主流");
@@ -44,7 +43,7 @@ describe("buildPhaseEmbed — variant: intro (default)", () => {
 
   it("omits description even if phase.description is set (intro = compact)", () => {
     const content = makeContent({
-      phases: [{ id: "p1", name: "P1", order: 1, description: "very long phase description", videos: [], strategies: [], tips: [] }],
+      phases: [{ id: "p1", name: "P1", order: 1, description: "very long phase description", videos: [], strategies: [], tips: [] }]
     });
     const data = buildPhaseEmbed(content, content.phases[0]).toJSON();
     // popularStrategy not set, description not in intro → no description block
@@ -58,8 +57,8 @@ describe("buildPhaseEmbed — variant: intro (default)", () => {
         videos: [],
         mitigation: { name: "m", url: "https://e.com/m", copyable: false },
         strategies: [],
-        tips: ["tip 1", "tip 2"],
-      }],
+        tips: ["tip 1", "tip 2"]
+      }]
     });
     const fieldNames = buildPhaseEmbed(content, content.phases[0]).toJSON().fields?.map((f) => f.name) ?? [];
     expect(fieldNames).not.toContain("Tips");
@@ -73,8 +72,8 @@ describe("buildPhaseEmbed — variant: intro (default)", () => {
         id: "p1", name: "P1", order: 1,
         videos: [{ title: "P1 解説", url: "https://e.com/v", author: "@author" }],
         strategies: [{ id: "ast", name: "アスト式", popular: true }],
-        tips: [],
-      }],
+        tips: []
+      }]
     });
     const fieldNames = buildPhaseEmbed(content, content.phases[0]).toJSON().fields?.map((f) => f.name) ?? [];
     expect(fieldNames).toContain("処理法");
@@ -87,10 +86,10 @@ describe("buildPhaseEmbed — variant: intro (default)", () => {
         id: "p1", name: "P1", order: 1,
         videos: [
           { title: "解説 A", url: "https://e.com/a", author: "X" },
-          { title: "解説 B", url: "https://e.com/b" },
+          { title: "解説 B", url: "https://e.com/b" }
         ],
-        strategies: [], tips: [],
-      }],
+        strategies: [], tips: []
+      }]
     });
     const value = buildPhaseEmbed(content, content.phases[0]).toJSON().fields?.find((f) => f.name === "攻略動画")?.value ?? "";
     expect(value).toContain("1) [解説 A](https://e.com/a) — X");
@@ -107,9 +106,9 @@ describe("buildPhaseEmbed — variant: full", () => {
         videos: [],
         mitigation: { name: "M", url: "https://e.com/m", copyable: true },
         strategies: [],
-        tips: ["a", "b"],
+        tips: ["a", "b"]
       }],
-      macros: [{ source: "@author P1 macro", url: "https://e.com/macro", text: undefined }],
+      macros: [{ source: "@author P1 macro", url: "https://e.com/macro", text: undefined }]
     });
     const data = buildPhaseEmbed(content, content.phases[0], { variant: "full" }).toJSON();
     const fieldNames = data.fields?.map((f) => f.name) ?? [];
@@ -145,13 +144,13 @@ describe("postUtilityIntro role=overview", () => {
       phases: [{
         id: "p1", name: "P1", order: 1,
         popularStrategy: "野良主流 A",
-        videos: [], strategies: [], tips: [],
+        videos: [], strategies: [], tips: []
       }],
       overview: {
         mainStrategy: "全体: 優先HTD",
         videoPlaylist: { title: "FRU 全 phase 解説", url: "https://e.com/list", author: "Alice" },
-        partyWideMacro: { source: "@alice", url: "https://e.com/macro", text: "/p hi" },
-      },
+        partyWideMacro: { source: "@alice", url: "https://e.com/macro", text: "/p hi" }
+      }
     });
     await postUtilityIntro(ch, content, "overview");
     const calls = (ch.send as ReturnType<typeof vi.fn>).mock.calls;
@@ -174,7 +173,7 @@ describe("postUtilityIntro role=overview", () => {
     const content = makeContent({
       overview: {
         partyWideMacro: { source: "@a", url: "https://e.com/m" }, // no text
-      },
+      }
     });
     await postUtilityIntro(ch, content, "overview");
     const calls = (ch.send as ReturnType<typeof vi.fn>).mock.calls;
@@ -186,8 +185,8 @@ describe("postUtilityIntro role=overview", () => {
     const content = makeContent({
       overview: {
         guideUrl: "https://na.finalfantasyxiv.com/lodestone/character/123/blog/4567",
-        bisUrl: "https://etro.gg/gearset/abc",
-      },
+        bisUrl: "https://etro.gg/gearset/abc"
+      }
     });
     await postUtilityIntro(ch, content, "overview");
     const main = (ch.send as ReturnType<typeof vi.fn>).mock.calls[0][0].content;
@@ -202,14 +201,14 @@ describe("postUtilityIntro role=overview", () => {
     const content = makeContent({
       phases: [
         { id: "p1", name: "P1 開幕", order: 0, videos: [], strategies: [], tips: [] },
-        { id: "p2", name: "P2 中盤", order: 1, videos: [], strategies: [], tips: [] },
+        { id: "p2", name: "P2 中盤", order: 1, videos: [], strategies: [], tips: [] }
       ],
       macros: [
         { phaseId: "p2", source: "@bob P2", url: "https://e.com/p2", text: undefined },
         { phaseId: "p1", source: "@alice P1", url: "https://e.com/p1", text: undefined },
         // No phaseId — should appear last under「全体」
-        { source: "@carol 全体", url: "https://e.com/all", text: undefined },
-      ],
+        { source: "@carol 全体", url: "https://e.com/all", text: undefined }
+      ]
     });
     await postUtilityIntro(ch, content, "overview");
     const main = (ch.send as ReturnType<typeof vi.fn>).mock.calls[0][0].content;
@@ -235,8 +234,8 @@ describe("postUtilityIntro role=mitigation", () => {
         { id: "p1", name: "P1", order: 1, videos: [], strategies: [], tips: [],
           mitigation: { name: "P1 軽減", url: "https://e.com/m1", copyable: false } },
         { id: "p2", name: "P2", order: 2, videos: [], strategies: [], tips: [],
-          mitigation: { name: "P2 軽減", url: "https://e.com/m2", copyable: true } },
-      ],
+          mitigation: { name: "P2 軽減", url: "https://e.com/m2", copyable: true } }
+      ]
     });
     await postUtilityIntro(ch, content, "mitigation");
     const body = (ch.send as ReturnType<typeof vi.fn>).mock.calls[0][0].content;
@@ -260,8 +259,8 @@ describe("postUtilityIntro role=mitigation", () => {
     const content = makeContent({
       phases: [
         { id: "p1", name: "P1", order: 1, videos: [], strategies: [], tips: [], mitigation: shared },
-        { id: "p2", name: "P2", order: 2, videos: [], strategies: [], tips: [], mitigation: shared },
-      ],
+        { id: "p2", name: "P2", order: 2, videos: [], strategies: [], tips: [], mitigation: shared }
+      ]
     });
     await postUtilityIntro(ch, content, "mitigation");
     const body = (ch.send as ReturnType<typeof vi.fn>).mock.calls[0][0].content;

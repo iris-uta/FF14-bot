@@ -102,16 +102,6 @@ export const ContentSchema = z.object({
   overview: ContentOverviewSchema.optional().describe(
     "「全体」channel に表示する content 全体の概要 (主流処理法 / プレイリスト / 全体マクロ)"
   ),
-  /**
-   * @deprecated 新しい content は `overview.guideUrl` / `overview.bisUrl` を
-   * 使うこと。 references は untagged URL 配列で labeling できないため、
-   * 既存 31 content の back-compat 用に残してるだけ。 Sheet 側で blank に
-   * なれば自然消滅する。
-   */
-  references: z.object({
-    primary: z.string().optional().describe("第一参照先（例: りりーどーる）"),
-    urls: z.array(z.string().url()).default([]),
-  }).default({ urls: [] }),
 });
 export type Content = z.infer<typeof ContentSchema>;
 export type Phase = z.infer<typeof PhaseSchema>;

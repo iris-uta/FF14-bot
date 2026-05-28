@@ -219,32 +219,6 @@ recruitmentTemplates:
 # ────────────────────────────────────────────────────────
 # 参考リンク
 # ────────────────────────────────────────────────────────
-references:
-  primary: Game8 (ゲームエイト) - アルカディア零式4層前半/後半 攻略丨マクロ
-  urls:
-    # Game8 攻略・マクロページ (第一参照)
-    - https://game8.jp/ff14/631136           # 4 層前半 (Ver.2.1)
-    - https://game8.jp/ff14/631340           # 4 層後半
-    # Lodestone 1 画面マクロまとめ (Tam Atto, 1-4 層)
-    - https://na.finalfantasyxiv.com/lodestone/character/26820312/blog/5431856/
-    # Lodestone 軽減表まとめ (Last Agous note)
-    - https://note.com/lastagous/n/ncfcb027117fd
-    # Famitsu 公式設定画特集 (キャラクター肩書)
-    - https://www.famitsu.com/article/202505/42743
-    # Consolegameswiki - The Arcadion
-    - https://ffxiv.consolegameswiki.com/wiki/The_Arcadion
-    # ぬけまるG YouTube チャンネル
-    - https://www.youtube.com/@nukemarugames/videos
-    # note - Mokatamk "後世のために LH4 層零式の正解を書き記す"
-    - https://note.com/mokatamk/n/n92368fe90e97
-    # note - feenal "アルカディア LH 級零式 4 層 game8 令和最新版攻略"
-    - https://note.com/feenal/n/nb25383cb791d
-    # ガッツの夜明け - ライトヘビー級4層前半攻略
-    - https://gutsdawn.com/2024/09/20/%E3%82%A2%E3%83%AB%E3%82%AB%E3%83%87%E3%82%A3%E3%82%A2%E9%9B%B6%E5%BC%8Flh%E7%B4%9A%EF%BC%94%E5%B1%A4%E5%89%8D%E5%8D%8A/ff14/
-    # ガッツの夜明け - ライトヘビー級4層後半攻略
-    - https://gutsdawn.com/2024/09/20/%E3%82%A2%E3%83%AB%E3%82%AB%E3%83%87%E3%82%A3%E3%82%A2%E9%9B%B6%E5%BC%8Flh%E7%B4%9A%EF%BC%94%E5%B1%A4%E5%BE%8C%E5%8D%8A/ff14/
-    # neko14 - ライトヘビー級4層後半攻略めも
-    - https://neko14.com/2024/08/25/post-8845/
 
 # ────────────────────────────────────────────────────────
 # 要手動補完メモ

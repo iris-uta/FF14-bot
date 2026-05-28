@@ -23,15 +23,14 @@
 
 | Tab | Columns |
 |---|---|
-| `contents` | `id`, `displayName`, `shortName`, `type`, `patch`, `references_primary`, `overview_main_strategy`, `overview_playlist_title`, `overview_playlist_url`, `overview_playlist_author`, `overview_macro_source`, `overview_macro_url`, `overview_macro_text`, **`overview_guide_url`** (NEW), **`overview_bis_url`** (NEW) |
+| `contents` | `id`, `displayName`, `shortName`, `type`, `patch`, `overview_main_strategy`, `overview_playlist_title`, `overview_playlist_url`, `overview_playlist_author`, `overview_macro_source`, `overview_macro_url`, `overview_macro_text`, `overview_guide_url`, `overview_bis_url` |
 | `phases` | `content_id`, `phase_id`, `name`, `order`, `popular_strategy`, `description` |
 | `videos` | `content_id`, `phase_id`, `title`, `url`, `author` |
 | `mitigations` | `content_id`, `phase_id`, `name`, `url`, `copyable` |
 | `strategies` | `content_id`, `phase_id`, `id`, `name`, `popular`, `description` |
 | `tips` | `content_id`, `phase_id`, `tip` |
-| `macros` | `content_id`, **`phase_id`** (NEW、 optional)、 `source`, `url`, `text` |
+| `macros` | `content_id`, `phase_id` (optional)、 `strategy_id` (optional)、 `source`, `url`, `text` |
 | `templates` | `content_id`, `template`, `variables` (カンマ区切り) |
-| `references` | `content_id`, `url` _(deprecated — 新しい content は `overview_guide_url` を使う)_ |
 
 最初の行 = ヘッダ。 以降がデータ。
 

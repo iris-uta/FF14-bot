@@ -131,29 +131,6 @@ recruitmentTemplates:
 # ────────────────────────────────────────────────────────
 # 参考リンク
 # ────────────────────────────────────────────────────────
-references:
-  primary: Game8 (ゲームエイト) - 煉獄編零式1層 攻略丨マクロ
-  urls:
-    # Game8 攻略・マクロページ (第一参照)
-    - https://game8.jp/ff14/464675
-    # Consolegameswiki - The Fifth Circle (Savage) (英語、構造確認)
-    - https://ffxiv.consolegameswiki.com/wiki/Abyssos:_The_Fifth_Circle_(Savage)
-    # Lodestone - Shimaji Row 全層スプレッドシート + マクロ + 資料集
-    - https://na.finalfantasyxiv.com/lodestone/character/3285757/blog/5089241/
-    # Lodestone - Pon Daikon ギミック解説と簡易マクロ (タイムライン付き)
-    - https://na.finalfantasyxiv.com/lodestone/character/30439801/blog/5088900/
-    # Lodestone - Takke Alexander プロトカーバンクル タイムライン
-    - https://na.finalfantasyxiv.com/lodestone/character/20369220/blog/5088849/
-    # Lodestone - Nagomi Nago 1~4層 簡易処理法カンペスプレッドシート
-    - https://na.finalfantasyxiv.com/lodestone/character/2342662/blog/4929308
-    # うさねこ散歩 - パッチ6.2x 煉獄編 開放場所・報酬
-    - https://next-innovation-fuk.com/2022/08/20/ff14-%E3%83%91%E3%83%83%E3%83%816-2x-%E3%80%8C%E9%9B%B6%E5%BC%8F%E3%80%8D%E4%B8%87%E9%AD%94%E6%AE%BF%E3%83%91%E3%83%B3%E3%83%87%E3%83%A2%E3%83%8B%E3%82%A6%E3%83%A0%EF%BC%9A%E7%85%89%E7%8D%84%E7%B7%A8/
-    # ARUTORA - 8連噛みつき2パターン折り返し攻略
-    - https://arutora.com/24597
-    # ぬけまるG YouTube チャンネル
-    - https://www.youtube.com/@nukemarugames/videos
-    # monoqloblog - 煉獄編マクロまとめ
-    - https://monoqloblog.com/pandaemoniumpurgatoryff14/
 
 # ────────────────────────────────────────────────────────
 # 要手動補完メモ

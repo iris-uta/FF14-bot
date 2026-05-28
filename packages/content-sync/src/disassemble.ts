@@ -19,7 +19,6 @@ export function disassembleContents(contents: Content[]): SheetData {
     tips: [],
     macros: [],
     templates: [],
-    references: [],
   };
 
   // Sort by patch + id so rows have a stable order (helps git diffs after re-export)
@@ -37,7 +36,6 @@ export function disassembleContents(contents: Content[]): SheetData {
       shortName: c.shortName,
       type: c.type,
       patch: c.patch ?? "",
-      references_primary: c.references.primary ?? "",
       overview_main_strategy: c.overview?.mainStrategy ?? "",
       overview_playlist_title: c.overview?.videoPlaylist?.title ?? "",
       overview_playlist_url: c.overview?.videoPlaylist?.url ?? "",
@@ -112,9 +110,6 @@ export function disassembleContents(contents: Content[]): SheetData {
         variables: (t.variables ?? []).join(", "),
       });
     }
-    for (const url of c.references.urls) {
-      out.references.push({ content_id: c.id, url });
-    }
   }
 
   return out;
@@ -161,7 +156,7 @@ function escapeCsvCell(value: string): string {
 
 export const TAB_HEADERS: Record<keyof SheetData, string[]> = {
   contents: [
-    "id", "displayName", "shortName", "type", "patch", "references_primary",
+    "id", "displayName", "shortName", "type", "patch",
     "overview_main_strategy",
     "overview_playlist_title", "overview_playlist_url", "overview_playlist_author",
     "overview_macro_source", "overview_macro_url", "overview_macro_text",
@@ -174,5 +169,4 @@ export const TAB_HEADERS: Record<keyof SheetData, string[]> = {
   tips:        ["content_id", "phase_id", "tip"],
   macros:      ["content_id", "phase_id", "strategy_id", "source", "url", "text"],
   templates:   ["content_id", "template", "variables"],
-  references:  ["content_id", "url"],
 };

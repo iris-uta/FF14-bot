@@ -114,21 +114,6 @@ recruitmentTemplates:
 # ────────────────────────────────────────────────────────
 # 参考リンク
 # ────────────────────────────────────────────────────────
-references:
-  primary: Game8 (ゲームエイト) - 辺獄編零式2層 攻略丨マクロ
-  urls:
-    # Game8 攻略・マクロページ (第一参照)
-    - https://game8.jp/ff14/365105
-    # FF14 攻略の虎 - 辺獄編2層 (ヒッポカムポス)
-    - https://final-fantasy.cc/14/id/8/pan_hen_r2.php
-    # クローズドアルファ - P2S 各ジョブ必要 DPS
-    - https://closedalpha.com/ffxiv-guide/ffxiv-required-dps-hippokampos/
-    # パママ - 辺獄編2 攻略ガイド
-    - https://www.mtgames.jp/contents/FF14-RAID-002-PANDEMONIUM-1-2.html
-    # Aqua Cat - 辺獄編2層 スペスペ用タイムライン
-    - https://www.aquacat.work/entry/2022/01/05/055406
-    # Consolegameswiki - Asphodelos: The Second Circle (Savage)
-    - https://ffxiv.consolegameswiki.com/wiki/Asphodelos:_The_Second_Circle_(Savage)
 
 # ────────────────────────────────────────────────────────
 # 要手動補完メモ

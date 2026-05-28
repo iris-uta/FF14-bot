@@ -120,25 +120,6 @@ recruitmentTemplates:
 # ────────────────────────────────────────────────────────
 # 参考リンク
 # ────────────────────────────────────────────────────────
-references:
-  primary: Game8 (ゲームエイト) - ヘビー級零式1層 攻略丨マクロ
-  urls:
-    # Game8 攻略・マクロページ (第一参照)
-    - https://game8.jp/ff14/754895
-    # Lodestone 速報解説 (Nagi Hisakawa, 1層)
-    - https://na.finalfantasyxiv.com/lodestone/character/34025302/blog/5645091/
-    # Lodestone 軽減表 (Last Agous, 全層対応)
-    - https://na.finalfantasyxiv.com/lodestone/character/12440293/blog/5642585/
-    # 公式ニュース (ボスキャラクター情報・声優)
-    - https://jp.finalfantasy.com/news/5854
-    # Consolegameswiki - The Arcadion (英語、全層構造の確認)
-    - https://ffxiv.consolegameswiki.com/wiki/The_Arcadion
-    # ぬけまるG YouTube チャンネル
-    - https://www.youtube.com/@nukemarugames/videos
-    # うさねこ散歩 - パッチ7.4 零式まとめ
-    - https://next-innovation-fuk.com/2026/01/06/ff14-%E3%83%91%E3%83%83%E3%83%817-4-%E8%87%B3%E5%A4%A9%E3%81%AE%E5%BA%A7%E3%82%A2%E3%83%AB%E3%82%AB%E3%83%87%E3%82%A3%E3%82%A2%E9%9B%B6%E5%BC%8F/
-    # あせろぐ - patch 7.4 早期攻略用ギアセット
-    - https://asellog.com/il776-788/
 
 # ────────────────────────────────────────────────────────
 # 要手動補完メモ

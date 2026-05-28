@@ -155,25 +155,6 @@ recruitmentTemplates:
 # ────────────────────────────────────────────────────────
 # 参考リンク
 # ────────────────────────────────────────────────────────
-references:
-  primary: Game8 (ゲームエイト) - 天獄編零式3層 攻略丨マクロ
-  urls:
-    # Game8 攻略・マクロページ (第一参照)
-    - https://game8.jp/ff14/532825
-    # Consolegameswiki - Anabaseios: The Eleventh Circle (Savage) (英語)
-    - https://ffxiv.consolegameswiki.com/wiki/Anabaseios:_The_Eleventh_Circle_(Savage)
-    # Lodestone Manjyu Mazui - 天獄編の語句の元ネタまとめ (ボス名出典)
-    - https://na.finalfantasyxiv.com/lodestone/character/29231383/blog/5231433
-    # Lodestone Kama Boko - 天獄編零式3層 ハムカツさん マクロ
-    - https://jp.finalfantasyxiv.com/lodestone/character/32180468/blog/5233886/
-    # ぬけまるG YouTube - 天獄編3層 アニメーション解説 Zizie式
-    - https://www.youtube.com/watch?v=AsS4R1qYbGM
-    # ぬけまる攻略メモ - 天獄編零式3層
-    - https://nukemarugames.com/2023/06/03/%E2%80%BB%E6%94%BB%E7%95%A5%E3%83%A1%E3%83%A2%E6%BA%96%E5%82%99%E4%B8%AD%E3%80%90-ff14-%E8%A7%A3%E8%AA%AC-%E3%80%91%E5%A4%A9%E7%8D%84%E7%B7%A8%E9%9B%B6%E5%BC%8F3%E5%B1%A4-%E3%81%95%E3%82%89%E3%81%A3/
-    # 修正版動画
-    - https://www.youtube.com/watch?v=-EM-XR6qocU
-    # neko14 - 天獄編・3層攻略めも (タンク視点)
-    - https://neko14.com/2023/06/12/post-5861/
 
 # ────────────────────────────────────────────────────────
 # 要手動補完メモ

@@ -125,29 +125,6 @@ recruitmentTemplates:
 # ────────────────────────────────────────────────────────
 # 参考リンク
 # ────────────────────────────────────────────────────────
-references:
-  primary: Game8 (ゲームエイト) - クルーザー級零式1層 攻略丨マクロ
-  urls:
-    # Game8 攻略・マクロページ (第一参照)
-    - https://game8.jp/ff14/680424
-    # Lodestone 軽減表 (Last Agous, 全層対応)
-    - https://na.finalfantasyxiv.com/lodestone/character/12440293/blog/5540581/
-    # ファミ通 - キャラクター設定・声優紹介 (4層分掲載)
-    - https://www.famitsu.com/article/202505/42745
-    # Consolegameswiki - The Arcadion (英語、全層構造の確認)
-    - https://ffxiv.consolegameswiki.com/wiki/The_Arcadion
-    # ぬけまるG YouTube チャンネル
-    - https://www.youtube.com/@nukemarugames/videos
-    # さり 活動録 (note)
-    - https://note.com/srm_br/n/n942f8c325c9a
-    # にずしろブログ - ヒーラー視点クルーザー1層
-    - https://nizusiro.com/ff14/cruisers1/
-    # erSharifst - クルーザー1〜2層 所感
-    - https://www.ersharifst.com/2025/04/07/fsaasfgew/
-    # PLLまとめ (実装日告知)
-    - https://hkn-hkg2021.hatenablog.com/entry/2025/03/18/
-    # ファミ通 - パッチ7.2 PLL速報 (3月25日実装)
-    - https://www.famitsu.com/article/202503/36584
 
 # ────────────────────────────────────────────────────────
 # 要手動補完メモ

@@ -133,29 +133,6 @@ recruitmentTemplates:
 # ────────────────────────────────────────────────────────
 # 参考リンク
 # ────────────────────────────────────────────────────────
-references:
-  primary: Game8 (ゲームエイト) - アルカディア零式1層 攻略丨マクロ
-  urls:
-    # Game8 攻略・マクロページ (第一参照)
-    - https://game8.jp/ff14/630292
-    # Lodestone 1 画面マクロまとめ (Tam Atto, 1-4 層)
-    - https://na.finalfantasyxiv.com/lodestone/character/26820312/blog/5431856/
-    # Lodestone 軽減表まとめ (Last Agous note)
-    - https://note.com/lastagous/n/ncfcb027117fd
-    # Famitsu 公式設定画特集 (キャラクター肩書)
-    - https://www.famitsu.com/article/202505/42743
-    # Consolegameswiki - AAC Light-heavyweight M1 (Savage)
-    - https://ffxiv.consolegameswiki.com/wiki/AAC_Light-heavyweight_M1_(Savage)
-    # Consolegameswiki - The Arcadion (シリーズ全体)
-    - https://ffxiv.consolegameswiki.com/wiki/The_Arcadion
-    # ぬけまるG 解説ページ (1層)
-    - https://nukemarugames.com/2024/07/31/%E3%80%90-ff14-%E8%A7%A3%E8%AA%AC-%E3%80%91%E3%82%A2%E3%83%AB%E3%82%AB%E3%83%87%E3%82%A3%E3%82%A2%E9%9B%B6%E5%BC%8F%EF%BC%9A%E3%83%A9%E3%82%A4%E3%83%88%E3%83%98%E3%83%93%E3%83%BC%E7%B4%9A%E9%9B%B6-2/
-    # ぬけまるG YouTube チャンネル
-    - https://www.youtube.com/@nukemarugames/videos
-    # うさねこ散歩 - パッチ7.01 ライトヘビー級開放
-    - https://next-innovation-fuk.com/2024/07/16/ff14-7-01-%E8%87%B3%E5%A4%A9%E3%81%AE%E5%BA%A7%E3%82%A2%E3%83%AB%E3%82%AB%E3%83%87%E3%82%A3%E3%82%A2%EF%BC%9A%E3%83%A9%E3%82%A4%E3%83%88%E3%83%98%E3%83%93%E3%83%BC%E7%B4%9A-%E9%96%8B%E6%94%BE/
-    # ガッツの夜明け - ライトヘビー級1層攻略
-    - https://gutsdawn.com/2024/08/13/%E3%82%A2%E3%83%AB%E3%82%AB%E3%83%87%E3%82%A3%E3%82%A2%E9%9B%B6%E5%BC%8Flh%E7%B4%9A%EF%BC%91%E5%B1%A4/ff14/
 
 # ────────────────────────────────────────────────────────
 # 要手動補完メモ

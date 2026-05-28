@@ -158,23 +158,6 @@ recruitmentTemplates:
 # ────────────────────────────────────────────────────────
 # 参考リンク
 # ────────────────────────────────────────────────────────
-references:
-  primary: Game8 (ゲームエイト) - ヘビー級零式3層 攻略丨マクロ
-  urls:
-    # Game8 攻略・マクロページ (第一参照)
-    - https://game8.jp/ff14/755154
-    # Lodestone 速報解説 (Nagi Hisakawa, 3層)
-    - https://na.finalfantasyxiv.com/lodestone/character/34025302/blog/5645096
-    # Lodestone 軽減表 (Last Agous, 全層対応)
-    - https://na.finalfantasyxiv.com/lodestone/character/12440293/blog/5642585/
-    # タンク視点攻略メモ (Lilura/りるら)
-    - https://note.com/liroom/n/n348fbf3a5a30
-    # 公式ニュース (ボスキャラクター情報・声優)
-    - https://jp.finalfantasy.com/news/5854
-    # Consolegameswiki - The Arcadion
-    - https://ffxiv.consolegameswiki.com/wiki/The_Arcadion
-    # ぬけまるG YouTube チャンネル
-    - https://www.youtube.com/@nukemarugames/videos
 
 # ────────────────────────────────────────────────────────
 # 要手動補完メモ

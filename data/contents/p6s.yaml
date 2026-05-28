@@ -121,27 +121,6 @@ recruitmentTemplates:
 # ────────────────────────────────────────────────────────
 # 参考リンク
 # ────────────────────────────────────────────────────────
-references:
-  primary: Game8 (ゲームエイト) - 煉獄編零式2層 攻略丨マクロ
-  urls:
-    # Game8 攻略・マクロページ (第一参照)
-    - https://game8.jp/ff14/479307
-    # Consolegameswiki - The Sixth Circle (Savage) (英語)
-    - https://ffxiv.consolegameswiki.com/wiki/Abyssos:_The_Sixth_Circle_(Savage)
-    # Icy Veins - The Sixth Circle Savage Raid Guide
-    - https://www.icy-veins.com/ffxiv/the-sixth-circle-savage-raid-guide
-    # Fanbyte - P6S Cachexia Guide
-    - https://www.fanbyte.com/ffxiv/guides/ffxiv-p6s-guide-cachexia
-    # Lodestone - Shimaji Row 全層スプレッドシート + マクロ + 資料集
-    - https://na.finalfantasyxiv.com/lodestone/character/3285757/blog/5089241/
-    # Lodestone - Petiroi Magiroi P6S マクロ [Ilya 版]
-    - https://na.finalfantasyxiv.com/lodestone/character/7053586/blog/5108897/
-    # クローズドアルファ - 2層 各ジョブ必要DPS
-    - https://closedalpha.com/ffxiv-guide/ffxiv-pandemonium-p6s-dps/
-    # ぬけまるG YouTube チャンネル
-    - https://www.youtube.com/@nukemarugames/videos
-    # monoqloblog - 煉獄編マクロまとめ
-    - https://monoqloblog.com/pandaemoniumpurgatoryff14/
 
 # ────────────────────────────────────────────────────────
 # 要手動補完メモ

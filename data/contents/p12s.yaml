@@ -270,24 +270,6 @@ recruitmentTemplates:
 # ────────────────────────────────────────────────────────
 # 参考リンク
 # ────────────────────────────────────────────────────────
-references:
-  primary: Game8 (ゲームエイト) - 天獄編零式4層前半/後半 攻略丨マクロ
-  urls:
-    # Game8 攻略・マクロページ (第一参照)
-    - https://game8.jp/ff14/534748           # 4層前半
-    - https://game8.jp/ff14/535668           # 4層後半
-    # Consolegameswiki - Anabaseios: The Twelfth Circle (Savage) (英語)
-    - https://ffxiv.consolegameswiki.com/wiki/Anabaseios:_The_Twelfth_Circle_(Savage)
-    # Lodestone Manjyu Mazui - 天獄編の語句の元ネタまとめ (ボス名出典)
-    - https://na.finalfantasyxiv.com/lodestone/character/29231383/blog/5231433
-    # Aether PF Strats - P12S (英語、流派整理)
-    - https://www.thepfstrat.com/p12s
-    # ARUTORA - P12S 前半 図解解説
-    - https://arutora.com/26312
-    # ARUTORA - P12S 後半 図解解説 (イデア / カロリック)
-    - https://arutora.com/26427
-    # ぬけまるG YouTube チャンネル
-    - https://www.youtube.com/@nukemarugames/videos
 
 # ────────────────────────────────────────────────────────
 # 要手動補完メモ

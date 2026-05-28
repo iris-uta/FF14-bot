@@ -42,7 +42,3 @@ recruitmentTemplates:
       進行度: {{progress}}
     variables: [contentName, schedule, progress]
 
-references:
-  primary: りりーどーる
-  urls:
-    - https://...
