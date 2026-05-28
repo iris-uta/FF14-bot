@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { renderMarkdownFile } from "@/lib/markdown";
 
 export const metadata: Metadata = {
-  title: "免責事項 — FF14 固定支援 Bot",
-  description: "FF14 固定支援 Bot の免責事項。Square Enix 非公式宣言、情報の正確性等。",
+  title: "免責事項 — 固定支援Bot",
+  description: "固定支援Bot の免責事項。Square Enix 非公式宣言、情報の正確性等。",
 };
 
 export default function DisclaimerPage() {

@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "使い方ガイド — FF14 固定支援 Bot",
+  title: "使い方ガイド — 固定支援Bot",
   description:
-    "FF14 固定支援 Bot の全コマンド (固定作成/予定/投票/進行記録/募集) の使い方ガイド。",
+    "固定支援Bot の全コマンド (固定作成/予定/投票/進行記録/募集) の使い方ガイド。",
 };
 
 interface CommandDef {

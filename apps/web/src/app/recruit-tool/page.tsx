@@ -4,7 +4,7 @@ import { loadAllContents, type Content } from "@ff14kotei/schema";
 import { RecruitToolForm, type ContentSummary } from "./RecruitToolForm";
 
 export const metadata: Metadata = {
-  title: "募集テンプレジェネレーター — FF14 固定支援 Bot",
+  title: "募集テンプレジェネレーター — 固定支援Bot",
   description:
     "Lodestone / Twitter / Discord 用の募集テンプレを変数置換で生成。Discord 不要、ブラウザだけで完結。",
 };

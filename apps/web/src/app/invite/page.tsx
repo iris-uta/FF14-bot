@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "サーバーに追加 — FF14 固定支援 Bot",
-  description: "Discord サーバーに FF14 固定支援 Bot を追加する手順。必要な権限と初期設定の解説。",
+  title: "サーバーに追加 — 固定支援Bot",
+  description: "Discord サーバーに 固定支援Bot を追加する手順。必要な権限と初期設定の解説。",
 };
 
 /**

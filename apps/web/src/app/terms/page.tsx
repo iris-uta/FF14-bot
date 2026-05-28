@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { renderMarkdownFile } from "@/lib/markdown";
 
 export const metadata: Metadata = {
-  title: "利用規約 — FF14 固定支援 Bot",
+  title: "利用規約 — 固定支援Bot",
 };
 
 export default function TermsPage() {
