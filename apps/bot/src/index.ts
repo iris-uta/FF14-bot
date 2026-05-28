@@ -31,6 +31,7 @@ import { handleVoteButton } from "./services/vote-interaction";
 import { handleVoteModalSubmit, MODAL_PREFIX as VOTE_MODAL_PREFIX } from "./services/vote-modal-submit";
 import { handleChouseisanPick, SELECT_PREFIX as CHOUSEISAN_SELECT_PREFIX } from "./services/chouseisan-interaction";
 import { postWelcomeToGuild } from "./services/welcome";
+import { postMemberWelcome, handleRolePickButton, ROLE_PICK_PREFIX } from "./services/member-welcome";
 import { startHealthServer, stopHealthServer, type HealthState } from "./health-server";
 
 const token = process.env.DISCORD_TOKEN;
@@ -49,7 +50,14 @@ getDb();
 console.log("DB initialized (migrations applied)");
 
 const client = new Client({
-  intents: [GatewayIntentBits.Guilds],
+  intents: [
+    GatewayIntentBits.Guilds,
+    // Required for Events.GuildMemberAdd (member welcome flow).
+    // Must ALSO be enabled in the Discord Developer Portal → Privileged Gateway
+    // Intents → Server Members Intent. Without that toggle, the event silently
+    // never fires (Discord doesn't error on connect).
+    GatewayIntentBits.GuildMembers,
+  ],
 });
 
 // Guard: GuildCreate fires for ALL guilds during bot startup (initial sync),
@@ -81,6 +89,14 @@ client.on(Events.GuildCreate, async (guild) => {
   } catch (err) {
     console.error(`Failed to post welcome to ${guild.name}:`, err);
   }
+});
+
+// Per-member welcome: post a 8-button role picker when someone joins.
+// Requires `GuildMembers` intent (declared above) PLUS the Server Members
+// privileged intent toggled in the Discord Developer Portal.
+client.on(Events.GuildMemberAdd, async (member) => {
+  console.log(`Member joined: ${member.user.tag} in ${member.guild.name}`);
+  await postMemberWelcome(member);
 });
 
 client.once(Events.ClientReady, (c) => {
@@ -186,6 +202,24 @@ client.on(Events.InteractionCreate, async (interaction) => {
           await interaction.reply(reply);
         }
       }
+      return;
+    }
+    if (interaction.customId.startsWith(ROLE_PICK_PREFIX)) {
+      try {
+        await handleRolePickButton(interaction);
+      } catch (err) {
+        console.error("Error handling role-pick button:", err);
+        const reply: InteractionReplyOptions = {
+          content: "ロール付与中にエラーが発生しました。",
+          flags: MessageFlags.Ephemeral,
+        };
+        if (interaction.replied || interaction.deferred) {
+          await interaction.followUp(reply);
+        } else {
+          await interaction.reply(reply);
+        }
+      }
+      return;
     }
     return;
   }
