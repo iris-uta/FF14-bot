@@ -14,9 +14,20 @@ describe("/dev-test command — shape", () => {
     );
   });
 
-  it("has 'create', 'cleanup', 'list' subcommands", () => {
+  it("has 'create', 'cleanup', 'list', 'wipe-all-statics' subcommands", () => {
     const names = data.toJSON().options?.map((o: { name: string }) => o.name);
-    expect(names).toEqual(expect.arrayContaining(["create", "cleanup", "list"]));
+    expect(names).toEqual(
+      expect.arrayContaining(["create", "cleanup", "list", "wipe-all-statics"])
+    );
+  });
+
+  it("'wipe-all-statics' has optional 'confirm' boolean (default false → preview)", () => {
+    const sub = data.toJSON().options?.find((o: { name: string }) => o.name === "wipe-all-statics") as
+      | { options?: { name: string; type?: number; required?: boolean }[] }
+      | undefined;
+    const confirm = sub?.options?.find((o) => o.name === "confirm");
+    expect(confirm?.type).toBe(5); // BOOLEAN
+    expect(confirm?.required).toBeFalsy();
   });
 
   it("'create' has optional 'filter' string option", () => {

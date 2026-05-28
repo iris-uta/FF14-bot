@@ -68,6 +68,24 @@ export const data = new SlashCommandBuilder()
       .setNameLocalizations({ ja: "一覧" })
       .setDescription("このサーバーの [dev-test] static を一覧表示")
       .setDescriptionLocalizations({ ja: "このサーバーの [dev-test] static を一覧表示" })
+  )
+  .addSubcommand((sub) =>
+    sub
+      .setName("wipe-all-statics")
+      .setNameLocalizations({ ja: "全削除" })
+      .setDescription(
+        "(危険) このサーバーの 全 static + 関連 channel + role を一括削除"
+      )
+      .setDescriptionLocalizations({
+        ja: "(危険) このサーバーの 全 static + 関連 channel + role を一括削除",
+      })
+      .addBooleanOption((opt) =>
+        opt
+          .setName("confirm")
+          .setNameLocalizations({ ja: "確認" })
+          .setDescription("true で実行 (省略時は preview のみ — 削除されない)")
+          .setDescriptionLocalizations({ ja: "true で実行 (省略時は preview のみ — 削除されない)" })
+      )
   );
 
 export async function execute(interaction: ChatInputCommandInteraction): Promise<void> {
@@ -83,6 +101,7 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
   if (sub === "create") return handleCreate(interaction);
   if (sub === "cleanup") return handleCleanup(interaction);
   if (sub === "list") return handleList(interaction);
+  if (sub === "wipe-all-statics") return handleWipeAll(interaction);
   await interaction.reply({
     content: `Unknown subcommand: ${sub}`,
     flags: MessageFlags.Ephemeral,
@@ -227,6 +246,78 @@ async function handleList(interaction: ChatInputCommandInteraction): Promise<voi
     content: `**[dev-test] static 一覧 (${testStatics.length})**:\n${truncate(lines.join("\n"), 1800)}`,
     flags: MessageFlags.Ephemeral,
   });
+}
+
+/**
+ * /dev-test wipe-all-statics — delete ALL statics (any prefix) in this guild.
+ *
+ * Two-step: preview without `confirm:true`, execute with `confirm:true`.
+ * This is intentionally not button-confirmed: we want the user to type
+ * `confirm:true` so accidental clicks (e.g. from a re-run) don't nuke data.
+ */
+async function handleWipeAll(interaction: ChatInputCommandInteraction): Promise<void> {
+  const guild = interaction.guild!;
+  const confirm = interaction.options.getBoolean("confirm") ?? false;
+  const all = listStaticsInGuild(guild.id);
+
+  if (all.length === 0) {
+    await interaction.reply({
+      content: "削除対象の static はありません (このサーバーに 0 件)。",
+      flags: MessageFlags.Ephemeral,
+    });
+    return;
+  }
+
+  // Preview mode: list what would be deleted, do nothing
+  if (!confirm) {
+    const previewLines = all.map((s) => {
+      const isTest = s.name.startsWith(TEST_PREFIX);
+      const tag = isTest ? "🧪" : "⚠️ ";
+      return `${tag} ${s.name} (\`${s.id.slice(0, 8)}\`)`;
+    });
+    await interaction.reply({
+      content: [
+        `**⚠️ 削除プレビュー — ${all.length} 件の static**`,
+        ``,
+        `以下を category + 子 channels + role + DB すべて削除します:`,
+        truncate(previewLines.join("\n"), 1500),
+        ``,
+        `**実行するには**: \`/dev-test wipe-all-statics confirm:true\` を再実行`,
+        `(\`🧪\` = [dev-test] prefix、 \`⚠️\` = 通常の static)`,
+      ].join("\n"),
+      flags: MessageFlags.Ephemeral,
+    });
+    return;
+  }
+
+  // Execute mode: actually delete
+  await interaction.deferReply({ flags: MessageFlags.Ephemeral });
+  const results: string[] = [];
+  let removed = 0;
+  let failed = 0;
+  const startedAt = Date.now();
+
+  for (const s of all) {
+    try {
+      await deleteStaticAndChannels(guild, s.id, s.categoryId, s.roleId);
+      results.push(`🗑️  ${s.name}`);
+      removed++;
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      results.push(`❌ ${s.name}: ${msg.slice(0, 60)}`);
+      failed++;
+    }
+    if (results.length % 5 === 0 && results.length < all.length) {
+      await interaction.editReply(
+        `**進捗 ${results.length}/${all.length}** (🗑️${removed} ❌${failed})\n${truncate(results.join("\n"), 1700)}`
+      );
+    }
+  }
+
+  const elapsed = Math.round((Date.now() - startedAt) / 1000);
+  await interaction.editReply(
+    `**全削除完了 (${elapsed}s)**: 🗑️${removed} 削除 / ❌${failed} 失敗\n${truncate(results.join("\n"), 1800)}`
+  );
 }
 
 /**
