@@ -249,15 +249,19 @@ client.on(Events.InteractionCreate, async (interaction) => {
       try {
         await handleBookWizardButton(interaction);
       } catch (err) {
-        console.error("Error handling book wizard button:", err);
+        const detail = err instanceof Error ? `${err.name}: ${err.message}` : String(err);
+        console.error(
+          `[book-wizard] button error customId=${interaction.customId}:`,
+          err
+        );
         const reply: InteractionReplyOptions = {
-          content: "book ウィザード処理中にエラーが発生しました。",
+          content: `book ウィザード処理中にエラーが発生しました。\n\`\`\`${detail.slice(0, 500)}\`\`\``,
           flags: MessageFlags.Ephemeral,
         };
         if (interaction.replied || interaction.deferred) {
-          await interaction.followUp(reply);
+          await interaction.followUp(reply).catch(() => {});
         } else {
-          await interaction.reply(reply);
+          await interaction.reply(reply).catch(() => {});
         }
       }
       return;
@@ -304,15 +308,19 @@ client.on(Events.InteractionCreate, async (interaction) => {
       try {
         await handleBookWizardSelect(interaction);
       } catch (err) {
-        console.error("Error handling book wizard select:", err);
+        const detail = err instanceof Error ? `${err.name}: ${err.message}` : String(err);
+        console.error(
+          `[book-wizard] select error customId=${interaction.customId}:`,
+          err
+        );
         const reply: InteractionReplyOptions = {
-          content: "book ウィザード処理中にエラーが発生しました。",
+          content: `book ウィザード処理中にエラーが発生しました。\n\`\`\`${detail.slice(0, 500)}\`\`\``,
           flags: MessageFlags.Ephemeral,
         };
         if (interaction.replied || interaction.deferred) {
-          await interaction.followUp(reply);
+          await interaction.followUp(reply).catch(() => {});
         } else {
-          await interaction.reply(reply);
+          await interaction.reply(reply).catch(() => {});
         }
       }
     }
