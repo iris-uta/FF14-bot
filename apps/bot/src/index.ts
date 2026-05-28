@@ -32,6 +32,11 @@ import { handleVoteModalSubmit, MODAL_PREFIX as VOTE_MODAL_PREFIX } from "./serv
 import { handleChouseisanPick, SELECT_PREFIX as CHOUSEISAN_SELECT_PREFIX } from "./services/chouseisan-interaction";
 import { handleWizardButton, handleWizardSelect } from "./services/setup-wizard-interaction";
 import { WIZARD_PREFIX } from "./services/setup-wizard";
+import {
+  handleBookWizardButton,
+  handleBookWizardSelect,
+} from "./services/book-wizard-interaction";
+import { BOOK_WIZARD_PREFIX } from "./services/book-wizard";
 import { postWelcomeToGuild } from "./services/welcome";
 import { postMemberWelcome, handleRolePickButton, ROLE_PICK_PREFIX } from "./services/member-welcome";
 import { startHealthServer, stopHealthServer, type HealthState } from "./health-server";
@@ -240,6 +245,27 @@ client.on(Events.InteractionCreate, async (interaction) => {
       }
       return;
     }
+    if (interaction.customId.startsWith(BOOK_WIZARD_PREFIX)) {
+      try {
+        await handleBookWizardButton(interaction);
+      } catch (err) {
+        const detail = err instanceof Error ? `${err.name}: ${err.message}` : String(err);
+        console.error(
+          `[book-wizard] button error customId=${interaction.customId}:`,
+          err
+        );
+        const reply: InteractionReplyOptions = {
+          content: `book ウィザード処理中にエラーが発生しました。\n\`\`\`${detail.slice(0, 500)}\`\`\``,
+          flags: MessageFlags.Ephemeral,
+        };
+        if (interaction.replied || interaction.deferred) {
+          await interaction.followUp(reply).catch(() => {});
+        } else {
+          await interaction.reply(reply).catch(() => {});
+        }
+      }
+      return;
+    }
     return;
   }
 
@@ -274,6 +300,27 @@ client.on(Events.InteractionCreate, async (interaction) => {
           await interaction.followUp(reply);
         } else {
           await interaction.reply(reply);
+        }
+      }
+      return;
+    }
+    if (interaction.customId.startsWith(BOOK_WIZARD_PREFIX)) {
+      try {
+        await handleBookWizardSelect(interaction);
+      } catch (err) {
+        const detail = err instanceof Error ? `${err.name}: ${err.message}` : String(err);
+        console.error(
+          `[book-wizard] select error customId=${interaction.customId}:`,
+          err
+        );
+        const reply: InteractionReplyOptions = {
+          content: `book ウィザード処理中にエラーが発生しました。\n\`\`\`${detail.slice(0, 500)}\`\`\``,
+          flags: MessageFlags.Ephemeral,
+        };
+        if (interaction.replied || interaction.deferred) {
+          await interaction.followUp(reply).catch(() => {});
+        } else {
+          await interaction.reply(reply).catch(() => {});
         }
       }
     }

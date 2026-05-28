@@ -2,33 +2,33 @@ import {
   SlashCommandBuilder,
   MessageFlags,
   ChannelType,
-  EmbedBuilder,
   PermissionFlagsBits,
   type ChatInputCommandInteraction,
   type AutocompleteInteraction,
 } from "discord.js";
 import { randomUUID } from "node:crypto";
-import { schedules } from "@ff14kotei/db";
-import { getDb } from "../lib/db";
-import { parseJstDateTime, formatDiscordTime } from "../services/datetime";
 import { respondContentOrPhase } from "../services/autocomplete";
 import { findStaticForChannel } from "../services/static-manager";
+import {
+  BOOK_WIZARD_PREFIX as _UNUSED_PREFIX,
+  DEFAULT_TIME,
+  buildBookStepMessage,
+  putBookWizard,
+  type BookWizardState,
+} from "../services/book-wizard";
+
+// Prefix import is for grep/discoverability — actual prefix routing lives in index.ts
+void _UNUSED_PREFIX;
 
 export const data = new SlashCommandBuilder()
   .setName("book")
   .setNameLocalizations({ ja: "予定登録" })
-  .setDescription("固定活動の予定を登録 (開始N分前に通知)")
-  .setDescriptionLocalizations({ ja: "固定活動の予定を登録 (開始 N 分前に自動通知)" })
+  .setDescription("固定活動の予定を登録 (ウィザード形式、 複数日対応)")
+  .setDescriptionLocalizations({
+    ja: "固定活動の予定を登録 (ウィザード形式、 複数日対応)",
+  })
   .setDefaultMemberPermissions(PermissionFlagsBits.ManageEvents)
-  .addStringOption((opt) =>
-    opt
-      .setName("when")
-      .setNameLocalizations({ ja: "日時" })
-      .setDescription("開始時刻 (JST、例: 2025-06-01 21:00)")
-      .setDescriptionLocalizations({ ja: "開始時刻 (JST、例: 2025-06-01 21:00)" })
-      .setRequired(true)
-      .setMaxLength(40)
-  )
+  // ── Optional metadata; date/time picked via wizard ───────────────────────
   .addChannelOption((opt) =>
     opt
       .setName("channel")
@@ -69,7 +69,9 @@ export const data = new SlashCommandBuilder()
       .setName("mention")
       .setNameLocalizations({ ja: "メンション" })
       .setDescription("通知時のメンション (例: @here、固定 channel なら role 自動)")
-      .setDescriptionLocalizations({ ja: "通知時のメンション (例: @here、固定 channel なら role 自動)" })
+      .setDescriptionLocalizations({
+        ja: "通知時のメンション (例: @here、固定 channel なら role 自動)",
+      })
       .setMaxLength(200)
   )
   .addStringOption((opt) =>
@@ -102,27 +104,9 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
     return;
   }
 
-  const whenInput = interaction.options.getString("when", true);
-  const startsAt = parseJstDateTime(whenInput);
-  if (startsAt === null) {
-    await interaction.reply({
-      content: `日時の形式が不正です: \`${whenInput}\`\n例: \`2025-06-01 21:00\` (JST)`,
-      flags: MessageFlags.Ephemeral,
-    });
-    return;
-  }
-
-  const now = Date.now();
-  if (startsAt <= now) {
-    await interaction.reply({
-      content: `過去の日時は登録できません: ${formatDiscordTime(startsAt)}`,
-      flags: MessageFlags.Ephemeral,
-    });
-    return;
-  }
-
-  const channel = interaction.options.getChannel("channel") ?? interaction.channel;
-  if (!channel || !("id" in channel)) {
+  // Where do we post the alert? Falls back to where the command was invoked.
+  const targetChannel = interaction.options.getChannel("channel") ?? interaction.channel;
+  if (!targetChannel || !("id" in targetChannel)) {
     await interaction.reply({
       content: "通知先チャネルが特定できません。",
       flags: MessageFlags.Ephemeral,
@@ -130,23 +114,23 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
     return;
   }
 
-  let contentId = interaction.options.getString("content");
-  const phaseId = interaction.options.getString("phase");
-  const notifyMinutesBefore = interaction.options.getInteger("notify_minutes_before") ?? 10;
-  let mention = interaction.options.getString("mention");
-  const note = interaction.options.getString("note");
-  const chouseisanUrl = interaction.options.getString("chouseisan_url");
+  let contentId = interaction.options.getString("content") ?? undefined;
+  const phaseId = interaction.options.getString("phase") ?? undefined;
+  const notifyMinutesBefore =
+    interaction.options.getInteger("notify_minutes_before") ?? 10;
+  let mention = interaction.options.getString("mention") ?? undefined;
+  const note = interaction.options.getString("note") ?? undefined;
+  const chouseisanUrl = interaction.options.getString("chouseisan_url") ?? undefined;
 
   if (chouseisanUrl && !isHttpsUrl(chouseisanUrl)) {
     await interaction.reply({
-      content: `chouseisan_url は \`https://\` で始まる URL を指定してください。`,
+      content: "chouseisan_url は `https://` で始まる URL を指定してください。",
       flags: MessageFlags.Ephemeral,
     });
     return;
   }
 
-  // Auto-detect static from the channel where the command was invoked
-  // (NOT the target `channel` option — we want the *current* context to anchor the static).
+  // Auto-detect static from the channel where the command was invoked.
   const invokedChannel = interaction.channel;
   const invokedParentId =
     invokedChannel && "parentId" in invokedChannel ? invokedChannel.parentId : null;
@@ -154,70 +138,38 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
     ? findStaticForChannel(interaction.guildId, invokedChannel.id, invokedParentId)
     : null;
 
-  let autoDetectedNotes: string[] = [];
   if (owningStatic) {
-    // Auto-fill content from static (if not explicitly set)
-    if (!contentId) {
-      contentId = owningStatic.contentId;
-      autoDetectedNotes.push(`コンテンツ: ${contentId} (固定 channel から)`);
-    }
-    // Auto-fill mention with static role (if not explicitly set)
-    if (!mention) {
-      mention = `<@&${owningStatic.roleId}>`;
-      autoDetectedNotes.push(`メンション: 固定 role (${owningStatic.name})`);
-    }
+    if (!contentId) contentId = owningStatic.contentId;
+    if (!mention) mention = `<@&${owningStatic.roleId}>`;
   }
 
-  const id = randomUUID();
-  const db = getDb();
-  db.insert(schedules)
-    .values({
-      id,
-      guildId: interaction.guildId,
-      channelId: channel.id,
-      contentId,
-      phaseId,
-      startsAt,
-      notifyMinutesBefore,
-      mention,
-      note,
-      chouseisanUrl,
-      staticId: owningStatic?.id ?? null,
-      createdAt: now,
-      createdBy: interaction.user.id,
-    })
-    .run();
+  const state: BookWizardState = {
+    sessionId: randomUUID(),
+    creatorId: interaction.user.id,
+    guildId: interaction.guildId,
+    channelId: targetChannel.id,
+    contentId,
+    phaseId,
+    mention,
+    note,
+    chouseisanUrl,
+    staticId: owningStatic?.id,
+    notifyMinutesBefore,
+    weekOffset: 0,
+    selectedDates: [],
+    defaultTime: DEFAULT_TIME,
+    timeByDate: {},
+    step: "pickDates",
+    createdAt: Date.now(),
+  };
+  putBookWizard(state);
 
-  const notifyAt = startsAt - notifyMinutesBefore * 60_000;
-
-  const embed = new EmbedBuilder()
-    .setTitle("📅 予定を登録しました")
-    .setColor(0x6e85b7)
-    .addFields(
-      { name: "ID", value: `\`${id}\``, inline: false },
-      { name: "開始", value: `${formatDiscordTime(startsAt)} (${formatDiscordTime(startsAt, "R")})`, inline: false },
-      { name: "通知先", value: `<#${channel.id}>`, inline: true },
-      { name: "通知時刻", value: `${formatDiscordTime(notifyAt)} (${notifyMinutesBefore}分前)`, inline: true }
-    );
-
-  if (contentId) embed.addFields({ name: "コンテンツ", value: contentId, inline: true });
-  if (phaseId) embed.addFields({ name: "Phase", value: phaseId, inline: true });
-  if (note) embed.addFields({ name: "メモ", value: note, inline: false });
-  if (mention) embed.addFields({ name: "メンション", value: mention, inline: false });
-  if (chouseisanUrl) {
-    embed.addFields({
-      name: isChouseisanUrl(chouseisanUrl) ? "調整さん" : "日程調整",
-      value: chouseisanUrl,
-      inline: false,
-    });
-  }
-  if (autoDetectedNotes.length > 0) {
-    embed.setFooter({
-      text: `🪄 自動検出: ${autoDetectedNotes.join(" / ")}`,
-    });
-  }
-
-  await interaction.reply({ embeds: [embed] });
+  const msg = buildBookStepMessage(state, Date.now());
+  await interaction.reply({
+    embeds: msg.embeds,
+    components: msg.components,
+    flags: MessageFlags.Ephemeral,
+  });
 }
 
 function isHttpsUrl(s: string): boolean {
@@ -228,6 +180,7 @@ function isHttpsUrl(s: string): boolean {
   }
 }
 
+/** Kept for /upcoming embed coloring — old export, still imported elsewhere. */
 export function isChouseisanUrl(s: string): boolean {
   try {
     return new URL(s).hostname.endsWith("chouseisan.com");

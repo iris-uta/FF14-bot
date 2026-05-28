@@ -8,15 +8,22 @@ export const metadata: Metadata = {
 
 /**
  * Discord OAuth invite URL.
- * permissions = 268921872 = Manage Channels + Manage Roles + Manage Messages
- *               + Send Messages + Embed Links + Attach Files + Read Message History
- *               + Mention Everyone + Add Reactions + Use External Emojis
+ * permissions = 8858889296 (bigint OK in URL; safe-int range)
+ *   = Manage Channels + Manage Roles + Manage Messages + Send Messages
+ *   + Embed Links + Attach Files + Read Message History + Mention Everyone
+ *   + Add Reactions + Use External Emojis
+ *   + **Manage Events** (bit 33 — required for /book wizard to create
+ *     Discord scheduled events on the server's Events panel)
  *
  * client_id = AUTH_DISCORD_ID (Application ID, public)
+ *
+ * NOTE: bots invited with the previous integer (268921872) lack ManageEvents.
+ * Either re-invite via this URL OR add "Manage Events" to the bot role
+ * manually in Server Settings → Roles → 固定支援Bot → Permissions.
  */
 const INVITE_URL =
   process.env.NEXT_PUBLIC_DISCORD_INVITE_URL ??
-  "https://discord.com/oauth2/authorize?client_id=YOUR_BOT_CLIENT_ID&scope=bot+applications.commands&permissions=268921872";
+  "https://discord.com/oauth2/authorize?client_id=YOUR_BOT_CLIENT_ID&scope=bot+applications.commands&permissions=8858889296";
 
 export default function InvitePage() {
   return (
@@ -56,6 +63,7 @@ export default function InvitePage() {
           <PermItem name="メッセージを送信" desc="alert / phase intro / vote 投稿のため" />
           <PermItem name="埋め込みリンク" desc="embed 投稿のため" />
           <PermItem name="メンション @ everyone, role" desc="alert で role mention するため (実際には @everyone は使わない)" />
+          <PermItem name="イベントの管理" desc="/book で Discord 公式イベントを作成するため" />
         </ul>
         <p className="text-xs text-black/50 dark:text-white/50 mt-2">
           🛡️ Bot は自身が作成した role/channel しか操作しません。既存の物には影響しません。
