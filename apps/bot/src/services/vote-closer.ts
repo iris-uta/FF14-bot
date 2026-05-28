@@ -17,17 +17,21 @@ import {
   tallyCandidate,
 } from "./vote";
 
+import { makeSafeTick, type SafeTickRunner } from "../lib/safe-tick";
+
 export const TICK_INTERVAL_MS = 30_000;
 
 let timer: NodeJS.Timeout | null = null;
+let runner: SafeTickRunner | null = null;
 
 export function startVoteCloserWorker(client: Client): void {
   if (timer) return;
+  runner = makeSafeTick("vote-closer", () => tick(client));
   timer = setInterval(() => {
-    void tick(client);
+    void runner!.run();
   }, TICK_INTERVAL_MS);
   // Run once immediately so startup catches anything that expired while bot was offline
-  void tick(client);
+  void runner.run();
 }
 
 export function stopVoteCloserWorker(): void {
@@ -35,6 +39,14 @@ export function stopVoteCloserWorker(): void {
     clearInterval(timer);
     timer = null;
   }
+}
+
+export function waitForVoteCloser(): Promise<void> {
+  return runner?.waitForCurrentTick() ?? Promise.resolve();
+}
+
+export function getVoteCloserRunner(): SafeTickRunner | null {
+  return runner;
 }
 
 export async function tick(client: Client, now: number = Date.now()): Promise<void> {

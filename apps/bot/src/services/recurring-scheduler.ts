@@ -19,6 +19,7 @@ import {
   type NewRecurringSchedule,
 } from "@ff14kotei/db";
 import { getDb } from "../lib/db";
+import { makeSafeTick, type SafeTickRunner } from "../lib/safe-tick";
 
 /** Tick once an hour. The window of "what to schedule" is ~7 days ahead. */
 export const TICK_INTERVAL_MS = 60 * 60_000;
@@ -28,13 +29,17 @@ export const LOOKAHEAD_MS = 7 * 24 * 60 * 60_000;
 export const DEDUP_WINDOW_MS = 60 * 60_000;
 
 let timer: NodeJS.Timeout | null = null;
+let runner: SafeTickRunner | null = null;
 
 export function startRecurringScheduler(): void {
   if (timer) return;
+  runner = makeSafeTick("recurring-scheduler", async () => {
+    await tick();
+  });
   timer = setInterval(() => {
-    void tick();
+    void runner!.run();
   }, TICK_INTERVAL_MS);
-  void tick();
+  void runner.run();
 }
 
 export function stopRecurringScheduler(): void {
@@ -42,6 +47,10 @@ export function stopRecurringScheduler(): void {
     clearInterval(timer);
     timer = null;
   }
+}
+
+export function waitForRecurringScheduler(): Promise<void> {
+  return runner?.waitForCurrentTick() ?? Promise.resolve();
 }
 
 /**
