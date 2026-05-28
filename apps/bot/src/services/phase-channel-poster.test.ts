@@ -32,13 +32,50 @@ function makeChannel(sendImpl = vi.fn().mockResolvedValue({ id: "msg" })) {
 // ── buildPhaseEmbed ─────────────────────────────────────────────────────────
 
 describe("buildPhaseEmbed — variant: intro (default)", () => {
-  it("shows popularStrategy as a 'description' line if set", () => {
+  it("shows popularStrategy as 野良主流 line when strategies is empty (= phase summary)", () => {
     const content = makeContent({
       phases: [{ id: "p1", name: "P1", order: 1, popularStrategy: "ヤークト無視 + サイコロ 1211", videos: [], strategies: [], tips: [] }]
     });
     const data = buildPhaseEmbed(content, content.phases[0]).toJSON();
     expect(data.description).toContain("野良主流");
     expect(data.description).toContain("ヤークト無視 + サイコロ 1211");
+  });
+
+  it("HIDES popularStrategy line when exactly 1 strategy exists (avoids duplication)", () => {
+    // With 1 strategy, the "処理法" field below shows it; the "野良主流: X" line
+    // up top would just duplicate the same info.
+    const content = makeContent({
+      phases: [{
+        id: "p1", name: "P1", order: 1,
+        popularStrategy: "アスト式で OK",
+        videos: [],
+        strategies: [{ id: "ast", name: "アスト式", popular: true }],
+        tips: []
+      }]
+    });
+    const data = buildPhaseEmbed(content, content.phases[0]).toJSON();
+    expect(data.description).toBeUndefined(); // no description block at all
+    // The strategy itself is still shown in the 処理法 field
+    const fieldNames = data.fields?.map((f) => f.name) ?? [];
+    expect(fieldNames).toContain("処理法");
+  });
+
+  it("SHOWS popularStrategy line when 2+ strategies exist (points to野良主流 variant)", () => {
+    const content = makeContent({
+      phases: [{
+        id: "p1", name: "P1", order: 1,
+        popularStrategy: "アスト式が多い",
+        videos: [],
+        strategies: [
+          { id: "ast", name: "アスト式", popular: true },
+          { id: "cross", name: "十字式", popular: false }
+        ],
+        tips: []
+      }]
+    });
+    const data = buildPhaseEmbed(content, content.phases[0]).toJSON();
+    expect(data.description).toContain("野良主流");
+    expect(data.description).toContain("アスト式が多い");
   });
 
   it("omits description even if phase.description is set (intro = compact)", () => {

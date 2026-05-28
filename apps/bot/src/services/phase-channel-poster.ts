@@ -57,6 +57,12 @@ export function buildPhaseEmbed(
   const selectedList = phase.strategies.filter((s) => selectedIds.has(s.id));
 
   // Top description: 選んだ処理法 (if any) > 野良主流 fallback, + description in full mode
+  //
+  // 「野良主流」 line is only meaningful when:
+  //   - 0 strategies (no variants defined) → use popularStrategy as a phase summary
+  //   - 2+ strategies → point users to which variant is the popular one
+  // When exactly 1 strategy exists, the "処理法" field below ALREADY shows it
+  // as THE answer, so a「野良主流: X」 line above just duplicates info.
   const descParts: string[] = [];
   if (selectedList.length > 0) {
     const lines = selectedList.map((s) => {
@@ -64,7 +70,7 @@ export function buildPhaseEmbed(
       return `• **${s.name}**${desc}`;
     });
     descParts.push(`**🎯 この固定の処理法**\n${lines.join("\n")}`);
-  } else if (phase.popularStrategy) {
+  } else if (phase.popularStrategy && phase.strategies.length !== 1) {
     descParts.push(`**野良主流**: ${phase.popularStrategy}`);
   }
   if (variant === "full" && phase.description) {
