@@ -275,21 +275,51 @@ async function runCreate(
 
   // 3) Done embed
   deleteBookWizard(state.sessionId);
+
+  // Detect the most common, user-actionable failure: missing ManageEvents.
+  const permError = eventResults.find(
+    (r) => !r.ok && r.error?.includes("ManageEvents")
+  );
+  const allEventsFailed = eventOkCount === 0 && rows.length > 0;
+
   const lines: string[] = [
-    `**${rows.length} 件の予定を登録しました。**`,
+    `**${rows.length} 件の予定を登録しました。** (Bot 通知)`,
     "",
     ...rows.map(
       (r) => `└ ${longDateLabel(r.dateKey)} ${r.time} — ${formatDiscordTime(r.startsAt, "R")}`
     ),
     "",
     `📣 通知先: <#${state.channelId}>`,
-    `⏰ 開始 ${state.notifyMinutesBefore} 分前に bot から通知 + ${eventOkCount}/${rows.length} 件を Discord イベントに登録${eventFailExample ? ` (一部失敗: ${eventFailExample.slice(0, 80)})` : ""}`,
+    `⏰ 開始 ${state.notifyMinutesBefore} 分前に bot から通知`,
   ];
-  if (state.chouseisanUrl) lines.push(`🔗 調整さん: ${state.chouseisanUrl}`);
+
+  if (eventOkCount === rows.length) {
+    lines.push(`📌 Discord 公式イベントにも ${eventOkCount} 件登録しました。`);
+  } else if (permError) {
+    lines.push(
+      "",
+      `⚠ **Discord 公式イベント登録には Bot に 「イベントの管理」 権限が必要です。**`,
+      `  Server Settings → Roles → 固定支援Bot → Permissions で `,
+      `  「**Manage Events / イベントの管理**」 を ON にしてから再 /book してください。`,
+      `  (bot 通知は問題なく届きます — 上の ${rows.length} 件は登録済み)`
+    );
+  } else if (allEventsFailed) {
+    lines.push(
+      "",
+      `⚠ Discord 公式イベント作成は全て失敗しました: ${eventFailExample?.slice(0, 120)}`,
+      `  bot 通知は問題なく届きます — 上の ${rows.length} 件は登録済み。`
+    );
+  } else if (eventFailExample) {
+    lines.push(
+      `📌 Discord 公式イベントに ${eventOkCount}/${rows.length} 件登録 (一部失敗: ${eventFailExample.slice(0, 80)})`
+    );
+  }
+
+  if (state.chouseisanUrl) lines.push("", `🔗 調整さん: ${state.chouseisanUrl}`);
 
   const done = new EmbedBuilder()
     .setTitle("✅ 予定登録完了")
-    .setColor(0x2ecc71)
+    .setColor(allEventsFailed && permError ? 0xf59e0b : 0x2ecc71)
     .setDescription(lines.join("\n").slice(0, 4096));
   await interaction.editReply({ embeds: [done], components: [] });
 }
