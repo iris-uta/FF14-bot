@@ -47,8 +47,12 @@ export interface InitStaticInput {
   content: Content;
   mode?: SetupMode;
   strategyId?: string;
-  /** Per-phase strategy choice from setup wizard. JSON-stringified to DB. */
-  phaseStrategies?: Record<string, string>;
+  /**
+   * Per-phase strategy choice from setup wizard. JSON-stringified to DB.
+   * Each phase may have multiple strategies (one per gimmick — e.g. TOP P3
+   * has 検知式 + ハローワールド independently).
+   */
+  phaseStrategies?: Record<string, string[]>;
   members?: MemberSpec[];
   // TODO Phase B: planId / plan slots
 }
@@ -267,7 +271,7 @@ export async function initStatic(input: InitStaticInput): Promise<InitStaticResu
     const result = await postPhaseToChannel(pc.channel, content, phase, {
       includeMacros: true,
       pin: true,
-      selectedStrategyId: phaseStrategies?.[phase.id],
+      selectedStrategyIds: phaseStrategies?.[phase.id],
     });
     if (result.ok) postedPhaseCount++;
     if (result.pinned) pinnedCount++;

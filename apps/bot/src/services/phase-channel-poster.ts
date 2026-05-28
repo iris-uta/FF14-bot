@@ -20,10 +20,13 @@ export interface BuildPhaseEmbedOptions {
   variant?: PhaseEmbedVariant;
   color?: number;
   /**
-   * Strategy ID chosen for THIS phase via the setup wizard. When set, the
-   * matching strategy is highlighted (✅ prefix) in the 処理法 list and shown
-   * as the description prefix.
+   * Strategy IDs chosen for THIS phase via the setup wizard. A phase can have
+   * multiple — one per independent gimmick (e.g. TOP P3 picks one of 検知式
+   * AND one of ハローワールド variants). All matched strategies are prefixed
+   * with ✅ and listed at the top of the description.
    */
+  selectedStrategyIds?: string[];
+  /** @deprecated single-strategy back-compat. Prefer `selectedStrategyIds`. */
   selectedStrategyId?: string;
 }
 
@@ -47,15 +50,20 @@ export function buildPhaseEmbed(
     .setTitle(`${phase.name} — ${content.displayName}`)
     .setColor(color);
 
-  const selected = opts.selectedStrategyId
-    ? phase.strategies.find((s) => s.id === opts.selectedStrategyId)
-    : undefined;
+  // Normalize: accept either selectedStrategyIds (preferred) or selectedStrategyId
+  const selectedIds = new Set<string>(
+    opts.selectedStrategyIds ?? (opts.selectedStrategyId ? [opts.selectedStrategyId] : [])
+  );
+  const selectedList = phase.strategies.filter((s) => selectedIds.has(s.id));
 
   // Top description: 選んだ処理法 (if any) > 野良主流 fallback, + description in full mode
   const descParts: string[] = [];
-  if (selected) {
-    descParts.push(`**🎯 この固定の処理法**: ${selected.name}` +
-      (selected.description ? ` — ${selected.description.split("\n")[0]}` : ""));
+  if (selectedList.length > 0) {
+    const lines = selectedList.map((s) => {
+      const desc = s.description ? ` — ${s.description.split("\n")[0]}` : "";
+      return `• **${s.name}**${desc}`;
+    });
+    descParts.push(`**🎯 この固定の処理法**\n${lines.join("\n")}`);
   } else if (phase.popularStrategy) {
     descParts.push(`**野良主流**: ${phase.popularStrategy}`);
   }
@@ -66,13 +74,13 @@ export function buildPhaseEmbed(
     embed.setDescription(descParts.join("\n\n").slice(0, 4096));
   }
 
-  // 処理法 — both variants. Selected strategy is prefixed with ✅
+  // 処理法 — both variants. Selected strategies are prefixed with ✅
   if (phase.strategies.length > 0) {
     embed.addFields({
       name: "処理法",
       value: phase.strategies
         .map((s) => {
-          const check = opts.selectedStrategyId === s.id ? "✅ " : "";
+          const check = selectedIds.has(s.id) ? "✅ " : "";
           const desc = s.description ? ` — ${s.description.split("\n")[0]}` : "";
           return `${check}**${s.name}**${desc}`;
         })
@@ -139,13 +147,20 @@ export async function postPhaseToChannel(
   channel: TextChannel,
   content: Content,
   phase: Phase,
-  options: { includeMacros?: boolean; pin?: boolean; selectedStrategyId?: string } = {}
+  options: {
+    includeMacros?: boolean;
+    pin?: boolean;
+    selectedStrategyIds?: string[];
+    /** @deprecated single-strategy back-compat. */
+    selectedStrategyId?: string;
+  } = {}
 ): Promise<PostPhaseResult> {
   const includeMacros = options.includeMacros ?? false;
   const shouldPin = options.pin ?? false;
 
   try {
     const embed = buildPhaseEmbed(content, phase, {
+      selectedStrategyIds: options.selectedStrategyIds,
       selectedStrategyId: options.selectedStrategyId,
     });
     const msg = await channel.send({ embeds: [embed] });

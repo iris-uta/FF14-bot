@@ -3,10 +3,12 @@ import { createDb } from "@ff14kotei/db";
 import { setDbForTesting, resetDb } from "../lib/db";
 import {
   WIZARD_PREFIX,
+  applyAdvancePhase,
   applyContentChoice,
   applyModeChoice,
   applyPopularDefaults,
   applyStrategyChoice,
+  applyStrategyModeChoice,
   applyTypeChoice,
   buildStepMessage,
   clearAllWizards,
@@ -19,6 +21,7 @@ import {
   putWizard,
   type WizardState,
 } from "./setup-wizard";
+import { getContentById } from "../lib/contents";
 
 beforeEach(() => {
   setDbForTesting(createDb({ path: ":memory:" }));
@@ -80,6 +83,24 @@ describe("parseWizardCustomId", () => {
     expect(r).toEqual({ sessionId: "sid-1", action: "content", payload: undefined });
   });
 
+  it("parses next action (advance to next phase, no payload)", () => {
+    const r = parseWizardCustomId(`${WIZARD_PREFIX}sid-1:next`);
+    expect(r).toEqual({ sessionId: "sid-1", action: "next", payload: undefined });
+  });
+
+  it("parses smode action (popular | custom)", () => {
+    expect(parseWizardCustomId(`${WIZARD_PREFIX}sid-1:smode:popular`)).toEqual({
+      sessionId: "sid-1",
+      action: "smode",
+      payload: "popular",
+    });
+    expect(parseWizardCustomId(`${WIZARD_PREFIX}sid-1:smode:custom`)).toEqual({
+      sessionId: "sid-1",
+      action: "smode",
+      payload: "custom",
+    });
+  });
+
   it("parses strat: action (phaseId + strategyId)", () => {
     const r = parseWizardCustomId(`${WIZARD_PREFIX}sid-1:strat:p3:ast-shiki`);
     expect(r).toEqual({
@@ -116,14 +137,34 @@ describe("nextStep", () => {
     expect(nextStep(makeState({ type: "ultimate", contentId: "fru" }))).toBe("pickMode");
   });
 
-  it("→ pickStrategy when multi-strategy phase still unanswered", () => {
-    // fru has multi-strategy phases (per real data); rely on real content loader
+  it("→ pickStrategyMode after pickMode when content has multi-strategy phases", () => {
+    // fru has multi-strategy phases (per real data). With strategyMode undefined,
+    // the user should first be asked how they want to decide strategies.
     const s = makeState({ type: "ultimate", contentId: "fru", mode: "standard" });
-    // No phaseStrategies set → at least the first multi-strategy phase needs answering
+    expect(nextStep(s)).toBe("pickStrategyMode");
+  });
+
+  it("→ pickStrategy in custom mode while cursor is inside the multi-strategy list", () => {
+    const s = makeState({
+      type: "ultimate",
+      contentId: "fru",
+      mode: "standard",
+      strategyMode: "custom",
+    });
     expect(nextStep(s)).toBe("pickStrategy");
   });
 
-  it("→ confirm when no multi-strategy phases remain", () => {
+  it("→ confirm in popular mode (no per-phase picker needed)", () => {
+    const s = makeState({
+      type: "ultimate",
+      contentId: "fru",
+      mode: "standard",
+      strategyMode: "popular",
+    });
+    expect(nextStep(s)).toBe("confirm");
+  });
+
+  it("→ confirm when no multi-strategy phases remain (skips strategy steps entirely)", () => {
     // Use a content with no multi-strategy phases (e.g., dmu has 1 phase, no variants)
     const s = makeState({ type: "ultimate", contentId: "dmu", mode: "standard" });
     expect(nextStep(s)).toBe("confirm");
@@ -143,22 +184,107 @@ describe("apply* state updaters", () => {
     expect(applyModeChoice(makeState(), "minimal").mode).toBe("minimal");
   });
 
-  it("applyStrategyChoice records + advances pendingPhaseIdx for the right phase", () => {
+  it("applyStrategyChoice toggles strategy in array (no auto-advance)", () => {
+    // Use real fru data — find the first multi-strategy phase + its first strategy.
+    const fru = getContentById("fru")!;
+    const multiPhases = fru.phases.filter((p) => p.strategies.length >= 2);
+    expect(multiPhases.length).toBeGreaterThan(0);
+    const firstPhase = multiPhases[0];
+    const firstStrat = firstPhase.strategies[0];
+
     const base = makeState({ type: "ultimate", contentId: "fru", mode: "standard" });
-    // The first multi-strategy phase of fru is p1 (based on real data)
-    // We don't hard-code the id here; instead, just check that picking SOME
-    // valid strategy moves pendingPhaseIdx forward only when phaseId matches.
+
+    // Add
+    const added = applyStrategyChoice(base, firstPhase.id, firstStrat.id);
+    expect(added.pendingPhaseIdx).toBe(0); // toggle does NOT advance
+    expect(added.phaseStrategies[firstPhase.id]).toEqual([firstStrat.id]);
+
+    // Remove (toggle off)
+    const removed = applyStrategyChoice(added, firstPhase.id, firstStrat.id);
+    expect(removed.pendingPhaseIdx).toBe(0);
+    expect(removed.phaseStrategies[firstPhase.id]).toBeUndefined();
+  });
+
+  it("applyStrategyChoice ignores clicks for the wrong phase", () => {
+    const base = makeState({ type: "ultimate", contentId: "fru", mode: "standard" });
     const next = applyStrategyChoice(base, "WRONG_PHASE", "any");
-    expect(next.pendingPhaseIdx).toBe(0); // no advancement on mismatch
+    expect(next.pendingPhaseIdx).toBe(0);
     expect(next.phaseStrategies).toEqual({});
   });
 
-  it("applyPopularDefaults fills in popular: true strategies for unanswered phases", () => {
+  it("applyStrategyChoice supports multiple strategies on the same phase (multi-gimmick)", () => {
+    // TOP P3 is the canonical multi-gimmick phase: 検知式 + ハローワールド.
+    const top = getContentById("top")!;
+    const p3 = top.phases.find((p) => p.id === "p3")!;
+    expect(p3.strategies.length).toBeGreaterThanOrEqual(2);
+
+    const base = makeState({ type: "ultimate", contentId: "top", mode: "standard" });
+    // Advance through any earlier multi-strategy phases until cursor is on p3.
+    let cursor: WizardState = base;
+    const multiPhases = top.phases.filter((p) => p.strategies.length >= 2);
+    const p3Idx = multiPhases.findIndex((p) => p.id === "p3");
+    for (let i = 0; i < p3Idx; i++) cursor = applyAdvancePhase(cursor);
+    expect(cursor.pendingPhaseIdx).toBe(p3Idx);
+
+    // Pick TWO strategies on p3.
+    const s0 = p3.strategies[0].id;
+    const s1 = p3.strategies[1].id;
+    cursor = applyStrategyChoice(cursor, "p3", s0);
+    cursor = applyStrategyChoice(cursor, "p3", s1);
+    expect(cursor.phaseStrategies["p3"]).toEqual([s0, s1]);
+  });
+
+  it("applyAdvancePhase moves cursor forward (clamped to length)", () => {
+    const top = getContentById("top")!;
+    const multiPhases = top.phases.filter((p) => p.strategies.length >= 2);
+    const base = makeState({ type: "ultimate", contentId: "top", mode: "standard" });
+
+    let cursor: WizardState = base;
+    for (let i = 0; i < multiPhases.length + 3; i++) cursor = applyAdvancePhase(cursor);
+    expect(cursor.pendingPhaseIdx).toBe(multiPhases.length); // clamped
+  });
+
+  it("applyPopularDefaults fills empty entries with [popularId]", () => {
     const s = makeState({ type: "ultimate", contentId: "fru", mode: "standard" });
     const filled = applyPopularDefaults(s);
-    // fru should have at least 1 phase with popular: true set (after migration)
-    // If migration hasn't been run for this phase, filled stays empty for it — OK
-    expect(Object.keys(filled.phaseStrategies).length).toBeGreaterThanOrEqual(0);
+    // Every key that exists is a non-empty array of strategy ids.
+    for (const ids of Object.values(filled.phaseStrategies)) {
+      expect(Array.isArray(ids)).toBe(true);
+      expect(ids.length).toBeGreaterThan(0);
+    }
+  });
+
+  it("applyStrategyModeChoice('popular') sets mode + pre-fills popular defaults", () => {
+    const s = makeState({ type: "ultimate", contentId: "fru", mode: "standard" });
+    const next = applyStrategyModeChoice(s, "popular");
+    expect(next.strategyMode).toBe("popular");
+    // popular defaults should now be filled (or stay empty if no popular: true set on a phase)
+    for (const ids of Object.values(next.phaseStrategies)) {
+      expect(ids.length).toBeGreaterThan(0);
+    }
+  });
+
+  it("applyStrategyModeChoice('custom') sets mode only (no defaults filled)", () => {
+    const s = makeState({ type: "ultimate", contentId: "fru", mode: "standard" });
+    const next = applyStrategyModeChoice(s, "custom");
+    expect(next.strategyMode).toBe("custom");
+    expect(next.phaseStrategies).toEqual({});
+  });
+
+  it("applyPopularDefaults preserves user picks (does not overwrite)", () => {
+    const fru = getContentById("fru")!;
+    const multiPhases = fru.phases.filter((p) => p.strategies.length >= 2);
+    const firstPhase = multiPhases[0];
+    const nonPopular = firstPhase.strategies.find((s) => !s.popular) ?? firstPhase.strategies[0];
+
+    const s = makeState({
+      type: "ultimate",
+      contentId: "fru",
+      mode: "standard",
+      phaseStrategies: { [firstPhase.id]: [nonPopular.id] },
+    });
+    const filled = applyPopularDefaults(s);
+    expect(filled.phaseStrategies[firstPhase.id]).toEqual([nonPopular.id]);
   });
 });
 
@@ -185,6 +311,37 @@ describe("buildStepMessage", () => {
       makeState({ type: "ultimate", contentId: "dmu", mode: "minimal" })
     );
     expect(msg.components).toHaveLength(1);
+  });
+
+  it("pickStrategyMode step → 1 row of 2 buttons (野良主流 / 自分で決める) + cancel row", () => {
+    // fru has multi-strategy phases — strategyMode undefined → pickStrategyMode
+    const msg = buildStepMessage(
+      makeState({ type: "ultimate", contentId: "fru", mode: "standard" })
+    );
+    expect(msg.components).toHaveLength(2);
+    const customIds = msg.components[0].components.map((c: any) => c.data?.custom_id ?? "");
+    expect(customIds.some((id: string) => id.endsWith(":smode:popular"))).toBe(true);
+    expect(customIds.some((id: string) => id.endsWith(":smode:custom"))).toBe(true);
+  });
+
+  it("pickStrategy step always includes the advance/cancel row at the bottom", () => {
+    // fru has multi-strategy phases. strategyMode: custom skips the picker
+    // mode step and goes straight to per-phase. The advance row is last.
+    const msg = buildStepMessage(
+      makeState({
+        type: "ultimate",
+        contentId: "fru",
+        mode: "standard",
+        strategyMode: "custom",
+      })
+    );
+    // At least one strategy row + one advance row.
+    expect(msg.components.length).toBeGreaterThanOrEqual(2);
+    const lastRow = msg.components[msg.components.length - 1];
+    const customIds = lastRow.components.map((c: any) => c.data?.custom_id ?? "");
+    // The advance row contains :next and :cancel
+    expect(customIds.some((id: string) => id.endsWith(":next"))).toBe(true);
+    expect(customIds.some((id: string) => id.endsWith(":cancel"))).toBe(true);
   });
 
   it("embed title includes the wizard name", () => {
