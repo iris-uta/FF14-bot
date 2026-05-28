@@ -10,16 +10,20 @@ import { getDb } from "../lib/db";
 import { markReminded } from "./vote";
 import { formatDiscordTime } from "./datetime";
 
+import { makeSafeTick, type SafeTickRunner } from "../lib/safe-tick";
+
 export const TICK_INTERVAL_MS = 30_000;
 
 let timer: NodeJS.Timeout | null = null;
+let runner: SafeTickRunner | null = null;
 
 export function startVoteReminderWorker(client: Client): void {
   if (timer) return;
+  runner = makeSafeTick("vote-reminder", () => tick(client));
   timer = setInterval(() => {
-    void tick(client);
+    void runner!.run();
   }, TICK_INTERVAL_MS);
-  void tick(client);
+  void runner.run();
 }
 
 export function stopVoteReminderWorker(): void {
@@ -27,6 +31,14 @@ export function stopVoteReminderWorker(): void {
     clearInterval(timer);
     timer = null;
   }
+}
+
+export function waitForVoteReminder(): Promise<void> {
+  return runner?.waitForCurrentTick() ?? Promise.resolve();
+}
+
+export function getVoteReminderRunner(): SafeTickRunner | null {
+  return runner;
 }
 
 export async function tick(client: Client, now: number = Date.now()): Promise<void> {

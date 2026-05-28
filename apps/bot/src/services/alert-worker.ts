@@ -3,20 +3,23 @@ import type { Client } from "discord.js";
 import { schedules, type Schedule } from "@ff14kotei/db";
 import { getDb } from "../lib/db";
 import { formatDiscordTime } from "./datetime";
+import { makeSafeTick, type SafeTickRunner } from "../lib/safe-tick";
 
 export const TICK_INTERVAL_MS = 30_000;
 /** Skip alerts if more than 30 minutes past start time (likely bot was offline). */
 export const LATE_GRACE_MS = 30 * 60_000;
 
 let timer: NodeJS.Timeout | null = null;
+let runner: SafeTickRunner | null = null;
 
 export function startAlertWorker(client: Client): void {
   if (timer) return;
+  runner = makeSafeTick("alert-worker", () => tick(client));
   timer = setInterval(() => {
-    void tick(client);
+    void runner!.run();
   }, TICK_INTERVAL_MS);
   // Run once immediately so startup catches any pending alerts
-  void tick(client);
+  void runner.run();
 }
 
 export function stopAlertWorker(): void {
@@ -24,6 +27,14 @@ export function stopAlertWorker(): void {
     clearInterval(timer);
     timer = null;
   }
+}
+
+export function waitForAlertWorker(): Promise<void> {
+  return runner?.waitForCurrentTick() ?? Promise.resolve();
+}
+
+export function getAlertWorkerRunner(): SafeTickRunner | null {
+  return runner;
 }
 
 export async function tick(client: Client, now: number = Date.now()): Promise<void> {

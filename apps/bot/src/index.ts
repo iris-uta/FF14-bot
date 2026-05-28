@@ -1,4 +1,17 @@
 import "dotenv/config";
+
+// B1 (audit BLOCKER): install process-level error handlers BEFORE any other code
+// so a synchronous throw during imports or top-level execution still gets logged.
+// Without these, a single unhandled error crashes the bot with no context.
+process.on("uncaughtException", (err) => {
+  console.error("[FATAL] uncaughtException:", err);
+  // Don't exit — discord.js often recovers from transient errors. Genuine fatals
+  // (OOM, EACCES on startup) will exit Node anyway.
+});
+process.on("unhandledRejection", (reason) => {
+  console.error("[FATAL] unhandledRejection:", reason);
+});
+
 import {
   Client,
   Events,
@@ -9,10 +22,11 @@ import {
 import { commands, getCommand } from "./commands";
 import { getAllContents } from "./lib/contents";
 import { getDb } from "./lib/db";
-import { startAlertWorker, stopAlertWorker } from "./services/alert-worker";
-import { startVoteCloserWorker, stopVoteCloserWorker } from "./services/vote-closer";
-import { startVoteReminderWorker, stopVoteReminderWorker } from "./services/vote-reminder";
-import { startRecurringScheduler, stopRecurringScheduler } from "./services/recurring-scheduler";
+import { waitForAllWithTimeout } from "./lib/safe-tick";
+import { startAlertWorker, stopAlertWorker, waitForAlertWorker } from "./services/alert-worker";
+import { startVoteCloserWorker, stopVoteCloserWorker, waitForVoteCloser } from "./services/vote-closer";
+import { startVoteReminderWorker, stopVoteReminderWorker, waitForVoteReminder } from "./services/vote-reminder";
+import { startRecurringScheduler, stopRecurringScheduler, waitForRecurringScheduler } from "./services/recurring-scheduler";
 import { handleVoteButton } from "./services/vote-interaction";
 import { handleVoteModalSubmit, MODAL_PREFIX as VOTE_MODAL_PREFIX } from "./services/vote-modal-submit";
 import { handleChouseisanPick, SELECT_PREFIX as CHOUSEISAN_SELECT_PREFIX } from "./services/chouseisan-interaction";
@@ -83,14 +97,55 @@ client.once(Events.ClientReady, (c) => {
   console.log("Recurring-scheduler worker started (1h tick)");
 });
 
+// B3 (audit BLOCKER): graceful shutdown.
+//
+//   1. stop the interval timers so no new ticks start
+//   2. await any in-flight tick (10s timeout) so partial DB writes commit
+//   3. destroy Discord client + close health server
+//   4. exit
+//
+// If a tick is stuck, the 10s timeout prevents hanging forever — Fly will
+// SIGKILL after its own grace period anyway.
+let shuttingDown = false;
+async function gracefulShutdown(sig: string): Promise<void> {
+  if (shuttingDown) return;
+  shuttingDown = true;
+  console.log(`Received ${sig}, shutting down...`);
+
+  // 1. Stop scheduling new ticks
+  stopAlertWorker();
+  stopVoteCloserWorker();
+  stopVoteReminderWorker();
+  stopRecurringScheduler();
+
+  // 2. Wait for in-flight ticks (max 10s)
+  const drain = await waitForAllWithTimeout(
+    [
+      { run: async () => {}, waitForCurrentTick: waitForAlertWorker },
+      { run: async () => {}, waitForCurrentTick: waitForVoteCloser },
+      { run: async () => {}, waitForCurrentTick: waitForVoteReminder },
+      { run: async () => {}, waitForCurrentTick: waitForRecurringScheduler },
+    ],
+    10_000
+  );
+  console.log(
+    `  workers drained: ${drain.drained ? "yes" : "TIMEOUT — exiting anyway"}`
+  );
+
+  // 3. Tear down Discord + health server
+  try {
+    await Promise.all([client.destroy(), stopHealthServer()]);
+  } catch (err) {
+    console.error("  error during teardown:", err);
+  }
+
+  // 4. Bye
+  process.exit(0);
+}
+
 for (const sig of ["SIGINT", "SIGTERM"] as const) {
   process.on(sig, () => {
-    console.log(`Received ${sig}, shutting down`);
-    stopAlertWorker();
-    stopVoteCloserWorker();
-    stopVoteReminderWorker();
-    stopRecurringScheduler();
-    void Promise.all([client.destroy(), stopHealthServer()]).finally(() => process.exit(0));
+    void gracefulShutdown(sig);
   });
 }
 
