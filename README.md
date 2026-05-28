@@ -20,7 +20,7 @@
 | 🗳️ | **日程投票** (調整さん代替) | `/vote new` `/vote close` `/vote book` |
 | 🧩 | **調整さん URL から日程取込** | `/from-chouseisan` |
 | 📊 | **固定状態の可視化** | `/setup` `/static-info` `/progress` |
-| 📜 | **マクロ・攻略 Tips 共有** | `/raid` `/macro` `/tips` `/share` |
+| 📜 | **マクロ・攻略 Tips 共有** | `/macro` `/tips` `/share` |
 | 📣 | **募集テンプレ生成** | `/recruit` |
 | 🎯 | **新規サーバー自動歓迎** | (auto on guildCreate) + `/quickstart` |
 | 🌐 | **Web app** (Discord 不要) | `/recruit-tool` (募集ジェネレータ) ほか |

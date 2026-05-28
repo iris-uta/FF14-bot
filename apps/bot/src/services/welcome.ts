@@ -60,7 +60,7 @@ export function buildWelcomeEmbed(): EmbedBuilder {
           "**📅 予定**: `/book` `/upcoming` `/cancel` `/recurring`\n" +
           "**🗳️ 投票**: `/vote new` `/vote close` `/vote book` `/from-chouseisan`\n" +
           "**📊 固定**: `/setup` `/static-info` `/progress`\n" +
-          "**📜 攻略**: `/raid` `/macro` `/tips` `/share` `/recruit`",
+          "**📜 攻略**: `/macro` `/tips` `/share` `/recruit`",
         inline: false,
       },
       {
