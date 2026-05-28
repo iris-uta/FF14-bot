@@ -57,10 +57,18 @@ export interface WizardState {
   contentId?: string;
   mode?: "standard" | "race" | "minimal";
 
-  /** Per-phase strategy choice. key = phase.id, value = strategy.id */
-  phaseStrategies: Record<string, string>;
+  /**
+   * Per-phase strategy choice. key = phase.id, value = array of strategy.id.
+   * Multiple strategies per phase are allowed because a single phase often has
+   * several independent gimmicks (TOP P3 = 検知式 + ハローワールド), each with
+   * its own processing style.
+   */
+  phaseStrategies: Record<string, string[]>;
 
-  /** Index of the next multi-strategy phase to ask about (during pickStrategy loop) */
+  /**
+   * Cursor into the list of multi-strategy phases. The user advances it
+   * explicitly via the 「次フェーズ →」 button — strategy clicks only toggle.
+   */
   pendingPhaseIdx: number;
 
   /** Wall clock for TTL eviction */
@@ -158,8 +166,12 @@ export function pruneNow(now: number): void {
  *  - missing type → pickType
  *  - missing content → pickContent
  *  - missing mode → pickMode
- *  - any multi-strategy phase still unanswered → pickStrategy
+ *  - cursor still inside multi-strategy phase list → pickStrategy
  *  - all done → confirm
+ *
+ * The cursor (`pendingPhaseIdx`) is the source of truth — strategy *picks*
+ * just toggle entries; advancing requires the explicit 次フェーズ button.
+ * A phase may legitimately end with zero picks if there's no popular default.
  */
 export function nextStep(state: WizardState): WizardStep {
   if (!state.type) return "pickType";
@@ -169,10 +181,7 @@ export function nextStep(state: WizardState): WizardStep {
   const content = getContentByIdSafe(state.contentId);
   if (!content) return "pickContent"; // recover from a stale id
   const multiStrategyPhases = content.phases.filter((p) => p.strategies.length >= 2);
-  for (let i = state.pendingPhaseIdx; i < multiStrategyPhases.length; i++) {
-    const phase = multiStrategyPhases[i];
-    if (!state.phaseStrategies[phase.id]) return "pickStrategy";
-  }
+  if (state.pendingPhaseIdx < multiStrategyPhases.length) return "pickStrategy";
 
   return "confirm";
 }
@@ -305,12 +314,23 @@ function buildPickStrategy(state: WizardState): StepMessage {
   const popular = phase.strategies.find((s) => s.popular);
   const total = multiPhases.length;
   const idx = state.pendingPhaseIdx + 1;
+  const selectedIds = state.phaseStrategies[phase.id] ?? [];
+
+  const descLines: string[] = [];
+  descLines.push("ギミックごとに処理法を選択 (複数可)。 同じ button を押すと選択解除。");
+  if (popular) descLines.push(`⭐ = 野良主流 (未選択時は \`${popular.name}\` が適用されます)`);
+  if (selectedIds.length > 0) {
+    const names = selectedIds
+      .map((id) => phase.strategies.find((s) => s.id === id)?.name ?? id)
+      .join(" / ");
+    descLines.push(`**現在の選択**: ${names}`);
+  }
+  descLines.push("選び終わったら **次フェーズ →** を押してください。");
+
   const embed = header(
     state,
-    `🎯 ${phase.name} の処理法を選んでください (${idx}/${total})`,
-    popular
-      ? `⭐ = 野良主流。 \`${popular.name}\` を選ぶか他の処理法を選択。`
-      : "野良主流が未設定のため、 どれかを選んでください。"
+    `🎯 ${phase.name} の処理法 (${idx}/${total})`,
+    descLines.join("\n")
   );
 
   // Strategies: variable count, max 5 buttons per row (Discord)
@@ -322,23 +342,52 @@ function buildPickStrategy(state: WizardState): StepMessage {
       rows.push(row);
       row = new ActionRowBuilder<ButtonBuilder>();
     }
-    row.addComponents(buildStrategyButton(state, phase.id, s));
+    row.addComponents(
+      buildStrategyButton(state, phase.id, s, selectedIds.includes(s.id))
+    );
   }
   if (row.components.length > 0) rows.push(row);
-  rows.push(cancelRow(state));
+
+  // Advance row: 次フェーズ → (Primary if user selected something, otherwise
+  // labeled as "野良主流で次へ" so they know defaults will fill in)
+  const advanceLabel =
+    selectedIds.length > 0
+      ? `次フェーズ →`
+      : popular
+        ? `⭐ 野良主流で次へ →`
+        : `スキップして次へ →`;
+  const advanceRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
+    new ButtonBuilder()
+      .setCustomId(`${WIZARD_PREFIX}${state.sessionId}:next`)
+      .setLabel(advanceLabel.slice(0, 80))
+      .setStyle(selectedIds.length > 0 ? ButtonStyle.Success : ButtonStyle.Primary),
+    new ButtonBuilder()
+      .setCustomId(`${WIZARD_PREFIX}${state.sessionId}:cancel`)
+      .setLabel("✖ キャンセル")
+      .setStyle(ButtonStyle.Secondary)
+  );
+  rows.push(advanceRow);
   return { embeds: [embed], components: rows };
 }
 
 function buildStrategyButton(
   state: WizardState,
   phaseId: string,
-  s: StrategyVariant
+  s: StrategyVariant,
+  isSelected: boolean
 ): ButtonBuilder {
-  const label = s.popular ? `⭐ ${s.name}` : s.name;
+  const checkbox = isSelected ? "☑ " : s.popular ? "⭐ " : "";
+  const label = `${checkbox}${s.name}`;
+  // Selected → Success (green). Popular default → Primary (blue). Else Secondary.
+  const style = isSelected
+    ? ButtonStyle.Success
+    : s.popular
+      ? ButtonStyle.Primary
+      : ButtonStyle.Secondary;
   return new ButtonBuilder()
     .setCustomId(`${WIZARD_PREFIX}${state.sessionId}:strat:${phaseId}:${s.id}`)
     .setLabel(label.slice(0, 80))
-    .setStyle(s.popular ? ButtonStyle.Primary : ButtonStyle.Secondary);
+    .setStyle(style);
 }
 
 function buildConfirm(state: WizardState): StepMessage {
@@ -350,16 +399,23 @@ function buildConfirm(state: WizardState): StepMessage {
     `**モード**: ${state.mode}`,
   ];
   const chosenPhases = content.phases.filter(
-    (p) => p.strategies.length >= 2 && state.phaseStrategies[p.id]
+    (p) =>
+      p.strategies.length >= 2 &&
+      state.phaseStrategies[p.id] &&
+      state.phaseStrategies[p.id].length > 0
   );
   if (chosenPhases.length > 0) {
     lines.push("");
     lines.push(`**選んだ処理法**:`);
     for (const p of chosenPhases) {
-      const sid = state.phaseStrategies[p.id];
-      const s = p.strategies.find((s) => s.id === sid);
-      lines.push(`└ **${p.name}**: ${s?.name ?? sid}`);
+      const sids = state.phaseStrategies[p.id] ?? [];
+      const names = sids
+        .map((sid) => p.strategies.find((s) => s.id === sid)?.name ?? sid)
+        .join(" / ");
+      lines.push(`└ **${p.name}**: ${names}`);
     }
+    lines.push("");
+    lines.push("_未選択フェーズは「野良主流」が適用されます (該当があれば)。_");
   }
   const embed = header(state, "✨ 以下の設定で作成しますか？", lines.join("\n"));
 
@@ -393,7 +449,7 @@ function buildDone(state: WizardState): StepMessage {
 
 export interface ParsedWizardAction {
   sessionId: string;
-  /** "type" | "content" | "mode" | "strat" | "create" | "cancel" */
+  /** "type" | "content" | "mode" | "strat" | "next" | "create" | "cancel" */
   action: string;
   /** Action-specific payload */
   payload?: string;
@@ -433,7 +489,12 @@ export function applyModeChoice(state: WizardState, mode: string): WizardState {
 }
 
 /**
- * Record strategy choice + advance pendingPhaseIdx. Caller persists.
+ * Toggle a strategy in the currently-pending phase's selection list.
+ * Already-selected → removed; not selected → appended.
+ *
+ * Does NOT advance the cursor — only the 次フェーズ button does that, so the
+ * user can keep clicking to pick multiple gimmicks.
+ *
  * If phaseId doesn't match the currently-pending phase, do nothing (defensive
  * against late button clicks from earlier wizard states).
  */
@@ -447,23 +508,48 @@ export function applyStrategyChoice(
   const multiPhases = content.phases.filter((p) => p.strategies.length >= 2);
   const expected = multiPhases[state.pendingPhaseIdx];
   if (!expected || expected.id !== phaseId) return state;
-  return {
-    ...state,
-    phaseStrategies: { ...state.phaseStrategies, [phaseId]: strategyId },
-    pendingPhaseIdx: state.pendingPhaseIdx + 1,
-  };
+
+  const current = state.phaseStrategies[phaseId] ?? [];
+  const next = current.includes(strategyId)
+    ? current.filter((id) => id !== strategyId)
+    : [...current, strategyId];
+
+  const updated: Record<string, string[]> = { ...state.phaseStrategies };
+  if (next.length === 0) {
+    delete updated[phaseId];
+  } else {
+    updated[phaseId] = next;
+  }
+  return { ...state, phaseStrategies: updated };
 }
 
-/** Pre-populate `phaseStrategies` with popular: true defaults for skipped phases. */
+/**
+ * Advance the cursor to the next multi-strategy phase (clamped to length).
+ * Triggered by the 「次フェーズ →」 button.
+ */
+export function applyAdvancePhase(state: WizardState): WizardState {
+  const content = getContentByIdSafe(state.contentId!);
+  if (!content) return state;
+  const multiPhases = content.phases.filter((p) => p.strategies.length >= 2);
+  const nextIdx = Math.min(state.pendingPhaseIdx + 1, multiPhases.length);
+  return { ...state, pendingPhaseIdx: nextIdx };
+}
+
+/**
+ * Pre-populate `phaseStrategies` with popular: true default for any phase
+ * the user advanced past without picking anything. Called right before
+ * initStatic in the create handler.
+ */
 export function applyPopularDefaults(state: WizardState): WizardState {
   const content = getContentByIdSafe(state.contentId!);
   if (!content) return state;
-  const filled: Record<string, string> = { ...state.phaseStrategies };
+  const filled: Record<string, string[]> = { ...state.phaseStrategies };
   for (const phase of content.phases) {
-    if (phase.strategies.length >= 2 && !filled[phase.id]) {
-      const popular = phase.strategies.find((s) => s.popular);
-      if (popular) filled[phase.id] = popular.id;
-    }
+    if (phase.strategies.length < 2) continue;
+    const current = filled[phase.id];
+    if (current && current.length > 0) continue;
+    const popular = phase.strategies.find((s) => s.popular);
+    if (popular) filled[phase.id] = [popular.id];
   }
   return { ...state, phaseStrategies: filled };
 }

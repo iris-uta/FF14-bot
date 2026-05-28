@@ -18,6 +18,7 @@ import {
 import { getContentById } from "../lib/contents.js";
 import { findStaticByName, initStatic } from "./static-manager.js";
 import {
+  applyAdvancePhase,
   applyContentChoice,
   applyModeChoice,
   applyPopularDefaults,
@@ -98,6 +99,13 @@ export async function handleWizardButton(interaction: ButtonInteraction): Promis
         return rejectAndAck(interaction, "strat payload が不正です。");
       }
       const next = applyStrategyChoice(state, parsed.phaseId, parsed.payload);
+      putWizard(next);
+      const msg = buildStepMessage(next);
+      await interaction.update({ embeds: msg.embeds, components: msg.components });
+      return;
+    }
+    case "next": {
+      const next = applyAdvancePhase(state);
       putWizard(next);
       const msg = buildStepMessage(next);
       await interaction.update({ embeds: msg.embeds, components: msg.components });
@@ -203,9 +211,15 @@ async function runCreate(
       `📺 channels: ${result.utilityChannels.length} utility + ${result.phaseChannels.length} phase`,
       `🎯 slot: ${result.filledSlots} filled / ${result.openSlots} open`,
     ];
-    const chosenCount = Object.keys(finalState.phaseStrategies).length;
-    if (chosenCount > 0) {
-      lines.push(`📜 処理法選択: ${chosenCount} phase`);
+    const phaseCount = Object.values(finalState.phaseStrategies).filter(
+      (ids) => ids.length > 0
+    ).length;
+    const totalPicks = Object.values(finalState.phaseStrategies).reduce(
+      (sum, ids) => sum + ids.length,
+      0
+    );
+    if (phaseCount > 0) {
+      lines.push(`📜 処理法選択: ${phaseCount} phase / 計 ${totalPicks} 処理法`);
     }
 
     const done = new EmbedBuilder()
