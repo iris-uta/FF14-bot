@@ -20,12 +20,12 @@ function makeContent(overrides: Partial<Content> = {}): Content {
     shortName: "TEST",
     type: "ultimate",
     phases: [
-      { id: "p1", name: "P1", order: 0, videos: [], strategies: [], tips: [] },
+      { id: "p1", name: "P1", order: 0, videos: [], strategies: [] }
     ],
     macros: [],
     recruitmentTemplates: [],
     references: { urls: [] },
-    ...overrides,
+    ...overrides
   } as Content;
 }
 
@@ -78,7 +78,7 @@ describe("writeContentYaml", () => {
     const r = writeContentYaml(
       makeContent({
         patch: "7.11",
-        references: { primary: "りりーどーる", urls: ["https://example.com/a"] },
+        references: { primary: "りりーどーる", urls: ["https://example.com/a"] }
       }),
       dir
     );

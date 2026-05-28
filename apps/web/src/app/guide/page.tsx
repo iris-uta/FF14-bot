@@ -32,7 +32,7 @@ const CATEGORIES: Category[] = [
         name: "/setup",
         ja: "固定作成",
         desc:
-          "コンテンツを選ぶだけで、固定 role + カテゴリ + Phase 別チャネル一式を作成。各 Phase channel に攻略動画/マクロ/tips を自動投稿 + ピン留め。",
+          "コンテンツを選ぶだけで、固定 role + カテゴリ + Phase 別チャネル一式を作成。各 Phase channel に攻略動画/マクロ/処理法 を自動投稿 + ピン留め。",
         examples: [
           "/setup type:絶 content:fru name:週末絶エデン",
           "/setup type:零式 content:m5s name:絶界練習 mode:minimal",
@@ -174,14 +174,14 @@ const CATEGORIES: Category[] = [
         name: "/share",
         ja: "フェーズ投稿",
         desc:
-          "指定 Phase の embed (攻略動画 + 軽減 + tips + 処理法) + マクロを現チャネルに投稿。固定 channel なら content 自動検出。",
+          "指定 Phase の embed (攻略動画 + 軽減 + 処理法) + マクロを現チャネルに投稿。固定 channel なら content 自動検出。",
         examples: ["/share phase:p3", "/share content:fru phase:p3"],
       },
       {
-        name: "/macro / /tips",
-        ja: "マクロ / Tips",
+        name: "/macro",
+        ja: "マクロ取得",
         desc: "個別取得 (ephemeral)。autocomplete で content + phase を選べる。",
-        examples: ["/macro content:fru phase:p3", "/tips content:fru phase:p3"],
+        examples: ["/macro content:fru phase:p3"],
       },
     ],
   },

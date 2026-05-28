@@ -35,10 +35,6 @@ phases:
         description: |
           メソハイ線取りを D 側に D4、B 側に MT (キャスター MT 想定) で取る流派。
           みんとっと動画準拠で野良主流。
-    tips:
-      - 覚醒バフは BH > D4 > D1 の順で取得。
-      - ミストラルソングは MT B>A>C / ST D>C>A の順で誘導。
-      - インシネレートは 1 回目 ST 無敵 / 2 回目 MT 無敵 (ナイト MT なら 1 回目無敵)。
   - id: p2
     name: P2 イフリート (Ifrit)
     order: 2
@@ -58,9 +54,6 @@ phases:
           炎獄の楔を逆 Z 字配置で①〜④の順に破壊する流派。
           ①D1 / ②D2 / ③D3 / ④D4 が担当。
           D3D4 はエラプ誘導から楔へ。みんとっと動画準拠。
-    tips:
-      - "楔配置: 上段に ③ ④、下段に D3 ① ② D4 (逆 Z 字)。"
-      - エラプ誘導は D3D4 が担当した後に楔処理へ移行。
   - id: p3
     name: P3 タイタン + アルテマ履行LB (Titan + Limit Break Phase)
     order: 3
@@ -88,10 +81,6 @@ phases:
           蘇生先は H1->ST / H2->D1 / D4->D2,D3。
           みん学 (4連スキップ) ジェイル自滅 TLB 法プレイリスト参照。
           Source: https://www.youtube.com/playlist?list=PL2Hitw4uipFQQ8svogk788A9eWSPtz33M
-    tips:
-      - "ジェイル位置: ボス D4 / H1 / H2。ランスラ斜め誘導。"
-      - マウンテンバスター 1回目&3回目は MT バフ / 2回目は ST バフ(orかばう)。
-      - "アルテマ履行 LB 使用順: D4 -> H2 -> D1 -> MT。"
   - id: p4
     name: P4 追撃の究極幻想 (Annihilation - Predation)
     order: 4
@@ -111,9 +100,6 @@ phases:
           十字範囲攻撃を安置判定で無視して位置取りを最適化する流派。
           フェザーレイン回避方向は ★ -> A -> D。
           ジェイル破壊はフェザーレイン回避時にターゲット可能。
-    tips:
-      - 吸着爆雷(ヘイト1位)は MT 無敵 -> 激震後半で ST 挑発。
-      - 誘導レーザー(ヘイト2位)は追撃中は MT 無敵 / 爆撃中は ST 無敵。
   - id: p5
     name: P5 爆撃の究極幻想 (Annihilation - Bombardment)
     order: 5
@@ -132,9 +118,6 @@ phases:
           緑玉(エメラルドレディアンス)を 3-1-1-1 で配分する野良主流。
           1 回目は MT/ST/D1 / 2-4 回目は MT が処理。
           爆撃 P メソハイは 1 回目 D3 / 2 回目 灼熱ヒラ。
-    tips:
-      - 緑玉 1 回目は MT/ST/D1 の 3 人で処理。
-      - 灼熱はヒラがメソハイ線取り (2 回目)。
   - id: p6
     name: P6 乱撃+最終三蛮神 (Annihilation - Final + Primal Roulette)
     order: 6
@@ -166,10 +149,6 @@ phases:
           ②イフリートスタート (ガル→タコ)
           ③タイタンスタート (イフ→ガル)
           各パターンで移動ルートが異なる。スプリントをイフリート処理に合わせる。
-    tips:
-      - 乱撃顔面受けは ST が LB3。ヒラは堅実魔で詠唱中断回避。
-      - "紫玉散開: MT AB間->AD間 / ST BC間 / その他 CD間。"
-      - 最終三蛮神の移動ルートはパターン分岐。事前にホットバーカンペ準備推奨。
 macros:
   - source: りりーどーる (P1-P3 共通 - 新みんとっと / 楔逆Z / ジェイル自滅)
     url: https://jp.finalfantasyxiv.com/lodestone/character/34120564/blog/5248065/

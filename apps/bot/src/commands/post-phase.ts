@@ -15,7 +15,7 @@ export const data = new SlashCommandBuilder()
   .setNameLocalizations({ ja: "フェーズ投稿" })
   .setDescription("Phase の攻略情報を現チャネルに投稿 (固定 channel なら content 自動検出)")
   .setDescriptionLocalizations({
-    ja: "フェーズの攻略情報 (動画/マクロ/軽減/Tips) を現チャネルに投稿",
+    ja: "フェーズの攻略情報 (動画/マクロ/軽減/処理法) を現チャネルに投稿",
   })
   .addStringOption((opt) =>
     opt
@@ -64,7 +64,7 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
   await interaction.deferReply();
 
   // Shared embed builder. /share is the "rich" surface — show everything
-  // (tips / mitigation / macro list / description). Setup channel intros use
+  // (mitigation / macro list / description). Setup channel intros use
   // the default 'intro' variant which is more compact.
   const embed = buildPhaseEmbed(content, phase, { variant: "full" });
   if (autoDetected) {

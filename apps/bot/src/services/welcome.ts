@@ -50,7 +50,7 @@ export function buildWelcomeEmbed(): EmbedBuilder {
       {
         name: "3️⃣ 練習しながら使う",
         value:
-          "`/macro` `/tips` でマクロや攻略 tips、 `/progress mark` で到達記録、\n" +
+          "`/macro` でマクロ参照、 `/progress mark` で到達記録、\n" +
           "`/static-info` で現在の状況、 `/help` で全コマンド。",
         inline: false,
       },
@@ -60,7 +60,7 @@ export function buildWelcomeEmbed(): EmbedBuilder {
           "**📅 予定**: `/book` `/upcoming` `/cancel` `/recurring`\n" +
           "**🗳️ 投票**: `/vote new` `/vote close` `/vote book` `/from-chouseisan`\n" +
           "**📊 固定**: `/setup` `/static-info` `/progress`\n" +
-          "**📜 攻略**: `/macro` `/tips` `/share` `/recruit`",
+          "**📜 攻略**: `/macro` `/share` `/recruit`",
         inline: false,
       },
       {

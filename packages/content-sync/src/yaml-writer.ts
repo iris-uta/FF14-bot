@@ -93,6 +93,5 @@ function orderPhaseKeys(p: Content["phases"][number]): Record<string, unknown> {
   if (p.videos.length > 0) out.videos = p.videos;
   if (p.mitigation) out.mitigation = p.mitigation;
   if (p.strategies.length > 0) out.strategies = p.strategies;
-  if (p.tips.length > 0) out.tips = p.tips;
   return out;
 }

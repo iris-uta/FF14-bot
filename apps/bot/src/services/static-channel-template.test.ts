@@ -3,7 +3,7 @@ import {
   buildChannelTemplate,
   sanitizeUtilityName,
   SETUP_MODE_DESCRIPTIONS,
-  type SetupMode,
+  type SetupMode
 } from "./static-channel-template";
 import type { Content } from "@ff14kotei/schema";
 
@@ -13,12 +13,12 @@ const sampleContent: Content = {
   shortName: "FRU",
   type: "ultimate",
   phases: [
-    { id: "p1", name: "P1", order: 1, videos: [], strategies: [], tips: [] },
-    { id: "p2", name: "P2", order: 2, videos: [], strategies: [], tips: [] },
+    { id: "p1", name: "P1", order: 1, videos: [], strategies: [] },
+    { id: "p2", name: "P2", order: 2, videos: [], strategies: [] }
   ],
   macros: [],
   recruitmentTemplates: [],
-  references: { urls: [] },
+  references: { urls: [] }
 };
 
 describe("buildChannelTemplate", () => {
@@ -32,7 +32,7 @@ describe("buildChannelTemplate", () => {
       "日程調整",
       "軽減表",
       "動画-参考",
-      "進行度-記録",
+      "進行度-記録"
     ]);
   });
 
@@ -77,7 +77,7 @@ describe("buildChannelTemplate", () => {
     expect(SETUP_MODE_DESCRIPTIONS).toMatchObject({
       standard: expect.any(String),
       race: expect.any(String),
-      minimal: expect.any(String),
+      minimal: expect.any(String)
     });
   });
 });

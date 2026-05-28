@@ -1,18 +1,17 @@
 /**
  * Assemble Content objects from flat sheet rows.
  *
- * Sheet structure (9 tabs):
+ * Sheet structure (8 tabs):
  *   contents     | id, displayName, shortName, type, patch, references_primary
  *   phases       | content_id, phase_id, name, order, description
  *   videos       | content_id, phase_id, title, url, author
  *   mitigations  | content_id, phase_id, name, url, copyable
  *   strategies   | content_id, phase_id, id, name, description
- *   tips         | content_id, phase_id, tip
  *   macros       | content_id, source, url, text
  *   templates    | content_id, template, variables (CSV)
  *   references   | content_id, url
  *
- * Note: this is the inverse of "current YAML → Sheet" — we read all 9 tabs
+ * Note: this is the inverse of "current YAML → Sheet" — we read all 8 tabs
  * and stitch them back into the nested Content structure that Zod validates.
  */
 import { ContentSchema, type Content } from "@ff14kotei/schema";
@@ -23,7 +22,6 @@ export interface SheetData {
   videos: Record<string, string>[];
   mitigations: Record<string, string>[];
   strategies: Record<string, string>[];
-  tips: Record<string, string>[];
   macros: Record<string, string>[];
   templates: Record<string, string>[];
   references: Record<string, string>[];
@@ -35,7 +33,6 @@ export const TAB_NAMES = {
   videos: "videos",
   mitigations: "mitigations",
   strategies: "strategies",
-  tips: "tips",
   macros: "macros",
   templates: "templates",
   references: "references",
@@ -65,7 +62,6 @@ export function assembleContents(data: SheetData): AssembleResult {
   const videosByPhase = groupBy(data.videos, (r) => key(r.content_id, r.phase_id));
   const mitByPhase = groupBy(data.mitigations, (r) => key(r.content_id, r.phase_id));
   const stratsByPhase = groupBy(data.strategies, (r) => key(r.content_id, r.phase_id));
-  const tipsByPhase = groupBy(data.tips, (r) => key(r.content_id, r.phase_id));
   const macrosByContent = groupBy(data.macros, "content_id");
   const templatesByContent = groupBy(data.templates, "content_id");
   const refsByContent = groupBy(data.references, "content_id");
@@ -81,7 +77,6 @@ export function assembleContents(data: SheetData): AssembleResult {
         videosByPhase,
         mitByPhase,
         stratsByPhase,
-        tipsByPhase,
         macrosByContent[id] ?? [],
         templatesByContent[id] ?? [],
         refsByContent[id] ?? []
@@ -112,7 +107,6 @@ function buildContent(
   videosByPhase: Record<string, Record<string, string>[]>,
   mitByPhase: Record<string, Record<string, string>[]>,
   stratsByPhase: Record<string, Record<string, string>[]>,
-  tipsByPhase: Record<string, Record<string, string>[]>,
   macroRows: Record<string, string>[],
   templateRows: Record<string, string>[],
   refRows: Record<string, string>[]
@@ -147,17 +141,12 @@ function buildContent(
           popular: parseBool(s.popular),
           description: s.description || undefined,
         }));
-      const tips = (tipsByPhase[phaseKey] ?? [])
-        .map((t) => t.tip)
-        .filter((t) => t.trim().length > 0);
-
       const phaseObj: Record<string, unknown> = {
         id: phaseId,
         name: pr.name,
         order: parseInt10(pr.order, 0),
         videos,
         strategies,
-        tips,
       };
       if (pr.popular_strategy && pr.popular_strategy.trim()) {
         phaseObj.popularStrategy = pr.popular_strategy;

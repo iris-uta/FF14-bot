@@ -23,9 +23,6 @@ phases:
       url: https://docs.google.com/spreadsheets/...
       copyable: true
     strategies: []           # 処理法が複数あるphaseのみ記載
-    tips:
-      - 開幕は◯◯に注意
-      - 散開位置は△△
 
 macros:
   - source: りりーどーる

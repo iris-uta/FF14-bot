@@ -1,6 +1,6 @@
 /**
  * Orchestrate Sheet → YAML sync:
- *   1. fetch all 9 tabs as CSV
+ *   1. fetch all 8 tabs as CSV
  *   2. parse rows
  *   3. assemble Content[] (Zod validated)
  *   4. write/diff YAML files
@@ -37,7 +37,6 @@ export async function syncFromSheet(options: PullOptions): Promise<PullSummary> 
       videos: tabs.videos.length,
       mitigations: tabs.mitigations.length,
       strategies: tabs.strategies.length,
-      tips: tabs.tips.length,
       macros: tabs.macros.length,
       templates: tabs.templates.length,
       references: tabs.references.length,
@@ -66,7 +65,6 @@ async function fetchAllTabs(
   videos: Record<string, string>[];
   mitigations: Record<string, string>[];
   strategies: Record<string, string>[];
-  tips: Record<string, string>[];
   macros: Record<string, string>[];
   templates: Record<string, string>[];
   references: Record<string, string>[];
@@ -78,18 +76,17 @@ async function fetchAllTabs(
 
   // Fetch concurrently to keep wall time low (gviz tolerates parallel reads)
   const [
-    contents, phases, videos, mitigations, strategies, tips, macros, templates, references,
+    contents, phases, videos, mitigations, strategies, macros, templates, references,
   ] = await Promise.all([
     fetchTab(TAB_NAMES.contents),
     fetchTab(TAB_NAMES.phases),
     fetchTab(TAB_NAMES.videos),
     fetchTab(TAB_NAMES.mitigations),
     fetchTab(TAB_NAMES.strategies),
-    fetchTab(TAB_NAMES.tips),
     fetchTab(TAB_NAMES.macros),
     fetchTab(TAB_NAMES.templates),
     fetchTab(TAB_NAMES.references),
   ]);
 
-  return { contents, phases, videos, mitigations, strategies, tips, macros, templates, references };
+  return { contents, phases, videos, mitigations, strategies, macros, templates, references };
 }

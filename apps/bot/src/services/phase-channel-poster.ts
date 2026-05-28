@@ -11,11 +11,11 @@ export interface BuildPhaseEmbedOptions {
    *   - 野良主流 line at top
    *   - 処理法 (strategies)
    *   - 攻略動画 (markdown link + author)
-   *   - NO tips / mitigation / description / macro list
-   *     → users run /tips, /macro, /share on demand
+   *   - NO mitigation / description / macro list
+   *     → users run /macro, /share on demand
    *
    * `full` (used by /share — current behavior):
-   *   - everything in intro + description + tips + mitigation + macro list
+   *   - everything in intro + description + mitigation + macro list
    */
   variant?: PhaseEmbedVariant;
   color?: number;
@@ -100,15 +100,8 @@ export function buildPhaseEmbed(
     });
   }
 
-  // tips / mitigation / macro list — full only
+  // mitigation / macro list — full only
   if (variant === "full") {
-    if (phase.tips.length > 0) {
-      embed.addFields({
-        name: "Tips",
-        value: phase.tips.map((t) => `• ${t}`).join("\n").slice(0, 1024),
-      });
-    }
-
     if (phase.mitigation) {
       embed.addFields({
         name: "軽減表",
@@ -217,8 +210,7 @@ export async function postUtilityIntro(
             ``,
             `便利なコマンド:`,
             `• \`/macro content:${content.id} phase:p1\` — マクロを取得 (自分にだけ表示)`,
-            `• \`/tips content:${content.id} phase:p1\` — Phase の Tips`,
-            `• \`/book when:"YYYY-MM-DD HH:MM"\` — 次回固定を予約 (通知)`,
+            `• \`/book\` — 次回固定を予約 (通知)`,
             `• \`/static-info\` — 固定メンバー・8 slot 状況・直近予定を確認`,
             `• \`/progress mark phase:p1 status:reached\` — マイルストーン記録`,
             `• \`/vote new\` — 次回日程を投票 (調整さん代替)`,

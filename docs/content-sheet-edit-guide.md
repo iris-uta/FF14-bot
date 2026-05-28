@@ -15,7 +15,6 @@
 | `videos` | 攻略動画 link | `content_id` + `phase_id` | 1 動画 |
 | `mitigations` | 軽減表 link | `content_id` + `phase_id` | 1 軽減表 (1 phase に 1 つ) |
 | `strategies` | 処理法 variant | `content_id` + `phase_id` + `id` | 1 処理法 |
-| `tips` | 攻略 tips | `content_id` + `phase_id` | 1 tip |
 | `macros` | マクロ link | `content_id` | 1 マクロ |
 | `templates` | 募集テンプレ | `content_id` | 1 テンプレ |
 | `references` | 参照 URL | `content_id` | 1 URL |
@@ -99,17 +98,7 @@ fru    p3    P3 解説 (Light Party視点)    https://youtu.be/xxxxxxxxxxx    @u
 fru    p4    juuji-shiki    十字式    対面散開、 8 方向定位置
 ```
 
-### 6. `tips`
-
-| 列 | 必須 | 値の例 | 説明 |
-|---|---|---|---|
-| `content_id` | ✅ | `fru` | – |
-| `phase_id` | ✅ | `p1` | – |
-| `tip` | ✅ | `開幕は ◯◯ に注意` | 1 行コメント。 **1 行 = 1 tip** (改行で複数 tip にはならない) |
-
-**複数 tip を追加** = **行を増やす** (改行ではない)。
-
-### 7. `macros`
+### 6. `macros`
 
 | 列 | 必須 | 値の例 | 説明 |
 |---|---|---|---|
@@ -123,7 +112,7 @@ fru    p4    juuji-shiki    十字式    対面散開、 8 方向定位置
 - `text` は **数行の抜粋のみ** で、 全文転載は避ける
 - 完全版は `url` で原典に誘導するスタンス
 
-### 8. `templates`
+### 7. `templates`
 
 | 列 | 必須 | 値の例 | 説明 |
 |---|---|---|---|
@@ -133,7 +122,7 @@ fru    p4    juuji-shiki    十字式    対面散開、 8 方向定位置
 
 **bot `/recruit` で使用される**。 変数は `/recruit` 実行時にユーザーが指定。
 
-### 9. `references`
+### 8. `references`
 
 | 列 | 必須 | 値の例 | 説明 |
 |---|---|---|---|
@@ -146,17 +135,7 @@ fru    p4    juuji-shiki    十字式    対面散開、 8 方向定位置
 
 ## 🎯 よくある編集シナリオ
 
-### ケース A: 新しい tip を追加 (一番頻繁)
-
-1. `tips` タブを開く
-2. 最下行に新規行追加
-3. `content_id` (例: `fru`) と `phase_id` (例: `p3`) を入力
-4. `tip` 列に内容を書く (1 行 = 1 tip)
-5. 保存 (Sheets は自動保存)
-
-→ 次回 `pnpm pull` で `data/contents/fru.yaml` の `phases[].tips` に追加される。
-
-### ケース B: 動画 URL を追加
+### ケース A: 動画 URL を追加
 
 1. `videos` タブ
 2. 新規行 + content_id + phase_id + title + url + (任意) author
@@ -180,10 +159,9 @@ fru    p4    juuji-shiki    十字式    対面散開、 8 方向定位置
    m13s    p1    P1 (...)    0    開幕フェーズの説明
    m13s    p2    P2 (...)    1    （あれば）
    ```
-3. **`tips`** タブで初期 tip を入れる (推奨)
-4. **`references`** タブで攻略サイト URL を 2〜3 個追加
-5. `pnpm pull` で YAML 生成
-6. git commit + PR
+3. **`references`** タブで攻略サイト URL を 2〜3 個追加
+4. `pnpm pull` で YAML 生成
+5. git commit + PR
 
 → **bot は自動で `/setup type:零式 content:m13s` で認識** (再起動不要、 ただし bot 側 YAML を再 deploy が必要)。
 
@@ -296,7 +274,7 @@ CI で typecheck + schema validation が再度走るので 安心。
 ## 🎓 Tips
 
 - **編集前に history 確認** (Sheets メニュー: ファイル → 変更履歴) — 誰が何を変えたか可視化
-- **Filter/Sort 機能を使う** — `tips` タブで 「content_id=fru」 だけ表示等
+- **Filter/Sort 機能を使う** — `strategies` タブで 「content_id=fru」 だけ表示等
 - **Conditional formatting** で空セル可視化 — 必須列が空なら赤くする等 (Sheets 機能)
 - **複数 dev 編集時は seat を取る**: Sheets 上のセル選択でリアルタイム可視化される
 - **大量編集は CSV import で** — 既存 YAML を local で編集 → `export-csv` → Sheet に再 import (差分マージ)
