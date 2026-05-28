@@ -16,6 +16,7 @@ import { startRecurringScheduler, stopRecurringScheduler } from "./services/recu
 import { handleVoteButton } from "./services/vote-interaction";
 import { handleVoteModalSubmit, MODAL_PREFIX as VOTE_MODAL_PREFIX } from "./services/vote-modal-submit";
 import { handleChouseisanPick, SELECT_PREFIX as CHOUSEISAN_SELECT_PREFIX } from "./services/chouseisan-interaction";
+import { postWelcomeToGuild } from "./services/welcome";
 
 const token = process.env.DISCORD_TOKEN;
 if (!token) {
@@ -36,7 +37,33 @@ const client = new Client({
   intents: [GatewayIntentBits.Guilds],
 });
 
+// Guard: GuildCreate fires for ALL guilds during bot startup (initial sync),
+// not just real new joins. We only want to welcome on actual new joins, so
+// flip this flag once ClientReady fires.
+let isReadyForNewGuilds = false;
+
+// When bot is added to a NEW guild post-startup, post the welcome / 3-step
+// quickstart embed to the system channel (or first sendable text channel).
+client.on(Events.GuildCreate, async (guild) => {
+  if (!isReadyForNewGuilds) {
+    // Startup sync — skip welcome (we're already in this guild)
+    return;
+  }
+  console.log(`Joined guild: ${guild.name} (${guild.id}) — ${guild.memberCount} members`);
+  try {
+    const result = await postWelcomeToGuild(guild);
+    if (result.posted) {
+      console.log(`  Welcome posted to channel ${result.channelId}`);
+    } else {
+      console.warn(`  No sendable channel found in ${guild.name} — welcome skipped`);
+    }
+  } catch (err) {
+    console.error(`Failed to post welcome to ${guild.name}:`, err);
+  }
+});
+
 client.once(Events.ClientReady, (c) => {
+  isReadyForNewGuilds = true;
   console.log(`Logged in as ${c.user.tag}`);
   startAlertWorker(client);
   console.log("Alert worker started (30s tick)");
