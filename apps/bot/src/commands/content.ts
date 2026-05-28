@@ -99,11 +99,45 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
     );
 
   if (content.references.urls.length > 0) {
-    embed.addFields({
-      name: "参照URL",
-      value: content.references.urls.map((u) => `<${u}>`).join("\n"),
-    });
+    // Discord limits embed field.value to 1024 chars. Long URL lists (ucob has
+    // 30+ URLs, ~1900 chars) overflow this. Split into multiple fields.
+    const chunks = chunkUrlsForFields(content.references.urls);
+    embed.addFields(...chunks);
   }
 
   await interaction.reply({ embeds: [embed] });
+}
+
+/**
+ * Split a URL list into multiple `{name, value}` field objects so each value
+ * stays under Discord's 1024-char field.value limit.
+ * Single chunk: name = "参照URL"; multi-chunk: name = "参照URL (1/3)" etc.
+ */
+export function chunkUrlsForFields(
+  urls: string[]
+): { name: string; value: string }[] {
+  const MAX_VALUE_LEN = 1024;
+  const lines = urls.map((u) => `<${u}>`);
+  const chunks: string[][] = [[]];
+
+  for (const line of lines) {
+    const current = chunks[chunks.length - 1];
+    // Length if we add this line to the current chunk (with newline if not empty)
+    const joined = current.length === 0 ? line : current.join("\n") + "\n" + line;
+    if (joined.length > MAX_VALUE_LEN && current.length > 0) {
+      // Start a new chunk
+      chunks.push([line]);
+    } else {
+      current.push(line);
+    }
+  }
+
+  // Drop trailing empty chunk if the loop never added to it
+  while (chunks.length > 1 && chunks[chunks.length - 1].length === 0) chunks.pop();
+
+  const total = chunks.length;
+  return chunks.map((c, i) => ({
+    name: total === 1 ? "参照URL" : `参照URL (${i + 1}/${total})`,
+    value: c.join("\n"),
+  }));
 }

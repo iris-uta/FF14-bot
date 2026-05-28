@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { execute, autocomplete, data } from "./content";
+import { execute, autocomplete, data, chunkUrlsForFields } from "./content";
 import { reloadContents } from "../lib/contents";
 
 beforeEach(() => {
@@ -129,5 +129,62 @@ describe("/content command", () => {
       const choices = respond.mock.calls[0][0] as unknown[];
       expect(choices.length).toBeLessThanOrEqual(25);
     });
+  });
+});
+
+// Regression test for: "/raid id:ucob" → コマンド実行中にエラー
+// ucob has 30 URLs which formatted as "<url>\n" exceeds Discord's 1024 char
+// field.value limit. chunkUrlsForFields splits into multiple fields.
+describe("chunkUrlsForFields", () => {
+  it("returns a single 参照URL field when total length fits", () => {
+    const urls = ["https://example.com/a", "https://example.com/b"];
+    const fields = chunkUrlsForFields(urls);
+    expect(fields).toHaveLength(1);
+    expect(fields[0].name).toBe("参照URL");
+    expect(fields[0].value).toBe("<https://example.com/a>\n<https://example.com/b>");
+  });
+
+  it("splits into '参照URL (i/N)' fields when value exceeds 1024 chars", () => {
+    // Each URL formatted as <url>\n is ~64 chars; 30 of them = ~1900 chars
+    const urls = Array.from(
+      { length: 30 },
+      (_, i) => `https://example.com/very-long-url-path-here-${i.toString().padStart(3, "0")}`
+    );
+    const fields = chunkUrlsForFields(urls);
+    expect(fields.length).toBeGreaterThan(1);
+    for (const f of fields) {
+      expect(f.value.length).toBeLessThanOrEqual(1024);
+      expect(f.name).toMatch(/^参照URL \(\d+\/\d+\)$/);
+    }
+    // No URLs dropped
+    const totalLines = fields.reduce((sum, f) => sum + f.value.split("\n").length, 0);
+    expect(totalLines).toBe(urls.length);
+  });
+
+  it("handles empty list (returns one empty field — caller decides to skip)", () => {
+    const fields = chunkUrlsForFields([]);
+    expect(fields).toHaveLength(1);
+    expect(fields[0].value).toBe("");
+  });
+
+  it("doesn't crash on a single very-long URL", () => {
+    // 2000 chars in one URL — pathological, but shouldn't throw
+    const urls = ["https://example.com/" + "x".repeat(2000)];
+    const fields = chunkUrlsForFields(urls);
+    // The URL itself exceeds 1024; we accept the overflow rather than truncate (data fidelity)
+    expect(fields).toHaveLength(1);
+    expect(fields[0].value).toContain("xxxxxxxxxx");
+  });
+
+  it("real-world ucob (~30 URLs ~1900 chars) splits into 2 valid fields", async () => {
+    // Use the actual loaded content to make this regression real
+    const { getContentById } = await import("../lib/contents");
+    const ucob = getContentById("ucob");
+    expect(ucob).toBeDefined();
+    const fields = chunkUrlsForFields(ucob!.references.urls);
+    expect(fields.length).toBeGreaterThanOrEqual(2);
+    for (const f of fields) {
+      expect(f.value.length).toBeLessThanOrEqual(1024);
+    }
   });
 });
