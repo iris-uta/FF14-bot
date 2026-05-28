@@ -16,6 +16,7 @@ import * as macroCommand from "./macro";
 import * as tipsCommand from "./tips";
 import * as fromChouseisanCommand from "./from-chouseisan";
 import * as progressCommand from "./progress";
+import * as quickstartCommand from "./quickstart";
 import * as recurringCommand from "./recurring";
 import * as staticInitCommand from "./static-init";
 import * as staticInfoCommand from "./static-info";
@@ -43,6 +44,7 @@ export const commands: Record<string, Command> = {
   [staticInitCommand.data.name]: staticInitCommand,
   [staticInfoCommand.data.name]: staticInfoCommand,
   [progressCommand.data.name]: progressCommand,
+  [quickstartCommand.data.name]: quickstartCommand,
   [recurringCommand.data.name]: recurringCommand,
   [fromChouseisanCommand.data.name]: fromChouseisanCommand,
   [voteCommand.data.name]: voteCommand,
