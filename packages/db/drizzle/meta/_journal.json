@@ -57,6 +57,13 @@
       "when": 1779912539510,
       "tag": "0007_right_spencer_smythe",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "6",
+      "when": 1779947128908,
+      "tag": "0008_typical_vision",
+      "breakpoints": true
     }
   ]
 }

@@ -6,12 +6,14 @@ import {
   type ChatInputCommandInteraction,
   type AutocompleteInteraction,
 } from "discord.js";
+import { randomUUID } from "node:crypto";
 import { getAllContents, getContentById } from "../lib/contents";
 import { sortByPatch } from "../lib/content-sort";
 import { configureContentTypeOption } from "../lib/content-type-choices";
 import { findStaticByName, initStatic } from "../services/static-manager";
 import { parseMembers, checkRoleUniqueness, MemberSpecParseError } from "../services/members-parser";
 import { SETUP_MODE_DESCRIPTIONS, type SetupMode } from "../services/static-channel-template";
+import { buildStepMessage, putWizard, type WizardState } from "../services/setup-wizard";
 
 export const data = new SlashCommandBuilder()
   .setName("setup")
@@ -21,16 +23,6 @@ export const data = new SlashCommandBuilder()
     ja: "固定を一括作成 (Discord role + カテゴリ + 全 channels + Phase 情報自動投稿)",
   })
   .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels)
-  .addStringOption((opt) => configureContentTypeOption(opt))
-  .addStringOption((opt) =>
-    opt
-      .setName("content")
-      .setNameLocalizations({ ja: "コンテンツ" })
-      .setDescription("コンテンツID (type で絞り込まれた一覧)")
-      .setDescriptionLocalizations({ ja: "コンテンツID (種別で絞られた一覧から選ぶ)" })
-      .setRequired(true)
-      .setAutocomplete(true)
-  )
   .addStringOption((opt) =>
     opt
       .setName("name")
@@ -39,6 +31,16 @@ export const data = new SlashCommandBuilder()
       .setDescriptionLocalizations({ ja: "固定の名前 (Discord role 名にもなる)" })
       .setRequired(true)
       .setMaxLength(80)
+  )
+  .addStringOption((opt) => configureContentTypeOption(opt, { required: false }))
+  .addStringOption((opt) =>
+    opt
+      .setName("content")
+      .setNameLocalizations({ ja: "コンテンツ" })
+      .setDescription("コンテンツID (省略時は button wizard で選択)")
+      .setDescriptionLocalizations({ ja: "コンテンツID (省略時は button wizard で選択)" })
+      .setRequired(false)
+      .setAutocomplete(true)
   )
   .addStringOption((opt) =>
     opt
@@ -98,12 +100,57 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
     return;
   }
 
-  const typeFilter = interaction.options.getString("type", true);
-  const contentId = interaction.options.getString("content", true);
   const name = interaction.options.getString("name", true).trim();
+  if (name === "") {
+    await interaction.reply({
+      content: "name は空にできません。",
+      flags: MessageFlags.Ephemeral,
+    });
+    return;
+  }
+  // Early collision check (avoid wizard for a name that won't work)
+  const existing = findStaticByName(interaction.guild.id, name);
+  if (existing) {
+    await interaction.reply({
+      content: `固定「${name}」は既に存在します。 別名を指定してください。`,
+      flags: MessageFlags.Ephemeral,
+    });
+    return;
+  }
+
+  const typeFilter = interaction.options.getString("type");
+  const contentId = interaction.options.getString("content");
   const mode = (interaction.options.getString("mode") ?? "standard") as SetupMode;
   const membersInput = interaction.options.getString("members");
 
+  // Wizard mode: launch when content / type missing. members option ignored
+  // in wizard (use /static-add later — to be implemented).
+  if (!typeFilter || !contentId) {
+    const sessionId = randomUUID();
+    const state: WizardState = {
+      sessionId,
+      creatorId: interaction.user.id,
+      guildId: interaction.guild.id,
+      name,
+      type: (typeFilter ?? undefined) as WizardState["type"],
+      contentId: contentId ?? undefined,
+      mode: undefined,           // wizard always asks
+      phaseStrategies: {},
+      pendingPhaseIdx: 0,
+      createdAt: Date.now(),
+    };
+    putWizard(state);
+    const msg = buildStepMessage(state);
+    await interaction.reply({
+      embeds: msg.embeds,
+      components: msg.components,
+      flags: MessageFlags.Ephemeral,
+    });
+    return;
+  }
+
+  // From here on, slash-args path (all options provided up-front).
+  // `name` collision + emptiness already validated above.
   const content = getContentById(contentId);
   if (!content) {
     await interaction.reply({
@@ -116,24 +163,6 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
   if (content.type !== typeFilter) {
     await interaction.reply({
       content: `type と content が一致しません。\n選択した type: \`${typeFilter}\` / content (${contentId}) の type: \`${content.type}\``,
-      flags: MessageFlags.Ephemeral,
-    });
-    return;
-  }
-
-  if (name === "") {
-    await interaction.reply({
-      content: "name は空にできません。",
-      flags: MessageFlags.Ephemeral,
-    });
-    return;
-  }
-
-  // Check name collision in this guild
-  const existing = findStaticByName(interaction.guild.id, name);
-  if (existing) {
-    await interaction.reply({
-      content: `固定「${name}」は既に存在します (${new Date(existing.createdAt).toLocaleString("ja-JP")})。別名を指定してください。`,
       flags: MessageFlags.Ephemeral,
     });
     return;

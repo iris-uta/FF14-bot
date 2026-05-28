@@ -1,0 +1,1 @@
+ALTER TABLE `statics` ADD `phase_strategies` text;

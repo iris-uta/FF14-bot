@@ -19,6 +19,12 @@ export interface BuildPhaseEmbedOptions {
    */
   variant?: PhaseEmbedVariant;
   color?: number;
+  /**
+   * Strategy ID chosen for THIS phase via the setup wizard. When set, the
+   * matching strategy is highlighted (✅ prefix) in the 処理法 list and shown
+   * as the description prefix.
+   */
+  selectedStrategyId?: string;
 }
 
 /**
@@ -41,9 +47,16 @@ export function buildPhaseEmbed(
     .setTitle(`${phase.name} — ${content.displayName}`)
     .setColor(color);
 
-  // Top description: 野良主流 (both variants) + full description (full only)
+  const selected = opts.selectedStrategyId
+    ? phase.strategies.find((s) => s.id === opts.selectedStrategyId)
+    : undefined;
+
+  // Top description: 選んだ処理法 (if any) > 野良主流 fallback, + description in full mode
   const descParts: string[] = [];
-  if (phase.popularStrategy) {
+  if (selected) {
+    descParts.push(`**🎯 この固定の処理法**: ${selected.name}` +
+      (selected.description ? ` — ${selected.description.split("\n")[0]}` : ""));
+  } else if (phase.popularStrategy) {
     descParts.push(`**野良主流**: ${phase.popularStrategy}`);
   }
   if (variant === "full" && phase.description) {
@@ -53,12 +66,16 @@ export function buildPhaseEmbed(
     embed.setDescription(descParts.join("\n\n").slice(0, 4096));
   }
 
-  // 処理法 — both variants
+  // 処理法 — both variants. Selected strategy is prefixed with ✅
   if (phase.strategies.length > 0) {
     embed.addFields({
       name: "処理法",
       value: phase.strategies
-        .map((s) => `**${s.name}**${s.description ? ` — ${s.description.split("\n")[0]}` : ""}`)
+        .map((s) => {
+          const check = opts.selectedStrategyId === s.id ? "✅ " : "";
+          const desc = s.description ? ` — ${s.description.split("\n")[0]}` : "";
+          return `${check}**${s.name}**${desc}`;
+        })
         .join("\n")
         .slice(0, 1024),
     });
@@ -122,13 +139,15 @@ export async function postPhaseToChannel(
   channel: TextChannel,
   content: Content,
   phase: Phase,
-  options: { includeMacros?: boolean; pin?: boolean } = {}
+  options: { includeMacros?: boolean; pin?: boolean; selectedStrategyId?: string } = {}
 ): Promise<PostPhaseResult> {
   const includeMacros = options.includeMacros ?? false;
   const shouldPin = options.pin ?? false;
 
   try {
-    const embed = buildPhaseEmbed(content, phase);
+    const embed = buildPhaseEmbed(content, phase, {
+      selectedStrategyId: options.selectedStrategyId,
+    });
     const msg = await channel.send({ embeds: [embed] });
 
     if (includeMacros) {

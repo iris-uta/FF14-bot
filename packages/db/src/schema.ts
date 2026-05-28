@@ -46,7 +46,8 @@ export const statics = sqliteTable(
     leaderId: text("leader_id").notNull(),
     name: text("name").notNull(),
     contentId: text("content_id").notNull(),
-    strategyId: text("strategy_id"),                 // 進行スタイル (content.strategies[].id)
+    strategyId: text("strategy_id"),                 // (deprecated, kept for compat) — 単一進行スタイル
+    phaseStrategies: text("phase_strategies"),       // JSON: {phaseId: strategyId} — wizard で選んだ phase別 処理法
     roleId: text("role_id").notNull(),               // Discord role
     categoryId: text("category_id").notNull(),       // Discord category
     lobbyChannelId: text("lobby_channel_id"),
