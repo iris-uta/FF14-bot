@@ -18,6 +18,7 @@ import * as fromChouseisanCommand from "./from-chouseisan";
 import * as progressCommand from "./progress";
 import * as quickstartCommand from "./quickstart";
 import * as recurringCommand from "./recurring";
+import * as rolePickCommand from "./role-pick";
 import * as staticInitCommand from "./static-init";
 import * as staticInfoCommand from "./static-info";
 import * as voteCommand from "./vote";
@@ -46,6 +47,7 @@ export const commands: Record<string, Command> = {
   [progressCommand.data.name]: progressCommand,
   [quickstartCommand.data.name]: quickstartCommand,
   [recurringCommand.data.name]: recurringCommand,
+  [rolePickCommand.data.name]: rolePickCommand,
   [fromChouseisanCommand.data.name]: fromChouseisanCommand,
   [voteCommand.data.name]: voteCommand,
 };
