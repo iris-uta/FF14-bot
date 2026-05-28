@@ -27,8 +27,8 @@ const baseContent: Content = {
         { title: "v2", url: "https://example.com/2" },
       ],
       strategies: [
-        { id: "anchi", name: "アポカリ：最初の安置基準" },
-        { id: "apoka", name: "アポカリ：アポカリ基準" },
+        { id: "anchi", name: "アポカリ：最初の安置基準", popular: false },
+        { id: "apoka", name: "アポカリ：アポカリ基準", popular: false },
       ],
       tips: [],
     },

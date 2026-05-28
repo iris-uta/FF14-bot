@@ -144,6 +144,7 @@ function buildContent(
         .map((s) => ({
           id: s.id,
           name: s.name,
+          popular: parseBool(s.popular),
           description: s.description || undefined,
         }));
       const tips = (tipsByPhase[phaseKey] ?? [])
@@ -193,6 +194,9 @@ function buildContent(
     references.primary = contentRow.references_primary;
   }
 
+  // Optional `overview` — assembled from the new columns on the contents tab
+  const overview = buildOverview(contentRow);
+
   const out: Record<string, unknown> = {
     id,
     displayName: contentRow.displayName,
@@ -204,7 +208,40 @@ function buildContent(
     references,
   };
   if (contentRow.patch?.trim()) out.patch = contentRow.patch;
+  if (overview) out.overview = overview;
   return out;
+}
+
+/**
+ * Build the `overview` block from contents-tab columns if any of the overview
+ * fields are populated. Returns undefined if all are blank (= omit from YAML).
+ */
+function buildOverview(row: Record<string, string>): Record<string, unknown> | undefined {
+  const main = row.overview_main_strategy?.trim() || "";
+  const playlistTitle = row.overview_playlist_title?.trim() || "";
+  const playlistUrl = row.overview_playlist_url?.trim() || "";
+  const playlistAuthor = row.overview_playlist_author?.trim() || "";
+  const macroSource = row.overview_macro_source?.trim() || "";
+  const macroUrl = row.overview_macro_url?.trim() || "";
+  const macroText = row.overview_macro_text?.trim() || "";
+
+  const out: Record<string, unknown> = {};
+  if (main) out.mainStrategy = main;
+  if (playlistTitle && playlistUrl) {
+    out.videoPlaylist = {
+      title: playlistTitle,
+      url: playlistUrl,
+      ...(playlistAuthor ? { author: playlistAuthor } : {}),
+    };
+  }
+  if (macroSource && macroUrl) {
+    out.partyWideMacro = {
+      source: macroSource,
+      url: macroUrl,
+      ...(macroText ? { text: macroText } : {}),
+    };
+  }
+  return Object.keys(out).length > 0 ? out : undefined;
 }
 
 // ── helpers ─────────────────────────────────────────────────────────────────

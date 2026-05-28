@@ -38,6 +38,13 @@ export function disassembleContents(contents: Content[]): SheetData {
       type: c.type,
       patch: c.patch ?? "",
       references_primary: c.references.primary ?? "",
+      overview_main_strategy: c.overview?.mainStrategy ?? "",
+      overview_playlist_title: c.overview?.videoPlaylist?.title ?? "",
+      overview_playlist_url: c.overview?.videoPlaylist?.url ?? "",
+      overview_playlist_author: c.overview?.videoPlaylist?.author ?? "",
+      overview_macro_source: c.overview?.partyWideMacro?.source ?? "",
+      overview_macro_url: c.overview?.partyWideMacro?.url ?? "",
+      overview_macro_text: c.overview?.partyWideMacro?.text ?? "",
     });
 
     for (const phase of c.phases) {
@@ -73,6 +80,7 @@ export function disassembleContents(contents: Content[]): SheetData {
           phase_id: phase.id,
           id: s.id,
           name: s.name,
+          popular: s.popular ? "true" : "false",
           description: s.description ?? "",
         });
       }
@@ -148,11 +156,16 @@ function escapeCsvCell(value: string): string {
 // ── Header order (matches the documented sheet schema) ──────────────────────
 
 export const TAB_HEADERS: Record<keyof SheetData, string[]> = {
-  contents:    ["id", "displayName", "shortName", "type", "patch", "references_primary"],
+  contents: [
+    "id", "displayName", "shortName", "type", "patch", "references_primary",
+    "overview_main_strategy",
+    "overview_playlist_title", "overview_playlist_url", "overview_playlist_author",
+    "overview_macro_source", "overview_macro_url", "overview_macro_text",
+  ],
   phases:      ["content_id", "phase_id", "name", "order", "popular_strategy", "description"],
   videos:      ["content_id", "phase_id", "title", "url", "author"],
   mitigations: ["content_id", "phase_id", "name", "url", "copyable"],
-  strategies:  ["content_id", "phase_id", "id", "name", "description"],
+  strategies:  ["content_id", "phase_id", "id", "name", "popular", "description"],
   tips:        ["content_id", "phase_id", "tip"],
   macros:      ["content_id", "source", "url", "text"],
   templates:   ["content_id", "template", "variables"],

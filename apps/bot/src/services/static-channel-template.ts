@@ -15,7 +15,15 @@ export interface UtilityChannel {
   name: string;
   topic: string;
   /** Optional: where to remember this in the DB. lobby = main chat target. */
-  role?: "lobby" | "scheduling" | "mitigation" | "videos" | "progress" | "race-notes" | "logs";
+  role?:
+    | "lobby"
+    | "scheduling"
+    | "mitigation"
+    | "videos"
+    | "progress"
+    | "race-notes"
+    | "logs"
+    | "overview";   // 全体: 主流処理法 + プレイリスト + 編成全体マクロ
 }
 
 export interface ChannelTemplate {
@@ -48,10 +56,15 @@ function utilityChannelsFor(mode: SetupMode): UtilityChannel[] {
   }
 
   const base: UtilityChannel[] = [
+    {
+      name: "全体",
+      topic: "コンテンツ全体: 主流処理法 / 攻略動画プレイリスト / 編成全体マクロ",
+      role: "overview",
+    },
     { name: "ロビー", topic: "総合チャネル — お知らせ、アナウンスはここ", role: "lobby" },
     { name: "雑談", topic: "雑談チャネル — ゲーム外の話題もOK" },
     { name: "日程調整", topic: "日程の相談・調整さん URL の共有", role: "scheduling" },
-    { name: "軽減表", topic: "軽減表のリンクと管理", role: "mitigation" },
+    { name: "軽減表", topic: "各 Phase の軽減表 (リンクのみ集約)", role: "mitigation" },
     { name: "動画-参考", topic: "攻略動画・参考URL集", role: "videos" },
     { name: "進行度-記録", topic: "Phase 突破履歴・セッション記録", role: "progress" },
   ];

@@ -75,6 +75,7 @@ function orderContentKeys(c: Content): Record<string, unknown> {
   out.phases = c.phases.map((p) => orderPhaseKeys(p));
   if (c.macros.length > 0) out.macros = c.macros;
   if (c.recruitmentTemplates.length > 0) out.recruitmentTemplates = c.recruitmentTemplates;
+  if (c.overview) out.overview = c.overview;
   // references default { urls: [] } — only emit if anything non-empty
   const refs = c.references;
   const hasRefs = refs.primary || refs.urls.length > 0;
