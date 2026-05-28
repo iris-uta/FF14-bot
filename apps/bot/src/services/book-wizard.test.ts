@@ -15,6 +15,7 @@ import {
   applyResetTime,
   applySetTime,
   applyToggleDate,
+  atomicUpdate,
   buildBookStepMessage,
   clearAllBookWizards,
   combineDateTime,
@@ -318,6 +319,47 @@ describe("buildBookStepMessage", () => {
       c.data?.custom_id?.endsWith(":reset-time")
     );
     expect(resetBtn).toBeDefined();
+  });
+});
+
+describe("atomicUpdate (race resistance)", () => {
+  it("returns null when the session doesn't exist", () => {
+    expect(atomicUpdate("missing", (s) => s)).toBeNull();
+  });
+
+  it("read-modify-writes under a transaction (no lost updates from sequential calls)", () => {
+    putBookWizard(makeState());
+
+    // Sequentially toggle 3 different dates via atomicUpdate (the in-handler path).
+    const s1 = atomicUpdate("sid-1", (s) => applyToggleDate(s, "2026-05-30"));
+    const s2 = atomicUpdate("sid-1", (s) => applyToggleDate(s, "2026-05-31"));
+    const s3 = atomicUpdate("sid-1", (s) => applyToggleDate(s, "2026-06-01"));
+
+    expect(s1?.selectedDates).toEqual(["2026-05-30"]);
+    expect(s2?.selectedDates).toEqual(["2026-05-30", "2026-05-31"]);
+    expect(s3?.selectedDates).toEqual(["2026-05-30", "2026-05-31", "2026-06-01"]);
+
+    // Final persisted state mirrors the last write.
+    expect(getBookWizard("sid-1")?.selectedDates).toEqual([
+      "2026-05-30",
+      "2026-05-31",
+      "2026-06-01",
+    ]);
+  });
+
+  it("each updater sees the latest committed state — the bug fix for 'dates disappearing'", () => {
+    // Pre-bug behavior: handler A reads {}, computes {A}; handler B reads {} too
+    // (because it ran before A's write), computes {B}, writes {B}, erasing A.
+    // With atomicUpdate, B's transaction sees A's committed write — its updater
+    // function receives a state that already contains A.
+    putBookWizard(makeState());
+    atomicUpdate("sid-1", (s) => applyToggleDate(s, "2026-05-30"));
+    const seenByB = atomicUpdate("sid-1", (s) => {
+      // If the previous write wasn't visible, this assertion would fail.
+      expect(s.selectedDates).toEqual(["2026-05-30"]);
+      return applyToggleDate(s, "2026-05-31");
+    });
+    expect(seenByB?.selectedDates).toEqual(["2026-05-30", "2026-05-31"]);
   });
 });
 

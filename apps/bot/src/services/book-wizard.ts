@@ -156,6 +156,53 @@ export function deleteBookWizard(id: string): void {
   db.delete(wizardSessions).where(eq(wizardSessions.id, id)).run();
 }
 
+/**
+ * Atomic read-modify-write under a SQLite transaction. Required for handlers
+ * that mutate state: discord.js fires the `interactionCreate` listener
+ * concurrently for each click, so a fast tapper can cause two handlers to
+ * both read the same pre-update state, both compute "next", and both write
+ * — the second write erases the first click's effect (= "the date I just
+ * selected disappeared").
+ *
+ * better-sqlite3 transactions are synchronous, so the read-modify-write
+ * runs without giving the event loop a chance to interleave another
+ * handler's transaction.
+ *
+ * Returns the new state, or null if the session is missing/expired.
+ */
+export function atomicUpdate(
+  sessionId: string,
+  updater: (state: BookWizardState) => BookWizardState
+): BookWizardState | null {
+  const db = getDb();
+  return db.transaction((tx) => {
+    const row = tx
+      .select()
+      .from(wizardSessions)
+      .where(
+        and(
+          eq(wizardSessions.id, sessionId),
+          eq(wizardSessions.kind, KIND),
+          gt(wizardSessions.expiresAt, Date.now())
+        )
+      )
+      .get();
+    if (!row) return null;
+    let current: BookWizardState;
+    try {
+      current = JSON.parse(row.state) as BookWizardState;
+    } catch {
+      return null;
+    }
+    const next = updater(current);
+    tx.update(wizardSessions)
+      .set({ state: JSON.stringify(next) })
+      .where(eq(wizardSessions.id, sessionId))
+      .run();
+    return next;
+  });
+}
+
 export function clearAllBookWizards(): void {
   const db = getDb();
   db.delete(wizardSessions).where(eq(wizardSessions.kind, KIND)).run();
@@ -393,12 +440,16 @@ function buildPickDates(state: BookWizardState, now: number): StepMessage {
     const row = new ActionRowBuilder<ButtonBuilder>();
     for (const d of dates.slice(i, i + 5)) {
       const selected = state.selectedDates.includes(d);
-      row.addComponents(
-        new ButtonBuilder()
-          .setCustomId(`${BOOK_WIZARD_PREFIX}${state.sessionId}:toggle:${d}`)
-          .setLabel((selected ? "☑ " : "") + shortDateLabel(d))
-          .setStyle(selected ? ButtonStyle.Success : ButtonStyle.Secondary)
-      );
+      // Use setEmoji (separate field) instead of prefixing the label — Discord
+      // mobile sometimes "promotes" a leading Unicode symbol to a graphical
+      // emoji that eats button width, visually clipping the date text. Keeping
+      // emoji + label separated avoids that.
+      const btn = new ButtonBuilder()
+        .setCustomId(`${BOOK_WIZARD_PREFIX}${state.sessionId}:toggle:${d}`)
+        .setLabel(shortDateLabel(d))
+        .setStyle(selected ? ButtonStyle.Success : ButtonStyle.Secondary);
+      if (selected) btn.setEmoji("✅");
+      row.addComponents(btn);
     }
     dayRows.push(row);
   }

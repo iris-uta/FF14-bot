@@ -24,6 +24,7 @@ import {
   applyResetTime,
   applySetTime,
   applyToggleDate,
+  atomicUpdate,
   buildBookStepMessage,
   combineDateTime,
   deleteBookWizard,
@@ -31,7 +32,6 @@ import {
   getBookWizard,
   longDateLabel,
   parseBookWizardCustomId,
-  putBookWizard,
   type BookWizardState,
 } from "./book-wizard.js";
 
@@ -73,11 +73,17 @@ export async function handleBookWizardButton(interaction: ButtonInteraction): Pr
   if (!state) return;
   const parsed = parseBookWizardCustomId(interaction.customId)!;
 
+  // Mutating actions go through atomicUpdate so concurrent clicks (fast tapper)
+  // can't race a read+write and lose each other's effect.
+  const mutate = (updater: (s: BookWizardState) => BookWizardState) =>
+    atomicUpdate(parsed.sessionId, updater);
+
   switch (parsed.action) {
     case "toggle": {
       if (!parsed.payload) return rejectAndAck(interaction, "日付が空です。");
-      const next = applyToggleDate(state, parsed.payload);
-      putBookWizard(next);
+      const payload = parsed.payload;
+      const next = mutate((s) => applyToggleDate(s, payload));
+      if (!next) return rejectAndAck(interaction, "セッションが失効しました。");
       const msg = buildBookStepMessage(next, Date.now());
       await interaction.update({ embeds: msg.embeds, components: msg.components });
       return;
@@ -86,39 +92,40 @@ export async function handleBookWizardButton(interaction: ButtonInteraction): Pr
       if (parsed.payload !== "back" && parsed.payload !== "fwd") {
         return rejectAndAck(interaction, "nav payload が不正です。");
       }
-      const next = applyNav(state, parsed.payload);
-      putBookWizard(next);
+      const dir = parsed.payload;
+      const next = mutate((s) => applyNav(s, dir));
+      if (!next) return rejectAndAck(interaction, "セッションが失効しました。");
       const msg = buildBookStepMessage(next, Date.now());
       await interaction.update({ embeds: msg.embeds, components: msg.components });
       return;
     }
     case "next": {
-      if (state.selectedDates.length === 0) {
+      const next = mutate((s) => (s.selectedDates.length === 0 ? s : applyNext(s)));
+      if (!next) return rejectAndAck(interaction, "セッションが失効しました。");
+      if (next.selectedDates.length === 0) {
         return rejectAndAck(interaction, "日付を 1 件以上選んでください。");
       }
-      const next = applyNext(state);
-      putBookWizard(next);
       const msg = buildBookStepMessage(next, Date.now());
       await interaction.update({ embeds: msg.embeds, components: msg.components });
       return;
     }
     case "back-to-dates": {
-      const next = applyBackToDates(state);
-      putBookWizard(next);
+      const next = mutate(applyBackToDates);
+      if (!next) return rejectAndAck(interaction, "セッションが失効しました。");
       const msg = buildBookStepMessage(next, Date.now());
       await interaction.update({ embeds: msg.embeds, components: msg.components });
       return;
     }
     case "back-to-review": {
-      const next = applyBackToReview(state);
-      putBookWizard(next);
+      const next = mutate(applyBackToReview);
+      if (!next) return rejectAndAck(interaction, "セッションが失効しました。");
       const msg = buildBookStepMessage(next, Date.now());
       await interaction.update({ embeds: msg.embeds, components: msg.components });
       return;
     }
     case "reset-time": {
-      const next = applyResetTime(state);
-      putBookWizard(next);
+      const next = mutate(applyResetTime);
+      if (!next) return rejectAndAck(interaction, "セッションが失効しました。");
       const msg = buildBookStepMessage(next, Date.now());
       await interaction.update({ embeds: msg.embeds, components: msg.components });
       return;
@@ -152,24 +159,27 @@ export async function handleBookWizardSelect(
   const value = interaction.values[0];
   if (!value) return rejectAndAck(interaction, "選択値が空です。");
 
+  const mutate = (updater: (s: BookWizardState) => BookWizardState) =>
+    atomicUpdate(parsed.sessionId, updater);
+
   switch (parsed.action) {
     case "default-time": {
-      const next = applyDefaultTime(state, value);
-      putBookWizard(next);
+      const next = mutate((s) => applyDefaultTime(s, value));
+      if (!next) return rejectAndAck(interaction, "セッションが失効しました。");
       const msg = buildBookStepMessage(next, Date.now());
       await interaction.update({ embeds: msg.embeds, components: msg.components });
       return;
     }
     case "edit-date": {
-      const next = applyEditDate(state, value);
-      putBookWizard(next);
+      const next = mutate((s) => applyEditDate(s, value));
+      if (!next) return rejectAndAck(interaction, "セッションが失効しました。");
       const msg = buildBookStepMessage(next, Date.now());
       await interaction.update({ embeds: msg.embeds, components: msg.components });
       return;
     }
     case "set-time": {
-      const next = applySetTime(state, value);
-      putBookWizard(next);
+      const next = mutate((s) => applySetTime(s, value));
+      if (!next) return rejectAndAck(interaction, "セッションが失効しました。");
       const msg = buildBookStepMessage(next, Date.now());
       await interaction.update({ embeds: msg.embeds, components: msg.components });
       return;
