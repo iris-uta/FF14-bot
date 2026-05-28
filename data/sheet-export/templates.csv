@@ -1,0 +1,409 @@
+content_id,template,variables
+ucob,"▼募集ジョブ
+● 活動DC: {{datacenter}}
+● 言語: {{language}}
+● ロール: {{recruitingRoles}}    # 注: 絶バハは H3構成 (ヒラ 3) が野良主流
+
+▼固定の目標
+● {{goal}}
+● 攻略期間が超過した場合: {{overrunPolicy}}
+● 踏破後の周回/消化: {{postClearPolicy}}
+
+▼基本事項
+● 活動時間: {{schedule}}
+● VC: Discord (聞き専 {{listenOnlyPolicy}})
+● 攻略方針: {{strategy}}    # 例: 新みんとっと/H3/拘束具逆▽/カータTLB/進軍十字/連撃V字/群竜TLB
+
+▼必須事項
+{{requirements}}
+
+▼禁止事項
+{{prohibitions}}
+
+▼コンタクト
+Discord: {{discordHandle}}
+X: {{xHandle}}
+","datacenter, language, recruitingRoles, goal, overrunPolicy, postClearPolicy, schedule, listenOnlyPolicy, strategy, requirements, prohibitions, discordHandle, xHandle"
+uwu,"▼募集ジョブ
+● 活動DC: {{datacenter}}
+● 言語: {{language}}
+● ロール: {{recruitingRoles}}    # 例: MT, ST, 近接, レンジ
+
+▼固定の目標
+● {{goal}}                        # 例: 初絶クリア / リスタ周回
+● 攻略期間が超過した場合: {{overrunPolicy}}
+● 踏破後の周回/消化: {{postClearPolicy}}
+
+▼基本事項
+● 活動時間: {{schedule}}          # 例: 週4-5日 22:00-24:00 JST
+● VC: Discord (聞き専 {{listenOnlyPolicy}})
+● 攻略方針: {{strategy}}          # 例: 新みんとっと(楔逆Z/ジェイル自滅/十字無視/3111/乱撃TLB)
+
+▼必須事項
+{{requirements}}                  # 例: 絶経験者 or 煉獄編クリア、予習・復習可能
+
+▼禁止事項
+{{prohibitions}}
+
+▼コンタクト
+Discord: {{discordHandle}}
+X: {{xHandle}}
+","datacenter, language, recruitingRoles, goal, overrunPolicy, postClearPolicy, schedule, listenOnlyPolicy, strategy, requirements, prohibitions, discordHandle, xHandle"
+tea,"▼募集ジョブ
+● 活動DC: {{datacenter}}
+● 言語: {{language}}
+● ロール: {{recruitingRoles}}
+
+▼固定の目標
+● {{goal}}
+● 攻略期間が超過した場合: {{overrunPolicy}}
+● 踏破後の周回/消化: {{postClearPolicy}}
+
+▼基本事項
+● 活動時間: {{schedule}}
+● VC: Discord (聞き専 {{listenOnlyPolicy}})
+● 攻略方針: {{strategy}}    # 例: ぬけまる/ヤ無視20/1211/ヒラ先/時間停止脳死/断絶34固定 etc
+
+▼必須事項
+{{requirements}}
+
+▼禁止事項
+{{prohibitions}}
+
+▼コンタクト
+Discord: {{discordHandle}}
+X: {{xHandle}}
+","datacenter, language, recruitingRoles, goal, overrunPolicy, postClearPolicy, schedule, listenOnlyPolicy, strategy, requirements, prohibitions, discordHandle, xHandle"
+p1s,"【FF14 零式募集】{{contentShort}}
+● 進行度: {{progress}}                  # 例: 結呪練 / 通し / 消化
+● 流派: {{strategy}}                    # 例: Game8 (ペア調整 / 氷火 MT・D3 交代式)
+● 募集ロール: {{recruitingRoles}}
+● 開始時間: {{startTime}}
+● VC: {{voiceChannel}}                  # 例: Discord 聞き専可
+● マクロ: {{macroSource}}               # 例: Game8 辺獄1層
+● 必須: {{requirements}}                # 例: タイムライン履修
+● 備考: {{notes}}
+","contentShort, progress, strategy, recruitingRoles, startTime, voiceChannel, macroSource, requirements, notes"
+p2s,"【FF14 零式募集】{{contentShort}}
+● 進行度: {{progress}}                  # 例: ハルマ練 / 通し / 消化
+● 流派: {{strategy}}                    # 例: Game8 (基本散開 / サイコロマーカー方式)
+● 募集ロール: {{recruitingRoles}}
+● 開始時間: {{startTime}}
+● VC: {{voiceChannel}}                  # 例: Discord 聞き専可
+● マクロ: {{macroSource}}               # 例: Game8 辺獄2層
+● 必須: {{requirements}}                # 例: タイムライン履修
+● 備考: {{notes}}
+","contentShort, progress, strategy, recruitingRoles, startTime, voiceChannel, macroSource, requirements, notes"
+p3s,"【FF14 零式募集】{{contentShort}}
+● 進行度: {{progress}}                  # 例: 闇の炎練 / 霊泉練 / 通し / 消化
+● 流派: {{strategy}}                    # 例: Game8 (基本犬丸 + 闇の炎X字 + 霊泉ハピおじ)
+● 募集ロール: {{recruitingRoles}}
+● 開始時間: {{startTime}}
+● VC: {{voiceChannel}}                  # 例: Discord 聞き専可
+● マクロ: {{macroSource}}               # 例: Game8 辺獄3層
+● 必須: {{requirements}}                # 例: タイムライン履修
+● 備考: {{notes}}
+","contentShort, progress, strategy, recruitingRoles, startTime, voiceChannel, macroSource, requirements, notes"
+p4s,"【FF14 零式募集】{{contentShort}}
+● 進行度: {{progress}}                  # 例: 前半 / 後半第二幕 / カーテンコール / 通し / 消化
+● 流派: {{strategy}}                    # 例: Game8 (前半 YPP / 後半 犬丸式)
+● 募集ロール: {{recruitingRoles}}
+● 開始時間: {{startTime}}
+● VC: {{voiceChannel}}                  # 例: Discord 聞き専可
+● マクロ: {{macroSource}}               # 例: Game8 辺獄4層前後半
+● 必須: {{requirements}}                # 例: 前半時間切れまで履修 / 後半動画予習
+● 備考: {{notes}}                       # 例: 後半ストップ可
+","contentShort, progress, strategy, recruitingRoles, startTime, voiceChannel, macroSource, requirements, notes"
+dsr,"▼募集ジョブ
+● 活動DC: {{datacenter}}
+● 言語: {{language}}
+● ロール: {{recruitingRoles}}
+
+▼固定の目標
+● {{goal}}
+● 攻略期間が超過した場合: {{overrunPolicy}}
+● 踏破後の周回/消化: {{postClearPolicy}}
+
+▼基本事項
+● 活動時間: {{schedule}}
+● VC: Discord (聞き専 {{listenOnlyPolicy}})
+● 攻略方針: {{strategy}}    # 例: リリド式（ゼ基ペア / 4塔近接 / こまぞう式改死刻 / アクモーン2TLB）
+
+▼必須事項
+{{requirements}}
+
+▼禁止事項
+{{prohibitions}}
+
+▼コンタクト
+Discord: {{discordHandle}}
+X: {{xHandle}}
+","datacenter, language, recruitingRoles, goal, overrunPolicy, postClearPolicy, schedule, listenOnlyPolicy, strategy, requirements, prohibitions, discordHandle, xHandle"
+dsr,"【絶竜詩戦争 攻略固定募集】
+● 活動DC: {{datacenter}}
+● 募集ロール: {{recruitingRoles}}
+● 進行度: {{progress}}    # 例: P1から / P5死刻練習中 / P7消化
+● 攻略期間目標: {{goalPeriod}}    # 例: 1〜2ヶ月、3週間短期
+● 活動時間: {{schedule}}    # 例: 平日21:30〜24:00 / 週4〜5日
+● 攻略方針: {{strategy}}    # 例: リリド式 / こまぞう式改死刻
+● VC: Discord (聞き専 {{listenOnlyPolicy}})
+
+【必須事項】
+● 前絶 or パンデモニウム零式辺獄編/煉獄編クリア経験
+● 複数ジョブ操作可能（ロール内）
+{{requirements}}
+
+【コンタクト】
+Discord: {{discordHandle}}
+","datacenter, recruitingRoles, progress, goalPeriod, schedule, strategy, listenOnlyPolicy, requirements, discordHandle"
+p5s,"【FF14 零式募集】{{contentShort}}
+● 進行度: {{progress}}                  # 例: 通し / 消化 / マウント周回
+● 流派: {{strategy}}                    # 例: Game8 / ぬけまる式
+● 募集ロール: {{recruitingRoles}}
+● 開始時間: {{startTime}}
+● VC: {{voiceChannel}}                  # 例: Discord 聞き専可
+● マクロ: {{macroSource}}               # 例: Game8 煉獄1層
+● 必須: {{requirements}}                # 例: タイムライン履修
+● 備考: {{notes}}                       # 例: 周回、初見歓迎 等
+","contentShort, progress, strategy, recruitingRoles, startTime, voiceChannel, macroSource, requirements, notes"
+p6s,"【FF14 零式募集】{{contentShort}}
+● 進行度: {{progress}}                  # 例: 通し / 消化 / 装備周回
+● 流派: {{strategy}}                    # 例: Game8 / ぬけまる式
+● 募集ロール: {{recruitingRoles}}
+● 開始時間: {{startTime}}
+● VC: {{voiceChannel}}                  # 例: Discord 聞き専可
+● マクロ: {{macroSource}}               # 例: Game8 煉獄2層
+● 必須: {{requirements}}                # 例: タイムライン履修
+● 備考: {{notes}}
+","contentShort, progress, strategy, recruitingRoles, startTime, voiceChannel, macroSource, requirements, notes"
+p7s,"【FF14 零式募集】{{contentShort}}
+● 進行度: {{progress}}                  # 例: 通し / 消化 / 装備周回
+● 流派: {{strategy}}                    # 例: Game8 / ぬけまる式 / 凶無敵
+● 募集ロール: {{recruitingRoles}}
+● 開始時間: {{startTime}}
+● VC: {{voiceChannel}}                  # 例: Discord 聞き専可
+● マクロ: {{macroSource}}               # 例: Game8 煉獄3層 Ver1.5
+● 必須: {{requirements}}                # 例: タイムライン履修
+● 備考: {{notes}}                       # 例: 凶 無敵運用可
+","contentShort, progress, strategy, recruitingRoles, startTime, voiceChannel, macroSource, requirements, notes"
+p8s,"【FF14 零式募集】{{contentShort}}
+● 進行度: {{progress}}                  # 例: 前半通し / 後半概念練 / 万象灰燼練 / 通し / 消化
+● 流派: {{strategy}}                    # 例: Game8 / FFO式 / はいじあ式 / ビジョン式
+● 募集ロール: {{recruitingRoles}}
+● 開始時間: {{startTime}}
+● VC: {{voiceChannel}}                  # 例: Discord 聞き専可
+● マクロ: {{macroSource}}               # 例: Game8 前半 + 後半 ビジョン式
+● 必須: {{requirements}}                # 例: 概念タイムライン履修 / 万象灰燼動画予習
+● 備考: {{notes}}                       # 例: 万象前ストップ可、消化のみ
+","contentShort, progress, strategy, recruitingRoles, startTime, voiceChannel, macroSource, requirements, notes"
+top,"▼募集ジョブ
+● 活動DC: {{datacenter}}
+● 言語: {{language}}
+● ロール: {{recruitingRoles}}
+
+▼固定の目標
+● {{goal}}
+● 攻略期間が超過した場合: {{overrunPolicy}}
+● 踏破後の周回/消化: {{postClearPolicy}}
+
+▼基本事項
+● 活動時間: {{schedule}}
+● VC: Discord (聞き専 {{listenOnlyPolicy}})
+● 攻略方針: {{strategy}}    # 例: P5デルタハムカツ／P5シグマりょんめ／P5オメガぬけまる／P6ハムカツ etc
+
+▼必須事項
+{{requirements}}
+
+▼禁止事項
+{{prohibitions}}
+
+▼コンタクト
+Discord: {{discordHandle}}
+X: {{xHandle}}
+","datacenter, language, recruitingRoles, goal, overrunPolicy, postClearPolicy, schedule, listenOnlyPolicy, strategy, requirements, prohibitions, discordHandle, xHandle"
+p10s,"【FF14 零式募集】{{contentShort}}
+● 進行度: {{progress}}                  # 例: P1 通し練 / 消化
+● 流派: {{strategy}}                    # 例: Game8 (犬丸改FFO式) / ぬけまる震撃
+● 募集ロール: {{recruitingRoles}}
+● 開始時間: {{startTime}}
+● VC: {{voiceChannel}}                  # 例: Discord 聞き専可
+● マクロ: {{macroSource}}               # 例: Game8 天獄編2層
+● 必須: {{requirements}}                # 例: タイムライン履修
+● 備考: {{notes}}                       # 例: 震撃ぬけまる希望
+","contentShort, progress, strategy, recruitingRoles, startTime, voiceChannel, macroSource, requirements, notes"
+p11s,"【FF14 零式募集】{{contentShort}}
+● 進行度: {{progress}}                  # 例: P1 通し練 / 調停練 / 消化
+● 流派: {{strategy}}                    # 例: Game8 (ハムカツ+ジジー式) / しのしょー式
+● 募集ロール: {{recruitingRoles}}
+● 開始時間: {{startTime}}
+● VC: {{voiceChannel}}                  # 例: Discord 聞き専可
+● マクロ: {{macroSource}}               # 例: Game8 天獄編3層
+● 必須: {{requirements}}                # 例: タイムライン履修 / 動画予習
+● 備考: {{notes}}                       # 例: アップヘルド闇は十字
+","contentShort, progress, strategy, recruitingRoles, startTime, voiceChannel, macroSource, requirements, notes"
+p12s,"【FF14 零式募集】{{contentShort}}
+● 進行度: {{progress}}                  # 例: 前半通し / 後半パラスレイ練 / 消化
+● 流派: {{strategy}}                    # 例: Game8 (ぬけまる式 / パラスレイX処理)
+● パラスレイ: {{parashasureProc}}       # X処理 / K処理 (1回目バリアント)
+● 募集ロール: {{recruitingRoles}}
+● 開始時間: {{startTime}}
+● VC: {{voiceChannel}}                  # 例: Discord 聞き専可
+● マクロ: {{macroSource}}               # 例: Game8 天獄編4層 前半+後半
+● 必須: {{requirements}}                # 例: タイムライン履修 / カロリック動画予習
+● 備考: {{notes}}
+","contentShort, progress, strategy, parashasureProc, recruitingRoles, startTime, voiceChannel, macroSource, requirements, notes"
+p9s,"【FF14 零式募集】{{contentShort}}
+● 進行度: {{progress}}                  # 例: P1 通し練 / 消化
+● 流派: {{strategy}}                    # 例: Game8 / 無職マラソン式
+● 募集ロール: {{recruitingRoles}}
+● 開始時間: {{startTime}}
+● VC: {{voiceChannel}}                  # 例: Discord 聞き専可
+● マクロ: {{macroSource}}               # 例: Game8 天獄編1層
+● 必須: {{requirements}}                # 例: タイムライン履修
+● 備考: {{notes}}
+","contentShort, progress, strategy, recruitingRoles, startTime, voiceChannel, macroSource, requirements, notes"
+m5s,"【FF14 零式募集】{{contentShort}}
+● 進行度: {{progress}}                  # 例: P1 通し練 / 消化
+● 流派: {{strategy}}                    # 例: Game8 / ぬけまる式
+● 募集ロール: {{recruitingRoles}}
+● 開始時間: {{startTime}}
+● VC: {{voiceChannel}}                  # 例: Discord 聞き専可
+● マクロ: {{macroSource}}               # 例: Game8 クルーザー級1層
+● 必須: {{requirements}}                # 例: タイムライン履修
+● 備考: {{notes}}
+","contentShort, progress, strategy, recruitingRoles, startTime, voiceChannel, macroSource, requirements, notes"
+m6s,"【FF14 零式募集】{{contentShort}}
+● 進行度: {{progress}}                  # 例: P1 雑魚練 / 山川練 / 通し / 消化
+● 流派: {{strategy}}                    # 例: Game8 (新FFO式 Ver.3.1)
+● 募集ロール: {{recruitingRoles}}
+● 開始時間: {{startTime}}
+● VC: {{voiceChannel}}                  # 例: Discord 聞き専可
+● マクロ: {{macroSource}}               # 例: Game8 クルーザー級2層
+● 必須: {{requirements}}                # 例: タイムライン履修 / 雑魚動画予習
+● 備考: {{notes}}
+","contentShort, progress, strategy, recruitingRoles, startTime, voiceChannel, macroSource, requirements, notes"
+m7s,"【FF14 零式募集】{{contentShort}}
+● 進行度: {{progress}}                  # 例: ビルディング練 / P3 ツイン練 / 通し / 消化
+● 流派: {{strategy}}                    # 例: Game8 (さり式 / ぽにこね式)
+● 募集ロール: {{recruitingRoles}}
+● 開始時間: {{startTime}}
+● VC: {{voiceChannel}}                  # 例: Discord 聞き専可
+● マクロ: {{macroSource}}               # 例: Game8 クルーザー級3層
+● 必須: {{requirements}}                # 例: タイムライン履修 / さり式動画予習
+● 備考: {{notes}}                       # 例: スプリント運用要習熟
+","contentShort, progress, strategy, recruitingRoles, startTime, voiceChannel, macroSource, requirements, notes"
+m8s,"【FF14 零式募集】{{contentShort}}
+● 進行度: {{progress}}                  # 例: P1 群狼剣練 / P2 孤狼の呪い練 / 通し / 消化
+● 流派: {{strategy}}                    # 例: Game8 (ぬけまる/IQ6000/Alice/81128)
+● 募集ロール: {{recruitingRoles}}
+● 開始時間: {{startTime}}
+● VC: {{voiceChannel}}                  # 例: Discord 聞き専可
+● マクロ: {{macroSource}}               # 例: Game8 クルーザー級4層 (前半+後半)
+● 必須: {{requirements}}                # 例: 千年の風化動画予習 / Alice式動画予習
+● 備考: {{notes}}                       # 例: 八連光弾の T 無敵順厳守
+","contentShort, progress, strategy, recruitingRoles, startTime, voiceChannel, macroSource, requirements, notes"
+m10s,"【FF14 零式募集】{{contentShort}}
+● 進行度: {{progress}}                  # 例: P2 練 / 通し / 消化
+● 流派: {{strategy}}                    # 例: Game8 (犬丸水牢ヒラ/炎AC)
+● 募集ロール: {{recruitingRoles}}
+● 開始時間: {{startTime}}
+● VC: {{voiceChannel}}                  # 例: Discord 聞き専可
+● マクロ: {{macroSource}}               # 例: Game8 ヘビー級2層
+● 必須: {{requirements}}                # 例: タイムライン履修
+● 備考: {{notes}}
+","contentShort, progress, strategy, recruitingRoles, startTime, voiceChannel, macroSource, requirements, notes"
+m11s,"【FF14 零式募集】{{contentShort}}
+● 進行度: {{progress}}                  # 例: P1 / チャンピオンズメテオ練 / 消化
+● 流派: {{strategy}}                    # 例: Game8 (ぬけまる様式 / ジジ式 / DXA式)
+● 募集ロール: {{recruitingRoles}}
+● 開始時間: {{startTime}}
+● VC: {{voiceChannel}}                  # 例: Discord 聞き専可
+● マクロ: {{macroSource}}               # 例: Game8 ヘビー級3層
+● 必須: {{requirements}}                # 例: タイムライン履修
+● 備考: {{notes}}
+","contentShort, progress, strategy, recruitingRoles, startTime, voiceChannel, macroSource, requirements, notes"
+m12s,"【FF14 零式募集】{{contentShort}}
+● 進行度: {{progress}}                  # 例: P1 練 / P2 ドリーム練 / 通し / 消化
+● 流派: {{strategy}}                    # 例: Game8 (位置固定/牛子式/ワンエース式)
+● 募集ロール: {{recruitingRoles}}
+● 開始時間: {{startTime}}
+● VC: {{voiceChannel}}                  # 例: Discord 聞き専可
+● マクロ: {{macroSource}}               # 例: Game8 前半 + ぬけまる動画後半
+● 必須: {{requirements}}                # 例: P1 ペアタイムライン履修 / ドリーム動画予習
+● 備考: {{notes}}                       # 例: ドリーム前ストップ可
+","contentShort, progress, strategy, recruitingRoles, startTime, voiceChannel, macroSource, requirements, notes"
+m9s,"【FF14 零式募集】{{contentShort}}
+● 進行度: {{progress}}                  # 例: P1 通し練 / 消化
+● 流派: {{strategy}}                    # 例: Game8 / ぬけまる式
+● 募集ロール: {{recruitingRoles}}
+● 開始時間: {{startTime}}
+● VC: {{voiceChannel}}                  # 例: Discord 聞き専可
+● マクロ: {{macroSource}}               # 例: Game8 ヘビー級1層
+● 必須: {{requirements}}                # 例: タイムライン履修
+● 備考: {{notes}}
+","contentShort, progress, strategy, recruitingRoles, startTime, voiceChannel, macroSource, requirements, notes"
+m1s,"【FF14 零式募集】{{contentShort}}
+● 進行度: {{progress}}                  # 例: P1 通し練 / 消化
+● 流派: {{strategy}}                    # 例: Game8 / 犬丸式
+● 募集ロール: {{recruitingRoles}}
+● 開始時間: {{startTime}}
+● VC: {{voiceChannel}}                  # 例: Discord 聞き専可
+● マクロ: {{macroSource}}               # 例: Game8 ライトヘビー1層
+● 必須: {{requirements}}                # 例: タイムライン履修
+● 備考: {{notes}}
+","contentShort, progress, strategy, recruitingRoles, startTime, voiceChannel, macroSource, requirements, notes"
+m2s,"【FF14 零式募集】{{contentShort}}
+● 進行度: {{progress}}                  # 例: P1 / 2nd ライヴ練 / 通し / 消化
+● 流派: {{strategy}}                    # 例: Game8 (ぬけまる版)
+● 募集ロール: {{recruitingRoles}}
+● 開始時間: {{startTime}}
+● VC: {{voiceChannel}}                  # 例: Discord 聞き専可
+● マクロ: {{macroSource}}               # 例: Game8 ライトヘビー2層
+● 必須: {{requirements}}                # 例: タイムライン履修
+● 備考: {{notes}}
+","contentShort, progress, strategy, recruitingRoles, startTime, voiceChannel, macroSource, requirements, notes"
+m3s,"【FF14 零式募集】{{contentShort}}
+● 進行度: {{progress}}                  # 例: P1 / 零式フューズ練 / 通し / 消化
+● 流派: {{strategy}}                    # 例: Game8 (ぬけまる版 Ver.2.0)
+● 募集ロール: {{recruitingRoles}}
+● 開始時間: {{startTime}}
+● VC: {{voiceChannel}}                  # 例: Discord 聞き専可
+● マクロ: {{macroSource}}               # 例: Game8 ライトヘビー3層
+● 必須: {{requirements}}                # 例: タイムライン履修
+● 備考: {{notes}}
+","contentShort, progress, strategy, recruitingRoles, startTime, voiceChannel, macroSource, requirements, notes"
+m4s,"【FF14 零式募集】{{contentShort}}
+● 進行度: {{progress}}                  # 例: P1 / 後半クロステイル練 / 通し / 消化
+● 流派: {{strategy}}                    # 例: Game8 (ぬけまる版 + DN 式)
+● 募集ロール: {{recruitingRoles}}
+● 開始時間: {{startTime}}
+● VC: {{voiceChannel}}                  # 例: Discord 聞き専可
+● マクロ: {{macroSource}}               # 例: Game8 前半 (Ver2.1) + 後半
+● 必須: {{requirements}}                # 例: タイムライン履修 / 動画予習
+● 備考: {{notes}}                       # 例: 後半ストップ可
+","contentShort, progress, strategy, recruitingRoles, startTime, voiceChannel, macroSource, requirements, notes"
+fru,"▼募集ジョブ
+● 活動DC: {{datacenter}}
+● 言語: {{language}}
+● ロール: {{recruitingRoles}}
+
+▼固定の目標
+● {{goal}}
+● 攻略期間が超過した場合: {{overrunPolicy}}
+● 踏破後の周回/消化: {{postClearPolicy}}
+
+▼基本事項
+● 活動時間: {{schedule}}
+● VC: Discord (聞き専 {{listenOnlyPolicy}})
+● 攻略方針: {{strategy}}    # 例: ぬけまる式トレース、リリド式 etc
+
+▼必須事項
+{{requirements}}
+
+▼禁止事項
+{{prohibitions}}
+
+▼コンタクト
+Discord: {{discordHandle}}
+X: {{xHandle}}
+","datacenter, language, recruitingRoles, goal, overrunPolicy, postClearPolicy, schedule, listenOnlyPolicy, strategy, requirements, prohibitions, discordHandle, xHandle"
