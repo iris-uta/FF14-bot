@@ -5,7 +5,7 @@ import {
   statics,
   staticSlots,
   staticMembers,
-  type NewStatic,
+  type NewStatic
 } from "@ff14kotei/db";
 import type { Content } from "@ff14kotei/schema";
 import { getDb, setDbForTesting, resetDb } from "../lib/db";
@@ -32,7 +32,7 @@ function insert(overrides: Partial<NewStatic> = {}) {
     roleId: "role-1",
     categoryId: "cat-1",
     createdAt: NOW,
-    ...overrides,
+    ...overrides
   };
   getDb().insert(statics).values(values).run();
   return values.id!;
@@ -113,12 +113,11 @@ describe("initStatic — DB side effects", () => {
       type: "ultimate",
       phases: [
         { id: "p1", name: "P1", order: 0, videos: [], strategies: [], tips: [] },
-        { id: "p2", name: "P2", order: 1, videos: [], strategies: [], tips: [] },
+        { id: "p2", name: "P2", order: 1, videos: [], strategies: [], tips: [] }
       ],
       macros: [],
       recruitmentTemplates: [],
-      references: { urls: [] },
-      ...overrides,
+      ...overrides
     } as Content;
   }
 
@@ -138,7 +137,7 @@ describe("initStatic — DB side effects", () => {
         create: vi.fn(async (opts: { name: string; color: number }) => {
           createdRoles.push({ name: opts.name, color: opts.color });
           return role;
-        }),
+        })
       },
       channels: {
         create: vi.fn(async (opts: { name: string; type: number; parent?: string }) => {
@@ -148,16 +147,16 @@ describe("initStatic — DB side effects", () => {
           textChannelCounter++;
           return {
             id: `stub-channel-${textChannelCounter}`,
-            send: vi.fn().mockResolvedValue({ pin: vi.fn().mockResolvedValue(undefined) }),
+            send: vi.fn().mockResolvedValue({ pin: vi.fn().mockResolvedValue(undefined) })
           };
-        }),
+        })
       },
       members: {
         fetch: vi.fn(async (userId: string) => ({
           id: userId,
-          roles: { add: vi.fn().mockResolvedValue(undefined) },
-        })),
-      },
+          roles: { add: vi.fn().mockResolvedValue(undefined) }
+        }))
+      }
     } as never;
 
     return { guild, role, category, createdRoles, createdChannels };
@@ -174,8 +173,8 @@ describe("initStatic — DB side effects", () => {
       mode: "minimal",
       members: [
         { userId: "u-alice", role: "MT", job: "PLD" },
-        { userId: "u-bob", role: "H1", job: "WHM" },
-      ],
+        { userId: "u-bob", role: "H1", job: "WHM" }
+      ]
     });
 
     // statics row

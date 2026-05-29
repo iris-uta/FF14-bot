@@ -8,166 +8,111 @@ phases:
     name: P1 フェイトブレイカー (Fatebreaker)
     order: 1
     popularStrategy: 優先HTD / STD4入替 / 塔キャス固定
-    description: |
-      開幕フェーズ。サイクロニックブレイク、楽園絶技、転輪召、シンソイルセヴァー、塔踏み（バーンストライク）など。
+    description: |-
+      サイクロニックブレイク、楽園絶技、転輪召、シンソイルセヴァー、塔踏みなど。
       野良主流は「優先HTD / STD4入替 / 塔キャス固定」。
     videos:
-      - title: 【FF14/絶エデン】フェーズ1野良主流簡易解説(優先HTD/STD4入替/塔キャス固定)【絶もうひとつの未来】
-        url: https://www.youtube.com/watch?v=0HDstP0aU_Y
-      - title: 【絶エデン】P1通しでひたすら見る動画 新リリドぬけまる【FF14 絶もうひとつの未来】
-        url: https://www.youtube.com/watch?v=Ws3p-stlYuY
-        author: ぬけまるG
-      - title: 【絶エデン】P1楽園絶技ひたすら見る動画 新リリドぬけまる【FF14 絶もうひとつの未来】
-        url: https://www.youtube.com/watch?v=boAVFc9chKU
-        author: ぬけまるG
-      - title: 「P1フェイトブレイカーの解説動画」by Lucrezia (X投稿)
-        url: https://x.com/TeamLucrezia/status/1861426186238468427
-        author: Lucrezia (TeamLucrezia)
+      - title: P1 フェイトブレイカー解説【Lucrezia】
+        url: https://youtu.be/m1dMWTvdPiI?si=6sABigdyc8BatT0A
+        author: Lucrezia
     mitigation:
       name: Last Agous / らすと 軽減表スプレッドシート (Patch 7.11 対応, 全Phase)
       url: https://docs.google.com/spreadsheets/d/1MWvfvf283BAkDjLBXu6wQz7EWbjYrJzAtyKfO5E3k2s/edit?usp=sharing
       copyable: true
-    strategies:
-      - id: priority-htd-std4
-        name: 優先HTD/STD4入替/塔キャス固定 (リリド式)
-        description: 野良主流。STとD4が入替、塔をキャスター固定で処理する流派。
-    tips:
-      - 楽園絶技はSTD4入替。爆印を持っているMTのみ寄る。
-      - 塔処理はキャスター固定（赤魔・召喚・黒魔・ピクトを優先的に塔へ）。
   - id: p2
     name: P2 シヴァ・ミトロン (Usurper of Frost)
     order: 2
     popularStrategy: 基本イディル / 暴走HT / ノクバマカ色＆バニシュガ2ペア変更
-    description: |
+    description: |-
       ダイアモンドダスト、鏡の国、光の暴走など。
-      Intermission として「Ice Veil (氷帝)」破壊フェーズが直後にある。
+      その後雑魚フェーズ(P2.5)が直後にある。
       野良主流は「基本イディル / 暴走HT / ノクバマカ色＆バニシュガ2ペア変更」。
     videos:
-      - title: 【絶エデン】P2光の暴走ひたすら見る動画 新リリドぬけまる【FF14 絶もうひとつの未来】
-        url: https://www.youtube.com/watch?v=S_M1xdQMVng
-        author: ぬけまるG
-    strategies:
-      - id: idyll-basic
-        name: 基本イディル (リリド式)
-        description: |
-          りりーどーるの「基本イディル」処理法。
-          DD（ダイアモンドダスト）は基本散開から時計回り調整、
-          扇誘導は D3 MT D4 ライン上に1,3枚目（スプリント）。
-    tips:
-      - 扇誘導はスプリント推奨（1,3枚目担当）。
-      - 暴走はHT担当。ノクバマカ色とバニシュガ2ペアの優先度はパーティで合意必須。
+      - title: P2～2.5 シヴァ･ミトロン～光の氾濫解説【しのしょー】
+        url: https://youtu.be/u7yy2BMyaIU?si=Qe7CLMrmnnktrXNC
+        author: しのしょー
   - id: p3
     name: P3 闇の巫女 (Oracle of Darkness)
     order: 3
-    popularStrategy: 跡部王国改（ポネコニさん版）
-    description: |
-      究極幻想（時間圧縮・絶）、アポカリプス、頭割り、塔など。
-      野良主流は「跡部王国改（ポネコニさん版）」での時間圧縮処理 + アポカリ「最初の安置基準」または「アポカリ基準」。
+    popularStrategy: 跡部王国改 / アポカリ基準
+    description: |-
+      時間圧縮・絶、アポカリプス。
+      野良主流は「跡部王国改（ぽにこね）」での時間圧縮処理 + アポカリ「アポカリ基準」。
     videos:
-      - title: 【FF14/絶エデン解説】P3-1 時間圧縮・絶 解説 絶もうひとつの未来【ぬけまる】
-        url: https://www.youtube.com/watch?v=oKSHteslL2w
+      - title: P3-1 時間圧縮・絶 解説【ぬけまる】
+        url: https://youtu.be/oKSHteslL2w?si=IEF3cPBdEPmxD1q0
         author: ぬけまるG
-      - title: 【FF14/絶エデン解説】P3-2 アポカリ解説 安置基準&アポカリ基準 絶もうひとつの未来【ぬけまる】
-        url: https://www.youtube.com/watch?v=4gWtS7GWiFQ
+      - title: P3-2 アポカリ解説 安置基準&アポカリ基準【ぬけまる】
+        url: https://youtu.be/4gWtS7GWiFQ?si=KQ39y1ZDNZixEut-
         author: ぬけまるG
-      - title: 【絶エデン】P3アポカリひたすら見る動画 新リリドぬけまるアポカリ基準【FF14 絶もうひとつの未来】
-        url: https://www.youtube.com/watch?v=5B-ZDg1K9J4
-        author: ぬけまるG
-      - title: 【FF14/絶PHイメトレ用】絶エデン アポカリプスを繰り返し見る動画 PH視点【ぬけまる】
-        url: https://www.youtube.com/watch?v=Bf6X88gX_V4
-        author: ぬけまるG
-    strategies:
-      - id: atobe-kingdom-kai
-        name: 跡部王国改 (時間圧縮・絶)
-        description: |
-          ポネコニさんが派生させた跡部王国改版。
-          P3野良主流の時間圧縮処理。X投稿 (PoneKoni) に詳細図あり。
-      - id: anchi-kijun
-        name: アポカリ：最初の安置基準
-        description: |
-          TH 赤紫マーカー / DPS 黄青マーカーで、最初の安置を基準にアポカリ処理。
-          固定での採用が主流。遠隔組の移動距離が少ない。
-      - id: apoka-kijun
-        name: アポカリ：アポカリ基準
-        description: |
-          アポカリの出現位置を見て安置を決定する流派。
-          ぬけまる動画 (P3-2) で詳細解説。
-    tips:
-      - 時間圧縮はホットバーカンペ3種（全体/TH用/DPS用）の事前準備が必須。
-      - アポカリ処理は固定なら安置基準、野良ならアポカリ基準が多い傾向。
   - id: p4
     name: P4 2体フェーズ (Usurper of Frost & Oracle of Darkness)
     order: 4
     popularStrategy: 扇前調整 / アクモーン1:7 / 赤爆走アムレンY字 / attack me マクロ
-    description: |
+    description: |-
       ミトロンと闇の巫女の2体フェーズ。
-      アークライ、光と闇の竜詩、アク・モーン、モーン・アファー、時間結晶など。
-      野良主流は「扇前調整 / アクモーン1:7 / 赤爆走アムレンY字 / attack me マクロ」。
+      光と闇の竜詩、アク・モーン、モーン・アファー、時間結晶など。
+      野良主流は「扇前調整 / アクモーン1:7 / 赤ブリ爆走アムレンY字 / attack me マクロ」。
       MT組がミトロン、ST組が闇の巫女を担当。
     videos:
-      - title: 【FF14/絶エデン】P4 2体フェーズ解説 絶もうひとつの未来 Futures Rewritten (ULTIMATE)【ぬけまる】
-        url: https://www.youtube.com/watch?v=nX2kfaMnCiU
+      - title: P4 2体フェーズ解説【ぬけまる】
+        url: https://youtu.be/nX2kfaMnCiU?si=jF80rhVAJCnm_0ZV
         author: ぬけまるG
-      - title: 「P4後半 時間結晶の解説動画」by Lucrezia (X投稿)
-        url: https://x.com/TeamLucrezia/status/1862906044655312937
-        author: Lucrezia (TeamLucrezia)
-    strategies:
-      - id: nukemaru-style
-        name: ぬけまる式 (扇前調整/アクモーン1:7/赤爆走アムレンY字)
-        description: |
-          P4-P5 野良主流。
-          - 扇前調整: ウォタガ扇前調整
-          - アクモーン: 1:7（1人と7人の分割）
-          - 赤爆走: アムレンY字配置
-          - attack me マクロ使用
-    tips:
-      - ST組（闇の巫女担当）は attack me マクロを使用して敵視維持。
-      - "基本担当: MT組 → ミトロン / ST組 → 闇の巫女。"
   - id: p5
     name: P5 パンドラ・ミトロン (Pandora)
     order: 5
-    description: |
-      最終フェーズ。光塵の剣（Fulgent Blade）、パラダイスリゲインド、星霊の剣など。
+    description: |-
+      光塵の剣（エクサ）、パラダイスリゲインド、星霊の剣など。
       野良主流はぬけまる式。アクモーンはボス基準で MT組左/ST組右。
     videos:
-      - title: 【FF14/絶エデン解説】P5(最終) パンドラ・ミトロン ギミック解説 絶もうひとつの未来【ぬけまる】
-        url: https://www.youtube.com/watch?v=nzpOdfOyUNo
+      - title: P5 パンドラ・ミトロン ギミック解説【ぬけまる】
+        url: https://youtu.be/nzpOdfOyUNo?si=PNFVTdyQv87FH4Zk
         author: ぬけまるG
-      - title: 【FF14】絶もうひとつの未来最速攻略ガイド！絶エデンのギミック分析＆攻略短縮のコツを徹底解説【patch7.18】
-        url: https://www.youtube.com/watch?v=TFmeQMKxcjU
-    strategies:
-      - id: nukemaru-style-p5
-        name: ぬけまる式 (アクモーン ボス基準/MT組左/ST組右)
-        description: |
-          P5 野良主流。光塵の剣、アクモーン、パラダイスリゲインド、星霊の剣をぬけまる解説動画準拠で処理。
-    tips:
-      - 光塵の剣はSplatoonスクリプト (Fulgent Blade Dodge Spots) で安置可視化可能。
-      - "アクモーンはボス基準: MT組左、ST組右。"
 macros:
-  - source: りりーどーる (P1 - リリド式 / 優先HTD・STD4入替・塔キャス固定)
+  - phaseId: p1
+    source: りりーどーる (P1 - リリド式 / 優先HTD・STD4入替・塔キャス固定)
     url: https://ffxiv.link/0122122
-    text: |
-      /p P1(優先HTD/STD4入替/塔キャス固定)
-      /p ■基本散開 　｜■全ての優先度
-      /p D3 MT D4 　｜北/西←H1H2MTSTD1D2D3D4→南/東
-      /p H1 ☆ H2　 ペア：TH反時計、DPS時計
-      /p D1 ST D2　散開：全員時計回り(遠隔離れる)
-      /p ■楽園絶技(STD4入替/※爆印MTだけ寄る)
-      /p 　MT組 A-3　　　ST組 1-C
-      /p 　　／  H1 ＼　　　／  H2 ＼
-      /p 　／D1MTD3＼　／D2STD4 ＼
-      /p 手を挙げたら前に出る(対角の人が動いた場合も)
-      /p ■転輪召
-      /p TH北/DPS南：線ロール内で被り時MTD1調整
-      /p ■シンソイルセヴァー※ボス南整列
-      /p 奇数：D/偶数：B(ボスタゲサ上で線処理)
-      /p 線は外周(東西)に扇誘導/無色の雷優先：北H>T>D南
-      /p 【バーンストライク(塔)】フィールド北(上)基準
-      /p 上MT 下ST ｜ 塔 上:H1 中:H2 下:D4
-      /p 人数調整優先度 上 D1＞D2＞D3 下
-  - source: りりーどーる (P2 - 基本イディル / 暴走HT / ノクバマカ色＆バニシュガ2ペア変更)
+    text: "/p P1(優先HTD/STD4入替/塔キャス固定)\r
+
+      /p ■基本散開 　｜■全ての優先度\r
+
+      /p D3 MT D4 　｜北/西←H1H2MTSTD1D2D3D4→南/東\r
+
+      /p H1 ☆ H2　 ペア：TH反時計、DPS時計\r
+
+      /p D1 ST D2　散開：全員時計回り(遠隔離れる)\r
+
+      /p ■楽園絶技(STD4入替/※爆印MTだけ寄る)\r
+
+      /p 　MT組 A-3　　　ST組 1-C\r
+
+      /p 　　／  H1 ＼　　　／  H2 ＼\r
+
+      /p 　／D1MTD3＼　／D2STD4 ＼\r
+
+      /p 手を挙げたら前に出る(対角の人が動いた場合も)\r
+
+      /p ■転輪召\r
+
+      /p TH北/DPS南：線ロール内で被り時MTD1調整\r
+
+      /p ■シンソイルセヴァー※ボス南整列\r
+
+      /p 奇数：D/偶数：B(ボスタゲサ上で線処理)\r
+
+      /p 線は外周(東西)に扇誘導/無色の雷優先：北H>T>D南\r
+
+      \r
+
+      /p 【バーンストライク(塔)】フィールド北(上)基準\r
+
+      /p 上MT 下ST ｜ 塔 上:H1 中:H2 下:D4\r
+
+      /p 人数調整優先度 上 D1＞D2＞D3 下"
+  - phaseId: p2
+    source: りりーどーる (P2 - 基本イディル / 暴走HT / ノクバマカ色＆バニシュガ2ペア変更)
     url: https://ffxiv.link/0122122
-    text: |
+    text: |-
       /p P2(基本イディル/暴走HT/ノクバマカ色＆バニシュガ2ペア変更)
       /p 【DD】基本散開から時計回り調整
       /p D3 MT D4 |扇誘導:1,3枚目(スプリント)
@@ -198,27 +143,42 @@ macros:
       /p D1　　　　  D2 ｜　　：ボス本体に近接LB3
       /p 　  H1　  D4      ｜遠隔：扇誘導
       /p 　　　ST　　　  ｜　　：時計回りの光水晶を攻撃
-  - source: りりーどーる (P3 - アポカリ最初の安置基準 / TH赤紫DPS黄青)
+  - phaseId: p3
+    source: りりーどーる (P3 -安置基準 / TH赤紫DPS黄青)
     url: https://ffxiv.link/0122122
-    text: |
-      /p P3(アポカリ[最初の安置基準]TH赤紫/DPS黄青)
-      /p 【時間圧縮・絶】跡部王国改(ぽにこねさん)
-      /p 　　　遅③/氷　　     ｜△頂点の黄時計基準
-      /p 　  早①　　  早②　   ｜ファイガ/ブリザガ付与
-      /p 中①　　　　　　中②｜→秒数に応じてマクロ使用
-      /p   　遅① 　　遅②        ｜→付与マーカー方向を担当
-      /p 　　　早③/氷    　     ｜
-      /p 【アポカリプス】※基本TH4人とDPS4人で組分け
-      /p TH組  ：交代>MTSTH1H2>交代なし
-      /p DPS組：交代>D1D2D3D4>交代なし
-      /p 担当色マーカー：TH組 D-1(赤紫)/DPS組 B-3(黄青)
-      /p 頭割り1回目：TH組 4-A間/DPS組 2-C間
-      /p 最初の安置の担当色マーカーで散開
-      /p 散開優先度Z字:内側左<D12 MTST D3H1他<外側右
-      /p 【暗夜の舞踏技】ボス見てTH組：左/DPS組：右
-  - source: りりーどーる (P3 - アポカリ基準 / 1個目のアポカリ基準 / TH赤紫DPS黄青)
+    text: "/p P3(アポカリ[最初の安置基準]TH赤紫/DPS黄青)\r
+
+      /p 【時間圧縮・絶】跡部王国改(ぽにこねさん)\r
+
+      /p 　　　遅③/氷　　     ｜△頂点の黄時計基準\r
+
+      /p 　  早①　　  早②　   ｜ファイガ/ブリザガ付与\r
+
+      /p 中①　　　　　　中②｜→秒数に応じてマクロ使用\r
+
+      /p   　遅① 　　遅②        ｜→付与マーカー方向を担当\r
+
+      /p 　　　早③/氷    　     ｜\r
+
+      /p 【アポカリプス】※基本TH4人とDPS4人で組分け\r
+
+      /p TH組  ：交代>MTSTH1H2>交代なし\r
+
+      /p DPS組：交代>D1D2D3D4>交代なし\r
+
+      /p 担当色マーカー：TH組 D-1(赤紫)/DPS組 B-3(黄青)\r
+
+      /p 頭割り1回目：TH組 4-A間/DPS組 2-C間\r
+
+      /p 最初の安置の担当色マーカーで散開\r
+
+      /p 散開優先度Z字:内側左<D12 MTST D3H1他<外側右\r
+
+      /p 【暗夜の舞踏技】ボス見てTH組：左/DPS組：右"
+  - phaseId: p3
+    source: りりーどーる (P3 - アポカリ基準 / TH赤紫DPS黄青)
     url: https://ffxiv.link/0122122
-    text: |
+    text: |-
       /p P3(アポカリ[1個目のアポカリ基準]TH赤紫/DPS黄青)
       /p 【時間圧縮・絶】跡部王国改(ぽにこねさん)
       /p 　　　遅③/氷　　     ｜△頂点の黄時計基準
@@ -234,9 +194,10 @@ macros:
       /p 1枚目範囲の担当色マーカー左右の安置側で散開
       /p 散開優先度Z字:内側左<D12 MTST D3H1他<外側右
       /p 【暗夜の舞踏技】ボス見てTH組：左/DPS組：右
-  - source: りりーどーる (P4 - ぬけまる扇前 / アクモーン1:7 / 赤爆走アムレンY字)
+  - phaseId: p4
+    source: りりーどーる (P4 - ぬけまる扇前 / アクモーン1:7 / 赤爆走アムレンY字)
     url: https://ffxiv.link/0122122
-    text: |
+    text: |-
       /p P4(扇前調整/アクモーン1:7/赤爆走アムレンY字/attack meマクロ)
       /p 基本担当：MT組⇒ミトロン/ST組⇒闇の巫女
       /p 【光と闇の竜詩】
@@ -252,6 +213,7 @@ macros:
       /p ■宵闇の舞踏技：タンク無敵で2回とも受ける
       /p ■アクモーン1:7受け
       /p 1回目：MT/2回目：ST/他：中央
+
       /p 【時間結晶】
       /p 赤ブリザガ/エアロガ優先度(西←H1MTSTD1D2D3D4H2→東)
       /p A基準/エラプと他担当は紫線に合わせて移動
@@ -267,9 +229,10 @@ macros:
       /p ■テイカー散開⇒波が来た南北基準で基本散開(タンクはAを避けて外周側に)
       /p リターン残り5秒で軽減、残り2秒でアムレン
       /p ※バリア＆軽減3枚以上必要[動画ではレンジ,BH,PH(無いならタンク)軽減]
-  - source: りりーどーる (P5 - ぬけまる最終フェーズ)
+  - phaseId: p5
+    source: りりーどーる (P5 - ぬけまる最終フェーズ)
     url: https://ffxiv.link/0122122
-    text: |
+    text: |-
       /p P5最終フェーズ(ぬけまる)
       /p 【光塵の剣】
       /p アクモーン(ボス基準)：MT組左/ST組右
@@ -285,11 +248,8 @@ macros:
       /p 先頭受け：T→D12→D34→H
       /p 【パンドラの櫃】タンクLB3
       /p 詠唱バー「パン[ﾀﾝｸLB]ドラの櫃」目安
-  - source: ふうcだよ FF14情報サイト - 絶もうひとつの未来（絶エデン）マクロ
-    url: https://fuucdayo.com/macro/5618/
 recruitmentTemplates:
-  - source: Rage Avel - Lodestone「固定募集記事テンプレート（コピペ用）」
-    template: |
+  - template: |-
       ▼募集ジョブ
       ● 活動DC: {{datacenter}}
       ● 言語: {{language}}
@@ -328,19 +288,3 @@ recruitmentTemplates:
       - prohibitions
       - discordHandle
       - xHandle
-references:
-  primary: りりーどーる (Lily Doll) - Lodestone 日記
-  urls:
-    - https://ffxiv.consolegameswiki.com/wiki/Futures_Rewritten_(Ultimate)
-    - https://jp.finalfantasyxiv.com/lodestone/character/34120564/blog/5500375/
-    - https://jp.finalfantasyxiv.com/lodestone/character/34120564/blog/5498502/
-    - https://www.youtube.com/@nukemarugames/videos
-    - https://www.youtube.com/@TeamLucrezia
-    - https://fuucdayo.com/macro/5618/
-    - https://fuucdayo.com/battle/5758/
-    - https://asellog.com/fru-raidrace/
-    - https://asellog.com/fru-macro/
-    - https://docs.google.com/spreadsheets/d/1MWvfvf283BAkDjLBXu6wQz7EWbjYrJzAtyKfO5E3k2s/edit?usp=sharing
-    - https://www.xivsim.com/game/
-    - https://yisan5772156.github.io/FRU-UR-Simulator/
-    - https://tooleroflight.blog.jp/archives/26375876.html

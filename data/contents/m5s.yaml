@@ -1,33 +1,13 @@
-# 至天の座アルカディア：クルーザー級零式 1層 - ダンシング・グリーン (M5S)
-# データ収集日: 2026-05-25
-# 第一参照: Game8 (ゲームエイト)
-#
-# 注意:
-# - 通称: 国際/FFLogs では M5S (Arcadion 通し番号)、Game8 等の日本コミュニティでは
-#   「クルーザー級零式1層」「クルーザー1層」が一般的。本ファイルは shortName を M5S とする。
-# - 公式肩書: 「パーティー野郎」(Source: ファミ通記事 https://www.famitsu.com/article/202505/42745)
-# - 魂の源: トード (カエル)。ディスコ/ダンスをモチーフとした戦闘。
-# - BGM: 『Ride the Rhythm』。
-# - Game8 採用流派: ぬけまる式 (固定散開/位置固定主体)。
-# - Game8 のマクロ抽出は WebFetch 経由で実施 (2026-03-12 版)。
-
 id: m5s
 displayName: 至天の座アルカディア：クルーザー級零式 1層 (ダンシング・グリーン)
 shortName: M5S
 type: savage
 patch: "7.2"
-# パッチ実装日: 2025-03-25 (Patch 7.2「永久の探求者」)
-# 零式実装日: 2025-04-01 (パッチ実装1週間後)
-# AAC = Arcadion Anti-Personnel Champion (推測)。本層は Cruiserweight Tier の 1 戦目。
-# Source: https://www.famitsu.com/article/202503/36584 (実装日)
-# Source: https://ffxiv.consolegameswiki.com/wiki/The_Arcadion
-# Source: https://hkn-hkg2021.hatenablog.com/entry/2025/03/18/
-
 phases:
   - id: p1
     name: P1 ダンシング・グリーン (Dancing Green) 通し
     order: 1
-    description: |
+    description: |-
       ディスコ/ダンスモチーフの「パーティー野郎」ダンシング・グリーン戦。1ボス完結型。
       主要ギミック:
         - ディープカット (タンク強攻撃)
@@ -42,46 +22,22 @@ phases:
         - ダンシングフィールド (扇誘導 TH→DPS)
       野良主流: ぬけまる式 (Game8 採用)。
       ※ PERFECT GROOVE×2 で LB ゲージ獲得が想定されている火力設計。
-    # Source: https://game8.jp/ff14/680424
-    # Source: https://note.com/srm_br/n/n942f8c325c9a (さり氏 活動録)
-    mitigation:
-      name: Last Agous / らすと 軽減表 (アルカディア クルーザー級:零式 [1-4層対応])
-      # 1シートで M5S-M8S 全層をカバー。便宜上 P1 にぶら下げる。
-      # Source: https://na.finalfantasyxiv.com/lodestone/character/12440293/blog/5540581/
-      # Note: Lodestone は記事更新で URL が変わることがある。Lodestone 側を経由してアクセスする。
-      url: https://na.finalfantasyxiv.com/lodestone/character/12440293/blog/5540581/
-      copyable: true
     videos:
       - title: 【FF14】クルーザー級零式1層 攻略解説【ぬけまる】
         url: https://www.youtube.com/watch?v=s5CACs9ey9o
         author: ぬけまるG
-        # Source: Game8 (https://game8.jp/ff14/680424) 内で参照されている動画
-    strategies:
-      - id: nukemaru-game8
-        name: ぬけまる式 (Game8 採用版)
-        description: |
-          Game8 が公式採用しているぬけまる氏解説に準拠した処理法。
-          - ジングル予約 A/B: ジングルがランダムに A or B を詠唱するが、固定流派では
-            散開を一貫させるため位置固定で処理。
-          - ディスコインファーナル 1回目: 西=MT組 / 東=ST組 / 内周=近接 / 外周=遠隔。
-          - 音響爆弾: 北から秒数短い順にペア整列。
-          - フロッグダンサー 1回目: MT組=北西 / ST組=南東。
-          - ペア頭割り: 横隣り。
+    mitigation:
+      name: Last Agous / らすと 軽減表 (アルカディア クルーザー級:零式 [1-4層対応])
+      url: https://na.finalfantasyxiv.com/lodestone/character/12440293/blog/5540581/
+      copyable: true
     tips:
-      - "PERFECT GROOVE×2 で LB1 ゲージ獲得が組み込まれた火力設計。"
-      - "ディスコインファーナルは内外配置を間違えると死亡しやすい (Game8 マクロ図要参照)。"
-      - "ジングル A/B はランダム選択だが、固定では同じ予約位置を使うため流派で動きが変わらない。"
-
-# ────────────────────────────────────────────────────────
-# マクロ (コピペ用)
-# ────────────────────────────────────────────────────────
+      - PERFECT GROOVE×2 で LB1 ゲージ獲得が組み込まれた火力設計。
+      - ディスコインファーナルは内外配置を間違えると死亡しやすい (Game8 マクロ図要参照)。
+      - ジングル A/B はランダム選択だが、固定では同じ予約位置を使うため流派で動きが変わらない。
 macros:
   - source: Game8 (ゲームエイト) - クルーザー級零式1層 ぬけまる式
     url: https://game8.jp/ff14/680424
-    # 最終更新: 2026-03-12 (Game8 ページの最終更新日)
-    # 注: Game8 にはより詳細な /p マクロ全文が掲載されている場合があるため
-    #     正確な最新版は URL を参照すること。本ファイルは WebFetch で取得した概略を保持。
-    text: |
+    text: |-
       /p 【ジングル固定】|【ナイトフィーバー】|【ウェーブオンウェーブ】
       /p 　　H1　　　　 |　　MT　 ST　　　　|　　MT　 ST
       /p MT　　遠D　　 | 　H1　　　　 H2　　 |　　D1　 D2
@@ -95,13 +51,8 @@ macros:
       /p 　　　　 ★　　　　　　　|　MTD3　　H2D4
       /p 　MT/ST　 D1/D2　　　|　　　　★
       /p 　H1/H2　 D3/D4　　　|　　H1D1　　 STD2
-
-# ────────────────────────────────────────────────────────
-# 募集テンプレ
-# ────────────────────────────────────────────────────────
 recruitmentTemplates:
-  - source: 零式野良募集 汎用テンプレ (Cruiserweight 用)
-    template: |
+  - template: |-
       【FF14 零式募集】{{contentShort}}
       ● 進行度: {{progress}}                  # 例: P1 通し練 / 消化
       ● 流派: {{strategy}}                    # 例: Game8 / ぬけまる式
@@ -121,41 +72,3 @@ recruitmentTemplates:
       - macroSource
       - requirements
       - notes
-
-# ────────────────────────────────────────────────────────
-# 参考リンク
-# ────────────────────────────────────────────────────────
-references:
-  primary: Game8 (ゲームエイト) - クルーザー級零式1層 攻略丨マクロ
-  urls:
-    # Game8 攻略・マクロページ (第一参照)
-    - https://game8.jp/ff14/680424
-    # Lodestone 軽減表 (Last Agous, 全層対応)
-    - https://na.finalfantasyxiv.com/lodestone/character/12440293/blog/5540581/
-    # ファミ通 - キャラクター設定・声優紹介 (4層分掲載)
-    - https://www.famitsu.com/article/202505/42745
-    # Consolegameswiki - The Arcadion (英語、全層構造の確認)
-    - https://ffxiv.consolegameswiki.com/wiki/The_Arcadion
-    # ぬけまるG YouTube チャンネル
-    - https://www.youtube.com/@nukemarugames/videos
-    # さり 活動録 (note)
-    - https://note.com/srm_br/n/n942f8c325c9a
-    # にずしろブログ - ヒーラー視点クルーザー1層
-    - https://nizusiro.com/ff14/cruisers1/
-    # erSharifst - クルーザー1〜2層 所感
-    - https://www.ersharifst.com/2025/04/07/fsaasfgew/
-    # PLLまとめ (実装日告知)
-    - https://hkn-hkg2021.hatenablog.com/entry/2025/03/18/
-    # ファミ通 - パッチ7.2 PLL速報 (3月25日実装)
-    - https://www.famitsu.com/article/202503/36584
-
-# ────────────────────────────────────────────────────────
-# 要手動補完メモ
-# ────────────────────────────────────────────────────────
-# - ダンシング・グリーンの公式声優: 2026-05 時点で未確認 (ファミ通記事に記載なし)。
-# - BGM: 『Ride the Rhythm』(ダンスナンバー)。Source: ファミ通記事。
-# - Game8 ページ上のマクロは WebFetch で抜粋取得。完全な /p 行は Game8 を参照。
-# - 流派バリアント: Game8 採用は単独 (ぬけまる式) のため strategies[] は 1 件。
-#   別流派 (家無しララ式等) が将来出れば追加すること。
-# - 軽減表 URL: Last Agous 氏の Lodestone ブログ経由。Google Sheets 直リンクは
-#   ブログ内のリンクから取得すること (404 で直接 fetch 不可)。

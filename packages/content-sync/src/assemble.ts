@@ -1,19 +1,22 @@
 /**
  * Assemble Content objects from flat sheet rows.
  *
- * Sheet structure (9 tabs):
- *   contents     | id, displayName, shortName, type, patch, references_primary
- *   phases       | content_id, phase_id, name, order, description
+ * Sheet structure (8 tabs):
+ *   contents     | id, displayName, shortName, type, patch, overview_*
+ *   phases       | content_id, phase_id, name, order, popular_strategy, description
  *   videos       | content_id, phase_id, title, url, author
  *   mitigations  | content_id, phase_id, name, url, copyable
- *   strategies   | content_id, phase_id, id, name, description
+ *   strategies   | content_id, phase_id, id, name, popular, description
  *   tips         | content_id, phase_id, tip
- *   macros       | content_id, source, url, text
+ *   macros       | content_id, phase_id, strategy_id, source, url, text
  *   templates    | content_id, template, variables (CSV)
- *   references   | content_id, url
  *
- * Note: this is the inverse of "current YAML → Sheet" — we read all 9 tabs
+ * Note: this is the inverse of "current YAML → Sheet" — we read all 8 tabs
  * and stitch them back into the nested Content structure that Zod validates.
+ *
+ * `references` tab was removed — labelled URLs live in overview.guideUrl /
+ * overview.bisUrl / overview.videoPlaylist / overview.partyWideMacro.
+ * Untagged URL lists were cruft.
  */
 import { ContentSchema, type Content } from "@ff14kotei/schema";
 
@@ -26,7 +29,6 @@ export interface SheetData {
   tips: Record<string, string>[];
   macros: Record<string, string>[];
   templates: Record<string, string>[];
-  references: Record<string, string>[];
 }
 
 export const TAB_NAMES = {
@@ -38,7 +40,6 @@ export const TAB_NAMES = {
   tips: "tips",
   macros: "macros",
   templates: "templates",
-  references: "references",
 } as const;
 
 export interface AssembleError {
@@ -68,7 +69,6 @@ export function assembleContents(data: SheetData): AssembleResult {
   const tipsByPhase = groupBy(data.tips, (r) => key(r.content_id, r.phase_id));
   const macrosByContent = groupBy(data.macros, "content_id");
   const templatesByContent = groupBy(data.templates, "content_id");
-  const refsByContent = groupBy(data.references, "content_id");
 
   for (const row of data.contents) {
     const id = row.id?.trim();
@@ -83,8 +83,7 @@ export function assembleContents(data: SheetData): AssembleResult {
         stratsByPhase,
         tipsByPhase,
         macrosByContent[id] ?? [],
-        templatesByContent[id] ?? [],
-        refsByContent[id] ?? []
+        templatesByContent[id] ?? []
       );
       const parsed = ContentSchema.safeParse(candidate);
       if (!parsed.success) {
@@ -114,8 +113,7 @@ function buildContent(
   stratsByPhase: Record<string, Record<string, string>[]>,
   tipsByPhase: Record<string, Record<string, string>[]>,
   macroRows: Record<string, string>[],
-  templateRows: Record<string, string>[],
-  refRows: Record<string, string>[]
+  templateRows: Record<string, string>[]
 ): unknown {
   const id = contentRow.id;
 
@@ -167,9 +165,14 @@ function buildContent(
       return phaseObj;
     });
 
+  // Require BOTH source AND url — a macro with no URL is unusable and
+  // shouldn't crash the import. This commonly happens when a user has just
+  // started filling in a new macro row (source set, url pending).
   const macros = macroRows
-    .filter((m) => (m.source ?? "").trim() || (m.url ?? "").trim())
+    .filter((m) => (m.source ?? "").trim() && (m.url ?? "").trim())
     .map((m) => ({
+      ...(m.phase_id?.trim() ? { phaseId: m.phase_id.trim() } : {}),
+      ...(m.strategy_id?.trim() ? { strategyId: m.strategy_id.trim() } : {}),
       source: m.source,
       url: m.url,
       text: m.text || undefined,
@@ -185,15 +188,6 @@ function buildContent(
       };
     });
 
-  const references: Record<string, unknown> = {
-    urls: refRows
-      .map((r) => r.url)
-      .filter((u): u is string => !!u && u.trim().length > 0),
-  };
-  if (contentRow.references_primary?.trim()) {
-    references.primary = contentRow.references_primary;
-  }
-
   // Optional `overview` — assembled from the new columns on the contents tab
   const overview = buildOverview(contentRow);
 
@@ -205,7 +199,6 @@ function buildContent(
     phases,
     macros,
     recruitmentTemplates,
-    references,
   };
   if (contentRow.patch?.trim()) out.patch = contentRow.patch;
   if (overview) out.overview = overview;
@@ -224,6 +217,8 @@ function buildOverview(row: Record<string, string>): Record<string, unknown> | u
   const macroSource = row.overview_macro_source?.trim() || "";
   const macroUrl = row.overview_macro_url?.trim() || "";
   const macroText = row.overview_macro_text?.trim() || "";
+  const guideUrl = row.overview_guide_url?.trim() || "";
+  const bisUrl = row.overview_bis_url?.trim() || "";
 
   const out: Record<string, unknown> = {};
   if (main) out.mainStrategy = main;
@@ -241,6 +236,8 @@ function buildOverview(row: Record<string, string>): Record<string, unknown> | u
       ...(macroText ? { text: macroText } : {}),
     };
   }
+  if (guideUrl) out.guideUrl = guideUrl;
+  if (bisUrl) out.bisUrl = bisUrl;
   return Object.keys(out).length > 0 ? out : undefined;
 }
 

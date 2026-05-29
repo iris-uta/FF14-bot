@@ -13,6 +13,13 @@ export const ContentTypeSchema = z.enum([
 export type ContentType = z.infer<typeof ContentTypeSchema>;
 
 export const MacroRefSchema = z.object({
+  phaseId: z.string().optional().describe(
+    "どの phase 用マクロか (例: 'p1', 'p3-2')。 省略時は 全体 / 編成共通マクロ扱い"
+  ),
+  strategyId: z.string().optional().describe(
+    "どの strategy 専用マクロか (例: 'ast-shiki')。 省略時は phase 共通 (全 strategy で表示)。" +
+    " phase channel intro では「user が選んだ strategy」 にマッチするマクロ + phase 共通マクロのみ表示。"
+  ),
   source: z.string().describe("参照元（例: りりーどーる, ゲーム8, 新みんとっと, Lily Doll）"),
   url: z.string().url(),
   text: z.string().optional().describe("マクロ本体（コピペ用）"),
@@ -59,6 +66,14 @@ export const ContentOverviewSchema = z.object({
   partyWideMacro: MacroRefSchema.optional().describe(
     "編成全体共通マクロ (各 phase に個別マクロがある場合の「最初に貼るマクロ」)"
   ),
+  guideUrl: z.string().url().optional().describe(
+    "攻略ガイド元 URL (例: りりーどーる Lodestone post、 ぬけまる note 記事)。 " +
+    "全体 channel 上部に「📚 攻略ガイド」として 1 link 表示される"
+  ),
+  bisUrl: z.string().url().optional().describe(
+    "最適装備 (BiS) URL (例: Etro、 The Balance gear set、 FF Logs)。 " +
+    "全体 channel に「⚔️ 最適装備」として 1 link 表示される"
+  ),
 });
 
 export const PhaseSchema = z.object({
@@ -87,10 +102,6 @@ export const ContentSchema = z.object({
   overview: ContentOverviewSchema.optional().describe(
     "「全体」channel に表示する content 全体の概要 (主流処理法 / プレイリスト / 全体マクロ)"
   ),
-  references: z.object({
-    primary: z.string().optional().describe("第一参照先（例: りりーどーる）"),
-    urls: z.array(z.string().url()).default([]),
-  }).default({ urls: [] }),
 });
 export type Content = z.infer<typeof ContentSchema>;
 export type Phase = z.infer<typeof PhaseSchema>;

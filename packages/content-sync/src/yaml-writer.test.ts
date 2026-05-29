@@ -20,12 +20,11 @@ function makeContent(overrides: Partial<Content> = {}): Content {
     shortName: "TEST",
     type: "ultimate",
     phases: [
-      { id: "p1", name: "P1", order: 0, videos: [], strategies: [], tips: [] },
+      { id: "p1", name: "P1", order: 0, videos: [], strategies: [], tips: [] }
     ],
     macros: [],
     recruitmentTemplates: [],
-    references: { urls: [] },
-    ...overrides,
+    ...overrides
   } as Content;
 }
 
@@ -71,21 +70,25 @@ describe("writeContentYaml", () => {
     const yaml = readFileSync(r.path, "utf-8");
     expect(yaml).not.toContain("macros:");      // empty → omitted
     expect(yaml).not.toContain("recruitmentTemplates:");
-    expect(yaml).not.toContain("references:");  // primary + urls both empty
+    // references field was removed entirely — labelled URLs live in overview.*
+    expect(yaml).not.toContain("references:");
   });
 
-  it("preserves non-empty optional fields", () => {
+  it("preserves non-empty optional fields (patch + overview)", () => {
     const r = writeContentYaml(
       makeContent({
         patch: "7.11",
-        references: { primary: "りりーどーる", urls: ["https://example.com/a"] },
+        overview: {
+          mainStrategy: "全体: HTD",
+          guideUrl: "https://na.finalfantasyxiv.com/lodestone/character/1/blog/2",
+        },
       }),
       dir
     );
     const yaml = readFileSync(r.path, "utf-8");
     expect(yaml).toContain("patch:");
-    expect(yaml).toContain("references:");
-    expect(yaml).toContain("primary: りりーどーる");
+    expect(yaml).toContain("overview:");
+    expect(yaml).toContain("guideUrl:");
   });
 
   it("writes files with `<id>.yaml` naming", () => {

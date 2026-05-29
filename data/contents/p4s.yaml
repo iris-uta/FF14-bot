@@ -1,32 +1,13 @@
-# 万魔殿パンデモニウム零式：辺獄編4層 - ヘスペロス (P4S)
-# データ収集日: 2026-05-25
-# 第一参照: Game8 (ゲームエイト)
-#
-# 注意:
-# - シリーズ呼称について p1s.yaml 冒頭コメント参照。
-# - 通称: 国際/FFLogs では P4S、Game8/JP では「辺獄編零式4層」「パンデ零4層」。
-# - 公式ボス名: 「ヘスペロス」(英: Hesperos)。Asphodelos 最終ボス。
-# - 4 層は前半 (Part 1) と後半 (Part 2) の 2 部構成。Game8 ページもそれぞれ別。
-#   * 前半: 毒 / ピナクス / 緑玉 ギミック中心
-#   * 後半: 序幕〜カーテンコールの「劇」演出ギミック (最終ギミックはカーテンコール)
-# - 流派名: 前半は「YPP 式 (毒線 YPP 緑玉脳死)」、後半は「犬丸式 + ぬけまる式」併記。
-# - 旧 tier (2022-01 実装) のため情報の散逸あり。Game8 + ARUTORA / Aqua Cat / ameblo 主体で収集。
-
 id: p4s
 displayName: 万魔殿パンデモニウム零式：辺獄編4層 (ヘスペロス)
 shortName: P4S
 type: savage
 patch: "6.05"
-# ノーマル実装日: 2021-12-21 (Patch 6.01)
-# 零式実装日:   2022-01-04 (Patch 6.05)
-# 拡張: 暁月のフィナーレ (Endwalker)
-# Source: https://ffxiv.consolegameswiki.com/wiki/Asphodelos:_The_Fourth_Circle_(Savage)
-
 phases:
   - id: p1
     name: P1 ヘスペロス 前半 (Part 1)
     order: 1
-    description: |
+    description: |-
       Part 1 (前半)。ピナクス・毒線・緑玉ギミック中心。
       主要技:
         - 基本散開                          標準 8 人散開
@@ -37,34 +18,17 @@ phases:
                                             上記の玉を取って時計回りで処理
       野良主流: YPP 式 (毒線 YPP 緑玉脳死) - Game8 採用。
       DPS チェック前層比厳しめのため、装備 / 食事 / 薬使用 (最大 2 回) 必須。
-    # Source: https://game8.jp/ff14/421733
-    # Source: https://closedalpha.com/ffxiv-guide/ffxiv-pandemonium-fourth-circle-part1-dps/
+    videos:
+      - title: ゆっくりと振り返るパンデモニウム辺獄編零式4層(前半)
+        url: https://www.youtube.com/watch?v=AH0mRxuJx7c
     mitigation:
       name: 軽減表テンプレ (P4S 前半 - パッチ 6.0x 攻略時の野良標準)
-      # P4S 前半専用の Last Agous シートを 2026 時点で確認できず。要手動補完。
       url: https://docs.google.com/spreadsheets/d/1pOQ3sMSUQx-E-zFJSFv5BbHIq27tASgH14WhM02k4NI/edit?usp=sharing
       copyable: true
-    videos:
-      - title: ゆっくりと振り返るパンデモニウム辺獄編零式4層(前半) #FF14
-        url: https://www.youtube.com/watch?v=AH0mRxuJx7c
-        # Source: 検索結果 (作者: ゆっくりシリーズ)
-    strategies:
-      - id: ypp-style-game8
-        name: YPP 式 (毒線 YPP 緑玉脳死) - Game8 採用版
-        description: |
-          Game8 採用流派。
-          - 基本散開: 標準 8 人配置
-          - 毒線 YPP 式: TH 北 / DPS 南、塔線時計回り (線ぐるぐる)
-          - ピナクス炎 頭割り: MTH1 / STH2 / D1D3 / D2D4 ペア
-          - ピナクス炎 シフト後: 敵正面 MTH1D1D3 / 敵背面 STH2D2D4
-          - ピナクス毒 散開: MT 中央誘導、遠隔は外周
-          - 緑玉脳死: 十字配置で MTH2→D3 / STH1→D4 / D1D3→MT / D2D4→H1
-            上記の玉を取った後、時計回りで処理
-
   - id: p2
     name: P2 ヘスペロス 後半 (Part 2 - 「劇」演出)
     order: 2
-    description: |
+    description: |-
       Part 2 (後半)。序幕 → 第二幕 → 第三幕 → 第四幕 → 終幕 → カーテンコールの
       「劇」演出形式で進行。最終ギミック「カーテンコール」が時間切れ判定。
       主要技:
@@ -75,48 +39,21 @@ phases:
         - 終幕                              ボス基準散開 + 塔配置
         - カーテンコール                    TH 6 秒 / D 11 秒で切り (13/23/33/43)
       野良主流: 犬丸式 (および、ぬけまる式も Game8 で並列掲載)。
-    # Source: https://game8.jp/ff14/422515
-    # Source: https://arutora.com/23843
+    videos:
+      - title: ゆっくりと振り返るパンデモニウム辺獄編零式4層(後半)
+        url: https://www.youtube.com/watch?v=GYCDnITC_jc
     mitigation:
       name: 軽減表テンプレ (P4S 後半 - パッチ 6.0x 攻略時の野良標準)
-      # P4S 後半専用の Last Agous シートを 2026 時点で確認できず。要手動補完。
       url: https://docs.google.com/spreadsheets/d/1pOQ3sMSUQx-E-zFJSFv5BbHIq27tASgH14WhM02k4NI/edit?usp=sharing
       copyable: true
-    videos:
-      - title: ゆっくりと振り返るパンデモニウム辺獄編零式4層(後半) #FF14
-        url: https://www.youtube.com/watch?v=GYCDnITC_jc
-        # Source: 検索結果 (作者: ゆっくりシリーズ)
-    strategies:
-      - id: inumaru-style-game8
-        name: 犬丸式 (Game8 採用版・第三幕)
-        description: |
-          Game8 採用流派。第三幕アースシェイカー誘導に「犬丸式」を採用。
-          - 序幕: 標準散開 (D3/D4 北、MT/ST 中段、D1/D2 / H1/H2 南)
-          - 第二幕: 1 番目に T ダージャ北西 / H ダージャ南東で切り、エアロガ北西、
-            D ファイガ南東、DPSファイガ移動は時計回り D1→D2→D3→D4 反時計回り
-          - 第三幕 (犬丸式): アースシェイカー誘導は ST が左/D1 が中央/その他右
-          - 第四幕: ウォタガは塔の対角の 1 つ時計回り側で切り、ダージャは自塔の時計回り側塔を踏む
-            → 南西集合し北のダージャから時計回り処理
-          - 終幕: ボス基準散開 + 塔配置
-          - カーテンコール: TH 6 秒切り / D 11 秒切り (メモ: 13/23/33/43)
-      - id: nukemaru-style
-        name: ぬけまる式 (Game8 並列掲載)
-        description: |
-          Game8 ページ上で犬丸式と並列掲載されている別流派。
-          主に第三幕の処理が異なる。詳細はぬけまる動画参照。
     tips:
-      - "後半は『劇』演出形式で時間軸が長め。各幕の入りタイミングをコールするのが安定。"
-      - "カーテンコールは最終ギミック。TH/D で切る秒数が違うので秒数を覚える。"
-      - "第二幕のダージャ切りは方角ベース、第三幕は犬丸式で誘導役固定。"
-
-# ────────────────────────────────────────────────────────
-# マクロ (コピペ用)
-# ────────────────────────────────────────────────────────
+      - 後半は『劇』演出形式で時間軸が長め。各幕の入りタイミングをコールするのが安定。
+      - カーテンコールは最終ギミック。TH/D で切る秒数が違うので秒数を覚える。
+      - 第二幕のダージャ切りは方角ベース、第三幕は犬丸式で誘導役固定。
 macros:
   - source: Game8 (ゲームエイト) - 辺獄編零式4層前半 YPP 式
     url: https://game8.jp/ff14/421733
-    # 最終更新: 2025-11-20 (Game8 ページの最終更新日)
-    text: |
+    text: |-
       /p 【基本散開】　　　　　【毒線YPP式】
       /p 　D3MTD4　　　　　TH：北　DPS：南
       /p 　H1 ◯ H2
@@ -132,11 +69,9 @@ macros:
       /p 　STMTH2　※MTH2→D3　STH1→D4
       /p 　H1 ● D4　　 D1D3→MT　D2D4→H1
       /p 　D1D3D2　　上記の玉を取って時計回り
-
   - source: Game8 (ゲームエイト) - 辺獄編零式4層後半 犬丸式 (序幕〜第三幕)
     url: https://game8.jp/ff14/422515
-    # 最終更新: 2025-11-20 (Game8 ページの最終更新日)
-    text: |
+    text: |-
       /p ―《序幕》――――――――――――――――――
       /p 　D3　　　　　D4
       /p 　　MT　　　ST
@@ -152,10 +87,9 @@ macros:
       /p 　H1　　●　　H1　→ 　ST　　　　ST
       /p 　H2　　　　　H2　　D1 ● その他　● D1
       /p 　　D4　　　D4　　　　 D2　　　　D2
-
   - source: Game8 (ゲームエイト) - 辺獄編零式4層後半 犬丸式 (第四幕〜カーテンコール)
     url: https://game8.jp/ff14/422515
-    text: |
+    text: |-
       /p ―《第四幕》――――――――――――――――
       /p ①ウォタガは塔の対角の１つ時計回り側で切る
       /p 　ダージャは自分の塔の時計回り側の塔を踏む
@@ -169,13 +103,8 @@ macros:
       /p 　THは6秒で切りに行く
       /p 　Dは11秒で切りに行く
       /p 　（メモ：13/23/33/43）
-
-# ────────────────────────────────────────────────────────
-# 募集テンプレ
-# ────────────────────────────────────────────────────────
 recruitmentTemplates:
-  - source: 零式野良募集 汎用テンプレ (Asphodelos 用 / 4 層特化)
-    template: |
+  - template: |-
       【FF14 零式募集】{{contentShort}}
       ● 進行度: {{progress}}                  # 例: 前半 / 後半第二幕 / カーテンコール / 通し / 消化
       ● 流派: {{strategy}}                    # 例: Game8 (前半 YPP / 後半 犬丸式)
@@ -195,46 +124,3 @@ recruitmentTemplates:
       - macroSource
       - requirements
       - notes
-
-# ────────────────────────────────────────────────────────
-# 参考リンク
-# ────────────────────────────────────────────────────────
-references:
-  primary: Game8 (ゲームエイト) - 辺獄編零式4層前半/後半 攻略丨マクロ
-  urls:
-    # Game8 攻略・マクロページ (第一参照)
-    - https://game8.jp/ff14/421733                       # 4 層前半
-    - https://game8.jp/ff14/422515                       # 4 層後半
-    # ARUTORA - P4S 後半攻略 (マクロ + カンペ + ギミック解説)
-    - https://arutora.com/23843
-    # FF14 攻略の虎 - 辺獄編4 (ヘスペロス)
-    - https://final-fantasy.cc/14/id/8/pan_hen_n4.php
-    # クローズドアルファ - P4S 前半各ジョブ必要 DPS
-    - https://closedalpha.com/ffxiv-guide/ffxiv-pandemonium-fourth-circle-part1-dps/
-    # パママ - 辺獄編4 攻略ガイド
-    - https://www.mtgames.jp/contents/FF14-RAID-002-PANDEMONIUM-1-4.html
-    # Aqua Cat - 辺獄編4層 スペスペ用タイムライン
-    - https://www.aquacat.work/entry/2022/01/08/032112
-    # ぶんちりーメモランダム - P4S クリア後感想と総評
-    - https://bunchiry.com/p4s-review/
-    # ameblo FF14 練習部 - P4S 前半詳細解説
-    - https://ameblo.jp/ff14rensyubu/entry-12735791846.html
-    # YouTube - ゆっくり辺獄編零式4層前半
-    - https://www.youtube.com/watch?v=AH0mRxuJx7c
-    # YouTube - ゆっくり辺獄編零式4層後半
-    - https://www.youtube.com/watch?v=GYCDnITC_jc
-    # Consolegameswiki - Asphodelos: The Fourth Circle (Savage)
-    - https://ffxiv.consolegameswiki.com/wiki/Asphodelos:_The_Fourth_Circle_(Savage)
-
-# ────────────────────────────────────────────────────────
-# 要手動補完メモ
-# ────────────────────────────────────────────────────────
-# - 軽減表 URL は P4S 専用版を確認できなかったため、絶バハ用 Last Agous URL を
-#   保持枠で記載している。本来は P4S 前半/後半それぞれ専用シートが必要。
-# - 後半マクロは犬丸式を主、ぬけまる式を strategies に併記。
-#   ぬけまる式の具体的なマクロ全文は本ファイル未収録 (Game8 ページ内には犬丸式のみ転載のため)。
-# - 流派名「YPP 式 (毒線 YPP 緑玉脳死)」「犬丸式」「ぬけまる式」はいずれも
-#   野良コミュニティ内命名。詳細仕様は要動画確認。
-# - 旧 tier のため、現在は装備差で大幅簡略化される傾向。特に前半 DPS チェックは
-#   パッチ 7.x 装備ならほぼ自然突破可能。
-# - Game8 ページに動画リンクの直接埋め込みなし。マクロ本文のみ転載 + 副参照 URL を補完。

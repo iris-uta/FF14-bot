@@ -40,7 +40,6 @@ export async function syncFromSheet(options: PullOptions): Promise<PullSummary> 
       tips: tabs.tips.length,
       macros: tabs.macros.length,
       templates: tabs.templates.length,
-      references: tabs.references.length,
     },
     results: [],
     assembleErrors: [],
@@ -69,7 +68,6 @@ async function fetchAllTabs(
   tips: Record<string, string>[];
   macros: Record<string, string>[];
   templates: Record<string, string>[];
-  references: Record<string, string>[];
 }> {
   const fetchTab = async (name: string) => {
     const csv = await fetchSheetTabAsCsv(sheetId, name, fetchFn);
@@ -78,7 +76,7 @@ async function fetchAllTabs(
 
   // Fetch concurrently to keep wall time low (gviz tolerates parallel reads)
   const [
-    contents, phases, videos, mitigations, strategies, tips, macros, templates, references,
+    contents, phases, videos, mitigations, strategies, tips, macros, templates,
   ] = await Promise.all([
     fetchTab(TAB_NAMES.contents),
     fetchTab(TAB_NAMES.phases),
@@ -88,8 +86,7 @@ async function fetchAllTabs(
     fetchTab(TAB_NAMES.tips),
     fetchTab(TAB_NAMES.macros),
     fetchTab(TAB_NAMES.templates),
-    fetchTab(TAB_NAMES.references),
   ]);
 
-  return { contents, phases, videos, mitigations, strategies, tips, macros, templates, references };
+  return { contents, phases, videos, mitigations, strategies, tips, macros, templates };
 }

@@ -1,31 +1,13 @@
-# 至天の座アルカディア：ライトヘビー級零式 4層 - ウィケッドサンダー (M4S)
-# データ収集日: 2026-05-25
-# 第一参照: Game8 (ゲームエイト)
-#
-# 注意:
-# - 通称: 国際 M4S、Game8/JP では「ライトヘビー級零式4層」「LH4」。
-# - 公式肩書: 「次世代魔女」 (Famitsu 設定画特集)
-# - Source: https://www.famitsu.com/article/202505/42743
-# - 4層は前半 (Part 1) と後半 (Part 2) の 2 部構成で実装 (Heavyweight M12S と同様)。
-#   * 前半: フライングウィッチ / 円輪・輪円 / エレクトロープ展開・ストリーム・移植
-#   * 後半: クロステイル・スペシャル / マスタードボム / ブラックサバト 3 連 (日没・夜半・日出) /
-#           剣の舞 (時間切れ)
-# - Game8 の前半マクロは Ver2.1、後半マクロも完成版が掲載されている (M12S と異なり全文公開)。
-
 id: m4s
 displayName: 至天の座アルカディア：ライトヘビー級零式 4層 (ウィケッドサンダー)
 shortName: M4S
 type: savage
 patch: "7.05"
-# ノーマル実装日: 2024-07-16 (Patch 7.01)
-# 零式実装日:   2024-07-30 (Patch 7.05)
-# Source: https://ffxiv.consolegameswiki.com/wiki/The_Arcadion
-
 phases:
   - id: p1
     name: P1 ウィケッドサンダー 前半 (フライングウィッチ〜エレクトロープ移植) — M4S Part 1
     order: 1
-    description: |
+    description: |-
       Part 1 (前半)。雷魔女モチーフのウィケッドサンダー前半フェーズ。
       主要技:
         - フライングウィッチ (北と西からの直線範囲攻撃)
@@ -37,47 +19,25 @@ phases:
         - エレクトロンストリーム (デバフ色逆ビーム受け、紫/誘電/青の 5 ライン)
         - エレクトロープ移植 (8 方向扇範囲回避、時計→反時計往復)
       野良主流: ぬけまる版 + DN 式 (Game8 採用)。
-    # Source: https://game8.jp/ff14/631136
-    mitigation:
-      name: Last Agous / らすと 軽減表 (アルカディア ライトヘビー級:零式, Patch 7.05 対応)
-      # M1S-M4S 全層を 1 ブックで管理。詳細は M1S を参照。
-      # Source: https://note.com/lastagous/n/ncfcb027117fd
-      url: https://note.com/lastagous/n/ncfcb027117fd
-      copyable: true
     videos:
       - title: 【 FF14 /Game8準拠解説】DN式円輪,輪円+くうや アルカディア零式：ライトヘビー級4前半解説 マクロ有【ぬけまる】最終改定 M4S
         url: https://www.youtube.com/watch?v=gl4BNKLr3rk
         author: ぬけまるG
-        # Source: Game8 (https://game8.jp/ff14/631136) で参照されている最終改定版動画
       - title: 【FF14】アルカディア零式ライトヘビー級４層前半【解説】
         url: https://www.youtube.com/watch?v=zEvghGfSkVM
-        # Source: 検索結果 (投稿者未確認)
-    strategies:
-      - id: nukemaru-dn-game8
-        name: ぬけまる版 + DN 式 (Game8 採用版, Ver.2.1)
-        description: |
-          Game8 が公式採用しているぬけまる氏動画 (最終改定版) + DN 式円輪/輪円処理法。
-          - 縦散開: D3 D4 / MT ST / D1 D2 / H1 H2
-          - 円輪・輪円 (DN 式): D3 MT D4 / D1 ☆ D2 / H1 ST H2
-          - エレクトロープ 1 回目: MT D2 D4 / D1 ST H2 / D3 H1 角
-          - エレクトロープ 2 回目: 基本散開 + 多/少振り分け
-            * 22 秒: 3 回 or 2 回
-            * 42 秒: 2 回 or 1 回
-            * TH 多: B,D / DPS 多: 中央
-            * TH 少: A / DPS 少: C
-          - ストリーム: 紫/誘電/青/青/誘電/紫 の 6 ライン、TH 外側 / DPS 内側
-          - エレクトロープ移植: 時計→反時計で往復
-          - 8 月 8 日に散開位置をアップデート (Game8 表記)
+    mitigation:
+      name: Last Agous / らすと 軽減表 (アルカディア ライトヘビー級:零式, Patch 7.05 対応)
+      url: https://note.com/lastagous/n/ncfcb027117fd
+      copyable: true
     tips:
-      - "円輪/輪円は『DN 式』と呼ばれる Game8 採用の位置法。動画予習必須。"
-      - "エレクトロープ 2 回目はシャインスパーク被撃回数で『多/少』が決まる。22 秒/42 秒の判定タイミングを把握する。"
-      - "エレクトロンストリームは『TH 外側 / DPS 内側』が基本。デバフ色で逆方向に受ける。"
-      - "前半のタイムラインは 0 秒〜6 分 26 秒。Game8 ページに秒単位の予兆と対応が記載されている。"
-
+      - 円輪/輪円は『DN 式』と呼ばれる Game8 採用の位置法。動画予習必須。
+      - エレクトロープ 2 回目はシャインスパーク被撃回数で『多/少』が決まる。22 秒/42 秒の判定タイミングを把握する。
+      - エレクトロンストリームは『TH 外側 / DPS 内側』が基本。デバフ色で逆方向に受ける。
+      - 前半のタイムラインは 0 秒〜6 分 26 秒。Game8 ページに秒単位の予兆と対応が記載されている。
   - id: p2
     name: P2 ウィケッドサンダー 後半 (ブラックサバト〜剣の舞・時間切れ) — M4S Part 2
     order: 2
-    description: |
+    description: |-
       Part 2 (後半)。クロステイル・スペシャル (タンク LB3 推奨) からスタートし、
       ブラックサバト 3 連 (日没・夜半・日出) を経て剣の舞 (時間切れ) で終了。
       主要技:
@@ -94,51 +54,26 @@ phases:
         - 剣の雨 (MT ST / D1 D2 / H1 H2 / D3 D4 の 4:4 ペア)
         - 剣の舞 (時間切れ、MT/D1 + ST/D2 + H1/D3 + H2/D4 のペア構成、2:2:2:2 配置)
       野良主流: ぬけまる版 (Game8 採用)。
-    # Source: https://game8.jp/ff14/631340
-    mitigation:
-      name: Last Agous / らすと 軽減表 (アルカディア ライトヘビー級:零式, Patch 7.05 対応)
-      # 詳細は M1S を参照。
-      url: https://note.com/lastagous/n/ncfcb027117fd
-      copyable: true
     videos:
       - title: 【FF14】アルカディア零式ライトヘビー級4層後半 攻略解説【ぬけまる】
         url: https://www.youtube.com/watch?v=YXxp8nrRw3o
         author: ぬけまるG
-        # Source: Game8 (https://game8.jp/ff14/631340) で参照
-        # 注: この URL は M12S (ヘビー級) 後半解説と共有されている可能性あり。要確認。
       - title: 【FF14】後世のためにライトヘビー級4層零式の”正解”を書き記す【LH4層零式】
         url: https://note.com/mokatamk/n/n92368fe90e97
         author: Mokatamk
-        # Source: 検索結果。note 記事 (動画ではないが詳細解説)。
-    strategies:
-      - id: nukemaru-game8
-        name: ぬけまる版 (Game8 採用版)
-        description: |
-          Game8 が公式採用しているぬけまる氏解説に準拠した処理法。
-          - クロステイル・スペシャル: タンク LB3 で凌ぐ
-          - ウィケッドブレイズ: 西 MT 組 / 東 ST 組
-          - マスタードボム: デバフ受取優先順位 MT←D1D3H1 / H2D4D2→ST
-          - ブラックサバト【夜半】: MT/D2 上 / D1/ST 上 / H1/D4 下 / D3/H2 下
-          - ブラックサバト【日出】:
-            * 塔: TH 南/西、DPS 北/東
-            * 誘導: TH 11 時から反時計、DPS 12 時から時計
-          - 剣の雨: MT/ST、D1/D2、H1/H2、D3/D4 の 4 ペア
-          - 剣の舞: MT/D1、ST/D2、H1/D3、H2/D4 のペアで 2:2:2:2 配置
+    mitigation:
+      name: Last Agous / らすと 軽減表 (アルカディア ライトヘビー級:零式, Patch 7.05 対応)
+      url: https://note.com/lastagous/n/ncfcb027117fd
+      copyable: true
     tips:
-      - "クロステイル・スペシャルでタンク LB3 を撃つのが標準。LB3 がない場合は壊滅リスク大。"
-      - "マスタードボムのデバフ受取順は MT 側と ST 側で対称。順番を覚えること。"
-      - "ブラックサバト【日出】は塔と誘導の両方を担当する役割割振りが複雑。"
-      - "剣の舞 (時間切れ) 前の DPS チェックがソフト時間切れになる傾向。"
-
-# ────────────────────────────────────────────────────────
-# マクロ (コピペ用)
-# ────────────────────────────────────────────────────────
+      - クロステイル・スペシャルでタンク LB3 を撃つのが標準。LB3 がない場合は壊滅リスク大。
+      - マスタードボムのデバフ受取順は MT 側と ST 側で対称。順番を覚えること。
+      - ブラックサバト【日出】は塔と誘導の両方を担当する役割割振りが複雑。
+      - 剣の舞 (時間切れ) 前の DPS チェックがソフト時間切れになる傾向。
 macros:
   - source: Game8 (ゲームエイト) - アルカディア零式ライトヘビー級4層前半 ぬけまる版 (Ver.2.1)
     url: https://game8.jp/ff14/631136
-    # 最終更新: 2026-03-12 (Game8 ページの最終更新日)
-    # 注: Game8 上の前半マクロ。後半マクロは別ページ (631340) にあり別 macros[] エントリで掲載。
-    text: |
+    text: |-
       /p ■縦散開ーーーー■円輪・輪円（DN式）ーーーーーー
       /p D3 D4 　 　 　 　D3 MT D4
       /p MT ST 　 　 　 　D1 ☆ D2
@@ -153,10 +88,9 @@ macros:
       /p D3 MT D4 　 　|■ 　 ■ 　 ■ 　 22秒：3回 or 2回
       /p H1 ☆ H2 　 　 |少 　 ■ 　 少 　 42秒：2回 or 1回
       /p D1 ST D2 　 　 |■ ■ 他 ■ ■
-
   - source: Game8 (ゲームエイト) - アルカディア零式ライトヘビー級4層前半 ぬけまる版 (ペア散開・ストリーム・移植)
     url: https://game8.jp/ff14/631136
-    text: |
+    text: |-
       /p ・ペア散開 　 　 　 　 　 　 ・散開(北基準)
       /p TH多：B,D 　DPS多：中央 | 　 　 　D3
       /p TH少：A　 　DPS少：C 　 |　MT　 　 　H1
@@ -170,11 +104,9 @@ macros:
       /p 青 　 　青 ※DPS内側　 　| 　 H1/D1 　D2/H2
       /p 　誘電 　 　 　 　 　 　 ※時計→反時計で往復
       /p 　 紫
-
   - source: Game8 (ゲームエイト) - アルカディア零式ライトヘビー級4層後半 ぬけまる版
     url: https://game8.jp/ff14/631340
-    # 最終更新: 2026-03-12 (Game8 ページの最終更新日)
-    text: |
+    text: |-
       /p ■ウィケッドブレイズ（エクサ）
       /p 西 : MT組　東 : ST組
       /p ■マスタードボム
@@ -189,13 +121,8 @@ macros:
       /p 　《塔》 　 　 　 　 　 《誘導》
       /p TH：南・西 　 　 　 　TH：11時から反時計
       /p DPS：北・東 　 　 　 DPS：12時から時計
-
-# ────────────────────────────────────────────────────────
-# 募集テンプレ
-# ────────────────────────────────────────────────────────
 recruitmentTemplates:
-  - source: 零式野良募集 汎用テンプレ (Light-heavyweight 用 / 4 層特化)
-    template: |
+  - template: |-
       【FF14 零式募集】{{contentShort}}
       ● 進行度: {{progress}}                  # 例: P1 / 後半クロステイル練 / 通し / 消化
       ● 流派: {{strategy}}                    # 例: Game8 (ぬけまる版 + DN 式)
@@ -215,47 +142,3 @@ recruitmentTemplates:
       - macroSource
       - requirements
       - notes
-
-# ────────────────────────────────────────────────────────
-# 参考リンク
-# ────────────────────────────────────────────────────────
-references:
-  primary: Game8 (ゲームエイト) - アルカディア零式4層前半/後半 攻略丨マクロ
-  urls:
-    # Game8 攻略・マクロページ (第一参照)
-    - https://game8.jp/ff14/631136           # 4 層前半 (Ver.2.1)
-    - https://game8.jp/ff14/631340           # 4 層後半
-    # Lodestone 1 画面マクロまとめ (Tam Atto, 1-4 層)
-    - https://na.finalfantasyxiv.com/lodestone/character/26820312/blog/5431856/
-    # Lodestone 軽減表まとめ (Last Agous note)
-    - https://note.com/lastagous/n/ncfcb027117fd
-    # Famitsu 公式設定画特集 (キャラクター肩書)
-    - https://www.famitsu.com/article/202505/42743
-    # Consolegameswiki - The Arcadion
-    - https://ffxiv.consolegameswiki.com/wiki/The_Arcadion
-    # ぬけまるG YouTube チャンネル
-    - https://www.youtube.com/@nukemarugames/videos
-    # note - Mokatamk "後世のために LH4 層零式の正解を書き記す"
-    - https://note.com/mokatamk/n/n92368fe90e97
-    # note - feenal "アルカディア LH 級零式 4 層 game8 令和最新版攻略"
-    - https://note.com/feenal/n/nb25383cb791d
-    # ガッツの夜明け - ライトヘビー級4層前半攻略
-    - https://gutsdawn.com/2024/09/20/%E3%82%A2%E3%83%AB%E3%82%AB%E3%83%87%E3%82%A3%E3%82%A2%E9%9B%B6%E5%BC%8Flh%E7%B4%9A%EF%BC%94%E5%B1%A4%E5%89%8D%E5%8D%8A/ff14/
-    # ガッツの夜明け - ライトヘビー級4層後半攻略
-    - https://gutsdawn.com/2024/09/20/%E3%82%A2%E3%83%AB%E3%82%AB%E3%83%87%E3%82%A3%E3%82%A2%E9%9B%B6%E5%BC%8Flh%E7%B4%9A%EF%BC%94%E5%B1%A4%E5%BE%8C%E5%8D%8A/ff14/
-    # neko14 - ライトヘビー級4層後半攻略めも
-    - https://neko14.com/2024/08/25/post-8845/
-
-# ────────────────────────────────────────────────────────
-# 要手動補完メモ
-# ────────────────────────────────────────────────────────
-# - ウィケッドサンダーの公式声優は 2026-05 時点で公式発表なし。
-# - 公式肩書: 「次世代魔女」 (Famitsu 設定画特集)
-# - 軽減表 (Last Agous) はライトヘビー級用が note.com 有料記事内に存在する可能性大。
-#   無料公開 URL が見つからなかったため、note トップを参照リンクとした。
-# - 後半動画 (YXxp8nrRw3o) は M12S (ヘビー級) 後半解説の URL と重複している可能性。
-#   ぬけまる YouTube チャンネルで「ライトヘビー級 4 層後半」を直接検索して確認すること。
-# - 流派バリアント: Game8 は 2026-03-12 時点で「ぬけまる版 + DN 式」を採用。
-#   実装初期 (2024-08〜09) は他流派 (くうや式等) も存在した。
-#   別流派があれば strategies[] に追加すること。
-# - 剣の舞 (時間切れ) の正確な構成 (2:2:2:2 配置) は要動画確認。

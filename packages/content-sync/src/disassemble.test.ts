@@ -11,12 +11,11 @@ function makeContent(overrides: Partial<Content> = {}): Content {
     type: "ultimate",
     patch: "7.11",
     phases: [
-      { id: "p1", name: "Fatebreaker", order: 0, videos: [], strategies: [], tips: [] },
+      { id: "p1", name: "Fatebreaker", order: 0, videos: [], strategies: [], tips: [] }
     ],
     macros: [],
     recruitmentTemplates: [],
-    references: { urls: [] },
-    ...overrides,
+    ...overrides
   } as Content;
 }
 
@@ -28,14 +27,14 @@ describe("disassembleContents", () => {
       id: "fru",
       displayName: "絶もうひとつの未来",
       type: "ultimate",
-      patch: "7.11",
+      patch: "7.11"
     });
     expect(sheet.phases).toHaveLength(1);
     expect(sheet.phases[0]).toMatchObject({
       content_id: "fru",
       phase_id: "p1",
       name: "Fatebreaker",
-      order: "0",
+      order: "0"
     });
   });
 
@@ -49,9 +48,9 @@ describe("disassembleContents", () => {
           videos: [{ title: "Walk", url: "https://e.com/v", author: "A" }],
           mitigation: { name: "Mit", url: "https://e.com/m", copyable: true },
           strategies: [{ id: "ast", name: "アスト式", description: "desc", popular: true }],
-          tips: ["tip A", "tip B"],
-        },
-      ],
+          tips: ["tip A", "tip B"]
+        }
+      ]
     });
     const sheet = disassembleContents([c]);
     expect(sheet.videos).toHaveLength(1);
@@ -65,15 +64,12 @@ describe("disassembleContents", () => {
   it("emits macros / templates / references at the content level", () => {
     const c = makeContent({
       macros: [{ source: "@alice", url: "https://e.com/m.txt", text: "/macroicon" }],
-      recruitmentTemplates: [{ template: "Hi {name}", variables: ["name", "date"] }],
-      references: { primary: "りりーどーる", urls: ["https://e.com/r1", "https://e.com/r2"] },
+      recruitmentTemplates: [{ template: "Hi {name}", variables: ["name", "date"] }]
     });
     const sheet = disassembleContents([c]);
     expect(sheet.macros).toHaveLength(1);
     expect(sheet.macros[0].source).toBe("@alice");
     expect(sheet.templates[0].variables).toBe("name, date");
-    expect(sheet.contents[0].references_primary).toBe("りりーどーる");
-    expect(sheet.references).toHaveLength(2);
   });
 
   it("sorts contents by patch then id (stable across re-exports)", () => {
@@ -96,11 +92,10 @@ describe("disassembleContents", () => {
           videos: [{ title: "V1", url: "https://e.com/v1", author: "A" }],
           mitigation: { name: "M1", url: "https://e.com/m1", copyable: true },
           strategies: [{ id: "s1", name: "S1", popular: false }],
-          tips: ["tip 1"],
-        },
+          tips: ["tip 1"]
+        }
       ],
-      macros: [{ source: "@a", url: "https://e.com/m.txt", text: "hi" }],
-      references: { primary: "p", urls: ["https://e.com/r"] },
+      macros: [{ source: "@a", url: "https://e.com/m.txt", text: "hi" }]
     });
     const sheet = disassembleContents([original]);
     const back = assembleContents(sheet);
@@ -112,7 +107,6 @@ describe("disassembleContents", () => {
     expect(recovered.phases[0].mitigation?.copyable).toBe(true);
     expect(recovered.phases[0].tips).toEqual(["tip 1"]);
     expect(recovered.macros[0].source).toBe("@a");
-    expect(recovered.references.urls).toEqual(["https://e.com/r"]);
   });
 });
 

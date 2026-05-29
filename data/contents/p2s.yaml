@@ -1,28 +1,13 @@
-# 万魔殿パンデモニウム零式：辺獄編2層 - ヒッポカムポス (P2S)
-# データ収集日: 2026-05-25
-# 第一参照: Game8 (ゲームエイト)
-#
-# 注意:
-# - シリーズ呼称について p1s.yaml 冒頭コメント参照。
-# - 通称: 国際/FFLogs では P2S、Game8/JP では「辺獄編零式2層」「パンデ零2層」。
-# - 公式ボス名: 「ヒッポカムポス」(英: Hippokampos)。創造生物枠。
-# - 旧 tier (2022-01 実装) のため情報の散逸あり。Game8 + ARUTORA / Aqua Cat 主体で収集。
-
 id: p2s
 displayName: 万魔殿パンデモニウム零式：辺獄編2層 (ヒッポカムポス)
 shortName: P2S
 type: savage
 patch: "6.05"
-# ノーマル実装日: 2021-12-21 (Patch 6.01)
-# 零式実装日:   2022-01-04 (Patch 6.05)
-# 拡張: 暁月のフィナーレ (Endwalker)
-# Source: https://ffxiv.consolegameswiki.com/wiki/Asphodelos:_The_Second_Circle_(Savage)
-
 phases:
   - id: p1
     name: P1 ヒッポカムポス (Hippokampos) 通し
     order: 1
-    description: |
+    description: |-
       1 ボス完結型。水の創造生物ヒッポカムポスによる頭割り＋ノックバック特化フェーズ。
       主要ギミック:
         - ショックウェーブ (頭割り、ボス下 vs 通路に分散)
@@ -33,42 +18,21 @@ phases:
         - ブレス＆カタラクティス (頭/胴分離)
         - マーキーディープ (全体)
       野良主流: Game8 ペア基本散開 + ボス下/通路分散頭割り。
-    # Source: https://game8.jp/ff14/365105
-    # Source: https://final-fantasy.cc/14/id/8/pan_hen_r2.php
+    videos:
+      - title: ゆっくりと振り返るパンデモニウム辺獄編零式1層
+        url: https://www.youtube.com/watch?v=eGJ5eRvRzK8
     mitigation:
       name: 軽減表テンプレ (P2S - パッチ 6.0x 攻略時の野良標準)
-      # 公開状態の P2S 専用 Last Agous シートを 2026 時点で確認できず。要手動補完。
       url: https://docs.google.com/spreadsheets/d/1pOQ3sMSUQx-E-zFJSFv5BbHIq27tASgH14WhM02k4NI/edit?usp=sharing
       copyable: true
-    videos:
-      # 注: P2S 単独の代表的「ぬけまる」動画 URL は 2026-05 時点で直接ヒットせず。
-      # 「ゆっくりと振り返る辺獄編零式」シリーズ全体が 4 層通しでアップされている傾向。
-      - title: ゆっくりと振り返るパンデモニウム辺獄編零式1層 #FF14 (シリーズ起点)
-        url: https://www.youtube.com/watch?v=eGJ5eRvRzK8
-        # Source: 同シリーズの 2 層編は同チャンネルで連番投稿されている想定
-    strategies:
-      - id: game8-standard
-        name: Game8 採用版 (基本散開 / サイコロマーカー方式)
-        description: |
-          Game8 が公式採用している野良主流処理法。
-          - ショックウェーブ: MT 組 (MT/H1/D1/D2) ボス下 / ST 組 (ST/H2/D3/D4) 通路
-          - チャネリングフロウ: 十字配置で TH/DPS 互い違い
-          - 多重刻印 1 回目: T が左、頭割り中央、DPS が右
-          - 多重刻印 2 回目: T 角に / DPS は内側
-          - カンペオスハルマ: 青サイコロ 1・3 → ボス対角 / 2・4 → ボス下、紫は数字マーカー基準
     tips:
-      - "ショックウェーブの頭割り分散は『MT 組ボス下 / ST 組通路』の二分法。"
-      - "多重刻印は 1 回目と 2 回目で T/DPS 役割が入れ替わる。"
-      - "カンペオスハルマの青サイコロは奇偶 (1・3 / 2・4) で配置が変わる。"
-
-# ────────────────────────────────────────────────────────
-# マクロ (コピペ用)
-# ────────────────────────────────────────────────────────
+      - ショックウェーブの頭割り分散は『MT 組ボス下 / ST 組通路』の二分法。
+      - 多重刻印は 1 回目と 2 回目で T/DPS 役割が入れ替わる。
+      - カンペオスハルマの青サイコロは奇偶 (1・3 / 2・4) で配置が変わる。
 macros:
   - source: Game8 (ゲームエイト) - 辺獄編零式2層 基本散開版
     url: https://game8.jp/ff14/365105
-    # 最終更新: 2025-12-03 (Game8 ページの最終更新日)
-    text: |
+    text: |-
       /p 【ショックウェーブ・頭割り】
       /p MT H1 D1 D2 (ボス下）
       /p ST H2 D3 D4（通路）
@@ -84,13 +48,8 @@ macros:
       /p 【カンペオスハルマ】
       /p 青サイコロ：1・3→ボス対角　2・4→ボス下
       /p 紫サイコロ：数字マーカー基準
-
-# ────────────────────────────────────────────────────────
-# 募集テンプレ
-# ────────────────────────────────────────────────────────
 recruitmentTemplates:
-  - source: 零式野良募集 汎用テンプレ (Asphodelos 用)
-    template: |
+  - template: |-
       【FF14 零式募集】{{contentShort}}
       ● 進行度: {{progress}}                  # 例: ハルマ練 / 通し / 消化
       ● 流派: {{strategy}}                    # 例: Game8 (基本散開 / サイコロマーカー方式)
@@ -110,34 +69,3 @@ recruitmentTemplates:
       - macroSource
       - requirements
       - notes
-
-# ────────────────────────────────────────────────────────
-# 参考リンク
-# ────────────────────────────────────────────────────────
-references:
-  primary: Game8 (ゲームエイト) - 辺獄編零式2層 攻略丨マクロ
-  urls:
-    # Game8 攻略・マクロページ (第一参照)
-    - https://game8.jp/ff14/365105
-    # FF14 攻略の虎 - 辺獄編2層 (ヒッポカムポス)
-    - https://final-fantasy.cc/14/id/8/pan_hen_r2.php
-    # クローズドアルファ - P2S 各ジョブ必要 DPS
-    - https://closedalpha.com/ffxiv-guide/ffxiv-required-dps-hippokampos/
-    # パママ - 辺獄編2 攻略ガイド
-    - https://www.mtgames.jp/contents/FF14-RAID-002-PANDEMONIUM-1-2.html
-    # Aqua Cat - 辺獄編2層 スペスペ用タイムライン
-    - https://www.aquacat.work/entry/2022/01/05/055406
-    # Consolegameswiki - Asphodelos: The Second Circle (Savage)
-    - https://ffxiv.consolegameswiki.com/wiki/Asphodelos:_The_Second_Circle_(Savage)
-
-# ────────────────────────────────────────────────────────
-# 要手動補完メモ
-# ────────────────────────────────────────────────────────
-# - 軽減表 URL は P2S 専用版を確認できなかったため、絶バハ用 Last Agous URL を
-#   保持枠で記載している。本来は P2S 用に差替必要。
-# - Game8 ページに直接の動画リンクなし。マクロ本文のみ転載。
-# - ぬけまる氏の P2S 単独動画 URL は 2026-05 時点で直接ヒットせず、
-#   「ゆっくりと振り返る辺獄編零式」シリーズの 1 層編 URL を代理掲載。
-#   2 層編 URL は YouTube のチャンネル直接訪問で要補完。
-# - 旧 tier のため、現在は装備差で簡略化される傾向。マクロ通り動かなくても
-#   サブクラスでクリア可能なケースあり。

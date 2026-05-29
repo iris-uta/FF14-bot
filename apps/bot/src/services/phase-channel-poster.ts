@@ -57,6 +57,12 @@ export function buildPhaseEmbed(
   const selectedList = phase.strategies.filter((s) => selectedIds.has(s.id));
 
   // Top description: 選んだ処理法 (if any) > 野良主流 fallback, + description in full mode
+  //
+  // 「野良主流」 line is only meaningful when:
+  //   - 0 strategies (no variants defined) → use popularStrategy as a phase summary
+  //   - 2+ strategies → point users to which variant is the popular one
+  // When exactly 1 strategy exists, the "処理法" field below ALREADY shows it
+  // as THE answer, so a「野良主流: X」 line above just duplicates info.
   const descParts: string[] = [];
   if (selectedList.length > 0) {
     const lines = selectedList.map((s) => {
@@ -64,7 +70,7 @@ export function buildPhaseEmbed(
       return `• **${s.name}**${desc}`;
     });
     descParts.push(`**🎯 この固定の処理法**\n${lines.join("\n")}`);
-  } else if (phase.popularStrategy) {
+  } else if (phase.popularStrategy && phase.strategies.length !== 1) {
     descParts.push(`**野良主流**: ${phase.popularStrategy}`);
   }
   if (variant === "full" && phase.description) {
@@ -218,7 +224,7 @@ export async function postUtilityIntro(
             `便利なコマンド:`,
             `• \`/macro content:${content.id} phase:p1\` — マクロを取得 (自分にだけ表示)`,
             `• \`/tips content:${content.id} phase:p1\` — Phase の Tips`,
-            `• \`/book when:"YYYY-MM-DD HH:MM"\` — 次回固定を予約 (通知)`,
+            `• \`/book\` — 次回固定を予約 (明日から 14 日の候補日をボタンで選択 → 通知)`,
             `• \`/static-info\` — 固定メンバー・8 slot 状況・直近予定を確認`,
             `• \`/progress mark phase:p1 status:reached\` — マイルストーン記録`,
             `• \`/vote new\` — 次回日程を投票 (調整さん代替)`,
@@ -293,13 +299,56 @@ export async function postUtilityIntro(
           lines.push("");
         }
 
+        // 攻略ガイド (元 URL) — リリーどーる / Lodestone post / note 等
+        if (content.overview?.guideUrl) {
+          lines.push(`**📚 攻略ガイド**`);
+          lines.push(`└ <${content.overview.guideUrl}>`);
+          lines.push("");
+        }
+
+        // 最適装備 (BiS) — Etro / The Balance 等
+        if (content.overview?.bisUrl) {
+          lines.push(`**⚔️ 最適装備 (BiS)**`);
+          lines.push(`└ <${content.overview.bisUrl}>`);
+          lines.push("");
+        }
+
+        // Phase 別マクロ一覧 — phase 順で並べ、 残った無印 (= 全体) は末尾。
+        // partyWideMacro と内容重複しても短い list なので OK。
+        if (content.macros.length > 0) {
+          const macrosByPhase = new Map<string | null, typeof content.macros>();
+          for (const m of content.macros) {
+            const key = m.phaseId ?? null;
+            if (!macrosByPhase.has(key)) macrosByPhase.set(key, []);
+            macrosByPhase.get(key)!.push(m);
+          }
+          // Order phaseId entries by their order in content.phases, then null at end.
+          const phaseIdOrder = content.phases.map((p) => p.id);
+          const orderedKeys: (string | null)[] = [
+            ...phaseIdOrder.filter((id) => macrosByPhase.has(id)),
+            ...(macrosByPhase.has(null) ? [null] : []),
+          ];
+          if (orderedKeys.length > 0) {
+            lines.push(`**📜 マクロ一覧**`);
+            for (const key of orderedKeys) {
+              const phase = key ? content.phases.find((p) => p.id === key) : null;
+              const heading = phase ? phase.name : "全体";
+              lines.push(`**${heading}**`);
+              for (const m of macrosByPhase.get(key)!) {
+                lines.push(`└ [${m.source}](${m.url})`);
+              }
+            }
+            lines.push("");
+          }
+        }
+
         if (lines.length <= 3) {
           lines.push(
             "> このコンテンツの overview データはまだ未登録です。",
-            "> sheet の `contents` タブで `overview.mainStrategy`、`overview.videoPlaylist`、`overview.partyWideMacro` を埋めると自動表示されます。"
+            "> sheet の `contents` タブで overview 系列の列を埋めると自動表示されます。"
           );
         } else {
-          lines.push(`💡 個別 Phase の詳細は上の Phase channels で。 全マクロは \`/macro content:${content.id} phase:p1\` で取得。`);
+          lines.push(`💡 個別 Phase の詳細は上の Phase channels で。 マクロ本文は \`/macro content:${content.id} phase:p1\` で取得。`);
         }
 
         const intro = lines.join("\n").slice(0, 2000);
@@ -321,15 +370,14 @@ export async function postUtilityIntro(
 
       case "videos": {
         const lines: string[] = [`**🎬 動画・参考 — ${content.displayName}**`, ``];
-        if (content.references.primary) {
-          lines.push(`**主参照**: ${content.references.primary}`);
+
+        // Labelled overview URLs (guide + BiS). The legacy untagged
+        // `references.urls` array was removed — those are noise.
+        if (content.overview?.guideUrl) {
+          lines.push(`**📚 攻略ガイド**: <${content.overview.guideUrl}>`);
         }
-        if (content.references.urls.length > 0) {
-          lines.push(``);
-          lines.push(`**参考URL**:`);
-          for (const url of content.references.urls.slice(0, 15)) {
-            lines.push(`• <${url}>`);
-          }
+        if (content.overview?.bisUrl) {
+          lines.push(`**⚔️ 最適装備 (BiS)**: <${content.overview.bisUrl}>`);
         }
         // Aggregate phase videos
         const allVideos = content.phases.flatMap((p) =>

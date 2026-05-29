@@ -23,15 +23,14 @@
 
 | Tab | Columns |
 |---|---|
-| `contents` | `id`, `displayName`, `shortName`, `type`, `patch`, `references_primary` |
-| `phases` | `content_id`, `phase_id`, `name`, `order`, `description` |
+| `contents` | `id`, `displayName`, `shortName`, `type`, `patch`, `overview_main_strategy`, `overview_playlist_title`, `overview_playlist_url`, `overview_playlist_author`, `overview_macro_source`, `overview_macro_url`, `overview_macro_text`, `overview_guide_url`, `overview_bis_url` |
+| `phases` | `content_id`, `phase_id`, `name`, `order`, `popular_strategy`, `description` |
 | `videos` | `content_id`, `phase_id`, `title`, `url`, `author` |
 | `mitigations` | `content_id`, `phase_id`, `name`, `url`, `copyable` |
-| `strategies` | `content_id`, `phase_id`, `id`, `name`, `description` |
+| `strategies` | `content_id`, `phase_id`, `id`, `name`, `popular`, `description` |
 | `tips` | `content_id`, `phase_id`, `tip` |
-| `macros` | `content_id`, `source`, `url`, `text` |
+| `macros` | `content_id`, `phase_id` (optional)、 `strategy_id` (optional)、 `source`, `url`, `text` |
 | `templates` | `content_id`, `template`, `variables` (カンマ区切り) |
-| `references` | `content_id`, `url` |
 
 最初の行 = ヘッダ。 以降がデータ。
 

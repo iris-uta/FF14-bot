@@ -21,7 +21,11 @@ export class SheetFetchError extends Error {
 export function buildGvizUrl(sheetId: string, tabName: string): string {
   const id = encodeURIComponent(sheetId);
   const name = encodeURIComponent(tabName);
-  return `https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:csv&sheet=${name}`;
+  // `range=A1:ZZ10000` forces gviz to return the FULL range, bypassing any
+  // active filter on the sheet. Without this, gviz CSV export only returns
+  // currently-visible rows (filtered ones are hidden) — which silently drops
+  // data the user didn't intend to exclude from the pull.
+  return `https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:csv&sheet=${name}&range=A1:ZZ10000`;
 }
 
 /**

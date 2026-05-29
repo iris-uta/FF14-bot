@@ -8,7 +8,7 @@ phases:
     name: P1 ツインタニア (Twintania)
     order: 1
     popularStrategy: 新みんとっと / H3構成 / 拘束具逆▽ (3 つの拘束具を逆三角形配置)
-    description: |
+    description: |-
       開幕フェーズ。
       主要ギミック: 拘束具 (Liquid Hell)、神鳥の魔印 (Magnetism)、Plummet、
       Conflag Strike、Twister (DPSチェック前の即死誘発)、Death Sentence (TB)、
@@ -18,33 +18,16 @@ phases:
       - title: FF14 みんとのギミック解説 絶バハムート討滅戦 ツインタニア編
         url: https://www.youtube.com/watch?v=R916Q2iqxew
         author: みんとっと
-        phase: p1
       - title: 絶バハムート討滅戦【ツインタニア編】ギミック解説動画
         url: https://www.youtube.com/watch?v=NdZKovigmyA
-        phase: p1
       - title: 【FF14/FFXIV】4.xから始める絶バハムート-ツインタニア編-【解説/攻略】
         url: https://www.youtube.com/watch?v=f6VWJGX9nX4
-        phase: p1
       - title: FF14 ①絶バハムート ずんだもんと学ぶ ツインタニアフェーズ
         url: https://www.youtube.com/watch?v=daHMd0LEXjM
-        phase: p1
     mitigation:
       name: Last Agous / らすと 軽減表スプレッドシート (絶バハ Patch 7.1 対応, 全Phase)
       url: https://docs.google.com/spreadsheets/d/1pOQ3sMSUQx-E-zFJSFv5BbHIq27tASgH14WhM02k4NI/edit?usp=sharing
       copyable: true
-    strategies:
-      - id: shin-mintotto-h3
-        name: 新みんとっと / H3構成 / 拘束具逆▽ (野良主流)
-        description: |
-          2024-09 にりりーどーる Lodestone マクロが「みんとっと → 新みんとっと」へ
-          切替わったタイミングで野良主流が刷新された。
-          H3 構成 (ヒーラー 3) + 拘束具を逆三角形 (▽) 配置で災厄ギミックの視認性を上げる流派。
-      - id: t3-mintotto
-        name: T3構成 みんとっと (代替・旧主流)
-        description: |
-          実装初期からの「みんとっと」(タンク 3) 構成。
-          現在も一部固定で採用される代替流派。
-          # 出典: https://na.finalfantasyxiv.com/lodestone/character/18500174/blog/4804267/
     tips:
       - Twister の捨て位置は近接組がボスクリーブ内に置くと安定する。
       - 拘束具 (Liquid Hell) は▽逆三角に置いて第7霊災のハッチ位置を見やすくする。
@@ -53,7 +36,7 @@ phases:
     name: P2 ネール・デウス・ダーナス (Nael Deus Darnus)
     order: 2
     popularStrategy: 新みんとっと / カータTLB (カータライズで タンクLB3 を発動)
-    description: |
+    description: |-
       引用詠唱 (Quote) に応じて配置を変える「コール戦」フェーズ。
       主要ギミック: サンダーストラック (青雷)、レイヴンダイブ (TB)、
       バハムートクロウ、ラヴァディープ (赤デバフ)、ハイパーノヴァ (氷)、
@@ -64,16 +47,8 @@ phases:
     videos:
       - title: 【FF14/FFXIV】4.xから始める絶バハムート-ネール編-【解説/攻略】
         url: https://www.youtube.com/watch?v=qeHvnLCmIn0
-        phase: p2
       - title: 【FF14】絶バハ ネール 簡易解説【漆黒のヴィランズ】
         url: https://www.youtube.com/watch?v=Ib3go8TsXjY
-        phase: p2
-    strategies:
-      - id: kata-tlb
-        name: カータTLB (新みんとっと)
-        description: |
-          カータライズ (Cauterize / 直線ダイブ) のタイミングで タンク LB3 を発動し
-          パーティ全体のダメージを軽減する野良主流処理。
     tips:
       - コール (引用詠唱) のパターンを覚えるのが攻略のメイン。
       - サンダーストラック (青雷) 付与者は声で大きくコールする慣習。
@@ -82,7 +57,7 @@ phases:
     name: P3 バハムート・プライム (Bahamut Prime)
     order: 3
     popularStrategy: 新みんとっと / 進軍十字 / 連撃V字 / 群竜TLB
-    description: |
+    description: |-
       最長フェーズ。プライム / ネール / ツインタニアの 3 体が「三重奏 (Trio)」として
       同時にギミックを行う。Trio 構成 (野良主流呼称):
         1. 進軍の三重奏 (Quickmarch Trio)   ← 進軍十字
@@ -97,30 +72,9 @@ phases:
     videos:
       - title: 【FF14/FFXIV】4.xから始める絶バハムート-プライム編-【解説/攻略】
         url: https://www.youtube.com/watch?v=9gPviBWwf2g
-        phase: p3
       - title: FF14 みんとのギミック解説 絶バハムート討滅戦プライム編 連撃の三重奏
         url: https://www.youtube.com/watch?v=_iwh2HROeDo
         author: みんとっと
-        phase: p3-tenstrike
-    strategies:
-      - id: shingun-juuji
-        name: 進軍十字 (Quickmarch Trio)
-        description: |
-          進軍の三重奏 (Quickmarch Trio) の野良主流処理。
-          十字状の配置でアースシェイカー / メテオストリーム / Dive を捌く。
-      - id: rengeki-v
-        name: 連撃V字 (Tenstrike Trio)
-        description: |
-          連撃の三重奏 (Tenstrike Trio) の野良主流処理。
-          魔力錬成 (Generate) 対象 3 名を V 字に配置して拘束具誘導 + 散開を両立。
-          # 出典: https://asellog.com/bahamut-p3tl3/
-      - id: gunryu-tlb
-        name: 群竜TLB (Grand Octet)
-        description: |
-          群竜の八重奏 (Grand Octet) の最終ギミック。
-          メガフレアダイブのタイミングでタンク LB3 を発動し、頭割りマーカーを無視できる
-          「マラソン処理」の野良主流。プライムの東西南北位置で時計/反時計回りを分岐。
-          # 出典: https://asellog.com/bahamut-p3tl3/
     tips:
       - 三重奏は全て『プライム + ネール + ツインタニアの 3 体が同時にギミックを実行する』構造。
       - "Trio 順: 進軍 → 黒炎 → 災厄 → 天地 → 連撃 → 八重奏 (Grand Octet) の 6 段階。"
@@ -129,7 +83,7 @@ phases:
   - id: p4
     name: P4 2体フェーズ (Adds Phase / Twintania & Nael)
     order: 4
-    description: |
+    description: |-
       ツインタニアとネールの 2 体フェーズ (Trinity)。
       P1 と P2 のギミックが同時進行する短いフェーズ。
       主要ギミック: 拘束具 (Liquid Hell)、Twister、Death Sentence、
@@ -140,8 +94,6 @@ phases:
       - title: FF14 みんとのギミック解説 絶バハムート討滅戦 完結編
         url: https://www.youtube.com/watch?v=hDQ-5THCc3Y
         author: みんとっと
-        phase: p4-p5
-    strategies: []
     tips:
       - 2 体の HP は同期して削るのが鉄則 (片方を先に倒すと残った方が enrage)。
       - P1 / P2 のギミックを混合処理するため、配置・コールはパーティ事前合意必須。
@@ -150,7 +102,7 @@ phases:
     name: P5 金バハ / 終焉 (Golden Bahamut Prime / Akh Morn)
     order: 5
     popularStrategy: ボス足元集合のスタック処理 + アク・モーン 無敵切替
-    description: |
+    description: |-
       最終フェーズ。Golden Bahamut Prime (金色のバハムート) が登場する DPS チェック。
       主要ギミック: メガフレア (リミットカット連続)、
       ギガフレア (DPS チェック頭割り)、テラフレア (時間切れ)、
@@ -162,14 +114,6 @@ phases:
       - title: FF14 みんとのギミック解説 絶バハムート討滅戦 完結編
         url: https://www.youtube.com/watch?v=hDQ-5THCc3Y
         author: みんとっと
-        phase: p5
-    strategies:
-      - id: gold-bahamut-final
-        name: 金バハ最終処理 (新みんとっと / ボス足元集合)
-        description: |
-          モーン・アファーはボス足元集合で全員均等に受ける。
-          アク・モーンは MT/ST 無敵切替で対応。
-          エクサフレアの安置 (8 方向ランダム) は床マーカーをパーティで分担コールする。
     tips:
       - エクサフレアの安置察知が最大の難所。フェニックスの加護 (リレイズ) を失わないよう優先処理。
       - モーン・アファーはボス足元スタック (8人分散)。
@@ -178,7 +122,7 @@ phases:
 macros:
   - source: りりーどーる (絶バハマクロ 全Phase - 新みんとっと/H3構成/拘束具逆▽/カータTLB/進軍十字/連撃V字/群竜TLB)
     url: https://na.finalfantasyxiv.com/lodestone/character/34120564/blog/5248067/
-    text: |
+    text: |-
       # マクロ全文は著作権上の理由で抜粋のみ。完全版は Lodestone 原文を参照。
       # 出典: https://na.finalfantasyxiv.com/lodestone/character/34120564/blog/5248067/
       # 短縮URL: https://ffxiv.link/096666
@@ -205,8 +149,7 @@ macros:
   - source: あせろぐ - 絶バハムート討滅戦 攻略まとめ＆マーカー配置 (H3構成)
     url: https://asellog.com/bahamut-ultimate/
 recruitmentTemplates:
-  - source: Rage Avel - Lodestone「固定募集記事テンプレート（コピペ用）」(fru.yaml/top.yaml と共通)
-    template: |
+  - template: |-
       ▼募集ジョブ
       ● 活動DC: {{datacenter}}
       ● 言語: {{language}}
@@ -245,36 +188,3 @@ recruitmentTemplates:
       - prohibitions
       - discordHandle
       - xHandle
-references:
-  primary: りりーどーる (Lily Doll) - Lodestone 日記
-  urls:
-    - https://ffxiv.consolegameswiki.com/wiki/The_Unending_Coil_of_Bahamut_(Ultimate)
-    - https://finalfantasy.fandom.com/wiki/The_Unending_Coil_of_Bahamut
-    - https://na.finalfantasyxiv.com/lodestone/character/34120564/blog/5248067/
-    - https://na.finalfantasyxiv.com/lodestone/character/48995158/blog/5388500/
-    - https://www.youtube.com/channel/UCRfzohN1djyZuQiDfalhXeg
-    - https://www.youtube.com/playlist?list=PL2Hitw4uipFQGxLqqfHSCxwRO5svpC7Q9
-    - https://www.youtube.com/playlist?list=PL2Hitw4uipFQt5qLdT6wi8BS2h_iUdOv2
-    - https://asellog.com/bahamut-ultimate/
-    - https://asellog.com/bahamut-p1/
-    - https://asellog.com/bahamut-p2/
-    - https://asellog.com/bahamut-p3tl3/
-    - https://asellog.com/bahamut-p5/
-    - https://na.finalfantasyxiv.com/lodestone/character/12440293/blog/5186770/
-    - https://docs.google.com/spreadsheets/d/1pOQ3sMSUQx-E-zFJSFv5BbHIq27tASgH14WhM02k4NI/edit?usp=sharing
-    - http://laytina14.com/archives/14617575.html
-    - http://laytina14.com/archives/13711663.html
-    - https://note.com/mimichoco_33/n/n1d5a37c5ff5a
-    - https://www.nonbiri.blog/ultimate-bahamut/
-    - https://www.tawakemonoga.com/archives/5043
-    - https://blog.sheeva.me/entry/ucob-clear-report
-    - https://note.com/jiojio1020/n/n23c45fbaeb3e
-    - https://overpower.hateblo.jp/entry/2023/04/09/182139
-    - https://note.com/moka_melon/n/n11039606e6c9
-    - https://github.com/akitoki/FF14_docs/blob/master/%E7%B5%B6%E3%83%90%E3%83%8F_%E3%83%9E%E3%82%AF%E3%83%AD.txt
-    - https://note.com/bright_murre577/n/nbd626a0969d9
-    - https://www.icy-veins.com/ffxiv/the-unending-coil-of-bahamut-ultimate-guides-twintania
-    - https://www.icy-veins.com/ffxiv/the-unending-coil-of-bahamut-ultimate-guides-nael-deus-darnus
-    - https://www.icy-veins.com/ffxiv/the-unending-coil-of-bahamut-ultimate-guides-bahamut-prime
-    - https://naurffxiv.com/ultimate/ucob
-    - https://novacrystallis.com/2017/11/group-including-ex-lucrezia-players-claims-world-first-clear-unending-coil-bahamut-raid/

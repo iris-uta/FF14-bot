@@ -7,8 +7,8 @@ phases:
   - id: p1
     name: P1 オメガ (Omega) - サークルプログラム / パンクラ
     order: 1
-    popularStrategy: "南集合・北11.5時から時計回り (H1MTSTD1D2D3D4H2) "
-    description: |
+    popularStrategy: 南集合・北11.5時から時計回り (H1MTSTD1D2D3D4H2)
+    description: |-
       開幕フェーズ。ビートル形態のオメガ。
       主要ギミック: サークルプログラム (塔踏み・線とり・線捨て)、
       パントクラトル (ミサイル/頭割り)、波動砲 (T無敵 / 7方向散開)、
@@ -18,33 +18,20 @@ phases:
       - title: 【FF14/絶解説】絶オメガフェーズ1 さらっとアニメーション解説【ぬけまる】修正
         url: https://www.youtube.com/watch?v=vcQizvMjSio
         author: ぬけまるG
-        phase: p1
       - title: 【FF14】パントクラトル 完全解説【絶オメガ検証戦 フェーズ１】
         url: https://www.youtube.com/watch?v=3Xa4Sdc76KA
-        phase: p1
       - title: 【FF14/イメトレ用】絶オメガ パンクライメトレまとめ
         url: https://www.youtube.com/watch?v=5okMJ8LzxlE
         author: ぬけまるG
-        phase: p1
       - title: 【FF14/イメトレ用】絶オメガ サークルプログラムイメトレまとめ
         url: https://www.youtube.com/watch?v=J0uBb7Xe9oQ
         author: ぬけまるG
-        phase: p1
       - title: 【絶オメガ】文字を読みたくない人のための絶オメガＰ１【解説】
         url: https://www.youtube.com/watch?v=GABEtFVcn58
-        phase: p1
     mitigation:
       name: Last Agous / らすと 軽減表スプレッドシート (絶オメガ TOP / patch 7.1 対応, 全Phase)
       url: https://docs.google.com/spreadsheets/d/1G10SCv2lJ-42k0bnTduYnBRnOQ5pj9xLs-qMSqJBYb8/edit?usp=sharing
       copyable: true
-    strategies:
-      - id: south-shuhgo-clockwise
-        name: 南集合・11.5時時計回り (リリド式 / 野良主流)
-        description: |
-          サークルプログラムは南集合、北11.5時を基準に時計回りで
-          H1MTSTD1D2D3D4H2 の順で塔踏み・線処理。
-          パンクラは北(東)→南(西)へ H1MTSTD1D2D3D4H2 で並ぶ。
-          ミサイル前方・頭割り後方が基本。
     tips:
       - パンクラ：ミサイルを捨てに行くときは内周を通り、戻るときは外周から合流。
       - 波動砲はタンク無敵で受け、7方向散開で AoE 処理。
@@ -53,7 +40,7 @@ phases:
     name: P2 オメガM・オメガF (Omega-M / Omega-F)
     order: 2
     popularStrategy: 下から調整・男三人基準で左右組振り分け
-    description: |
+    description: |-
       男女形態フェーズ。
       主要ギミック: ファイアウォール、連携プログラム (PT / LB)、
       プレイステーション (ミドル/ファー)、4:4吹き飛ばし、
@@ -63,23 +50,14 @@ phases:
       - title: 【FF14/絶解説】絶オメガフェーズ P2さらっと図解解説【ぬけまる】
         url: https://www.youtube.com/watch?v=bDXXSksWPQo
         author: ぬけまるG
-        phase: p2
-    strategies:
-      - id: shimokara-chosei
-        name: 下から調整 / 男三人基準 (リリド式 / 野良主流)
-        description: |
-          連携プログラムPTは全て下から調整。
-          4:4 吹き飛ばしは男三人を基準に西を左組、南or東を右組として
-          右組が調整役を担当。
-          プレステはファーを右組が調整。
     tips:
       - 連携プログラムLB は線取り (MT→西/ST→東) → 時計回り処理 → 弓LBは全員でボス南誘導。
       - シールドバッシュ&フレアは盾誘導以外の7人で中央集合して頭割り。
   - id: p3
     name: P3 ファイナルオメガ (Final Omega) - コロッサスブロー / ハローワールド
     order: 3
-    popularStrategy: "優先TDH (検知式波動砲) / ファー→ニアー線渡し (ハロワ) "
-    description: |
+    popularStrategy: 優先TDH (検知式波動砲) / ファー→ニアー線渡し (ハロワ)
+    description: |-
       強化版オメガ単体フェーズ。
       主要ギミック: コロッサスブロー、ハローワールド (Hello, World)、
       検知式波動砲 (Oversampled Wave Cannon)、Ion Efflux (時間切れ)。
@@ -88,30 +66,11 @@ phases:
       - title: 【FF14/絶解説】絶オメガP3 ハロワ検知 アニメーション解説 The Omega Protocol P3【ぬけまる】
         url: https://www.youtube.com/watch?v=mj1a2G2TBgk
         author: ぬけまるG
-        phase: p3
       - title: 【絶オメガ/イメトレ】P3 検知式波動砲 十字式イメトレ【ぬけまる】
         url: https://www.youtube.com/watch?v=eUPGkeg6qCU
         author: ぬけまるG
-        phase: p3
       - title: 【絶オメガ】文字を読みたくない人のための絶オメガＰ３【解説】
         url: https://www.youtube.com/watch?v=9dyL-nSOJuA
-        phase: p3
-    strategies:
-      - id: ast-shiki
-        name: アスト式 (検知式波動砲・優先TDH)
-        description: |
-          P3 検知式波動砲の野良主流処理。
-          優先順位は ①❶＞MTSTD1234H12＞❸⑤ で組分け、AC縦列はボスモニター無い方へ。
-      - id: cross-shiki
-        name: 十字式 (検知式波動砲)
-        description: |
-          十字状の配置で安置を作る代替流派。ぬけまる「P3 検知式波動砲 十字式イメトレ」動画で解説。
-      - id: hello-world-far-near
-        name: ハローワールド：ファー→ニアー線渡し (野良主流)
-        description: |
-          塔組外側・線組内側ルートで移動。
-          塔は早い者勝ち、線受け渡しは貰いに行く、
-          線処理はファー→ニアー、4回目のみニアー→ファー。
     tips:
       - コロッサスブロー：❶①>H1MTSTD1D2D3D4H2>②❹ の優先度。白＋無職→①②、紫→❶❷❸❹。
       - 検知式波動砲：ボス検知が逆の場合は左右反転。AC縦列(①④⑤)はボスモニターの無い方へ。
@@ -119,7 +78,7 @@ phases:
     name: P4 ブルースクリーン (Damaged Omega / Blue Screen)
     order: 4
     popularStrategy: 下調整・D1D2人数調整
-    description: |
+    description: |-
       ダメージを受けた状態のオメガ。
       主要ギミック: 波動砲 (3 iterations)、Wave Repeater、
       ブルースクリーン (DPSチェック付き時間切れ)。
@@ -128,17 +87,9 @@ phases:
       - title: 【FF14/絶解説】絶オメガP4 ブルースクリーン解説 The Omega Protocol P4【ぬけまる】
         url: https://www.youtube.com/watch?v=ayGtjf0__0k
         author: ぬけまるG
-        phase: p4
       - title: 【絶オメガ】ブルースクリーンをひたすら見る動画【P4】
         url: https://www.youtube.com/watch?v=rPa6ei-fgJs
         author: ぬけまるG
-        phase: p4
-    strategies:
-      - id: shitachoukei-d1d2
-        name: 下調整・D1D2人数調整 (野良主流)
-        description: |
-          MT/ST 上、D3/D4 左右、H1/H2 中段、D1/D2 下段、
-          頭割りは下調整、人数調整は D1D2 が担当。
     tips:
       - P4 は短いがDPSチェックがシビア。バフ回しと軽減を P3 から準備しておく。
       - 実質 P4 はブルースクリーン耐えのフェーズ。タンクLBやヒーラーLBの可能性も考慮。
@@ -146,7 +97,7 @@ phases:
     name: P5 ラン：ディナミス (Run:Dynamis) - デルタ / シグマ / オメガ
     order: 5
     popularStrategy: デルタ：ハムカツ式 / シグマ：りょんめ式 (塔Wingwan) / オメガ：ぬけまる式
-    description: |
+    description: |-
       オメガM/オメガFの2体ディナミスフェーズ。
       コード「＊＊＊ミ＊」の3パターン (デルタ / シグマ / オメガ) を順次処理。
       ロケパン、アーム&バッシュ誘導、ハロワ散開、塔踏み、
@@ -157,39 +108,16 @@ phases:
       - title: 【FF14/絶解説】絶オメガP5 コード:＊＊＊ミ＊【デルタ】 アニメーション解説 The Omega Protocol P5【ぬけまる】
         url: https://www.youtube.com/watch?v=vg_AEbdn2zM
         author: ぬけまるG
-        phase: p5-delta
       - title: 【FF14/絶解説】絶オメガP5 コード:＊＊＊ミ＊【シグマ】注意点追加版 アニメーション解説 The Omega Protocol P5【ぬけまる】
         url: https://www.youtube.com/watch?v=3x-_d8RZJXE
         author: ぬけまるG
-        phase: p5-sigma
       - title: 【FF14/絶解説】絶オメガP5 コード:＊＊＊ミ＊【オメガ】 アニメーション解説 The Omega Protocol P5-3【ぬけまる】修正版
         url: https://www.youtube.com/watch?v=6LIXoAk7wrI
         author: ぬけまるG
-        phase: p5-omega
       - title: 【FF14】絶オメガ検証戦 ランデュナミス解説 フェーズ5 (さらちゃんのつぶやき)
         url: https://sarachantubuyaki.jp/finalfantasyxiv/run-dynamis/
-        phase: p5
       - title: 【絶オメガ】文字を読みたくない人のためのP5オメガ【解説】
         url: https://www.youtube.com/watch?v=316MZKSBXdc
-        phase: p5-omega
-    strategies:
-      - id: delta-hamukatsu
-        name: デルタ：ハムカツ式 (野良主流)
-        description: |
-          P5 デルタの主流処理。ロケパンは内側調整、❶❷ニア / ①②ファー。
-          線切りタイミング、アーム/バッシュ誘導、ハロワ散開も含む。
-          りりーどーる更新履歴によると 2023/3/18 にハムカツ式へ統一。
-      - id: sigma-ryonme-tower-wingwan
-        name: シグマ：りょんめ式 (塔Wingwan / 野良主流)
-        description: |
-          P5 シグマの塔踏み処理は「りょんめ式 (塔Wingwan)」が野良主流。
-          # 出典: 要調査 (Hanabi note より名称のみ抽出 / 詳細マクロは要手動補完)
-      - id: omega-nukemaru
-        name: オメガ：ぬけまる式 (ボス検知＆虫オメガ北基準)
-        description: |
-          P5 オメガの野良主流処理。ボス検知＆虫オメガ北基準で配置。
-          マーカー付与の優先順位：1回目 II+ディナミス2>ディナミス2>ディナミス1、
-          2回目 ディナミス3>ディナミス2。★ハロワファー、◆ハロワニア。
     tips:
       - P5 デルタ：散開位置は言語化して共有、移動タイミングはデバフの数字で判断。
       - P5 シグマ：塔の多いほうを北として、散開時の自分のマーカー位置の塔に入る。
@@ -197,7 +125,7 @@ phases:
   - id: p6
     name: P6 アルファオメガ (Alpha Omega)
     order: 6
-    description: |
+    description: |-
       最終フェーズ。Quickening Dynamis スタック3個必須。
       主要ギミック: コスモメモリー (タンクLB3)、フラッシュゲイル、
       コスモアロー、コスモダイブ、Unlimited Wave Cannon (リミッターカット)、
@@ -207,27 +135,16 @@ phases:
       - title: 【FF14/絶解説】絶オメガ最終P6 アルファオメガ 軽減付アニメーション解説 The Omega Protocol P6【ぬけまる】最新
         url: https://www.youtube.com/watch?v=2u_I9zYh2j4
         author: ぬけまるG
-        phase: p6
-    strategies:
-      - id: hamukatsu-cosmo-arrow
-        name: ハムカツ式 (コスモアロー波動砲処理)
-        description: |
-          P6 コスモアロー波動砲処理。
-          Hanabi note (note.com/hana25o) で「安定する」と評される野良主流。
-      - id: nukemaru-p6
-        name: ぬけまる式 (P6 全般)
-        description: |
-          ぬけまる P6 解説動画準拠の処理。コスモダイブ・波動砲・コスモメテオ・
-          マジックナンバーを含む最終フェーズ全般の流派。
     tips:
       - コスモメモリー：LB3 は ST が打つ。
       - 1回目波動砲：中央集合→1回目エクサフレア安置側マーカーに向かって AoE 捨て。
       - マジックナンバー：LB3 順は MT→H1→ST→H2。
       - コスモメテオ：頭割り基本A集合、D3フレア時はC集合。
 macros:
-  - source: りりーどーる (P1 - サークルプログラム / パンクラ / 波動砲T無敵)
+  - phaseId: p1
+    source: りりーどーる (P1 - サークルプログラム / パンクラ / 波動砲T無敵)
     url: https://na.finalfantasyxiv.com/lodestone/character/34120564/blog/5178791/
-    text: |
+    text: |-
       /p 【サークルプログラム】(南集合)
       /p 塔ふみ/線とり/線捨て
       /p 北(11.5時)から時計＞H1MTSTD1D2D3D4H2
@@ -240,9 +157,10 @@ macros:
       /p 　　　　　　MTST
       /p 　D3　　　　　　　　　　D4
       /p 　　　D1　H1　H2　D2
-  - source: りりーどーる (P2 - 連携プログラム / プレステ / 4:4 吹き飛ばし / シールドバッシュ&フレア)
+  - phaseId: p2
+    source: りりーどーる (P2 - 連携プログラム / プレステ / 4:4 吹き飛ばし / シールドバッシュ&フレア)
     url: https://na.finalfantasyxiv.com/lodestone/character/34120564/blog/5178791/
-    text: |
+    text: |-
       /p 【連携プログラムPT】
       /p ※調整優先度：全て下から調整
       /p 左組　　　右組
@@ -267,9 +185,10 @@ macros:
       /p 　　　MT　　ST
       /p 　　　　　 他(中央集合)
       /p 頭割り：中央で盾誘導以外7人
-  - source: りりーどーる (P3 - コロッサスブロー / ハローワールド / 検知式波動砲・優先TDH)
+  - phaseId: p3
+    source: りりーどーる (P3 - コロッサスブロー / ハローワールド / 検知式波動砲・優先TDH)
     url: https://na.finalfantasyxiv.com/lodestone/character/34120564/blog/5178791/
-    text: |
+    text: |-
       /p 【コロッサスブロー】
       /p ❶①>H1MTSTD1D2D3D4H2>②❹
       /p 　　①　　②　 　白＋無職：①②
@@ -294,9 +213,10 @@ macros:
       /p 　　　　　⑤Ｃ
       /p ※ボス検知逆の場合左右反転
       /p ※AC縦列(①④⑤)はボスモニターの無い方へ
-  - source: りりーどーる (P4 - 波動砲 / 下調整 / D1D2人数調整)
+  - phaseId: p4
+    source: りりーどーる (P4 - 波動砲 / 下調整 / D1D2人数調整)
     url: https://na.finalfantasyxiv.com/lodestone/character/34120564/blog/5178791/
-    text: |
+    text: |-
       /p 【P4 波動砲】
       /p 　 MT ST
       /p 　(D)D3 ★ D4(B)
@@ -304,9 +224,10 @@ macros:
       /p 　 (3)D1 D2(2)
       /p 　　　 頭(C)頭
       /p ※頭割り：下調整　人数調整：D1D2
-  - source: りりーどーる (P5 デルタ - ハムカツ式 / ロケパン内側調整 / ハロワ散開)
+  - phaseId: p5
+    source: りりーどーる (P5 デルタ - ハムカツ式 / ロケパン内側調整 / ハロワ散開)
     url: https://na.finalfantasyxiv.com/lodestone/character/34120564/blog/5178791/
-    text: |
+    text: |-
       /p ◆コード： ＊＊＊ミ＊【デルタ】
       /p 【ロケパン】場所は早い者勝ち
       /p ❶❷：ニア/①②：ファー
@@ -332,17 +253,19 @@ macros:
       /p 　　　　　　　　 〇　元ﾌｧｰ　　　❶❶
       /p 　　　　　　　　　　　〇　　　元ﾆｱ(外)
       /p 　　　　　　　　　　　Ｙ
-  - source: りりーどーる (P5 シグマ - りょんめ式 塔Wingwan)
+  - phaseId: p5
+    source: りりーどーる (P5 シグマ - りょんめ式 塔Wingwan)
     url: https://na.finalfantasyxiv.com/lodestone/character/34120564/blog/5178791/
-    text: |
+    text: |-
       /p ◆コード： ＊＊＊ミ＊【シグマ】
       /p # 要手動補完: 塔Wingwan のマーカー配置 (A B C D / 1 2 3 4)、
       /p # シールドバッシュ&シールドプロジェクション処理、
       /p # シノニム/不可侵領域処理、ハロワ散開を Lodestone 原文から補記すること。
       /p # 出典: https://na.finalfantasyxiv.com/lodestone/character/34120564/blog/5178791/
-  - source: りりーどーる (P5 オメガ - ぬけまる式 / ボス検知＆虫オメガ北基準)
+  - phaseId: p5
+    source: りりーどーる (P5 オメガ - ぬけまる式 / ボス検知＆虫オメガ北基準)
     url: https://na.finalfantasyxiv.com/lodestone/character/34120564/blog/5178791/
-    text: |
+    text: |-
       /p ◆コード： ＊＊＊ミ＊【オメガ】
       /p [オメガM] ｜　②無　❶左　　①無
       /p 　〇　〇　｜
@@ -371,9 +294,10 @@ macros:
       /p 　　　　　　　　　　l★ハロワファー
       /p 　　　　◆　　　　　l◆ハロワニア
       /p 　　　無　無　　　　l
-  - source: りりーどーる (P6 アルファオメガ - コスモメモリー / 波動砲 / コスモメテオ / マジックナンバー)
+  - phaseId: p6
+    source: りりーどーる (P6 アルファオメガ - コスモメモリー / 波動砲 / コスモメテオ / マジックナンバー)
     url: https://na.finalfantasyxiv.com/lodestone/character/34120564/blog/5178791/
-    text: |
+    text: |-
       /p 【コスモメモリー】LB3：ST
       /p 【AA】MT北内　ST東外　他南西内
       /p 【コスモダイブ1回目】
@@ -404,8 +328,7 @@ macros:
   - source: Lis Glacial 日記 - 絶オメガ 野良マクロ
     url: https://jp.finalfantasyxiv.com/lodestone/character/5417527/blog/5181737/
 recruitmentTemplates:
-  - source: Rage Avel - Lodestone「固定募集記事テンプレート（コピペ用）」(fru.yaml と共通)
-    template: |
+  - template: |-
       ▼募集ジョブ
       ● 活動DC: {{datacenter}}
       ● 言語: {{language}}
@@ -444,25 +367,3 @@ recruitmentTemplates:
       - prohibitions
       - discordHandle
       - xHandle
-references:
-  primary: りりーどーる (Lily Doll) - Lodestone 日記
-  urls:
-    - https://ffxiv.consolegameswiki.com/wiki/The_Omega_Protocol_(Ultimate)
-    - https://finalfantasy.fandom.com/wiki/The_Omega_Protocol_(Final_Fantasy_XIV)
-    - https://na.finalfantasyxiv.com/lodestone/character/34120564/blog/5178791/
-    - https://jp.finalfantasyxiv.com/lodestone/character/5417527/blog/5181737/
-    - https://www.youtube.com/@nukemarugames/videos
-    - https://www.youtube.com/playlist?list=PLsiXqXniAzw4uAquherI4CsrvISvIeIFN
-    - https://www.youtube.com/@TeamLucrezia
-    - https://fuucdayo.com/battle/3831/
-    - https://asellog.com/omega-raidrace/
-    - https://game.watch.impress.co.jp/docs/news/1475183.html
-    - https://na.finalfantasyxiv.com/lodestone/character/12440293/blog/5168136/
-    - https://docs.google.com/spreadsheets/d/1G10SCv2lJ-42k0bnTduYnBRnOQ5pj9xLs-qMSqJBYb8/edit?usp=sharing
-    - https://na.finalfantasyxiv.com/lodestone/character/8075024/blog/5173660/
-    - https://na.finalfantasyxiv.com/lodestone/character/44887504/blog/5210462/
-    - https://note.com/hana25o/n/nca4c23b5904e
-    - https://sarachantubuyaki.jp/finalfantasyxiv/run-dynamis/
-    - https://na.finalfantasyxiv.com/lodestone/character/36478083/blog/5321725/
-    - https://na.finalfantasyxiv.com/lodestone/character/36478083/blog/5318815/
-    - https://na.finalfantasyxiv.com/lodestone/topics/detail/eb629fcb7ef6a1317bb1957f1b5cdc144ef1fb6f

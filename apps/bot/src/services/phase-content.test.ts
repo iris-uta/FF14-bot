@@ -9,7 +9,7 @@ const sample: Content = {
   type: "ultimate",
   phases: [
     { id: "p1", name: "P1", order: 1, videos: [], strategies: [], tips: [] },
-    { id: "p3", name: "P3", order: 3, videos: [], strategies: [], tips: [] },
+    { id: "p3", name: "P3", order: 3, videos: [], strategies: [], tips: [] }
   ],
   macros: [
     { source: "りりーどーる (P1 - リリド式)", url: "https://example.com", text: "/p P1..." },
@@ -17,8 +17,7 @@ const sample: Content = {
     { source: "りりーどーる (P3 - アポカリ基準)", url: "https://example.com", text: "/p P3 apoka" },
     { source: "ふうcだよ 全Phase", url: "https://example.com" },  // no P# label → excluded
   ],
-  recruitmentTemplates: [],
-  references: { urls: [] },
+  recruitmentTemplates: []
 };
 
 describe("getMacrosForPhase", () => {
@@ -39,8 +38,8 @@ describe("getMacrosForPhase", () => {
       macros: [
         { source: "macro (P1)", url: "https://example.com", text: "" },
         { source: "macro (P10)", url: "https://example.com", text: "" },
-        { source: "macro (P11)", url: "https://example.com", text: "" },
-      ],
+        { source: "macro (P11)", url: "https://example.com", text: "" }
+      ]
     };
     const p1 = getMacrosForPhase(wide, "p1");
     expect(p1.map((m) => m.source)).toEqual(["macro (P1)"]);
@@ -48,6 +47,48 @@ describe("getMacrosForPhase", () => {
 
   it("returns [] for phase ID without numeric component", () => {
     expect(getMacrosForPhase(sample, "intermission")).toEqual([]);
+  });
+
+  it("prefers explicit phaseId field over source regex (new schema)", () => {
+    const withPhaseId: Content = {
+      ...sample,
+      macros: [
+        // Explicit phaseId — winning match
+        { phaseId: "p1", source: "ノーラベル", url: "https://example.com" },
+        // Old-style regex match in source — should be ignored when explicit exists
+        { source: "りりーどーる (P1 - 旧)", url: "https://example.com" }
+      ]
+    };
+    const p1 = getMacrosForPhase(withPhaseId, "p1");
+    expect(p1).toHaveLength(1);
+    expect(p1[0].source).toBe("ノーラベル");
+  });
+
+  it("falls back to regex match when no macro has explicit phaseId for this phase", () => {
+    const mixed: Content = {
+      ...sample,
+      macros: [
+        // For p2 — irrelevant
+        { phaseId: "p2", source: "p2 only", url: "https://example.com" },
+        // No phaseId — fallback regex catches this for p1
+        { source: "P1 macro", url: "https://example.com" }
+      ]
+    };
+    const p1 = getMacrosForPhase(mixed, "p1");
+    expect(p1).toHaveLength(1);
+    expect(p1[0].source).toBe("P1 macro");
+  });
+
+  it("ignores macros with a wrong phaseId even if source happens to match phase number", () => {
+    // phaseId is the source of truth — a phaseId=p2 macro should NEVER appear
+    // under p1 just because its source string mentions "P1" somewhere.
+    const trap: Content = {
+      ...sample,
+      macros: [
+        { phaseId: "p2", source: "P1 mentioned but it's P2 macro", url: "https://example.com" }
+      ]
+    };
+    expect(getMacrosForPhase(trap, "p1")).toEqual([]);
   });
 });
 

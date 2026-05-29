@@ -1,28 +1,13 @@
-# 至天の座アルカディア：ライトヘビー級零式 3層 - ブルートボンバー (M3S)
-# データ収集日: 2026-05-25
-# 第一参照: Game8 (ゲームエイト)
-#
-# 注意:
-# - 通称: 国際 M3S、Game8/JP では「ライトヘビー級零式3層」「LH3」。
-# - 公式肩書: 「爆ぜる悪意」 (Famitsu 設定画特集)
-# - Source: https://www.famitsu.com/article/202505/42743
-# - チェーンデスマッチ・フューズボムなど爆弾モチーフのギミック多数。
-# - Game8 のマクロは「ぬけまる版 Ver.2.0」が掲載 (2026-03-12 時点)。
-
 id: m3s
 displayName: 至天の座アルカディア：ライトヘビー級零式 3層 (ブルートボンバー)
 shortName: M3S
 type: savage
 patch: "7.05"
-# ノーマル実装日: 2024-07-16 (Patch 7.01)
-# 零式実装日:   2024-07-30 (Patch 7.05)
-# Source: https://ffxiv.consolegameswiki.com/wiki/The_Arcadion
-
 phases:
   - id: p1
     name: P1 ブルートボンバー (Brute Bomber) 通し
     order: 1
-    description: |
+    description: |-
       「爆ぜる悪意」ブルートボンバー戦。1ボス完結型 (途中分身追加あり)。
       主要ギミック:
         - 4 or 8 ウェイ・ダブルラリアット (4/8 方向 AOE 連撃、近接全員のラリアット 1 発受け必須)
@@ -34,48 +19,26 @@ phases:
         - 極盛り式スピニングファイヤー (アタッチ)
         - チェーンデスマッチ (チェーンで繋がれた相手のラリアットを受ける)
       野良主流: ぬけまる版 Ver.2.0 (Game8 採用)。
-    # Source: https://game8.jp/ff14/630870
-    mitigation:
-      name: Last Agous / らすと 軽減表 (アルカディア ライトヘビー級:零式, Patch 7.05 対応)
-      # M1S-M4S 全層を 1 ブックで管理。詳細は M1S を参照。
-      # Source: https://note.com/lastagous/n/ncfcb027117fd
-      url: https://note.com/lastagous/n/ncfcb027117fd
-      copyable: true
     videos:
       - title: 【FF14】アルカディア零式：ライトヘビー級3層 攻略解説【ぬけまる】
         url: https://www.youtube.com/watch?v=zZDu5NY7DIo
         author: ぬけまるG
-        # Source: Game8 (https://game8.jp/ff14/630870) で参照されている動画
       - title: 【 FF14 / 解説 】アルカディア零式：ライトヘビー級零式3 マクロ
         url: https://nukemarugames.com/2024/08/01/%E3%80%90-ff14-%E8%A7%A3%E8%AA%AC-%E3%80%91%E3%82%A2%E3%83%AB%E3%82%AB%E3%83%87%E3%82%A3%E3%82%A2%E9%9B%B6%E5%BC%8F%EF%BC%9A%E3%83%A9%E3%82%A4%E3%83%88%E3%83%98%E3%83%93%E3%83%BC%E7%B4%9A%E9%9B%B6-3/
         author: ぬけまるG
-    strategies:
-      - id: nukemaru-game8
-        name: ぬけまる版 Ver.2.0 (Game8 採用版)
-        description: |
-          Game8 が公式採用しているぬけまる氏解説の改訂版 (Ver.2.0)。
-          - 基本散開: D3 MT D4 / H1 ★ H2 / D1 ST D2
-          - 4ウェイ: MT/D3 北西 + H2/D4 北東 + H1/D1 南西 + ST/D2 南東
-          - 8ショック: MT ★ ST 上、D1 D2 中段、D3 H1 H2 D4 下段
-          - 4ショック: 内側 MT/D1 + D2/ST、外側 D3/H1 + H2/D4
-          - ボンバリアンボム: 1 塔目 北西:近接 + 南東:遠隔、2 塔目 ボスを見て左:MT 組 + 右:ST 組
-          - 零式フューズボム: 単体の長ボムを北に見る、1 回目短/2 回目長 で配置切替
-          - フューズフィールド: A から時計回り、短→長で MT→ST→H1→H2 / D1→D2→D3→D4
-          - ボンバリアンスペシャル: 8 ショック → 基本散開、4 ショック → ペア X 受け
+    mitigation:
+      name: Last Agous / らすと 軽減表 (アルカディア ライトヘビー級:零式, Patch 7.05 対応)
+      url: https://note.com/lastagous/n/ncfcb027117fd
+      copyable: true
     tips:
-      - "4 or 8 ウェイ・ダブルラリアットは『繋がれているブルートボンバーを 1 つ受ける』のが鉄則。"
-      - "ボンバリアンボム 2 塔目はボス向き基準の左右なので、ボス位置確認が必須。"
-      - "零式フューズボムは『単体長ボムを北に見る』で配置確定。短/長の判定に注意。"
-      - "極盛り式スピニングファイヤーはアタッチ (細胞付着) ギミック。基本散開と同じ位置で受ける。"
-
-# ────────────────────────────────────────────────────────
-# マクロ (コピペ用)
-# ────────────────────────────────────────────────────────
+      - 4 or 8 ウェイ・ダブルラリアットは『繋がれているブルートボンバーを 1 つ受ける』のが鉄則。
+      - ボンバリアンボム 2 塔目はボス向き基準の左右なので、ボス位置確認が必須。
+      - 零式フューズボムは『単体長ボムを北に見る』で配置確定。短/長の判定に注意。
+      - 極盛り式スピニングファイヤーはアタッチ (細胞付着) ギミック。基本散開と同じ位置で受ける。
 macros:
   - source: Game8 (ゲームエイト) - アルカディア零式ライトヘビー級3層 ぬけまる版 (基本散開・4/8 ウェイ・ボンバリアンボム・零式フューズ)
     url: https://game8.jp/ff14/630870
-    # 最終更新: 2026-03-12 (Game8 ページの最終更新日)
-    text: |
+    text: |-
       /p ■基本散開ーーーーーー■4ウェイーーーーーー
       /p 　D3 MT D4 　 　 　 　MT/D3 　 　 H2/D4
       /p 　H1 ★ H2 　 　 　 　 　 　 　 　★
@@ -91,11 +54,9 @@ macros:
       /p 1回目短　 　北H1/D3 ┃H1/D3　MT/D1
       /p 　MT/D1 　 　 　 　 　┃ 　 　 　 　 　 ST/D2
       /p 　H2/D4 ST/D2 　 　 ┃ 2回目長 　 　 H2/D4
-
   - source: Game8 (ゲームエイト) - アルカディア零式ライトヘビー級3層 ぬけまる版 (フューズフィールド・ボンバリアンスペシャル・極盛り式)
     url: https://game8.jp/ff14/630870
-    # Game8 上の 2 本目マクロ。
-    text: |
+    text: |-
       /p ■フューズフィールドーーーーーーーーーーー
       /p 　Aから時計回りで探す 短→長
       /p 　MT→ST→H1→H2　D1→D2→D3→D4
@@ -106,13 +67,8 @@ macros:
       /p 　D3　MT　D4
       /p 　D1 　★ 　D2
       /p 　H1　ST　 H2
-
-# ────────────────────────────────────────────────────────
-# 募集テンプレ
-# ────────────────────────────────────────────────────────
 recruitmentTemplates:
-  - source: 零式野良募集 汎用テンプレ (Light-heavyweight 用)
-    template: |
+  - template: |-
       【FF14 零式募集】{{contentShort}}
       ● 進行度: {{progress}}                  # 例: P1 / 零式フューズ練 / 通し / 消化
       ● 流派: {{strategy}}                    # 例: Game8 (ぬけまる版 Ver.2.0)
@@ -132,38 +88,3 @@ recruitmentTemplates:
       - macroSource
       - requirements
       - notes
-
-# ────────────────────────────────────────────────────────
-# 参考リンク
-# ────────────────────────────────────────────────────────
-references:
-  primary: Game8 (ゲームエイト) - アルカディア零式3層 攻略丨マクロ
-  urls:
-    # Game8 攻略・マクロページ (第一参照、Ver.2.0)
-    - https://game8.jp/ff14/630870
-    # Lodestone 1 画面マクロまとめ (Tam Atto, 1-4 層)
-    - https://na.finalfantasyxiv.com/lodestone/character/26820312/blog/5431856/
-    # Lodestone 軽減表まとめ (Last Agous note)
-    - https://note.com/lastagous/n/ncfcb027117fd
-    # Famitsu 公式設定画特集 (キャラクター肩書)
-    - https://www.famitsu.com/article/202505/42743
-    # Consolegameswiki - The Arcadion
-    - https://ffxiv.consolegameswiki.com/wiki/The_Arcadion
-    # ぬけまるG 解説ページ (3層)
-    - https://nukemarugames.com/2024/08/01/%E3%80%90-ff14-%E8%A7%A3%E8%AA%AC-%E3%80%91%E3%82%A2%E3%83%AB%E3%82%AB%E3%83%87%E3%82%A3%E3%82%A2%E9%9B%B6%E5%BC%8F%EF%BC%9A%E3%83%A9%E3%82%A4%E3%83%88%E3%83%98%E3%83%93%E3%83%BC%E7%B4%9A%E9%9B%B6-3/
-    # ぬけまるG YouTube チャンネル
-    - https://www.youtube.com/@nukemarugames/videos
-    # neko14 - ライトヘビー級3層攻略めも
-    - https://neko14.com/2024/08/10/post-8721/
-    # さにすとのにちじょう - D4 視点 3 層攻略
-    - https://www.sunny-stronger.com/entry/2024/08/02/120726
-
-# ────────────────────────────────────────────────────────
-# 要手動補完メモ
-# ────────────────────────────────────────────────────────
-# - ブルートボンバーの公式声優は 2026-05 時点で公式発表なし。
-# - 公式肩書: 「爆ぜる悪意」 (Famitsu 設定画特集)
-# - 軽減表 (Last Agous) はライトヘビー級用が note.com 有料記事内に存在する可能性大。
-#   無料公開 URL が見つからなかったため、note トップを参照リンクとした。
-# - チェーンデスマッチの詳細処理 (繋ぎ先の確認方法、ラリアット受け順) は要動画確認。
-# - Game8 ページ上の野良マクロは「ぬけまる版 Ver.2.0」が単独掲載 (2026-03-12 時点)。

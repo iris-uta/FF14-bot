@@ -8,8 +8,7 @@ const baseContent: Omit<Content, "id" | "patch"> = {
   type: "ultimate",
   phases: [{ id: "p1", name: "p1", order: 1, videos: [], strategies: [], tips: [] }],
   macros: [],
-  recruitmentTemplates: [],
-  references: { urls: [] },
+  recruitmentTemplates: []
 };
 
 function mk(id: string, patch?: string): Content {
@@ -50,7 +49,7 @@ describe("sortByPatch", () => {
       mk("ucob", "4.11"),
       mk("dmu", "7.51"),
       mk("tea", "5.11"),
-      mk("fru", "7.11"),
+      mk("fru", "7.11")
     ]);
     expect(result.map((c) => c.id)).toEqual(["ucob", "uwu", "tea", "dsr", "top", "fru", "dmu"]);
   });
