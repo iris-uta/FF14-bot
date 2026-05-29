@@ -43,7 +43,7 @@ export function buildWelcomeEmbed(): EmbedBuilder {
       {
         name: "2️⃣ 予定を登録",
         value:
-          "`/book when:2026-06-01 21:00` で予定登録 → 開始 10 分前に自動通知。\n" +
+          "`/book` で予定登録 → ボタンで明日から 14 日の候補日を複数選択 → 開始 10 分前に自動通知。\n" +
           "調整さん URL があれば `/from-chouseisan url:...` で候補日インポート可。",
         inline: false,
       },

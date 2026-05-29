@@ -1,6 +1,7 @@
 /**
- * /book wizard — pick N candidate dates from a 14-day window, set times
- * (default + per-day override), then create N DB schedules + Discord events.
+ * /book wizard — pick N candidate dates from a 14-day window starting
+ * *tomorrow* (JST), set times (default + per-day override), then create
+ * N DB schedules + Discord events.
  *
  * Designed for the "調整さんの返答が出揃った → 候補日 3-5 件を一括登録したい"
  * workflow. Replaces the previous strict-text `/book when:"2025-06-01 21:00"`
@@ -262,21 +263,24 @@ function jstWeekday(dateKey: string): number {
 }
 
 /**
- * Generate `PAGE_DAYS` (14) date keys starting from `now` shifted by
- * `windowOffset` pages of PAGE_DAYS. Clamped so we never produce past dates.
+ * Generate `PAGE_DAYS` (14) date keys starting from *tomorrow* (JST) shifted
+ * by `windowOffset` pages of PAGE_DAYS. Tomorrow-anchored because
+ * "today at 21:00" is usually already booked or moot by the time someone
+ * runs `/book`, so today as a candidate just adds noise.
+ * Clamped so we never produce past dates.
  */
 export function pageDates(now: number, windowOffset: number): string[] {
-  const startMs = now + windowOffset * PAGE_DAYS * 86_400_000;
-  // Clamp to today (in JST) — the user might click ← past the start of today.
-  const todayKey = jstDateKey(now);
+  const tomorrowMs = now + 86_400_000;
+  const startMs = tomorrowMs + windowOffset * PAGE_DAYS * 86_400_000;
+  const tomorrowKey = jstDateKey(tomorrowMs);
   const candidates: string[] = [];
   for (let i = 0; i < PAGE_DAYS; i++) {
     const key = jstDateKey(startMs + i * 86_400_000);
-    if (key >= todayKey) candidates.push(key);
+    if (key >= tomorrowKey) candidates.push(key);
   }
-  // If we ran out (clamped too aggressively), backfill from today.
+  // If we ran out (clamped too aggressively), backfill from tomorrow.
   while (candidates.length < PAGE_DAYS) {
-    const lastKey = candidates[candidates.length - 1] ?? todayKey;
+    const lastKey = candidates[candidates.length - 1] ?? tomorrowKey;
     const next = jstDateKey(Date.parse(`${lastKey}T00:00:00+09:00`) + 86_400_000);
     candidates.push(next);
   }
@@ -415,7 +419,7 @@ function buildPickDates(state: BookWizardState, now: number): StepMessage {
   const dates = pageDates(now, state.weekOffset);
   const windowLabel =
     state.weekOffset === 0
-      ? `今日 (${shortDateLabel(dates[0])}) から ${PAGE_DAYS} 日間`
+      ? `明日 (${shortDateLabel(dates[0])}) から ${PAGE_DAYS} 日間`
       : `+${state.weekOffset * PAGE_DAYS} 日後 (${shortDateLabel(dates[0])} 〜) ${PAGE_DAYS} 日間`;
 
   const selectedSummary =

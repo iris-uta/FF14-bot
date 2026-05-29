@@ -135,11 +135,12 @@ describe("date helpers", () => {
     expect(longDateLabel("2026-05-30")).toBe("2026/5/30 (土)");
   });
 
-  it("pageDates produces PAGE_DAYS consecutive JST date keys, never in the past", () => {
+  it("pageDates produces PAGE_DAYS consecutive JST date keys starting from tomorrow", () => {
     const today = Date.parse("2026-05-28T10:00:00+09:00");
     const dates = pageDates(today, 0);
     expect(dates).toHaveLength(PAGE_DAYS);
-    expect(dates[0]).toBe("2026-05-28");
+    // Window is tomorrow-anchored: today (5/28) is omitted, first candidate is 5/29.
+    expect(dates[0]).toBe("2026-05-29");
     // Strictly ascending
     for (let i = 1; i < dates.length; i++) {
       expect(dates[i] > dates[i - 1]).toBe(true);

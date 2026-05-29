@@ -218,7 +218,7 @@ export async function postUtilityIntro(
             `便利なコマンド:`,
             `• \`/macro content:${content.id} phase:p1\` — マクロを取得 (自分にだけ表示)`,
             `• \`/tips content:${content.id} phase:p1\` — Phase の Tips`,
-            `• \`/book when:"YYYY-MM-DD HH:MM"\` — 次回固定を予約 (通知)`,
+            `• \`/book\` — 次回固定を予約 (明日から 14 日の候補日をボタンで選択 → 通知)`,
             `• \`/static-info\` — 固定メンバー・8 slot 状況・直近予定を確認`,
             `• \`/progress mark phase:p1 status:reached\` — マイルストーン記録`,
             `• \`/vote new\` — 次回日程を投票 (調整さん代替)`,
