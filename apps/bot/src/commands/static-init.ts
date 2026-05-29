@@ -243,7 +243,7 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
     } else {
       nextSteps.push(`🎉 全枠確定済み！`);
     }
-    nextSteps.push(`• \`/schedule when:\"YYYY-MM-DD HH:MM\"\` で次回固定を予約`);
+    nextSteps.push(`• \`/book\` で次回固定を予約 (明日から 14 日の候補日をボタンで選択)`);
     nextSteps.push(`• \`/macro content:${content.id} phase:p1\` で マクロを取り出す (自分のみ)`);
 
     embed.addFields({ name: "次の手順", value: nextSteps.join("\n") });
