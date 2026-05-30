@@ -18,6 +18,7 @@ id: p5s
 displayName: 万魔殿パンデモニウム零式：煉獄編 1層 (プロトカーバンクル)
 shortName: P5S
 type: savage
+status: testing
 patch: "6.21"
 # ノーマル実装日: 2022-08-23 (Patch 6.2)
 # 零式実装日:   2022-08-30 (Patch 6.21 同梱、1週間後)
@@ -80,6 +81,8 @@ phases:
 macros:
   - source: Game8 (ゲームエイト) - 煉獄編零式1層 ぬけまる式 マクロVer2
     url: https://game8.jp/ff14/464675
+    phases:
+      - p1
     # 最終更新: 2022-09-02 (マクロVer2 当時) / Game8 ページ自体は継続維持
     text: |
       /p 【基本散開】　　　【十字毒塔】STフリー

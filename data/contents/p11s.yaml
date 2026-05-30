@@ -18,6 +18,7 @@ id: p11s
 displayName: パンデモニウム零式：天獄編 3層 (テミス)
 shortName: P11S
 type: savage
+status: testing
 patch: "6.41"
 # Source: https://ffxiv.consolegameswiki.com/wiki/Anabaseios:_The_Eleventh_Circle_(Savage)
 # Source: https://na.finalfantasyxiv.com/lodestone/character/29231383/blog/5231433 (ボス名出典)
@@ -86,6 +87,8 @@ phases:
 macros:
   - source: Game8 (ゲームエイト) - 天獄編零式3層 マクロ 1枚目 (ハムカツ様準拠)
     url: https://game8.jp/ff14/532825
+    phases:
+      - p1
     # Source: WebFetch 2026-05-25 (Game8 P11S 攻略ページ)
     text: |
       /p ※ボスを見て以外は北(A)基準
@@ -105,6 +108,8 @@ macros:
 
   - source: Game8 (ゲームエイト) - 天獄編零式3層 マクロ 2枚目 (調停/ダークストリーム/理法)
     url: https://game8.jp/ff14/532825
+    phases:
+      - p1
     text: |
       /p 【光と闇の調停：ジジー式】
       /p 光⇒TH：西側　DPS：東側
@@ -122,6 +127,8 @@ macros:
 
   - source: Lodestone Kama Boko - 天獄編零式3層 ハムカツさん マクロ
     url: https://jp.finalfantasyxiv.com/lodestone/character/32180468/blog/5233886/
+    phases:
+      - p1
     # ハムカツ様準拠マクロの Lodestone 版 (Kama Boko 日記)。
     # 詳細マクロ本文は Lodestone を直接確認のこと。
     # 要手動補完。

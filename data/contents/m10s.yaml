@@ -12,6 +12,7 @@ id: m10s
 displayName: 至天の座アルカディア：ヘビー級零式 2層 (レッドホット & ディープブルー)
 shortName: M10S
 type: savage
+status: testing
 patch: "7.4"
 # ノーマル実装日: 2025-12-16 / 零式実装日: 2026-01-06
 # Source: https://ffxiv.consolegameswiki.com/wiki/The_Arcadion
@@ -101,6 +102,10 @@ phases:
 macros:
   - source: Game8 (ゲームエイト) - ヘビー級零式2層 「基本犬丸水牢ヒラ/炎AC」
     url: https://game8.jp/ff14/755672
+    phases:
+      - p1-fire
+      - p2-water
+      - p3-merge
     # 最終更新: 2026-03-12 (Game8 ページの最終更新日)
     # 注: マクロは Game8 上で 2 本に分かれて掲載。本ファイルでは結合して掲載。
     text: |

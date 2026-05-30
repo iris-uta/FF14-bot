@@ -24,6 +24,7 @@ id: p12s
 displayName: パンデモニウム零式：天獄編 4層 (アテナ / パラス・アテナ)
 shortName: P12S
 type: savage
+status: testing
 patch: "6.41"
 # Source: https://ffxiv.consolegameswiki.com/wiki/Anabaseios:_The_Twelfth_Circle_(Savage)
 # Source: https://na.finalfantasyxiv.com/lodestone/character/29231383/blog/5231433 (ボス名出典)
@@ -144,6 +145,8 @@ phases:
 macros:
   - source: Game8 (ゲームエイト) - 天獄編零式4層前半 マクロ 1枚目 (ぬけまる式)
     url: https://game8.jp/ff14/534748
+    phases:
+      - p1
     # Source: WebFetch 2026-05-25 (Game8 P12S 前半 攻略ページ)
     text: |
       /p ■パラ1回目 タンク無敵
@@ -163,6 +166,8 @@ macros:
 
   - source: Game8 (ゲームエイト) - 天獄編零式4層前半 マクロ 2枚目 (チェインⅡB/パラ3)
     url: https://game8.jp/ff14/534748
+    phases:
+      - p1
     text: |
       /p 《ビーム誘導/4:4》　　　《塔/天火散開》
       /p 　　　　★ 　 　 　　 　 MT/D1 　 ST/D2
@@ -180,6 +185,8 @@ macros:
 
   - source: Game8 (ゲームエイト) - 天獄編零式4層前半 マクロ 3枚目 (サイコロ/ネバラン)
     url: https://game8.jp/ff14/534748
+    phases:
+      - p1
     text: |
       /p ■サイコロ　ネバラン
       /p 　　 ★
@@ -191,6 +198,8 @@ macros:
 
   - source: Game8 (ゲームエイト) - 天獄編零式4層後半 マクロ 1枚目 (ぬけまる式 / パラスレイX処理)
     url: https://game8.jp/ff14/535668
+    phases:
+      - p2
     # Source: WebFetch 2026-05-25 (Game8 P12S 後半 攻略ページ)
     text: |
       /p 【パラスの手】 T:西　他:東
@@ -211,6 +220,8 @@ macros:
 
   - source: Game8 (ゲームエイト) - 天獄編零式4層後半 マクロ 2枚目 (カロリック1/エクピロシス/パンゲネシス)
     url: https://game8.jp/ff14/535668
+    phases:
+      - p2
     text: |
       /p 【カロリック1】※もちべ式
       /p 炎マーカー頭割り・・・西:TH　東:DPS
@@ -226,6 +237,8 @@ macros:
 
   - source: Game8 (ゲームエイト) - 天獄編零式4層後半 マクロ 3枚目 (カロリック2/サモンダークネス2/線)
     url: https://game8.jp/ff14/535668
+    phases:
+      - p2
     text: |
       /p 【カロリック2回目】
       /p 　　H2　　　　 マーカー:MTと交代

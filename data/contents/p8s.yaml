@@ -16,6 +16,7 @@ id: p8s
 displayName: 万魔殿パンデモニウム零式：煉獄編 4層 (ヘファイストス)
 shortName: P8S
 type: savage
+status: testing
 patch: "6.21"
 # ノーマル実装日: 2022-08-23 (Patch 6.2)
 # 零式実装日:   2022-08-30 (Patch 6.21)
@@ -132,6 +133,8 @@ phases:
 macros:
   - source: Game8 (ゲームエイト) - 煉獄編零式4層前半 ぬけまる式 マクロVer1
     url: https://game8.jp/ff14/480095
+    phases:
+      - p1
     text: |
       /p ■テトラオクタ/誘導/蛇2　 ■基本散開
       /p 　MT/D3　→　ST/D4　　　D3 MT D4
@@ -161,6 +164,8 @@ macros:
 
   - source: Game8 (ゲームエイト) - 煉獄編零式4層後半 ぬけまる式 マクロVer1 (術式 + 概念1回目)
     url: https://game8.jp/ff14/480771
+    phases:
+      - p2
     text: |
       /p 【術式1回目(頭割は西)】【術式炎氷(TH西 DPS東) 】
       /p 　 　★　　　紫 　 ST│ ▼炎:中央前詰め　▼氷誘導
@@ -180,6 +185,8 @@ macros:
 
   - source: Game8 (ゲームエイト) - 煉獄編零式4層後半 ぬけまる式 マクロVer1 (万象灰燼 + 概念2回目 + 支配者)
     url: https://game8.jp/ff14/480771
+    phases:
+      - p2
     text: |
       /p 【万象灰燼：はいじあ/ビジョン式】
       /p 　　MT　　D1

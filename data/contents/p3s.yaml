@@ -13,6 +13,7 @@ id: p3s
 displayName: 万魔殿パンデモニウム零式：辺獄編3層 (獄炎鳳王フェニックス)
 shortName: P3S
 type: savage
+status: testing
 patch: "6.05"
 # ノーマル実装日: 2021-12-21 (Patch 6.01)
 # 零式実装日:   2022-01-04 (Patch 6.05)
@@ -86,6 +87,8 @@ phases:
 macros:
   - source: Game8 (ゲームエイト) - 辺獄編零式3層 前半フェーズ用
     url: https://game8.jp/ff14/421350
+    phases:
+      - p1
     # 最終更新: 2025-11-20 (Game8 ページの最終更新日)
     text: |
       /p 【4:4分け（雑魚/霊泉）】
@@ -105,6 +108,8 @@ macros:
 
   - source: Game8 (ゲームエイト) - 辺獄編零式3層 後半フェーズ用
     url: https://game8.jp/ff14/421350
+    phases:
+      - p2
     text: |
       /p 【魔力錬成：闇（辺獄の炎嵐以外）】
       /p 近接組(MTSTD1D2)：北安置　遠隔組(H1H2D3D4)：南安置
@@ -123,6 +128,8 @@ macros:
 
   - source: Game8 (ゲームエイト) - 辺獄編零式3層 黒玉散開マクロ
     url: https://game8.jp/ff14/421350
+    phases:
+      - p2
     text: |
       /p 【赤小玉→黒小玉】　【赤大玉→黒小玉】
       /p 　 　MT　ST　　　　 D1　MT　D2　ST

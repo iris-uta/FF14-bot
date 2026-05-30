@@ -15,6 +15,7 @@ id: m6s
 displayName: 至天の座アルカディア：クルーザー級零式 2層 (シュガーライオット)
 shortName: M6S
 type: savage
+status: testing
 patch: "7.2"
 # パッチ実装日: 2025-03-25 (Patch 7.2)
 # 零式実装日: 2025-04-01
@@ -91,6 +92,8 @@ phases:
 macros:
   - source: "Game8 (ゲームエイト) - クルーザー級零式2層 新FFO式 Ver.3.1 (前半 + 雑魚)"
     url: https://game8.jp/ff14/681086
+    phases:
+      - p1-front
     # 最終更新: 2026-03-12 (Game8 ページの最終更新日)
     # オリジナル: Yuna'' Kanon' (Lodestone https://jp.finalfantasyxiv.com/lodestone/character/11516239/blog/5542931/)
     text: |
@@ -112,6 +115,8 @@ macros:
 
   - source: "Game8 (ゲームエイト) - クルーザー級零式2層 新FFO式 Ver.3.1 (後半: 山川〜)"
     url: https://game8.jp/ff14/681086
+    phases:
+      - p2-back
     text: |
       /p 【山川】火：内側MTH1D1D2　【雷雲】雷雲見て
       /p 　　　　　　 外側STH2D3D4　　TH←左　他　右→DPS

@@ -14,6 +14,7 @@ id: m11s
 displayName: 至天の座アルカディア：ヘビー級零式 3層 (ザ・タイラント / キング・オブ・アルカディア)
 shortName: M11S
 type: savage
+status: testing
 patch: "7.4"
 # ノーマル実装日: 2025-12-16 / 零式実装日: 2026-01-06
 # Source: https://ffxiv.consolegameswiki.com/wiki/The_Arcadion
@@ -91,6 +92,8 @@ phases:
 macros:
   - source: Game8 (ゲームエイト) - ヘビー級零式3層 ぬけまる様式 (前半)
     url: https://game8.jp/ff14/755154
+    phases:
+      - p1
     # 最終更新: 2026-03-12 (Game8 ページの最終更新日)
     # Game8 上では 2 本に分かれて掲載。本ファイルでは前半 (基本散開〜メテオレイン) を掲載。
     text: |
@@ -111,6 +114,8 @@ macros:
 
   - source: Game8 (ゲームエイト) - ヘビー級零式3層 ぬけまる様式 (後半 / チャンピオンズメテオ〜)
     url: https://game8.jp/ff14/755154
+    phases:
+      - p2
     # Game8 上の後半マクロ。チャンピオンズメテオ以降。
     text: |
       /p ■チャンピオンズメテオ（ジジー式位置固定）

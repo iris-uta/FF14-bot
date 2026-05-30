@@ -15,6 +15,7 @@ id: p6s
 displayName: 万魔殿パンデモニウム零式：煉獄編 2層 (ヘーゲモネ)
 shortName: P6S
 type: savage
+status: testing
 patch: "6.21"
 # ノーマル実装日: 2022-08-23 (Patch 6.2)
 # 零式実装日:   2022-08-30 (Patch 6.21)
@@ -76,6 +77,8 @@ phases:
 macros:
   - source: Game8 (ゲームエイト) - 煉獄編零式2層 ぬけまる式 マクロVer1
     url: https://game8.jp/ff14/479307
+    phases:
+      - p1
     text: |
       /p ※MT組：MTH1D1D3 ST組：STH2D2D4
       /p 　【基本散開】　　【カヘキシー1回目】

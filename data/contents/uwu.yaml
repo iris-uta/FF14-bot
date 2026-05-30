@@ -173,6 +173,10 @@ phases:
 macros:
   - source: りりーどーる (P1-P3 共通 - 新みんとっと / 楔逆Z / ジェイル自滅)
     url: https://jp.finalfantasyxiv.com/lodestone/character/34120564/blog/5248065/
+    phases:
+      - p1
+      - p2
+      - p3
     text: |
       /p 【覚醒バフ】BH＞D4＞D1
       /p 【低気圧処理】ST＞STヒラD3D4＞D1＞D2
@@ -190,6 +194,10 @@ macros:
       /p 【マウンテンバスター】1回目：MT/2回目：ST(orかばう)/3回目：MT
   - source: りりーどーる (P4-P6 - 新みんとっと / 十字無視 / 3111 / 乱撃TLB)
     url: https://jp.finalfantasyxiv.com/lodestone/character/34120564/blog/5248065/
+    phases:
+      - p4
+      - p5
+      - p6
     text: |
       /p ＝＝＝＝＝アルテマフェーズ＝＝＝＝＝
       /p 【緑玉】1回目：MTSTD1/2~4回目：MT
@@ -208,8 +216,22 @@ macros:
       /p 　・ガル(A北→A→2)→イフ(2→3)→タコ(3→2.3間→3)
   - source: あせろぐ (asellog) - 絶アルテマウェポン 攻略準備&マーカー配置 (3分割マクロ)
     url: https://asellog.com/uwu/
+    phases:
+      - p1
+      - p2
+      - p3
+      - p4
+      - p5
+      - p6
   - source: もず (note) - 絶アルテマまとめ (みん学/楔逆Z/ジェイル自殺式/十字無視/3111/乱撃TLB)
     url: https://note.com/mozuzuzu/n/nd4fb5fff75ab
+    phases:
+      - p1
+      - p2
+      - p3
+      - p4
+      - p5
+      - p6
 recruitmentTemplates:
   - source: 「【初絶歓迎！】絶テマ草案【@MT,ST,近接,レンジ】」(Lodestone 用 BBCode テンプレ)
     template: |

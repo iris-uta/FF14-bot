@@ -19,6 +19,7 @@ id: m8s
 displayName: 至天の座アルカディア：クルーザー級零式 4層 (ハウリングブレード)
 shortName: M8S
 type: savage
+status: testing
 patch: "7.2"
 # パッチ実装日: 2025-03-25 (Patch 7.2)
 # 零式実装日: 2025-04-01
@@ -116,6 +117,8 @@ phases:
 macros:
   - source: Game8 (ゲームエイト) - クルーザー級零式4層前半 ぬけまる様マクロ (イディル土修正/風化IQ6000/狐狼Alice/81128)
     url: https://game8.jp/ff14/681843
+    phases:
+      - p1
     # 最終更新: 2026-03-12 (Game8 ページの最終更新日)
     text: |
       /p 【土の魔技】　 |【風の魔技/千年の風化 IQ6000式】
@@ -136,6 +139,8 @@ macros:
 
   - source: Game8 (ゲームエイト) - クルーザー級零式4層後半 ぬけまる様マクロ (魔印正規/狐狼Alice/81128)
     url: https://game8.jp/ff14/681846
+    phases:
+      - p2
     text: |
       /p 【クエイガ/1-3魔光】青マカ上から北島⇒その場⇒南島
       /p MT　　　 　★　　　　ST

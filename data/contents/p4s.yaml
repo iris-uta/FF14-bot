@@ -16,6 +16,7 @@ id: p4s
 displayName: 万魔殿パンデモニウム零式：辺獄編4層 (ヘスペロス)
 shortName: P4S
 type: savage
+status: testing
 patch: "6.05"
 # ノーマル実装日: 2021-12-21 (Patch 6.01)
 # 零式実装日:   2022-01-04 (Patch 6.05)
@@ -115,6 +116,8 @@ phases:
 macros:
   - source: Game8 (ゲームエイト) - 辺獄編零式4層前半 YPP 式
     url: https://game8.jp/ff14/421733
+    phases:
+      - p1
     # 最終更新: 2025-11-20 (Game8 ページの最終更新日)
     text: |
       /p 【基本散開】　　　　　【毒線YPP式】
@@ -135,6 +138,8 @@ macros:
 
   - source: Game8 (ゲームエイト) - 辺獄編零式4層後半 犬丸式 (序幕〜第三幕)
     url: https://game8.jp/ff14/422515
+    phases:
+      - p2
     # 最終更新: 2025-11-20 (Game8 ページの最終更新日)
     text: |
       /p ―《序幕》――――――――――――――――――
@@ -155,6 +160,8 @@ macros:
 
   - source: Game8 (ゲームエイト) - 辺獄編零式4層後半 犬丸式 (第四幕〜カーテンコール)
     url: https://game8.jp/ff14/422515
+    phases:
+      - p2
     text: |
       /p ―《第四幕》――――――――――――――――
       /p ①ウォタガは塔の対角の１つ時計回り側で切る
