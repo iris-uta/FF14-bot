@@ -19,8 +19,9 @@ import {
   MessageFlags,
   type InteractionReplyOptions,
 } from "discord.js";
+import { isContentPublished } from "@ff14kotei/schema";
 import { commands, getCommand } from "./commands";
-import { getAllContents } from "./lib/contents";
+import { getAllContentsIncludingTesting } from "./lib/contents";
 import { getDb } from "./lib/db";
 import { waitForAllWithTimeout } from "./lib/safe-tick";
 import { startAlertWorker, stopAlertWorker, waitForAlertWorker } from "./services/alert-worker";
@@ -47,8 +48,14 @@ if (!token) {
   process.exit(1);
 }
 
-const contents = getAllContents();
-console.log(`Loaded ${contents.length} content(s): ${contents.map((c) => c.id).join(", ")}`);
+const contents = getAllContentsIncludingTesting();
+const publishedCount = contents.filter(isContentPublished).length;
+const testingCount = contents.length - publishedCount;
+console.log(
+  `Loaded ${publishedCount} published + ${testingCount} testing content(s): ${contents
+    .map((c) => (isContentPublished(c) ? c.id : `${c.id}🧪`))
+    .join(", ")}`
+);
 
 const commandNames = Object.keys(commands).sort();
 console.log(`Registered ${commandNames.length} command(s): ${commandNames.join(", ")}`);

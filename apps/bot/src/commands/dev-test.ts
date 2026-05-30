@@ -27,8 +27,9 @@ import {
 } from "discord.js";
 import { eq } from "drizzle-orm";
 import { statics, staticSlots, staticMembers } from "@ff14kotei/db";
+import { isContentPublished } from "@ff14kotei/schema";
 import { getDb } from "../lib/db";
-import { getAllContents } from "../lib/contents";
+import { getAllContentsIncludingTesting } from "../lib/contents";
 import { findStaticByName, initStatic } from "../services/static-manager";
 import { listStaticsInGuild } from "../services/static-info";
 
@@ -113,7 +114,8 @@ async function handleCreate(interaction: ChatInputCommandInteraction): Promise<v
   await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
   const filter = interaction.options.getString("filter")?.toLowerCase().trim();
-  let contents = getAllContents();
+  // dev-test は backend dev 画面なので testing コンテンツも含めて一括作成・検証できる。
+  let contents = getAllContentsIncludingTesting();
   if (filter) {
     contents = contents.filter(
       (c) =>
@@ -149,9 +151,11 @@ async function handleCreate(interaction: ChatInputCommandInteraction): Promise<v
   const startedAt = Date.now();
 
   for (const c of contents) {
+    // 🧪 = testing コンテンツ（bot/公開サイトには出ない、dev-test でのみ検証中）
+    const tag = isContentPublished(c) ? "" : " 🧪";
     const name = `${TEST_PREFIX} ${c.id}`;
     if (findStaticByName(guild.id, name)) {
-      results.push(`⏭️  ${c.id}`);
+      results.push(`⏭️  ${c.id}${tag}`);
       skipped++;
       continue;
     }
@@ -163,11 +167,11 @@ async function handleCreate(interaction: ChatInputCommandInteraction): Promise<v
         content: c,
         mode: "minimal",
       });
-      results.push(`✅ ${c.id}`);
+      results.push(`✅ ${c.id}${tag}`);
       created++;
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err);
-      results.push(`❌ ${c.id}: ${msg.slice(0, 60)}`);
+      results.push(`❌ ${c.id}${tag}: ${msg.slice(0, 60)}`);
       failed++;
     }
 

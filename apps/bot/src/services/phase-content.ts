@@ -2,12 +2,22 @@ import type { Content, Phase } from "@ff14kotei/schema";
 
 type MacroRef = Content["macros"][number];
 
+/**
+ * Resolve which macros belong to a phase.
+ *
+ * Per-macro resolution:
+ *  - If the macro has a structured `phases` array, it matches when that array
+ *    contains `phaseId` (the source of truth — works for savage 前半/後半/Ver.X
+ *    naming and 全 phase 共通 macros that the regex can't express).
+ *  - Otherwise fall back to sniffing a `P<n>` token out of `source` for
+ *    backward compat with macros that haven't been backfilled yet.
+ */
 export function getMacrosForPhase(content: Content, phaseId: string): MacroRef[] {
-  const phaseNumberMatch = phaseId.match(/(\d+)/);
-  if (!phaseNumberMatch) return [];
-  const phaseNumber = phaseNumberMatch[1];
-  const pattern = new RegExp(`\\bP${phaseNumber}\\b`, "i");
-  return content.macros.filter((m) => pattern.test(m.source));
+  const phaseNumber = phaseId.match(/(\d+)/)?.[1];
+  const pattern = phaseNumber ? new RegExp(`\\bP${phaseNumber}\\b`, "i") : null;
+  return content.macros.filter((m) =>
+    m.phases ? m.phases.includes(phaseId) : pattern ? pattern.test(m.source) : false
+  );
 }
 
 export interface PhaseLookup {

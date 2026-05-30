@@ -28,7 +28,7 @@ import {
   type MessageFlags,
 } from "discord.js";
 import type { Content, ContentType, StrategyVariant } from "@ff14kotei/schema";
-import { getAllContents } from "../lib/contents.js";
+import { getAllContents, getContentById } from "../lib/contents.js";
 import { CONTENT_TYPE_CHOICES } from "../lib/content-type-choices.js";
 import { sortByPatch } from "../lib/content-sort.js";
 
@@ -214,7 +214,9 @@ export function nextStep(state: WizardState): WizardStep {
 }
 
 function getContentByIdSafe(id: string): Content | null {
-  return getAllContents().find((c) => c.id === id) ?? null;
+  // getContentById は testing も解決する（id 解決は常に許可）。
+  // getAllContents() で引くと published フィルタに掛かるため使わない。
+  return getContentById(id) ?? null;
 }
 
 // ── Step UI builders ────────────────────────────────────────────────────────
