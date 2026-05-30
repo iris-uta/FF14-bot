@@ -146,6 +146,8 @@ phases:
 macros:
   - source: りりーどーる (P1 - リリド式 / 優先HTD・STD4入替・塔キャス固定)
     url: https://ffxiv.link/0122122
+    phases:
+      - p1
     text: |
       /p P1(優先HTD/STD4入替/塔キャス固定)
       /p ■基本散開 　｜■全ての優先度
@@ -167,6 +169,8 @@ macros:
       /p 人数調整優先度 上 D1＞D2＞D3 下
   - source: りりーどーる (P2 - 基本イディル / 暴走HT / ノクバマカ色＆バニシュガ2ペア変更)
     url: https://ffxiv.link/0122122
+    phases:
+      - p2
     text: |
       /p P2(基本イディル/暴走HT/ノクバマカ色＆バニシュガ2ペア変更)
       /p 【DD】基本散開から時計回り調整
@@ -200,6 +204,8 @@ macros:
       /p 　　　ST　　　  ｜　　：時計回りの光水晶を攻撃
   - source: りりーどーる (P3 - アポカリ最初の安置基準 / TH赤紫DPS黄青)
     url: https://ffxiv.link/0122122
+    phases:
+      - p3
     text: |
       /p P3(アポカリ[最初の安置基準]TH赤紫/DPS黄青)
       /p 【時間圧縮・絶】跡部王国改(ぽにこねさん)
@@ -218,6 +224,8 @@ macros:
       /p 【暗夜の舞踏技】ボス見てTH組：左/DPS組：右
   - source: りりーどーる (P3 - アポカリ基準 / 1個目のアポカリ基準 / TH赤紫DPS黄青)
     url: https://ffxiv.link/0122122
+    phases:
+      - p3
     text: |
       /p P3(アポカリ[1個目のアポカリ基準]TH赤紫/DPS黄青)
       /p 【時間圧縮・絶】跡部王国改(ぽにこねさん)
@@ -236,6 +244,8 @@ macros:
       /p 【暗夜の舞踏技】ボス見てTH組：左/DPS組：右
   - source: りりーどーる (P4 - ぬけまる扇前 / アクモーン1:7 / 赤爆走アムレンY字)
     url: https://ffxiv.link/0122122
+    phases:
+      - p4
     text: |
       /p P4(扇前調整/アクモーン1:7/赤爆走アムレンY字/attack meマクロ)
       /p 基本担当：MT組⇒ミトロン/ST組⇒闇の巫女
@@ -269,6 +279,8 @@ macros:
       /p ※バリア＆軽減3枚以上必要[動画ではレンジ,BH,PH(無いならタンク)軽減]
   - source: りりーどーる (P5 - ぬけまる最終フェーズ)
     url: https://ffxiv.link/0122122
+    phases:
+      - p5
     text: |
       /p P5最終フェーズ(ぬけまる)
       /p 【光塵の剣】
@@ -287,6 +299,12 @@ macros:
       /p 詠唱バー「パン[ﾀﾝｸLB]ドラの櫃」目安
   - source: ふうcだよ FF14情報サイト - 絶もうひとつの未来（絶エデン）マクロ
     url: https://fuucdayo.com/macro/5618/
+    phases:
+      - p1
+      - p2
+      - p3
+      - p4
+      - p5
 recruitmentTemplates:
   - source: Rage Avel - Lodestone「固定募集記事テンプレート（コピペ用）」
     template: |

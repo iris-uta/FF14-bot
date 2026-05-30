@@ -7,6 +7,7 @@ import {
   type AutocompleteInteraction,
 } from "discord.js";
 import { randomUUID } from "node:crypto";
+import { isContentPublished } from "@ff14kotei/schema";
 import { getAllContents, getContentById } from "../lib/contents";
 import { sortByPatch } from "../lib/content-sort";
 import { configureContentTypeOption } from "../lib/content-type-choices";
@@ -155,6 +156,16 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
   if (!content) {
     await interaction.reply({
       content: `コンテンツが見つかりません: \`${contentId}\``,
+      flags: MessageFlags.Ephemeral,
+    });
+    return;
+  }
+
+  // testing コンテンツ（未テスト）は通常の /setup では作成不可。
+  // 検証は管理者が /dev-test で行う（Discord 内の backend dev 画面）。
+  if (!isContentPublished(content)) {
+    await interaction.reply({
+      content: `コンテンツ \`${contentId}\` は現在テスト中のため /setup では作成できません。\n（管理者は \`/dev-test create\` で検証用 static を作成できます）`,
       flags: MessageFlags.Ephemeral,
     });
     return;

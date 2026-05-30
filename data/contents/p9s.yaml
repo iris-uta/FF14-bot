@@ -18,6 +18,7 @@ id: p9s
 displayName: パンデモニウム零式：天獄編 1層 (コキュートス)
 shortName: P9S
 type: savage
+status: testing
 patch: "6.41"
 # Source: https://ffxiv.consolegameswiki.com/wiki/Anabaseios:_The_Ninth_Circle_(Savage)
 # Source: https://finalfantasy.fandom.com/wiki/Anabaseios:_The_Ninth_Circle
@@ -76,6 +77,8 @@ phases:
 macros:
   - source: Game8 (ゲームエイト) - 天獄編零式1層 マクロ Ver1.1 (無職マラソン式)
     url: https://game8.jp/ff14/532345
+    phases:
+      - p1
     # Source: WebFetch 2026-05-25 (Game8 P9S 攻略ページ Ver1.1)
     # 注: Game8 にはマクロ前半のみ抽出されており、後半 (ビースト以降) は要動画確認の場合あり。
     text: |

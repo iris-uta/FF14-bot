@@ -178,6 +178,12 @@ phases:
 macros:
   - source: りりーどーる (絶バハマクロ 全Phase - 新みんとっと/H3構成/拘束具逆▽/カータTLB/進軍十字/連撃V字/群竜TLB)
     url: https://na.finalfantasyxiv.com/lodestone/character/34120564/blog/5248067/
+    phases:
+      - p1
+      - p2
+      - p3
+      - p4
+      - p5
     text: |
       # マクロ全文は著作権上の理由で抜粋のみ。完全版は Lodestone 原文を参照。
       # 出典: https://na.finalfantasyxiv.com/lodestone/character/34120564/blog/5248067/
@@ -200,10 +206,28 @@ macros:
       #  群竜TLB       = P3 群竜の八重奏 (Grand Octet) で タンク LB3
   - source: Mizore Fukiku 日記 - 絶バハマクロ修正版 (新みんとっと派生)
     url: https://na.finalfantasyxiv.com/lodestone/character/48995158/blog/5388500/
+    phases:
+      - p1
+      - p2
+      - p3
+      - p4
+      - p5
   - source: GitHub akitoki/FF14_docs - 絶バハ_マクロ.txt
     url: https://github.com/akitoki/FF14_docs/blob/master/%E7%B5%B6%E3%83%90%E3%83%8F_%E3%83%9E%E3%82%AF%E3%83%AD.txt
+    phases:
+      - p1
+      - p2
+      - p3
+      - p4
+      - p5
   - source: あせろぐ - 絶バハムート討滅戦 攻略まとめ＆マーカー配置 (H3構成)
     url: https://asellog.com/bahamut-ultimate/
+    phases:
+      - p1
+      - p2
+      - p3
+      - p4
+      - p5
 recruitmentTemplates:
   - source: Rage Avel - Lodestone「固定募集記事テンプレート（コピペ用）」(fru.yaml/top.yaml と共通)
     template: |

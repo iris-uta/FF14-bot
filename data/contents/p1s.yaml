@@ -17,6 +17,7 @@ id: p1s
 displayName: 万魔殿パンデモニウム零式：辺獄編1層 (煉獄の魔王エリクトニオス)
 shortName: P1S
 type: savage
+status: testing
 patch: "6.05"
 # ノーマル実装日: 2021-12-21 (Patch 6.01, 暁月のフィナーレ パッチ初配信)
 # 零式実装日:   2022-01-04 (Patch 6.05)
@@ -72,6 +73,8 @@ phases:
 macros:
   - source: Game8 (ゲームエイト) - 辺獄編零式1層 ペア調整版
     url: https://game8.jp/ff14/421207
+    phases:
+      - p1
     # 最終更新: 2025-11-20 (Game8 ページの最終更新日)
     text: |
       /p 【基本散開/氷火の侵食】

@@ -122,15 +122,24 @@ describe("initStatic — DB side effects", () => {
     } as Content;
   }
 
-  // Helper: build a stub Guild that records calls
-  function makeStubGuild() {
+  // Helper: build a stub Guild that records calls.
+  // Optional failure injection lets us exercise the rollback / warn-and-continue paths:
+  //   - failCategoryCreate: category create throws (role already exists → must roll back)
+  //   - failPhaseChannelCreate: phase channel creates throw (name like "p1"/"p2")
+  // Phase channel names for the default makeContent() are "p1"/"p2" (see channel-setup),
+  // while minimal-mode utility channels are "ロビー"/"日程調整" — so /^p\d/ distinguishes them.
+  function makeStubGuild(
+    opts: { failCategoryCreate?: boolean; failPhaseChannelCreate?: boolean } = {}
+  ) {
     const createdRoles: { name: string; color: number }[] = [];
     const createdChannels: { name: string; type: number; parent?: string }[] = [];
+    const createdTextChannels: { id: string; delete: ReturnType<typeof vi.fn> }[] = [];
 
-    const role = { id: "stub-role-id" };
-    const category = { id: "stub-category-id" };
+    const role = { id: "stub-role-id", delete: vi.fn().mockResolvedValue(undefined) };
+    const category = { id: "stub-category-id", delete: vi.fn().mockResolvedValue(undefined) };
 
     let textChannelCounter = 0;
+    const isPhaseName = (name: string) => /^p\d/.test(name);
 
     const guild = {
       id: "g-stub",
@@ -141,15 +150,25 @@ describe("initStatic — DB side effects", () => {
         }),
       },
       channels: {
-        create: vi.fn(async (opts: { name: string; type: number; parent?: string }) => {
-          createdChannels.push({ name: opts.name, type: opts.type, parent: opts.parent });
-          if (opts.type === ChannelType.GuildCategory) return category;
+        create: vi.fn(async (o: { name: string; type: number; parent?: string }) => {
+          if (o.type === ChannelType.GuildCategory) {
+            if (opts.failCategoryCreate) throw new Error("Missing Permissions (category)");
+            createdChannels.push({ name: o.name, type: o.type, parent: o.parent });
+            return category;
+          }
+          if (opts.failPhaseChannelCreate && isPhaseName(o.name)) {
+            throw new Error("Maximum number of channels reached (phase)");
+          }
+          createdChannels.push({ name: o.name, type: o.type, parent: o.parent });
           // Mock TextChannel: minimal methods used by postPhaseToChannel / postUtilityIntro
           textChannelCounter++;
-          return {
+          const ch = {
             id: `stub-channel-${textChannelCounter}`,
             send: vi.fn().mockResolvedValue({ pin: vi.fn().mockResolvedValue(undefined) }),
+            delete: vi.fn().mockResolvedValue(undefined),
           };
+          createdTextChannels.push(ch);
+          return ch;
         }),
       },
       members: {
@@ -160,7 +179,7 @@ describe("initStatic — DB side effects", () => {
       },
     } as never;
 
-    return { guild, role, category, createdRoles, createdChannels };
+    return { guild, role, category, createdRoles, createdChannels, createdTextChannels };
   }
 
   it("inserts a static row + 8 slot rows (all open) + members", async () => {
@@ -233,5 +252,47 @@ describe("initStatic — DB side effects", () => {
     const content = makeContent();
     const result = await initStatic({ guild, leaderId: "u", name: "test", content });
     expect(result.mode).toBe("standard");
+  });
+
+  it("rolls back the created role when category creation fails (no orphan, no DB row)", async () => {
+    const { guild, role, category } = makeStubGuild({ failCategoryCreate: true });
+    const content = makeContent();
+
+    await expect(
+      initStatic({ guild, leaderId: "u", name: "test", content, mode: "minimal" })
+    ).rejects.toThrow(/Missing Permissions/);
+
+    // Role was created before the category failed → it must be torn down.
+    expect(role.delete).toHaveBeenCalledTimes(1);
+    // Category was never created → nothing to delete.
+    expect(category.delete).not.toHaveBeenCalled();
+
+    // The DB insert only runs after every resource exists, so nothing was written.
+    expect(getDb().select().from(statics).all()).toHaveLength(0);
+    expect(getDb().select().from(staticSlots).all()).toHaveLength(0);
+    expect(getDb().select().from(staticMembers).all()).toHaveLength(0);
+  });
+
+  it("does not abort setup when phase channels fail to create (warn-and-continue)", async () => {
+    const { guild, role, category } = makeStubGuild({ failPhaseChannelCreate: true });
+    const content = makeContent(); // phases p1, p2 → both channel creates throw
+
+    const result = await initStatic({
+      guild,
+      leaderId: "u",
+      name: "test",
+      content,
+      mode: "minimal",
+    });
+
+    // Setup completed: the static row exists and resources were NOT rolled back.
+    expect(getDb().select().from(statics).all()).toHaveLength(1);
+    expect(role.delete).not.toHaveBeenCalled();
+    expect(category.delete).not.toHaveBeenCalled();
+
+    // Phase channels were skipped; utility channels (non-"p\d" names) still created.
+    expect(result.phaseChannels).toHaveLength(0);
+    expect(result.utilityChannels.length).toBeGreaterThan(0);
+    expect(result.postedPhaseCount).toBe(0);
   });
 });

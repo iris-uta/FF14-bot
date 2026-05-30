@@ -15,6 +15,7 @@ id: m5s
 displayName: 至天の座アルカディア：クルーザー級零式 1層 (ダンシング・グリーン)
 shortName: M5S
 type: savage
+status: testing
 patch: "7.2"
 # パッチ実装日: 2025-03-25 (Patch 7.2「永久の探求者」)
 # 零式実装日: 2025-04-01 (パッチ実装1週間後)
@@ -78,6 +79,8 @@ phases:
 macros:
   - source: Game8 (ゲームエイト) - クルーザー級零式1層 ぬけまる式
     url: https://game8.jp/ff14/680424
+    phases:
+      - p1
     # 最終更新: 2026-03-12 (Game8 ページの最終更新日)
     # 注: Game8 にはより詳細な /p マクロ全文が掲載されている場合があるため
     #     正確な最新版は URL を参照すること。本ファイルは WebFetch で取得した概略を保持。

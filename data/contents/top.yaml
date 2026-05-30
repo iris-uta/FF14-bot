@@ -227,6 +227,8 @@ phases:
 macros:
   - source: りりーどーる (P1 - サークルプログラム / パンクラ / 波動砲T無敵)
     url: https://na.finalfantasyxiv.com/lodestone/character/34120564/blog/5178791/
+    phases:
+      - p1
     text: |
       /p 【サークルプログラム】(南集合)
       /p 塔ふみ/線とり/線捨て
@@ -242,6 +244,8 @@ macros:
       /p 　　　D1　H1　H2　D2
   - source: りりーどーる (P2 - 連携プログラム / プレステ / 4:4 吹き飛ばし / シールドバッシュ&フレア)
     url: https://na.finalfantasyxiv.com/lodestone/character/34120564/blog/5178791/
+    phases:
+      - p2
     text: |
       /p 【連携プログラムPT】
       /p ※調整優先度：全て下から調整
@@ -269,6 +273,8 @@ macros:
       /p 頭割り：中央で盾誘導以外7人
   - source: りりーどーる (P3 - コロッサスブロー / ハローワールド / 検知式波動砲・優先TDH)
     url: https://na.finalfantasyxiv.com/lodestone/character/34120564/blog/5178791/
+    phases:
+      - p3
     text: |
       /p 【コロッサスブロー】
       /p ❶①>H1MTSTD1D2D3D4H2>②❹
@@ -296,6 +302,8 @@ macros:
       /p ※AC縦列(①④⑤)はボスモニターの無い方へ
   - source: りりーどーる (P4 - 波動砲 / 下調整 / D1D2人数調整)
     url: https://na.finalfantasyxiv.com/lodestone/character/34120564/blog/5178791/
+    phases:
+      - p4
     text: |
       /p 【P4 波動砲】
       /p 　 MT ST
@@ -306,6 +314,8 @@ macros:
       /p ※頭割り：下調整　人数調整：D1D2
   - source: りりーどーる (P5 デルタ - ハムカツ式 / ロケパン内側調整 / ハロワ散開)
     url: https://na.finalfantasyxiv.com/lodestone/character/34120564/blog/5178791/
+    phases:
+      - p5
     text: |
       /p ◆コード： ＊＊＊ミ＊【デルタ】
       /p 【ロケパン】場所は早い者勝ち
@@ -334,6 +344,8 @@ macros:
       /p 　　　　　　　　　　　Ｙ
   - source: りりーどーる (P5 シグマ - りょんめ式 塔Wingwan)
     url: https://na.finalfantasyxiv.com/lodestone/character/34120564/blog/5178791/
+    phases:
+      - p5
     text: |
       /p ◆コード： ＊＊＊ミ＊【シグマ】
       /p # 要手動補完: 塔Wingwan のマーカー配置 (A B C D / 1 2 3 4)、
@@ -342,6 +354,8 @@ macros:
       /p # 出典: https://na.finalfantasyxiv.com/lodestone/character/34120564/blog/5178791/
   - source: りりーどーる (P5 オメガ - ぬけまる式 / ボス検知＆虫オメガ北基準)
     url: https://na.finalfantasyxiv.com/lodestone/character/34120564/blog/5178791/
+    phases:
+      - p5
     text: |
       /p ◆コード： ＊＊＊ミ＊【オメガ】
       /p [オメガM] ｜　②無　❶左　　①無
@@ -373,6 +387,8 @@ macros:
       /p 　　　無　無　　　　l
   - source: りりーどーる (P6 アルファオメガ - コスモメモリー / 波動砲 / コスモメテオ / マジックナンバー)
     url: https://na.finalfantasyxiv.com/lodestone/character/34120564/blog/5178791/
+    phases:
+      - p6
     text: |
       /p 【コスモメモリー】LB3：ST
       /p 【AA】MT北内　ST東外　他南西内
@@ -401,8 +417,22 @@ macros:
       /p LB3：MT→H1→ST→H2
   - source: ふうcだよ FF14情報サイト - 絶オメガ検証戦 カンペ集 (野良主流・固定向け複数掲載)
     url: https://fuucdayo.com/battle/3831/
+    phases:
+      - p1
+      - p2
+      - p3
+      - p4
+      - p5
+      - p6
   - source: Lis Glacial 日記 - 絶オメガ 野良マクロ
     url: https://jp.finalfantasyxiv.com/lodestone/character/5417527/blog/5181737/
+    phases:
+      - p1
+      - p2
+      - p3
+      - p4
+      - p5
+      - p6
 recruitmentTemplates:
   - source: Rage Avel - Lodestone「固定募集記事テンプレート（コピペ用）」(fru.yaml と共通)
     template: |

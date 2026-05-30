@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { loadAllContents, type Content } from "@ff14kotei/schema";
+import { loadAllContents, isContentPublished, type Content } from "@ff14kotei/schema";
 import { resolve } from "node:path";
 
 export default function Home() {
@@ -115,9 +115,10 @@ function ContentList({ title, items }: { title: string; items: Content[] }) {
 
 function safeLoadContents(): Content[] {
   try {
-    return loadAllContents(resolve(process.cwd(), "../../data/contents")).sort((a, b) =>
-      (a.patch ?? "").localeCompare(b.patch ?? "")
-    );
+    // published のみ — testing コンテンツ（未テストの零式等）は公開サイトに出さない
+    return loadAllContents(resolve(process.cwd(), "../../data/contents"))
+      .filter(isContentPublished)
+      .sort((a, b) => (a.patch ?? "").localeCompare(b.patch ?? ""));
   } catch (err) {
     console.warn("Failed to load contents for landing page:", err);
     return [];

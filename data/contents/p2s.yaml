@@ -12,6 +12,7 @@ id: p2s
 displayName: 万魔殿パンデモニウム零式：辺獄編2層 (ヒッポカムポス)
 shortName: P2S
 type: savage
+status: testing
 patch: "6.05"
 # ノーマル実装日: 2021-12-21 (Patch 6.01)
 # 零式実装日:   2022-01-04 (Patch 6.05)
@@ -67,6 +68,8 @@ phases:
 macros:
   - source: Game8 (ゲームエイト) - 辺獄編零式2層 基本散開版
     url: https://game8.jp/ff14/365105
+    phases:
+      - p1
     # 最終更新: 2025-12-03 (Game8 ページの最終更新日)
     text: |
       /p 【ショックウェーブ・頭割り】

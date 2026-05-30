@@ -17,6 +17,7 @@ id: p10s
 displayName: パンデモニウム零式：天獄編 2層 (パンデモニウム)
 shortName: P10S
 type: savage
+status: testing
 patch: "6.41"
 # Source: https://ffxiv.consolegameswiki.com/wiki/Anabaseios:_The_Tenth_Circle_(Savage)
 # Source: https://na.finalfantasyxiv.com/lodestone/character/29231383/blog/5231433 (ボス名出典)
@@ -76,6 +77,8 @@ phases:
 macros:
   - source: Game8 (ゲームエイト) - 天獄編零式2層 マクロ 1枚目 (犬丸改FFO式)
     url: https://game8.jp/ff14/532718
+    phases:
+      - p1
     # Source: WebFetch 2026-05-25 (Game8 P10S 攻略ページ)
     text: |
       /p ■尖脚 左MT 右ST
@@ -93,6 +96,8 @@ macros:
 
   - source: Game8 (ゲームエイト) - 天獄編零式2層 マクロ 2枚目 (ボンド/タレット)
     url: https://game8.jp/ff14/532718
+    phases:
+      - p1
     text: |
       /p ■ボンド
       /p -西島/片面/震撃---------------ﾀﾚｯﾄ------------
@@ -110,6 +115,8 @@ macros:
 
   - source: ぬけまる様 - 天獄編零式2層 魔殿の震撃ボンド補足マクロ
     url: https://game8.jp/ff14/532718
+    phases:
+      - p1
     # Game8 上に「補足」として掲載されている別解マクロ。
     text: |
       /p ■魔殿の震撃ボンド

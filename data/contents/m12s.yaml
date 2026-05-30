@@ -15,6 +15,7 @@ id: m12s
 displayName: 至天の座アルカディア：ヘビー級零式 4層 (リンドブルム)
 shortName: M12S
 type: savage
+status: testing
 patch: "7.4"
 # ノーマル実装日: 2025-12-16 / 零式実装日: 2026-01-06
 # Source: https://ffxiv.consolegameswiki.com/wiki/The_Arcadion
@@ -124,6 +125,8 @@ phases:
 macros:
   - source: Game8 (ゲームエイト) - ヘビー級零式4層前半 ぬけまる様式
     url: https://game8.jp/ff14/756439
+    phases:
+      - p1
     # 最終更新: 2026-03-12 (Game8 ページの最終更新日)
     # Game8 上では 2 本に分かれて掲載。
     text: |
@@ -145,6 +148,8 @@ macros:
 
   - source: Game8 (ゲームエイト) - ヘビー級零式4層前半 ぬけまる様式 (散開・スローターシェッド)
     url: https://game8.jp/ff14/756439
+    phases:
+      - p1
     text: |
       /p 〈散開〉T　　T
       /p 　　★D1 HH D2 ★
@@ -157,6 +162,8 @@ macros:
 
   - source: Game8 (ゲームエイト) - ヘビー級零式4層後半 (マクロは外部リンク参照)
     url: https://game8.jp/ff14/757988
+    phases:
+      - p2
     # 注: Game8 4層後半ページにはマクロ本文の直接記載がなく
     # 「ぬけまる様が紹介しているので下記リンクからコピーしましょう」
     # との案内のみ。完全なマクロ本文はぬけまる YouTube 動画
@@ -165,6 +172,8 @@ macros:
 
   - source: Lodestone Sr Odin - 「ヘビー級零式4層後半 アルカディアンドリーム用 ぬけまる改良版」
     url: https://na.finalfantasyxiv.com/lodestone/character/39631700/blog/5649775/
+    phases:
+      - p2
     # 著者: Sr Odin (Hades [Mana])
     # /e (emote) コマンドベースのコールマクロ。レプリ固定法を含む改良版。
     # マクロ全文は WebFetch で取得困難だったため、URL のみ保持。要手動補完。
@@ -180,6 +189,8 @@ macros:
 
   - source: Lodestone Ku Yuri - 「４層後半アルカディアンドリーム 自分用メモとコールマクロ（処理法ぬけまる）」
     url: https://na.finalfantasyxiv.com/lodestone/character/22717408/blog/5651169/
+    phases:
+      - p2
     # 著者: Ku Yuri (Pandaemonium [Mana])
     # ぬけまる処理法に基づく十字/X字判断マクロ + 分身判定マクロ (8 種)。
     # マクロ全文は WebFetch で取得困難だったため、URL のみ保持。要手動補完。

@@ -16,6 +16,7 @@ id: m4s
 displayName: 至天の座アルカディア：ライトヘビー級零式 4層 (ウィケッドサンダー)
 shortName: M4S
 type: savage
+status: testing
 patch: "7.05"
 # ノーマル実装日: 2024-07-16 (Patch 7.01)
 # 零式実装日:   2024-07-30 (Patch 7.05)
@@ -136,6 +137,8 @@ phases:
 macros:
   - source: Game8 (ゲームエイト) - アルカディア零式ライトヘビー級4層前半 ぬけまる版 (Ver.2.1)
     url: https://game8.jp/ff14/631136
+    phases:
+      - p1
     # 最終更新: 2026-03-12 (Game8 ページの最終更新日)
     # 注: Game8 上の前半マクロ。後半マクロは別ページ (631340) にあり別 macros[] エントリで掲載。
     text: |
@@ -156,6 +159,8 @@ macros:
 
   - source: Game8 (ゲームエイト) - アルカディア零式ライトヘビー級4層前半 ぬけまる版 (ペア散開・ストリーム・移植)
     url: https://game8.jp/ff14/631136
+    phases:
+      - p1
     text: |
       /p ・ペア散開 　 　 　 　 　 　 ・散開(北基準)
       /p TH多：B,D 　DPS多：中央 | 　 　 　D3
@@ -173,6 +178,8 @@ macros:
 
   - source: Game8 (ゲームエイト) - アルカディア零式ライトヘビー級4層後半 ぬけまる版
     url: https://game8.jp/ff14/631340
+    phases:
+      - p2
     # 最終更新: 2026-03-12 (Game8 ページの最終更新日)
     text: |
       /p ■ウィケッドブレイズ（エクサ）

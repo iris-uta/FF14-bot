@@ -17,6 +17,7 @@ id: m7s
 displayName: 至天の座アルカディア：クルーザー級零式 3層 (ブルートアボミネーター)
 shortName: M7S
 type: savage
+status: testing
 patch: "7.2"
 # パッチ実装日: 2025-03-25 (Patch 7.2)
 # 零式実装日: 2025-04-01
@@ -95,6 +96,8 @@ phases:
 macros:
   - source: Lodestone Poni Kone - 「ぬけまる固定 アルカディア零式 クルーザー級3層 マクロ ※地下マーカー前提」 (前半)
     url: https://na.finalfantasyxiv.com/lodestone/character/13307902/blog/5542016/
+    phases:
+      - p1
     # Game8 採用の「さり式」/「ぽにこね式」と整合する野良固定向けマクロ。
     # 元著者: Poni Kone (Lodestone)。
     text: |
@@ -116,6 +119,8 @@ macros:
 
   - source: Lodestone Poni Kone - 「ぬけまる固定 クルーザー級3層 マクロ ※地下マーカー前提」 (後半)
     url: https://na.finalfantasyxiv.com/lodestone/character/13307902/blog/5542016/
+    phases:
+      - p2
     text: |
       /p 【ゾーンデスマッチ・ウォール】
       /p 　　　 MT/D3　　　　※石化視線：北西/南東避け
@@ -134,6 +139,9 @@ macros:
 
   - source: Game8 (ゲームエイト) - クルーザー級零式3層 さり式 / ぽにこね式 (本文は Game8 を参照)
     url: https://game8.jp/ff14/681274
+    phases:
+      - p1
+      - p2
     # 注: Game8 ページに「コピー」ボタン付きで さり式 / ぽにこね式の完全マクロが掲載。
     # WebFetch では著作権配慮で全文取得を断られたため、本ファイルは
     # 互換性のある Poni Kone (Lodestone) 版を主に保持し、Game8 直リンクを併記。

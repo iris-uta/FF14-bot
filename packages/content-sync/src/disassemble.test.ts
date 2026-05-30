@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
-import type { Content } from "@ff14kotei/schema";
-import { disassembleContents, rowsToCsv } from "./disassemble";
+import { isContentPublished, type Content } from "@ff14kotei/schema";
+import { disassembleContents, rowsToCsv, TAB_HEADERS } from "./disassemble";
 import { assembleContents } from "./assemble";
 
 function makeContent(overrides: Partial<Content> = {}): Content {
@@ -9,6 +9,7 @@ function makeContent(overrides: Partial<Content> = {}): Content {
     displayName: "絶もうひとつの未来",
     shortName: "FRU",
     type: "ultimate",
+    status: "published",
     patch: "7.11",
     phases: [
       { id: "p1", name: "Fatebreaker", order: 0, videos: [], strategies: [], tips: [] },
@@ -76,6 +77,41 @@ describe("disassembleContents", () => {
     expect(sheet.references).toHaveLength(2);
   });
 
+  it("emits macro phases[] as a comma-joined column (empty when absent)", () => {
+    const c = makeContent({
+      phases: [
+        { id: "p1", name: "P1", order: 0, videos: [], strategies: [], tips: [] },
+        { id: "p2", name: "P2", order: 1, videos: [], strategies: [], tips: [] },
+      ],
+      macros: [
+        { source: "with phases", url: "https://e.com/a", text: "", phases: ["p1", "p2"] },
+        { source: "no phases", url: "https://e.com/b", text: "" },
+      ],
+    });
+    const sheet = disassembleContents([c]);
+    expect(sheet.macros[0].phases).toBe("p1, p2");
+    expect(sheet.macros[1].phases).toBe("");
+  });
+
+  it("emits templates.source and videos.phase columns (round-trip-critical fields)", () => {
+    const c = makeContent({
+      phases: [
+        {
+          id: "p1", name: "P1", order: 0,
+          videos: [{ title: "V", url: "https://e.com/v", phase: "p1-2" }],
+          strategies: [], tips: [],
+        },
+      ],
+      recruitmentTemplates: [{ source: "@bob/note", template: "t", variables: [] }],
+    });
+    const sheet = disassembleContents([c]);
+    expect(sheet.videos[0].phase).toBe("p1-2");
+    expect(sheet.templates[0].source).toBe("@bob/note");
+    // headers must include the columns or the CSV export silently drops them again
+    expect(TAB_HEADERS.videos).toContain("phase");
+    expect(TAB_HEADERS.templates).toContain("source");
+  });
+
   it("sorts contents by patch then id (stable across re-exports)", () => {
     const sheet = disassembleContents([
       makeContent({ id: "z", patch: "7.11" }),
@@ -93,13 +129,14 @@ describe("disassembleContents", () => {
           id: "p1",
           name: "P1",
           order: 0,
-          videos: [{ title: "V1", url: "https://e.com/v1", author: "A" }],
+          videos: [{ title: "V1", url: "https://e.com/v1", author: "A", phase: "p1-2" }],
           mitigation: { name: "M1", url: "https://e.com/m1", copyable: true },
-          strategies: [{ id: "s1", name: "S1", popular: false }],
+          strategies: [{ id: "s1", name: "S1", popular: true, description: "d1" }],
           tips: ["tip 1"],
         },
       ],
-      macros: [{ source: "@a", url: "https://e.com/m.txt", text: "hi" }],
+      macros: [{ source: "@a", url: "https://e.com/m.txt", text: "hi", phases: ["p1"] }],
+      recruitmentTemplates: [{ source: "@bob/note", template: "Hi {date}", variables: ["date"] }],
       references: { primary: "p", urls: ["https://e.com/r"] },
     });
     const sheet = disassembleContents([original]);
@@ -112,7 +149,29 @@ describe("disassembleContents", () => {
     expect(recovered.phases[0].mitigation?.copyable).toBe(true);
     expect(recovered.phases[0].tips).toEqual(["tip 1"]);
     expect(recovered.macros[0].source).toBe("@a");
+    expect(recovered.macros[0].phases).toEqual(["p1"]); // phases survive Content → Sheet → Content
     expect(recovered.references.urls).toEqual(["https://e.com/r"]);
+  });
+
+  it("round-trips status: testing survives, published emits a blank column", () => {
+    // headers must carry the column or a Sheet pull silently drops the flag
+    expect(TAB_HEADERS.contents).toContain("status");
+
+    // testing → emitted verbatim → reassembles to testing
+    const testingSheet = disassembleContents([
+      makeContent({ id: "m1s", type: "savage", status: "testing" }),
+    ]);
+    expect(testingSheet.contents[0].status).toBe("testing");
+    const testingBack = assembleContents(testingSheet);
+    expect(testingBack.errors).toEqual([]);
+    expect(testingBack.contents[0].status).toBe("testing");
+
+    // published → blank column (clean diffs) → reassembles as published (status omitted)
+    const publishedSheet = disassembleContents([makeContent({ status: "published" })]);
+    expect(publishedSheet.contents[0].status).toBe("");
+    const publishedBack = assembleContents(publishedSheet).contents[0];
+    expect(publishedBack.status).toBeUndefined();
+    expect(isContentPublished(publishedBack)).toBe(true);
   });
 });
 

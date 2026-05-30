@@ -13,6 +13,7 @@ id: m2s
 displayName: 至天の座アルカディア：ライトヘビー級零式 2層 (ハニーB・ラブリー)
 shortName: M2S
 type: savage
+status: testing
 patch: "7.05"
 # ノーマル実装日: 2024-07-16 (Patch 7.01)
 # 零式実装日:   2024-07-30 (Patch 7.05)
@@ -75,6 +76,8 @@ phases:
 macros:
   - source: Game8 (ゲームエイト) - アルカディア零式ライトヘビー級2層 ぬけまる版
     url: https://game8.jp/ff14/630353
+    phases:
+      - p1
     # 最終更新: 2026-03-12 (Game8 ページの最終更新日)
     text: |
       /p ■基本散開

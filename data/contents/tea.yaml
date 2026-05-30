@@ -164,6 +164,8 @@ phases:
 macros:
   - source: りりーどーる (P1 - ヤークト無視 / サイコロ1211)
     url: https://na.finalfantasyxiv.com/lodestone/character/34120564/blog/5274750/
+    phases:
+      - p1
     text: |
       /p ヤークト無視法（水沼の頂点を北、無い方角を南）
       /p 　 D3〇北　　　　　　｜D3：可視扇を誘導後、南で合流（ヤークトの円範囲に注意）
@@ -177,6 +179,8 @@ macros:
       /p 　東西スタートの場合、東側優先
   - source: りりーどーる (P2 - 基本散開 / ナイサイ ヒラ先渡し / 水雷処理)
     url: https://na.finalfantasyxiv.com/lodestone/character/34120564/blog/5274750/
+    phases:
+      - p2
     text: |
       /p ■基本散開　　　■カウント（調整DPS・ヒラは縦に並ぶ）
       /p 　　　 MT　　　　西H1　西D3D4D2D1東
@@ -195,6 +199,8 @@ macros:
       /p 　3回目　水[B]：水低下以外のDPS３人・ST　雷[D]：ヒラ2人
   - source: りりーどーる (P3 - 時間停止 脳死法 / 時空潜航のマーチ / 次元断絶のマーチ)
     url: https://na.finalfantasyxiv.com/lodestone/character/34120564/blog/5274750/
+    phases:
+      - p3
     text: |
       /p ■時間停止(脳死法)
       /p 　無印→左側ロボ(TH上/DPS下)
@@ -225,6 +231,8 @@ macros:
       /p 懴悔の順番：５６→７８→１２
   - source: りりーどーる (P4 - 確定判決 / 未来観測 α/β)
     url: https://na.finalfantasyxiv.com/lodestone/character/34120564/blog/5274750/
+    phases:
+      - p4
     text: |
       /p ■確定判決
       /p 黄親→4/紫親→2/他６人→2左側
@@ -245,8 +253,18 @@ macros:
       /p ・頭割り：黄北/紫南
   - source: ふうcだよ FF14情報サイト - 絶アレキサンダー討滅戦 カンペ集 (野良主流処理法)
     url: https://fuucdayo.com/battle/4046/
+    phases:
+      - p1
+      - p2
+      - p3
+      - p4
   - source: ふうcだよ FF14情報サイト - 絶アレキサンダー ヤークト完全無視処理法
     url: https://fuucdayo.com/battle/3685/
+    phases:
+      - p1
+      - p2
+      - p3
+      - p4
 recruitmentTemplates:
   - source: Rage Avel - Lodestone「固定募集記事テンプレート（コピペ用）」(fru.yaml / top.yaml と共通)
     template: |

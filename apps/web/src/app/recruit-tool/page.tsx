@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { resolve } from "node:path";
-import { loadAllContents, type Content } from "@ff14kotei/schema";
+import { loadAllContents, isContentPublished, type Content } from "@ff14kotei/schema";
 import { RecruitToolForm, type ContentSummary } from "./RecruitToolForm";
 
 export const metadata: Metadata = {
@@ -63,9 +63,10 @@ export default function RecruitToolPage() {
 
 function safeLoadContents(): Content[] {
   try {
-    return loadAllContents(resolve(process.cwd(), "../../data/contents")).sort(
-      (a, b) => (a.patch ?? "").localeCompare(b.patch ?? "")
-    );
+    // published のみ — testing コンテンツは募集ツールのピッカーに出さない
+    return loadAllContents(resolve(process.cwd(), "../../data/contents"))
+      .filter(isContentPublished)
+      .sort((a, b) => (a.patch ?? "").localeCompare(b.patch ?? ""));
   } catch (err) {
     console.warn("Failed to load contents for /recruit-tool:", err);
     return [];

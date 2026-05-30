@@ -226,6 +226,8 @@ phases:
 macros:
   - source: りりーどーる (P1 - 教皇庁① / MTアデル STグリノー / 線ST無敵 / 沈黙 MT→レンジ→MT)
     url: https://ffxiv.link/088010
+    phases:
+      - p1
     text: |
       /p 【教皇庁①】
       /p ｜■MTアデル／STグリノー
@@ -244,6 +246,8 @@ macros:
       /p ｜ファン　※安置横にペア捨て（重ねる）
   - source: りりーどーる (P2 - トールダン / 雷槍 / スカイワードリープ / 聖杖ゼフィラン基準)
     url: https://ffxiv.link/088010
+    phases:
+      - p2
     text: |
       /p 【トールダン】
       /p ｜■雷槍
@@ -261,6 +265,8 @@ macros:
       /p ｜　剣2+ST組→ゼフィランの後ろ
   - source: りりーどーる (P3 - ニーズヘッグ / ①②③イル↓D・スパ↑B固定 / 4塔近接調整)
     url: https://ffxiv.link/088010
+    phases:
+      - p3
     text: |
       /p 【ニーズヘッグ】
       /p ｜■サイコロ
@@ -277,6 +283,8 @@ macros:
       /p ｜　　　　　　　　　　 ※タンク強着弾後バースト（AA【南】向き）
   - source: りりーどーる (P4 - 竜の邪眼 / 近接青眼寄せ / ミラージュダイブ青眼集合)
     url: https://ffxiv.link/088010
+    phases:
+      - p4
     text: |
       /p 【竜の邪眼】※近接青眼寄せ
       /p ｜■玉取り
@@ -295,6 +303,8 @@ macros:
       /p ｜ 3回目⇒1回目対象者①MT>ST>H2>H1④
   - source: りりーどーる (P4-2 - 教皇庁❷ / タンクLB3 / 光翼閃②)
     url: https://ffxiv.link/088010
+    phases:
+      - p4
     text: |
       /p 【教皇庁❷】TLB以外①と同じ
       /p ｜※シャリベルHP29%で火力温存
@@ -307,6 +317,8 @@ macros:
       /p ｜ファン　※安置横にペア捨て（重ねる）
   - source: りりーどーる (P5 - 儀典トールダン / 風槍 / 死刻こまぞう式改)
     url: https://ffxiv.link/088010
+    phases:
+      - p5
     text: |
       /p 【儀典トールダン】
       /p ｜■風槍
@@ -318,6 +330,8 @@ macros:
       /p ｜　死の宣告解放点を固定、ツイスター直線移動処理
   - source: りりーどーる (P6 - 二天竜 / おこめ式息吹1 / 脳死息吹2 / 南三角)
     url: https://ffxiv.link/088010
+    phases:
+      - p6
     text: |
       /p 【二天竜】
       /p ｜ニーズ：MTH1D1D3／フレース：STH2D2D4
@@ -350,6 +364,8 @@ macros:
       /p ｜　 その他 　　 滅殺持ち近接とD3はAに残る
   - source: りりーどーる (P7 - 騎竜神トールダン最終 / アクモーン2回目TLB3)
     url: https://ffxiv.link/088010
+    phases:
+      - p7
     text: |
       /p 【最終フェーズ】※アクモーン2回目TLB3
       /p ｜■エクサフレア
@@ -362,6 +378,14 @@ macros:
       /p ｜　1発目予兆→対角移動→着弾後直線スプリント
   - source: ふうcだよ FF14情報サイト - 絶竜詩戦争 カンペ集
     url: https://fuucdayo.com/battle/3414/
+    phases:
+      - p1
+      - p2
+      - p3
+      - p4
+      - p5
+      - p6
+      - p7
 recruitmentTemplates:
   - source: Rage Avel - Lodestone「固定募集記事テンプレート（コピペ用）」
     template: |
