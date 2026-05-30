@@ -1,5 +1,12 @@
 import { describe, it, expect } from "vitest";
-import { ContentSchema, isContentPublished } from "./content";
+import {
+  ContentSchema,
+  isContentPublished,
+  isContentActive,
+  isContentTesting,
+  isContentInactive,
+  CONTENT_STATUSES,
+} from "./content";
 
 function baseContent(macros: unknown[]): unknown {
   return {
@@ -64,33 +71,62 @@ describe("ContentSchema phase-id integrity (superRefine)", () => {
   });
 });
 
-describe("ContentSchema.status", () => {
-  it("is optional — omitted status is treated as published (backward compatible)", () => {
+describe("ContentSchema.status (lifecycle: testing/active/inactive)", () => {
+  it("is optional — omitted status is treated as active (visible)", () => {
     const r = ContentSchema.safeParse(baseContent([]));
     expect(r.success).toBe(true);
     if (r.success) {
       expect(r.data.status).toBeUndefined();
+      expect(isContentActive(r.data)).toBe(true);
       expect(isContentPublished(r.data)).toBe(true);
     }
   });
 
-  it("accepts 'testing' and reports it as not-published", () => {
+  it("accepts 'testing' — not visible, flagged as testing", () => {
     const r = ContentSchema.safeParse({ ...(baseContent([]) as object), status: "testing" });
     expect(r.success).toBe(true);
     if (r.success) {
       expect(r.data.status).toBe("testing");
+      expect(isContentTesting(r.data)).toBe(true);
       expect(isContentPublished(r.data)).toBe(false);
     }
   });
 
-  it("accepts an explicit 'published'", () => {
+  it("accepts explicit 'active' — visible", () => {
+    const r = ContentSchema.safeParse({ ...(baseContent([]) as object), status: "active" });
+    expect(r.success).toBe(true);
+    if (r.success) {
+      expect(r.data.status).toBe("active");
+      expect(isContentActive(r.data)).toBe(true);
+      expect(isContentPublished(r.data)).toBe(true);
+    }
+  });
+
+  it("accepts 'inactive' — archived, not visible", () => {
+    const r = ContentSchema.safeParse({ ...(baseContent([]) as object), status: "inactive" });
+    expect(r.success).toBe(true);
+    if (r.success) {
+      expect(r.data.status).toBe("inactive");
+      expect(isContentInactive(r.data)).toBe(true);
+      expect(isContentPublished(r.data)).toBe(false);
+    }
+  });
+
+  it("normalizes legacy 'published' to 'active' (backward-compat alias)", () => {
     const r = ContentSchema.safeParse({ ...(baseContent([]) as object), status: "published" });
     expect(r.success).toBe(true);
-    if (r.success) expect(isContentPublished(r.data)).toBe(true);
+    if (r.success) {
+      expect(r.data.status).toBe("active");
+      expect(isContentPublished(r.data)).toBe(true);
+    }
   });
 
   it("rejects an unknown status value", () => {
     const r = ContentSchema.safeParse({ ...(baseContent([]) as object), status: "draft" });
     expect(r.success).toBe(false);
+  });
+
+  it("CONTENT_STATUSES is the ordered lifecycle (published excluded — input-only alias)", () => {
+    expect(CONTENT_STATUSES).toEqual(["testing", "active", "inactive"]);
   });
 });

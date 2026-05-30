@@ -164,27 +164,34 @@ describe("assembleContents", () => {
     expect(r.errors[0].message).toContain("p2-typo");
   });
 
-  it("reads the status column (absent/blank → omitted=published, 'testing' → testing)", () => {
+  it("reads the lifecycle status column (absent/blank → omitted=active; testing/active/inactive; published→active alias)", () => {
     const sheet = emptySheet();
     sheet.contents = [
-      // no status column at all (un-migrated sheet) → omitted → published
+      // no status column at all (un-migrated sheet) → omitted → active
       { id: "fru", displayName: "FRU", shortName: "FRU", type: "ultimate", patch: "", references_primary: "" },
       // explicit testing
       { id: "m1s", displayName: "M1S", shortName: "M1S", type: "savage", patch: "", references_primary: "", status: "testing" },
-      // blank status cell → omitted → published
+      // blank status cell → omitted → active
       { id: "p1s", displayName: "P1S", shortName: "P1S", type: "savage", patch: "", references_primary: "", status: "" },
+      // explicit active stays explicit
+      { id: "top", displayName: "TOP", shortName: "TOP", type: "ultimate", patch: "", references_primary: "", status: "active" },
+      // inactive (archived) round-trips
+      { id: "ucob", displayName: "UCOB", shortName: "UCOB", type: "ultimate", patch: "", references_primary: "", status: "inactive" },
+      // legacy 'published' is accepted and normalized to active
+      { id: "uwu", displayName: "UWU", shortName: "UWU", type: "ultimate", patch: "", references_primary: "", status: "published" },
     ];
-    sheet.phases = [
-      { content_id: "fru", phase_id: "p1", name: "P1", order: "0", description: "" },
-      { content_id: "m1s", phase_id: "p1", name: "P1", order: "0", description: "" },
-      { content_id: "p1s", phase_id: "p1", name: "P1", order: "0", description: "" },
-    ];
+    sheet.phases = ["fru", "m1s", "p1s", "top", "ucob", "uwu"].map((content_id) => ({
+      content_id, phase_id: "p1", name: "P1", order: "0", description: "",
+    }));
     const r = assembleContents(sheet);
     expect(r.errors).toEqual([]);
     const status = Object.fromEntries(r.contents.map((c) => [c.id, c.status]));
-    expect(status.fru).toBeUndefined();   // absent column → omitted (published)
+    expect(status.fru).toBeUndefined();   // absent column → omitted (active)
     expect(status.m1s).toBe("testing");
-    expect(status.p1s).toBeUndefined();   // blank cell → omitted (published)
+    expect(status.p1s).toBeUndefined();   // blank cell → omitted (active)
+    expect(status.top).toBe("active");
+    expect(status.ucob).toBe("inactive");
+    expect(status.uwu).toBe("active");    // 'published' alias normalized by schema transform
   });
 
   it("skips rows whose content_id is blank", () => {

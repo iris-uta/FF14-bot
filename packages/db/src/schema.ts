@@ -275,3 +275,25 @@ export const wizardSessions = sqliteTable(
 
 export type WizardSession = typeof wizardSessions.$inferSelect;
 export type NewWizardSession = typeof wizardSessions.$inferInsert;
+
+/**
+ * Content lifecycle override (admin dashboard).
+ *
+ * The YAML `status` (testing/active/inactive in packages/schema) is the declarative
+ * SEED baked into the immutable deploy image. This table is a *sparse exception list*:
+ * a row exists ONLY when an admin has flipped a content's lifecycle at runtime from
+ * the dashboard. Resolution is `override ?? yamlSeed ?? "active"` (see
+ * apps/bot/src/lib/contents.ts), so an empty table means "everything is as declared in
+ * git" and a dashboard toggle takes effect on the very next interaction without a deploy.
+ *
+ * PK on contentId — point lookups + a trivially small full scan; no extra index.
+ */
+export const contentLifecycle = sqliteTable("content_lifecycle", {
+  contentId: text("content_id").primaryKey(),
+  status: text("status").notNull(),            // testing | active | inactive
+  updatedAt: integer("updated_at").notNull(),
+  updatedBy: text("updated_by"),               // free text ("admin" / future auth user)
+});
+
+export type ContentLifecycle = typeof contentLifecycle.$inferSelect;
+export type NewContentLifecycle = typeof contentLifecycle.$inferInsert;
