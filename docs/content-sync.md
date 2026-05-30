@@ -23,13 +23,13 @@
 
 | Tab | Columns |
 |---|---|
-| `contents` | `id`, `displayName`, `shortName`, `type`, `patch`, `references_primary` |
+| `contents` | `id`, `displayName`, `shortName`, `type`, `status`, `patch`, `references_primary` |
 | `phases` | `content_id`, `phase_id`, `name`, `order`, `description` |
 | `videos` | `content_id`, `phase_id`, `title`, `url`, `author` |
 | `mitigations` | `content_id`, `phase_id`, `name`, `url`, `copyable` |
 | `strategies` | `content_id`, `phase_id`, `id`, `name`, `description` |
 | `tips` | `content_id`, `phase_id`, `tip` |
-| `macros` | `content_id`, `source`, `url`, `text` |
+| `macros` | `content_id`, `source`, `url`, `text`, `phases` (対応 phase id をカンマ区切り / 空欄可) |
 | `templates` | `content_id`, `template`, `variables` (カンマ区切り) |
 | `references` | `content_id`, `url` |
 
@@ -109,6 +109,19 @@ CSV export 時に quote されて保持される (parser は double-quote escape
 
 `true`, `1`, `yes` のいずれかなら true、 それ以外は false。
 
+### status (公開状態 — テスト中コンテンツ)
+
+`contents` タブの `status` 列でコンテンツの公開状態を制御する:
+
+| 値 | 意味 |
+|---|---|
+| 空欄 / `published` | **公開**。bot の `/setup` 等の一覧・公開 web サイトに表示される（デフォルト） |
+| `testing` | **テスト中**。通常ユーザー向けの bot・公開サイトには **出ない**。backend（YAML / この Sheet / 管理者の `/dev-test`）でのみ管理・検証する |
+
+- 未検証のコンテンツ（例: 攻略フロー確認前の零式）は `testing` にしておけば、データを育てつつ本番には出さずに済む。
+- 検証が済んだら `status` を空欄（= `published`）に戻すだけで公開される。**コード変更は不要**。
+- 管理者は Discord で `/dev-test create` を使うと testing コンテンツも含めて検証用 static を一括作成できる（一覧では `🧪` で表示）。
+
 ### 空セル
 
 空セルは 「未指定」 として扱われる:
@@ -142,6 +155,7 @@ CSV export 時に quote されて保持される (parser は double-quote escape
 
 → Sheet のセル値が schema を満たしていない。 例:
 - `type` が `ultimate` / `savage` / `extreme` / 等以外
+- `status` が `published` / `testing` / 空欄 以外
 - `order` が数値でない
 - `url` が `https://` で始まっていない
 

@@ -36,6 +36,9 @@ export function disassembleContents(contents: Content[]): SheetData {
       displayName: c.displayName,
       shortName: c.shortName,
       type: c.type,
+      // testing のみ書き出す。published / 省略 は空欄にして差分をクリーンに保つ
+      // （assemble 側で空欄→省略→published 扱い）
+      status: c.status === "testing" ? "testing" : "",
       patch: c.patch ?? "",
       references_primary: c.references.primary ?? "",
       overview_main_strategy: c.overview?.mainStrategy ?? "",
@@ -63,6 +66,7 @@ export function disassembleContents(contents: Content[]): SheetData {
           title: v.title,
           url: v.url,
           author: v.author ?? "",
+          phase: v.phase ?? "",
         });
       }
       if (phase.mitigation) {
@@ -99,11 +103,13 @@ export function disassembleContents(contents: Content[]): SheetData {
         source: m.source,
         url: m.url,
         text: m.text ?? "",
+        phases: (m.phases ?? []).join(", "),
       });
     }
     for (const t of c.recruitmentTemplates) {
       out.templates.push({
         content_id: c.id,
+        source: t.source ?? "",
         template: t.template,
         variables: (t.variables ?? []).join(", "),
       });
@@ -157,17 +163,17 @@ function escapeCsvCell(value: string): string {
 
 export const TAB_HEADERS: Record<keyof SheetData, string[]> = {
   contents: [
-    "id", "displayName", "shortName", "type", "patch", "references_primary",
+    "id", "displayName", "shortName", "type", "status", "patch", "references_primary",
     "overview_main_strategy",
     "overview_playlist_title", "overview_playlist_url", "overview_playlist_author",
     "overview_macro_source", "overview_macro_url", "overview_macro_text",
   ],
   phases:      ["content_id", "phase_id", "name", "order", "popular_strategy", "description"],
-  videos:      ["content_id", "phase_id", "title", "url", "author"],
+  videos:      ["content_id", "phase_id", "title", "url", "author", "phase"],
   mitigations: ["content_id", "phase_id", "name", "url", "copyable"],
   strategies:  ["content_id", "phase_id", "id", "name", "popular", "description"],
   tips:        ["content_id", "phase_id", "tip"],
-  macros:      ["content_id", "source", "url", "text"],
-  templates:   ["content_id", "template", "variables"],
+  macros:      ["content_id", "source", "url", "text", "phases"],
+  templates:   ["content_id", "source", "template", "variables"],
   references:  ["content_id", "url"],
 };

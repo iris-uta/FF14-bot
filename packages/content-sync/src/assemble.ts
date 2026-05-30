@@ -2,14 +2,14 @@
  * Assemble Content objects from flat sheet rows.
  *
  * Sheet structure (9 tabs):
- *   contents     | id, displayName, shortName, type, patch, references_primary
- *   phases       | content_id, phase_id, name, order, description
- *   videos       | content_id, phase_id, title, url, author
+ *   contents     | id, displayName, shortName, type, status, patch, references_primary, overview_*
+ *   phases       | content_id, phase_id, name, order, popular_strategy, description
+ *   videos       | content_id, phase_id, title, url, author, phase
  *   mitigations  | content_id, phase_id, name, url, copyable
- *   strategies   | content_id, phase_id, id, name, description
+ *   strategies   | content_id, phase_id, id, name, popular, description
  *   tips         | content_id, phase_id, tip
- *   macros       | content_id, source, url, text
- *   templates    | content_id, template, variables (CSV)
+ *   macros       | content_id, source, url, text, phases (CSV of phase ids)
+ *   templates    | content_id, source, template, variables (variables = CSV)
  *   references   | content_id, url
  *
  * Note: this is the inverse of "current YAML → Sheet" — we read all 9 tabs
@@ -130,6 +130,7 @@ function buildContent(
           title: v.title,
           url: v.url,
           author: v.author || undefined,
+          phase: v.phase || undefined,
         }));
       const mitRow = (mitByPhase[phaseKey] ?? []).find((m) => (m.url ?? "").trim());
       const mitigation = mitRow
@@ -169,17 +170,25 @@ function buildContent(
 
   const macros = macroRows
     .filter((m) => (m.source ?? "").trim() || (m.url ?? "").trim())
-    .map((m) => ({
-      source: m.source,
-      url: m.url,
-      text: m.text || undefined,
-    }));
+    .map((m) => {
+      const phases = (m.phases ?? "")
+        .split(/[,\s]+/)
+        .map((p) => p.trim())
+        .filter(Boolean);
+      return {
+        source: m.source,
+        url: m.url,
+        text: m.text || undefined,
+        ...(phases.length > 0 ? { phases } : {}),
+      };
+    });
 
   const recruitmentTemplates = templateRows
     .filter((t) => (t.template ?? "").trim())
     .map((t) => {
       const vars = (t.variables ?? "").trim();
       return {
+        ...(t.source && t.source.trim() ? { source: t.source.trim() } : {}),
         template: t.template,
         variables: vars ? vars.split(/[,\s]+/).filter(Boolean) : [],
       };
@@ -207,6 +216,8 @@ function buildContent(
     recruitmentTemplates,
     references,
   };
+  // status 列が空欄/列なし → 省略して schema default (published) に委ねる（未移行 Sheet とも後方互換）
+  if (contentRow.status?.trim()) out.status = contentRow.status.trim();
   if (contentRow.patch?.trim()) out.patch = contentRow.patch;
   if (overview) out.overview = overview;
   return out;
