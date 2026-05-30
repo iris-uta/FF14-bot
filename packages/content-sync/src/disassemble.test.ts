@@ -9,7 +9,7 @@ function makeContent(overrides: Partial<Content> = {}): Content {
     displayName: "絶もうひとつの未来",
     shortName: "FRU",
     type: "ultimate",
-    status: "published",
+    status: "active",
     patch: "7.11",
     phases: [
       { id: "p1", name: "Fatebreaker", order: 0, videos: [], strategies: [], tips: [] },
@@ -153,7 +153,7 @@ describe("disassembleContents", () => {
     expect(recovered.references.urls).toEqual(["https://e.com/r"]);
   });
 
-  it("round-trips status: testing survives, published emits a blank column", () => {
+  it("round-trips lifecycle status: testing & inactive survive, active emits a blank column", () => {
     // headers must carry the column or a Sheet pull silently drops the flag
     expect(TAB_HEADERS.contents).toContain("status");
 
@@ -166,12 +166,20 @@ describe("disassembleContents", () => {
     expect(testingBack.errors).toEqual([]);
     expect(testingBack.contents[0].status).toBe("testing");
 
-    // published → blank column (clean diffs) → reassembles as published (status omitted)
-    const publishedSheet = disassembleContents([makeContent({ status: "published" })]);
-    expect(publishedSheet.contents[0].status).toBe("");
-    const publishedBack = assembleContents(publishedSheet).contents[0];
-    expect(publishedBack.status).toBeUndefined();
-    expect(isContentPublished(publishedBack)).toBe(true);
+    // inactive → emitted verbatim → reassembles to inactive (regression guard: must NOT collapse to blank)
+    const inactiveSheet = disassembleContents([makeContent({ id: "ucob", status: "inactive" })]);
+    expect(inactiveSheet.contents[0].status).toBe("inactive");
+    const inactiveBack = assembleContents(inactiveSheet);
+    expect(inactiveBack.errors).toEqual([]);
+    expect(inactiveBack.contents[0].status).toBe("inactive");
+    expect(isContentPublished(inactiveBack.contents[0])).toBe(false);
+
+    // active → blank column (clean diffs) → reassembles as active (status omitted)
+    const activeSheet = disassembleContents([makeContent({ status: "active" })]);
+    expect(activeSheet.contents[0].status).toBe("");
+    const activeBack = assembleContents(activeSheet).contents[0];
+    expect(activeBack.status).toBeUndefined();
+    expect(isContentPublished(activeBack)).toBe(true);
   });
 });
 

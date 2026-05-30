@@ -36,9 +36,9 @@ export function disassembleContents(contents: Content[]): SheetData {
       displayName: c.displayName,
       shortName: c.shortName,
       type: c.type,
-      // testing のみ書き出す。published / 省略 は空欄にして差分をクリーンに保つ
-      // （assemble 側で空欄→省略→published 扱い）
-      status: c.status === "testing" ? "testing" : "",
+      // testing / inactive はそのまま書き出してラウンドトリップさせる。
+      // active / 省略 は空欄にして差分をクリーンに保つ（assemble 側で空欄→省略→active 扱い）。
+      status: c.status === "testing" || c.status === "inactive" ? c.status : "",
       patch: c.patch ?? "",
       references_primary: c.references.primary ?? "",
       overview_main_strategy: c.overview?.mainStrategy ?? "",
