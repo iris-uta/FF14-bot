@@ -131,52 +131,87 @@ export async function initStatic(input: InitStaticInput): Promise<InitStaticResu
   const { guild, leaderId, name, content, strategyId, members, phaseStrategies } = input;
   const mode: SetupMode = input.mode ?? "standard";
 
-  // 1. Create role
-  const role = await guild.roles.create({
-    name,
-    color: ROLE_COLOR_BY_TYPE[content.type] ?? ROLE_COLOR_BY_TYPE.other,
-    mentionable: true,
-    reason: `固定支援Bot: created by /setup for content ${content.id}`,
-  });
-
-  // 2. Create category (role-visible)
-  const categoryName = `${name} 固定`.slice(0, 100);
-  const category = (await guild.channels.create({
-    name: categoryName,
-    type: ChannelType.GuildCategory,
-    permissionOverwrites: [
-      { id: role.id, allow: [PermissionFlagsBits.ViewChannel] },
-    ],
-  })) as CategoryChannel;
-
-  // 3. Build channel template + create channels
-  const template = buildChannelTemplate(content, { mode, partyName: name });
-
+  // Track created Discord resources so we can roll them back if creation fails
+  // partway through. The DB row is written only AFTER every resource exists, and
+  // both delete paths (/dev-test cleanup and the normal delete flow) key off DB
+  // columns — so a role/category/channel left without a DB row can never be cleaned
+  // up, and re-running /setup would stack duplicates. On failure we tear them down.
+  let createdRole: Role | null = null;
+  let createdCategory: CategoryChannel | null = null;
   const utilityChannels: { name: string; channelId: string; role?: string; channel: TextChannel }[] = [];
-  for (const spec of template.utility) {
-    try {
-      const ch = (await guild.channels.create({
-        name: sanitizeUtilityName(spec.name),
-        type: ChannelType.GuildText,
-        parent: category.id,
-        topic: spec.topic,
-      })) as TextChannel;
-      utilityChannels.push({ name: spec.name, channelId: ch.id, role: spec.role, channel: ch });
-    } catch (err) {
-      console.warn(`Failed to create utility channel ${spec.name}:`, err);
+  const phaseChannels: { phaseId: string; channelId: string; channel: TextChannel }[] = [];
+
+  try {
+    // 1. Create role
+    const role = await guild.roles.create({
+      name,
+      color: ROLE_COLOR_BY_TYPE[content.type] ?? ROLE_COLOR_BY_TYPE.other,
+      mentionable: true,
+      reason: `固定支援Bot: created by /setup for content ${content.id}`,
+    });
+    createdRole = role;
+
+    // 2. Create category (role-visible)
+    const categoryName = `${name} 固定`.slice(0, 100);
+    const category = (await guild.channels.create({
+      name: categoryName,
+      type: ChannelType.GuildCategory,
+      permissionOverwrites: [
+        { id: role.id, allow: [PermissionFlagsBits.ViewChannel] },
+      ],
+    })) as CategoryChannel;
+    createdCategory = category;
+
+    // 3. Build channel template + create channels
+    const template = buildChannelTemplate(content, { mode, partyName: name });
+
+    for (const spec of template.utility) {
+      try {
+        const ch = (await guild.channels.create({
+          name: sanitizeUtilityName(spec.name),
+          type: ChannelType.GuildText,
+          parent: category.id,
+          topic: spec.topic,
+        })) as TextChannel;
+        utilityChannels.push({ name: spec.name, channelId: ch.id, role: spec.role, channel: ch });
+      } catch (err) {
+        console.warn(`Failed to create utility channel ${spec.name}:`, err);
+      }
     }
+
+    // Phase channels are warn-and-continue like the utility loop above: a single
+    // channel hiccup (transient 429, per-category 50 cap) shouldn't abort the whole
+    // setup. The static still gets a DB row and is therefore manageable/deletable.
+    for (const spec of template.phases) {
+      try {
+        const ch = (await guild.channels.create({
+          name: spec.name,
+          type: ChannelType.GuildText,
+          parent: category.id,
+          topic: spec.topic || undefined,
+        })) as TextChannel;
+        phaseChannels.push({ phaseId: spec.phaseId, channelId: ch.id, channel: ch });
+      } catch (err) {
+        console.warn(`Failed to create phase channel ${spec.name}:`, err);
+      }
+    }
+  } catch (err) {
+    // Resource creation failed before the DB row was written (e.g. category create
+    // hit missing-permission / cap). Best-effort delete everything created so far so
+    // we don't leak orphaned Discord resources, then re-throw for the caller to report.
+    await rollbackDiscordResources({
+      channels: [...utilityChannels, ...phaseChannels].map((c) => c.channel),
+      category: createdCategory,
+      role: createdRole,
+    });
+    throw err;
   }
 
-  const phaseChannels: { phaseId: string; channelId: string; channel: TextChannel }[] = [];
-  for (const spec of template.phases) {
-    const ch = (await guild.channels.create({
-      name: spec.name,
-      type: ChannelType.GuildText,
-      parent: category.id,
-      topic: spec.topic || undefined,
-    })) as TextChannel;
-    phaseChannels.push({ phaseId: spec.phaseId, channelId: ch.id, channel: ch });
-  }
+  // The try completed → role + category are guaranteed created (their creates sit
+  // outside the per-channel warn-and-continue try/catch, so any failure there would
+  // have thrown and triggered the rollback above).
+  const role = createdRole!;
+  const category = createdCategory!;
 
   // 4. DB: statics + 8 slots + members
   const db = getDb();
@@ -289,4 +324,43 @@ export async function initStatic(input: InitStaticInput): Promise<InitStaticResu
     openSlots: VALID_ROLES.length - filledSlotCount,
     mode,
   };
+}
+
+/**
+ * Best-effort teardown of the Discord resources initStatic creates, used when
+ * resource creation fails before the DB row is written. Mirrors the cleanup in
+ * dev-test's deleteStaticAndChannels (children → category → role): Discord does
+ * NOT cascade-delete a category's channels, so channels must go first. Each step
+ * is independent — one failure is logged and never blocks the others.
+ */
+async function rollbackDiscordResources(opts: {
+  channels: TextChannel[];
+  category: CategoryChannel | null;
+  role: Role | null;
+}): Promise<void> {
+  const reason = "固定支援Bot: rollback of failed /setup";
+  // 1. Channels created so far
+  for (const ch of opts.channels) {
+    try {
+      await ch.delete(reason);
+    } catch (err) {
+      console.warn(`initStatic rollback: failed to delete channel ${ch.id}:`, err);
+    }
+  }
+  // 2. Category
+  if (opts.category) {
+    try {
+      await opts.category.delete(reason);
+    } catch (err) {
+      console.warn(`initStatic rollback: failed to delete category ${opts.category.id}:`, err);
+    }
+  }
+  // 3. Role
+  if (opts.role) {
+    try {
+      await opts.role.delete(reason);
+    } catch (err) {
+      console.warn(`initStatic rollback: failed to delete role ${opts.role.id}:`, err);
+    }
+  }
 }
