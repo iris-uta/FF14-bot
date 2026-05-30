@@ -15,6 +15,11 @@ export type ContentType = z.infer<typeof ContentTypeSchema>;
 export const MacroRefSchema = z.object({
   source: z.string().describe("参照元（例: りりーどーる, ゲーム8, 新みんとっと, Lily Doll）"),
   url: z.string().url(),
+  phases: z.array(z.string()).optional().describe(
+    "このマクロが対応する phase id の配列（例: [p1, p2]）。" +
+    "全 phase 共通マクロは全 phase id を列挙する。" +
+    "省略時は source 文字列中の P<n> トークン推定にフォールバック（後方互換）"
+  ),
   text: z.string().optional().describe("マクロ本体（コピペ用）"),
 });
 
@@ -80,6 +85,14 @@ export const ContentSchema = z.object({
   displayName: z.string().describe("日本語表示名（例: 絶エデン）"),
   shortName: z.string().describe("略称（例: FRU, TOP）"),
   type: ContentTypeSchema,
+  status: z
+    .enum(["published", "testing"])
+    .optional()
+    .describe(
+      "公開状態。published（または省略）=bot/公開サイトに表示。" +
+        "testing=backend（YAML/Sheets/`/dev-test`）でのみ管理し、通常ユーザー向けの一覧には出さない（未テスト用）。" +
+        "省略時は published 扱い（後方互換）"
+    ),
   patch: z.string().optional().describe("実装パッチ（例: 7.1）"),
   phases: z.array(PhaseSchema).min(1),
   macros: z.array(MacroRefSchema).default([]),
@@ -91,8 +104,32 @@ export const ContentSchema = z.object({
     primary: z.string().optional().describe("第一参照先（例: りりーどーる）"),
     urls: z.array(z.string().url()).default([]),
   }).default({ urls: [] }),
+}).superRefine((content, ctx) => {
+  // macros[].phases は実在する phase id を指していなければならない（backfill の typo を検出）
+  const phaseIds = new Set(content.phases.map((p) => p.id));
+  content.macros.forEach((m, mi) => {
+    m.phases?.forEach((pid, pj) => {
+      if (!phaseIds.has(pid)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["macros", mi, "phases", pj],
+          message: `unknown phase id "${pid}" — phases[].id に存在しません`,
+        });
+      }
+    });
+  });
 });
 export type Content = z.infer<typeof ContentSchema>;
 export type Phase = z.infer<typeof PhaseSchema>;
 export type StrategyVariant = z.infer<typeof StrategyVariantSchema>;
 export type ContentOverview = z.infer<typeof ContentOverviewSchema>;
+
+/**
+ * 「公開（published）」コンテンツか否かの唯一の判定ロジック。
+ * status 省略 = published 扱い（後方互換）。testing のみが非公開。
+ * bot の一覧 (`getAllContents`) と 公開 web サイトの両方がこれを再利用することで、
+ * 新しい一覧画面が増えても testing コンテンツが再リークしないようにする。
+ */
+export function isContentPublished(content: Content): boolean {
+  return content.status !== "testing";
+}
