@@ -35,7 +35,16 @@
 | `shortName` | ✅ | `FRU` | 略称、 通称。 半角英数推奨 |
 | `type` | ✅ | `ultimate` | **enum**: `ultimate` / `savage` / `extreme` / `unreal` / `variant` / `criterion` / `alliance` / `other` |
 | `patch` | – | `7.11` | 実装パッチ。 数値文字列 (引用符不要) |
-| `references_primary` | – | `りりーどーる` | 主参照先の名前 (人物 / サイト) |
+| `references_primary` | – | `りりーどーる` | _(deprecated)_ 旧式 主参照先名前。 新しい content は `overview_guide_url` を使う |
+| `overview_main_strategy` | – | `優先 TDH / 検知式アスト` | コンテンツ全体主流処理法 1 行 |
+| `overview_playlist_title` | – | `FRU 全 phase 解説` | 全体動画プレイリストの題名 |
+| `overview_playlist_url` | – | `https://youtube.com/...` | プレイリスト URL |
+| `overview_playlist_author` | – | `ぬけまる` | 作者 |
+| `overview_macro_source` | – | `りりーどーる` | 編成全体マクロの出典名 |
+| `overview_macro_url` | – | `https://...` | 全体マクロ URL |
+| `overview_macro_text` | – | `/p ...` | 全体マクロ本文 (コピペ用) |
+| `overview_guide_url` | – | `https://na.finalfantasyxiv.com/lodestone/character/.../blog/...` | **攻略ガイド元 URL** (リリーどーる Lodestone post 等)。 全体 channel に「📚 攻略ガイド」 として表示 |
+| `overview_bis_url` | – | `https://etro.gg/gearset/abc` | **最適装備 (BiS) URL** (Etro、 The Balance 等)。 全体 channel に「⚔️ 最適装備」 として表示 |
 
 **テンプレ行 (新規追加用)**:
 ```
@@ -114,6 +123,7 @@ fru    p4    juuji-shiki    十字式    対面散開、 8 方向定位置
 | 列 | 必須 | 値の例 | 説明 |
 |---|---|---|---|
 | `content_id` | ✅ | `fru` | – |
+| `phase_id` | – | `p1` | **どの phase 用か**。 空なら 全体 / 編成共通マクロ扱い。 全体 channel ではこの値で phase 別グルーピングされる |
 | `source` | ✅ | `りりーどーる (FRU 全 phase)` | マクロ名 / 作者 |
 | `url` | ✅ | `https://na.finalfantasyxiv.com/...` | 原文リンク |
 | `text` | – | `# 抜粋のみ ...` | マクロ本文。 **著作権配慮** で短い抜粋のみ推奨。 multi-line OK |

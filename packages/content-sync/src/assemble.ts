@@ -170,6 +170,7 @@ function buildContent(
   const macros = macroRows
     .filter((m) => (m.source ?? "").trim() || (m.url ?? "").trim())
     .map((m) => ({
+      ...(m.phase_id?.trim() ? { phaseId: m.phase_id.trim() } : {}),
       source: m.source,
       url: m.url,
       text: m.text || undefined,
@@ -224,6 +225,8 @@ function buildOverview(row: Record<string, string>): Record<string, unknown> | u
   const macroSource = row.overview_macro_source?.trim() || "";
   const macroUrl = row.overview_macro_url?.trim() || "";
   const macroText = row.overview_macro_text?.trim() || "";
+  const guideUrl = row.overview_guide_url?.trim() || "";
+  const bisUrl = row.overview_bis_url?.trim() || "";
 
   const out: Record<string, unknown> = {};
   if (main) out.mainStrategy = main;
@@ -241,6 +244,8 @@ function buildOverview(row: Record<string, string>): Record<string, unknown> | u
       ...(macroText ? { text: macroText } : {}),
     };
   }
+  if (guideUrl) out.guideUrl = guideUrl;
+  if (bisUrl) out.bisUrl = bisUrl;
   return Object.keys(out).length > 0 ? out : undefined;
 }
 

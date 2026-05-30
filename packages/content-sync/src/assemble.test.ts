@@ -132,4 +132,33 @@ describe("assembleContents", () => {
     expect(r.contents).toEqual([]);
     expect(r.errors).toEqual([]);
   });
+
+  it("reads overview_guide_url + overview_bis_url into Content.overview", () => {
+    const sheet = emptySheet();
+    sheet.contents = [{
+      id: "fru", displayName: "FRU", shortName: "FRU", type: "ultimate",
+      patch: "", references_primary: "",
+      overview_guide_url: "https://na.finalfantasyxiv.com/lodestone/character/123/blog/4567",
+      overview_bis_url: "https://etro.gg/gearset/abc",
+    }];
+    sheet.phases = [{ content_id: "fru", phase_id: "p1", name: "P1", order: "0", description: "" }];
+    const r = assembleContents(sheet);
+    expect(r.errors).toEqual([]);
+    expect(r.contents[0].overview?.guideUrl).toBe("https://na.finalfantasyxiv.com/lodestone/character/123/blog/4567");
+    expect(r.contents[0].overview?.bisUrl).toBe("https://etro.gg/gearset/abc");
+  });
+
+  it("reads macros.phase_id into MacroRef.phaseId (empty → undefined)", () => {
+    const sheet = emptySheet();
+    sheet.contents = [{ id: "fru", displayName: "FRU", shortName: "FRU", type: "ultimate", patch: "", references_primary: "" }];
+    sheet.phases = [{ content_id: "fru", phase_id: "p1", name: "P1", order: "0", description: "" }];
+    sheet.macros = [
+      { content_id: "fru", phase_id: "p1", source: "@alice", url: "https://e.com/a", text: "" },
+      { content_id: "fru", phase_id: "",   source: "@bob",   url: "https://e.com/b", text: "" },
+    ];
+    const r = assembleContents(sheet);
+    expect(r.errors).toEqual([]);
+    expect(r.contents[0].macros[0].phaseId).toBe("p1");
+    expect(r.contents[0].macros[1].phaseId).toBeUndefined();
+  });
 });

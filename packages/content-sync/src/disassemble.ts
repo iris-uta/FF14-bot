@@ -45,6 +45,8 @@ export function disassembleContents(contents: Content[]): SheetData {
       overview_macro_source: c.overview?.partyWideMacro?.source ?? "",
       overview_macro_url: c.overview?.partyWideMacro?.url ?? "",
       overview_macro_text: c.overview?.partyWideMacro?.text ?? "",
+      overview_guide_url: c.overview?.guideUrl ?? "",
+      overview_bis_url: c.overview?.bisUrl ?? "",
     });
 
     for (const phase of c.phases) {
@@ -96,6 +98,7 @@ export function disassembleContents(contents: Content[]): SheetData {
     for (const m of c.macros) {
       out.macros.push({
         content_id: c.id,
+        phase_id: m.phaseId ?? "",
         source: m.source,
         url: m.url,
         text: m.text ?? "",
@@ -161,13 +164,14 @@ export const TAB_HEADERS: Record<keyof SheetData, string[]> = {
     "overview_main_strategy",
     "overview_playlist_title", "overview_playlist_url", "overview_playlist_author",
     "overview_macro_source", "overview_macro_url", "overview_macro_text",
+    "overview_guide_url", "overview_bis_url",
   ],
   phases:      ["content_id", "phase_id", "name", "order", "popular_strategy", "description"],
   videos:      ["content_id", "phase_id", "title", "url", "author"],
   mitigations: ["content_id", "phase_id", "name", "url", "copyable"],
   strategies:  ["content_id", "phase_id", "id", "name", "popular", "description"],
   tips:        ["content_id", "phase_id", "tip"],
-  macros:      ["content_id", "source", "url", "text"],
+  macros:      ["content_id", "phase_id", "source", "url", "text"],
   templates:   ["content_id", "template", "variables"],
   references:  ["content_id", "url"],
 };
