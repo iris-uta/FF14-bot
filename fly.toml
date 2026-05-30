@@ -31,12 +31,22 @@ primary_region = "nrt"           # Tokyo (close to JP users)
   HEALTH_PORT = "8080"
   DATABASE_URL = "/data/ff14kotei.db"
   # GIT_SHA can be injected: `fly deploy --env GIT_SHA=$(git rev-parse --short HEAD)`
+  # Cap V8 heap at 192MB so we leave ~64MB for native (better-sqlite3,
+  # buffers, etc) on the 256MB machine. Pairs with the discord.js cache
+  # diet in src/index.ts and SQLite pragmas in packages/db/src/client.ts.
+  NODE_OPTIONS = "--max-old-space-size=192"
 
 # Discord bot needs exactly 1 instance holding the gateway connection.
 # Auto-start on crash, never auto-stop on idle.
+#
+# 256 MB is enough thanks to the three-layer memory diet (discord.js cache
+# limits + V8 heap cap + SQLite pragmas). The mem-monitor in
+# src/lib/mem-monitor.ts logs RSS every 5min and warns at 200MB so we
+# get heads-up before OOM. Bump to "512mb" if HIGH warnings appear at scale
+# (>200 active guilds is the empirical threshold).
 [[vm]]
   size = "shared-cpu-1x"
-  memory = "512mb"                # bump to 1gb if first /setup OOMs
+  memory = "256mb"
 
 # Internal-only HTTP for Fly's health checks. Not exposed to the public internet.
 [http_service]

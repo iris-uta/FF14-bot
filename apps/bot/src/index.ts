@@ -17,6 +17,8 @@ import {
   Events,
   GatewayIntentBits,
   MessageFlags,
+  Options,
+  Sweepers,
   type InteractionReplyOptions,
 } from "discord.js";
 import { commands, getCommand } from "./commands";
@@ -40,6 +42,7 @@ import { BOOK_WIZARD_PREFIX } from "./services/book-wizard";
 import { postWelcomeToGuild } from "./services/welcome";
 import { postMemberWelcome, handleRolePickButton, ROLE_PICK_PREFIX } from "./services/member-welcome";
 import { startHealthServer, stopHealthServer, type HealthState } from "./health-server";
+import { startMemMonitor, stopMemMonitor } from "./lib/mem-monitor";
 
 const token = process.env.DISCORD_TOKEN;
 if (!token) {
@@ -65,6 +68,65 @@ const client = new Client({
     // never fires (Discord doesn't error on connect).
     GatewayIntentBits.GuildMembers,
   ],
+
+  // ── Memory diet: shrink discord.js caches to the minimum we actually use ──
+  // Out of the box, discord.js caches every member / message / presence / voice
+  // state / thread / sticker / emoji it sees, which on a 100-guild bot can
+  // easily eat 100-200 MB. We only need: channels, roles, and a tiny LRU of
+  // members (just for permission checks). Everything else is fetched on demand.
+  //
+  // This pairs with the 256 MB Fly machine target. Bumping back to defaults
+  // would require ~512 MB at the same scale.
+  makeCache: Options.cacheWithLimits({
+    ...Options.DefaultMakeCacheSettings,
+    // Never cache messages — we don't subscribe to MessageContent and never
+    // read history; caching them is pure waste.
+    MessageManager: 0,
+    // Not subscribed to presence intent anyway.
+    PresenceManager: 0,
+    // Threads / voice / stage / reactions: unused features.
+    ThreadManager: 0,
+    ThreadMemberManager: 0,
+    VoiceStateManager: 0,
+    StageInstanceManager: 0,
+    ReactionManager: 0,
+    ReactionUserManager: 0,
+    // Bans / invites / autoMod: we don't surface these.
+    GuildBanManager: 0,
+    GuildInviteManager: 0,
+    AutoModerationRuleManager: 0,
+    // Emojis / stickers / scheduled events: not read after creation.
+    GuildEmojiManager: 0,
+    GuildStickerManager: 0,
+    GuildScheduledEventManager: 0,
+    // Application commands cache is unnecessary — we register once at deploy.
+    ApplicationCommandManager: 0,
+    // Members: only cache the bot itself + a small LRU for recent permission
+    // checks. Everything else fetches on demand.
+    GuildMemberManager: {
+      maxSize: 50,
+      keepOverLimit: (member) => member.id === member.client.user?.id,
+    },
+    // Users: small LRU for recent autocomplete / mention resolutions.
+    UserManager: 100,
+  }),
+
+  // Background sweeper passes — drop anything older than 10 min every 5 min.
+  // Belt-and-braces with makeCache limits: catches state that slipped in via
+  // events even when limits would allow it.
+  sweepers: {
+    ...Options.DefaultSweeperSettings,
+    messages: { interval: 300, lifetime: 600 },
+    users: { interval: 600, filter: () => (u) => u.bot && u.id !== u.client.user?.id },
+    guildMembers: {
+      interval: 600,
+      filter: Sweepers.filterByLifetime({
+        lifetime: 600,
+        getComparisonTimestamp: (m) => m.joinedTimestamp ?? 0,
+      }),
+    },
+    threads: { interval: 300, lifetime: 600 },
+  },
 });
 
 // Guard: GuildCreate fires for ALL guilds during bot startup (initial sync),
@@ -77,6 +139,9 @@ const healthState: HealthState = { ready: false };
 
 // Health endpoint starts immediately so Fly's checks see "starting" (503) until ready.
 startHealthServer(client, healthState);
+
+// 5-minute memory snapshots in logs — early warning before 256MB OOM kills us.
+startMemMonitor();
 
 // When bot is added to a NEW guild post-startup, post the welcome / 3-step
 // quickstart embed to the system channel (or first sendable text channel).
@@ -140,6 +205,7 @@ async function gracefulShutdown(sig: string): Promise<void> {
   stopVoteCloserWorker();
   stopVoteReminderWorker();
   stopRecurringScheduler();
+  stopMemMonitor();
 
   // 2. Wait for in-flight ticks (max 10s)
   const drain = await waitForAllWithTimeout(

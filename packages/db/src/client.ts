@@ -41,6 +41,29 @@ export function createDb(options: CreateDbOptions = {}): DbClient {
   sqlite.pragma("journal_mode = WAL");
   sqlite.pragma("foreign_keys = ON");
 
+  // ── Memory-conscious pragmas (256 MB Fly machine target) ────────────────
+  //
+  // Defaults assume "give me the world for speed". On a tiny VM we'd rather
+  // give back a few MB to discord.js + node heap:
+  //
+  // cache_size: page cache in KiB (negative). -2000 = 2 MiB page cache, plenty
+  // for our schema (~12 tables, small indexes). Default is -2000 already on
+  // most builds but we pin it for portability.
+  //
+  // mmap_size: 0 disables memory-mapped I/O. The mmap was nice on big DBs but
+  // for our 3-10 MB DB it just bloats the resident memory without measurable
+  // win — read() is fine.
+  //
+  // journal_size_limit: bound the WAL file. Default unlimited (can grow to
+  // hundreds of MB under load). 1 MiB is generous for our write rate (<10/s).
+  //
+  // synchronous = NORMAL pairs with WAL — safe on power loss, faster than
+  // FULL (default) with no real downside on a Fly volume.
+  sqlite.pragma("cache_size = -2000");
+  sqlite.pragma("mmap_size = 0");
+  sqlite.pragma("journal_size_limit = 1048576");
+  sqlite.pragma("synchronous = NORMAL");
+
   const db = drizzle(sqlite, { schema });
 
   if (options.autoMigrate !== false) {
