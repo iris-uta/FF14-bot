@@ -1,9 +1,17 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { data, execute, autocomplete } from "./post-phase";
 import { reloadContents } from "../lib/contents";
+import { createDb } from "@ff14kotei/db";
+import { setDbForTesting, resetDb } from "../lib/db";
 
+// post-phase reads content via lib/contents, which now consults the lifecycle
+// override table — so each test needs an isolated :memory: DB.
 beforeEach(() => {
+  setDbForTesting(createDb({ path: ":memory:" }));
   reloadContents();
+});
+afterEach(() => {
+  resetDb();
 });
 
 function makeInteraction(opts: { contentId: string | null; phaseId: string | null }) {
