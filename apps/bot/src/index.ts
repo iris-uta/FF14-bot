@@ -41,6 +41,7 @@ import { BOOK_WIZARD_PREFIX } from "./services/book-wizard";
 import { postWelcomeToGuild } from "./services/welcome";
 import { postMemberWelcome, handleRolePickButton, ROLE_PICK_PREFIX } from "./services/member-welcome";
 import { startHealthServer, stopHealthServer, type HealthState } from "./health-server";
+import { startAdminServer, stopAdminServer } from "./admin-server";
 
 const token = process.env.DISCORD_TOKEN;
 if (!token) {
@@ -48,20 +49,21 @@ if (!token) {
   process.exit(1);
 }
 
+getDb();
+console.log("DB initialized (migrations applied)");
+
+// getAllContentsIncludingTesting() merges the DB lifecycle override, so it must
+// run AFTER getDb() initializes (and migrates) the database.
 const contents = getAllContentsIncludingTesting();
-const publishedCount = contents.filter(isContentPublished).length;
-const testingCount = contents.length - publishedCount;
+const visibleCount = contents.filter(isContentPublished).length;
 console.log(
-  `Loaded ${publishedCount} published + ${testingCount} testing content(s): ${contents
-    .map((c) => (isContentPublished(c) ? c.id : `${c.id}🧪`))
+  `Loaded ${visibleCount} active + ${contents.length - visibleCount} hidden content(s): ${contents
+    .map((c) => (c.status === "testing" ? `${c.id}🧪` : c.status === "inactive" ? `${c.id}📦` : c.id))
     .join(", ")}`
 );
 
 const commandNames = Object.keys(commands).sort();
 console.log(`Registered ${commandNames.length} command(s): ${commandNames.join(", ")}`);
-
-getDb();
-console.log("DB initialized (migrations applied)");
 
 const client = new Client({
   intents: [
@@ -84,6 +86,10 @@ const healthState: HealthState = { ready: false };
 
 // Health endpoint starts immediately so Fly's checks see "starting" (503) until ready.
 startHealthServer(client, healthState);
+
+// Admin dashboard (separate private port; basic-auth via ADMIN_PASSWORD).
+// Reach it with `fly proxy 8081:8081` — not exposed to the public internet.
+startAdminServer(client);
 
 // When bot is added to a NEW guild post-startup, post the welcome / 3-step
 // quickstart embed to the system channel (or first sendable text channel).
@@ -164,7 +170,7 @@ async function gracefulShutdown(sig: string): Promise<void> {
 
   // 3. Tear down Discord + health server
   try {
-    await Promise.all([client.destroy(), stopHealthServer()]);
+    await Promise.all([client.destroy(), stopHealthServer(), stopAdminServer()]);
   } catch (err) {
     console.error("  error during teardown:", err);
   }
