@@ -86,12 +86,16 @@ export const ContentSchema = z.object({
   shortName: z.string().describe("略称（例: FRU, TOP）"),
   type: ContentTypeSchema,
   status: z
-    .enum(["published", "testing"])
+    .enum(["published", "testing", "active", "inactive"])
     .optional()
+    // 'published' は active の旧称エイリアス → active に正規化（後方互換）。
+    // 省略は undefined のまま保持し、可視判定 helper 側で active 扱いにする。
+    .transform((s) => (s === "published" ? "active" : s))
     .describe(
-      "公開状態。published（または省略）=bot/公開サイトに表示。" +
-        "testing=backend（YAML/Sheets/`/dev-test`）でのみ管理し、通常ユーザー向けの一覧には出さない（未テスト用）。" +
-        "省略時は published 扱い（後方互換）"
+      "公開状態（ライフサイクル）。active（または省略）=bot 表示 + /setup 可 + 公開サイト表示。" +
+        "testing=backend（YAML/Sheets/`/dev-test`）でのみ検証し、ユーザー一覧・公開サイトに出さず /setup 不可（未テスト用）。" +
+        "inactive=アーカイブ。ユーザー一覧・公開サイトから外し /setup 不可（過去コンテンツ）。" +
+        "省略時は active 扱い（後方互換）。'published' は active の旧称エイリアスとして受理。"
     ),
   patch: z.string().optional().describe("実装パッチ（例: 7.1）"),
   phases: z.array(PhaseSchema).min(1),
@@ -125,11 +129,32 @@ export type StrategyVariant = z.infer<typeof StrategyVariantSchema>;
 export type ContentOverview = z.infer<typeof ContentOverviewSchema>;
 
 /**
- * 「公開（published）」コンテンツか否かの唯一の判定ロジック。
- * status 省略 = published 扱い（後方互換）。testing のみが非公開。
- * bot の一覧 (`getAllContents`) と 公開 web サイトの両方がこれを再利用することで、
- * 新しい一覧画面が増えても testing コンテンツが再リークしないようにする。
+ * コンテンツのライフサイクル状態（dashboard のドロップダウン表示順）。
+ * 'published' は入力時のみ受理する active の旧称エイリアスなので、この一覧には含めない。
+ */
+export const CONTENT_STATUSES = ["testing", "active", "inactive"] as const;
+export type ContentStatus = (typeof CONTENT_STATUSES)[number];
+
+/** 運用中。bot 表示 + /setup 可 + 公開サイト表示。status 省略 = active 扱い。 */
+export function isContentActive(content: Content): boolean {
+  return content.status === undefined || content.status === "active";
+}
+/** 検証中（backend のみ。ユーザー一覧・公開サイト非表示・/setup 不可）。 */
+export function isContentTesting(content: Content): boolean {
+  return content.status === "testing";
+}
+/** アーカイブ済み（過去コンテンツ。ユーザー一覧・公開サイト非表示・/setup 不可）。 */
+export function isContentInactive(content: Content): boolean {
+  return content.status === "inactive";
+}
+
+/**
+ * ユーザー（bot の一覧 / 公開 web サイト）に見せてよいコンテンツかの唯一の判定ロジック。
+ * 可視 = active（または省略）のみ。testing と inactive は隠す。
+ * bot の一覧 (`getAllContents`) と公開 web サイトの両方がこれを再利用することで、
+ * 新しい一覧画面が増えても testing / inactive コンテンツが再リークしないようにする。
+ * NOTE: 呼び出し側を無改修に保つため旧名のまま。意味は「可視（active のみ）」に更新済み。
  */
 export function isContentPublished(content: Content): boolean {
-  return content.status !== "testing";
+  return isContentActive(content);
 }
