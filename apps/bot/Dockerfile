@@ -45,8 +45,14 @@ ENV HEALTH_PORT=8080
 # Mounted volume in fly.toml lives at /data — keep SQLite + WAL files there.
 ENV DATABASE_URL=/data/ff14kotei.db
 
-# Copy node_modules (with tsx + native better-sqlite3 binary) and workspace sources
+# Copy node_modules (with tsx + native better-sqlite3 binary) and workspace sources.
+# pnpm's isolated layout keeps each package's bins/symlinks in its OWN node_modules,
+# so the per-package dirs must be copied too — otherwise tsx (a bot devDep) and the
+# @ff14kotei/* workspace links are absent at runtime.
 COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app/apps/bot/node_modules ./apps/bot/node_modules
+COPY --from=deps /app/packages/db/node_modules ./packages/db/node_modules
+COPY --from=deps /app/packages/schema/node_modules ./packages/schema/node_modules
 COPY --from=deps /app/package.json ./package.json
 COPY --from=deps /app/pnpm-workspace.yaml ./pnpm-workspace.yaml
 
@@ -65,4 +71,4 @@ COPY data ./data
 ENTRYPOINT ["/sbin/tini", "--"]
 WORKDIR /app/apps/bot
 EXPOSE 8080
-CMD ["node", "--enable-source-maps", "../../node_modules/.bin/tsx", "src/index.ts"]
+CMD ["node", "--enable-source-maps", "node_modules/.bin/tsx", "src/index.ts"]

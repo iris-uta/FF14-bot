@@ -10,7 +10,7 @@ primary_region = 'nrt'
   dockerfile = 'apps/bot/Dockerfile'
 
 [deploy]
-  release_command = 'pnpm --filter @ff14kotei/bot register-commands'
+  release_command = 'node --enable-source-maps node_modules/.bin/tsx src/register-commands.ts'
 
 [env]
   DATABASE_URL = '/data/ff14kotei.db'
